@@ -87,6 +87,7 @@ alias oc="sh ~/r_scripts/open_urls.sh"
 alias ts='date +"%Y-%m-%d %H:%M:%S" | pbcopy'
 alias tss='date +"%Y-%m-%d" | pbcopy'
 alias infra="cd ~/t-repo/tploy-infrastructure"
-alias dia='touch ~/Google Drive/nVALT-Notes/$(date +"%Y-%m-%d").md" && open "~/Google Drive/nVALT-Notes/$(date +"%Y-%m-%d").md"'
+alias dia='touch ~/Google\ Drive/nVALT-Notes/$(date +"%Y-%m-%d").md && open ~/Google\ Drive/nVALT-Notes/$(date +"%Y-%m-%d").md'
+
 
 . ~/dotfiles/tploy-alias
