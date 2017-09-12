@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/account-vorlage-dev/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -86,7 +86,7 @@ source $ZSH/oh-my-zsh.sh
 alias oc="sh ~/r_scripts/open_urls.sh"
 alias ts='date +"%Y-%m-%d %H:%M:%S" | pbcopy'
 alias tss='date +"%Y-%m-%d" | pbcopy'
-alias infra="cd /Users/account-vorlage-dev/t-repo/tploy-infrastructure"
-alias dia='touch "/Users/account-vorlage-dev/Google Drive/nVALT-Notes/$(date +"%Y-%m-%d").md" && open "/Users/account-vorlage-dev/Google Drive/nVALT-Notes/$(date +"%Y-%m-%d").md"'
+alias infra="cd ~/t-repo/tploy-infrastructure"
+alias dia='touch ~/Google Drive/nVALT-Notes/$(date +"%Y-%m-%d").md" && open "~/Google Drive/nVALT-Notes/$(date +"%Y-%m-%d").md"'
 
 . ~/dotfiles/tploy-alias
