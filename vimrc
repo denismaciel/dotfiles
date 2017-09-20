@@ -35,6 +35,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'vim-syntastic/syntastic'
 
 
 " All of your Plugins must be added before the following line
@@ -72,3 +73,8 @@ color dracula
 
 map <C-n> :NERDTreeToggle<CR>
 
+" Save on lose focus
+:au FocusLost * :wa
+
+inoremap <D-]> <C-t>
+inoremap <D-[> <C-d>
