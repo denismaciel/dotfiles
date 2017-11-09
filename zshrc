@@ -90,6 +90,7 @@ alias ts='date +"%Y-%m-%d %H:%M:%S" | pbcopy'
 alias tss='date +"%Y-%m-%d" | pbcopy'
 alias infra="cd ~/t-repo/tploy-infrastructure"
 alias dia='touch ~/Google\ Drive/nVALT-Notes/$(date +"%Y-%m-%d").md && mvim ~/Google\ Drive/nVALT-Notes/$(date +"%Y-%m-%d").md'
+alias hu='cd /Users/denismaciel/Google Drive/HU Master/3. Semester'
 
 
 . ~/dotfiles/tploy-alias
