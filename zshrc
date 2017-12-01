@@ -7,6 +7,8 @@ source ~/.profile
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH="$HOME/miniconda3/bin":$PATH
+
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -95,6 +97,7 @@ alias ts='date +"%Y-%m-%d %H:%M:%S" | pbcopy'
 alias tss='date +"%Y-%m-%d" | pbcopy'
 alias infra="cd ~/t-repo/tploy-infrastructure"
 alias dia='touch ~/Google\ Drive/nVALT-Notes/$(date +"%Y-%m-%d").md && mvim ~/Google\ Drive/nVALT-Notes/$(date +"%Y-%m-%d").md'
+alias hu='cd /Users/denismaciel/Google Drive/HU Master/3. Semester'
 
 
 . ~/dotfiles/tploy-alias
