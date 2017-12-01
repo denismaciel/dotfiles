@@ -1,3 +1,10 @@
+source ~/.profile
+
+# THE FOLLOWING WAS SLOWING DOWN THE STARTUP OF THE TERMINAL =========
+# export NVM_DIR="$HOME/.nvm"
+#   . "/usr/local/opt/nvm/nvm.sh"
+# ========================================================================
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -91,3 +98,8 @@ alias dia='touch ~/Google\ Drive/nVALT-Notes/$(date +"%Y-%m-%d").md && mvim ~/Go
 
 
 . ~/dotfiles/tploy-alias
+PATH="$PATH:$HOME/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+# Add docker autocompletion
+fpath=(~/.zsh/completion $fpath)
+
