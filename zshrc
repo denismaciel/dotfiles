@@ -60,7 +60,7 @@ ZSH_THEME="avit"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -99,10 +99,16 @@ alias infra="cd ~/t-repo/tploy-infrastructure"
 alias dia='touch ~/Google\ Drive/nVALT-Notes/$(date +"%Y-%m-%d").md && mvim ~/Google\ Drive/nVALT-Notes/$(date +"%Y-%m-%d").md'
 alias hu='cd /Users/denismaciel/Google Drive/HU Master/3. Semester'
 
-
 . ~/dotfiles/tploy-alias
 PATH="$PATH:$HOME/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # Add docker autocompletion
 fpath=(~/.zsh/completion $fpath)
+autoload -Uz compinit && compinit -i
 
+[ -s "/Users/account-vorlage-dev/.scm_breeze/scm_breeze.sh" ] && source "/Users/account-vorlage-dev/.scm_breeze/scm_breeze.sh"
+
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"

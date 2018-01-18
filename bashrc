@@ -6,3 +6,5 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 
 eval "$(rbenv init -)"
+
+[ -s "/Users/account-vorlage-dev/.scm_breeze/scm_breeze.sh" ] && source "/Users/account-vorlage-dev/.scm_breeze/scm_breeze.sh"
