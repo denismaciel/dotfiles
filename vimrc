@@ -1,80 +1,71 @@
-"======================== Vundle Init =============================
+set tabstop=4 "how many spaces a tab is when vim reads a file
+set softtabstop=4 "how many spaces are inserted when you hit tab
+set expandtab "tab inserts spaces
+set autoindent
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
+"UI
+syntax enable "syntax highlighting
+colorscheme codedark
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+set number
+set showcmd "show command in bottom bar
+set cursorline
+set showmatch "highlight matching parenthesis
+set backspace=2 " make backspace work like most other programs
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+"Search
+set incsearch "search as characters are entered
+set hlsearch  "highlight matches
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
-" MY PLUGINSSS
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'dracula/vim'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'vim-syntastic/syntastic'
+"Folding 
+set foldenable        "enable folding
+set foldlevelstart=10 "open most folds by default
+set foldmethod=indent
+
+"Navigate Vim panes sanely
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+"Rehab
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+
+"Try to fix tmux's different color
+set background=dark
+set t_Co=256
+
+" ~/.vim/plugged is where the plugins are going to be installed
+call plug#begin('~/.vim/plugged')
+
+" Plug 'vim-syntastic/syntastic'
+" Syntastic recommended settings
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" 
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+
+Plug 'https://github.com/w0rp/ale.git'
+Plug 'https://github.com/christoomey/vim-tmux-navigator'
+Plug 'ambv/black'
+Plug 'tmhedberg/SimpylFold' " Python folding
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+Plug 'tpope/vim-fugitive'
 
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" Scars from my attempt to make vim work with IPython
+" Plug 'https://github.com/benmills/vimux'
+" Plug 'https://github.com/julienr/vim-cellmode'
+" Plug 'https://github.com/ivanov/vim-ipython'
 
-"======================= Vundle END ===============================
+call plug#end()
 
-
-set runtimepath+=~/.vim_runtime
-
-source ~/.vim_runtime/vimrcs/basic.vim
-source ~/.vim_runtime/vimrcs/filetypes.vim
-source ~/.vim_runtime/vimrcs/plugins_config.vim
-source ~/.vim_runtime/vimrcs/extended.vim
-
-try
-source ~/.vim_runtime/my_configs.vim
-catch
-endtry
-
-syntax on
-color dracula
-
-map <C-n> :NERDTreeToggle<CR>
-
-" Save on lose focus
-:au FocusLost * :wa
-
-inoremap <D-]> <C-t>
-inoremap <D-[> <C-d>
+" Allow copy paste between vim and tmux
+set clipboard=unnamed
