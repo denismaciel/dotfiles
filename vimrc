@@ -2,7 +2,6 @@ set tabstop=4 "how many spaces a tab is when vim reads a file
 set softtabstop=4 "how many spaces are inserted when you hit tab
 set expandtab "tab inserts spaces
 set autoindent
-
 "UI
 syntax enable "syntax highlighting
 colorscheme codedark
@@ -28,6 +27,10 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
+"Easily navigate buffers
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+
 "Rehab
 noremap <Up> <Nop>
 noremap <Down> <Nop>
@@ -38,6 +41,7 @@ noremap <Right> <Nop>
 set background=dark
 set t_Co=256
 
+let g:airline_theme='murmur'
 " ~/.vim/plugged is where the plugins are going to be installed
 call plug#begin('~/.vim/plugged')
 
@@ -53,19 +57,40 @@ call plug#begin('~/.vim/plugged')
 " let g:syntastic_check_on_wq = 0
 
 Plug 'https://github.com/w0rp/ale.git'
+let g:ale_python_mypy_executable = 'pipenv'
+let g:ale_python_pylint_executable = 'pipenv'
+let b:ale_linters = {'python': ['pylint']}
 Plug 'https://github.com/christoomey/vim-tmux-navigator'
 Plug 'ambv/black'
 Plug 'tmhedberg/SimpylFold' " Python folding
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-Plug 'tpope/vim-fugitive'
-
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'airblade/vim-gitgutter'
+Plug 'scrooloose/nerdcommenter'
+"Markdown
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+"Distraction-free writing
+Plug 'junegunn/goyo.vim'
+" Plug 'tpope/vim-fugitive'
 
 " Scars from my attempt to make vim work with IPython
 " Plug 'https://github.com/benmills/vimux'
 " Plug 'https://github.com/julienr/vim-cellmode'
 " Plug 'https://github.com/ivanov/vim-ipython'
 
+" Activate math syntax extension
+let g:vim_markdown_math = 1
+
 call plug#end()
 
 " Allow copy paste between vim and tmux
 set clipboard=unnamed
+
+" Treat visual lines as actual lines. 
+noremap  <buffer> <silent> k gk
+noremap  <buffer> <silent> j gj
+noremap  <buffer> <silent> 0 g0
+noremap  <buffer> <silent> $ g$
+
