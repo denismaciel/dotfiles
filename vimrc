@@ -1,3 +1,5 @@
+au BufNewFile,BufFilePre,BufRead *.txt set filetype=markdown
+
 set tabstop=4 "how many spaces a tab is when vim reads a file
 set softtabstop=4 "how many spaces are inserted when you hit tab
 set expandtab "tab inserts spaces
@@ -37,6 +39,9 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
+" Save in Normal Mode
+map <Esc><Esc> :w<CR>
+
 "Try to fix tmux's different color
 set background=dark
 set t_Co=256
@@ -59,11 +64,12 @@ call plug#begin('~/.vim/plugged')
 Plug 'https://github.com/w0rp/ale.git'
 let g:ale_python_mypy_executable = 'pipenv'
 let g:ale_python_pylint_executable = 'pipenv'
-let b:ale_linters = {'python': ['pylint']}
+let g:ale_linters = {'python': ['pylint']}
 Plug 'https://github.com/christoomey/vim-tmux-navigator'
 Plug 'ambv/black'
 Plug 'tmhedberg/SimpylFold' " Python folding
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+let g:ycm_auto_trigger = 0
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
@@ -74,6 +80,16 @@ Plug 'plasticboy/vim-markdown'
 "Distraction-free writing
 Plug 'junegunn/goyo.vim'
 " Plug 'tpope/vim-fugitive'
+
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+
+Plug  'aserebryakov/vim-todo-lists'
+
+" Better navigaton for Python
+" Plug 'python-mode/python-mode', { 'branch': 'develop' }
+
+
 
 " Scars from my attempt to make vim work with IPython
 " Plug 'https://github.com/benmills/vimux'

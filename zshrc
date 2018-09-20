@@ -37,6 +37,7 @@ alias dia='touch ~/Google\ Drive/nVALT-Notes/$(date +"%Y-%m-%d").md && mvim ~/Go
 alias tpl='echo "github.com/tandemploy/" | pbcopy'
 alias jrand='~/Dev/notebooks && jupyter-lab rand.ipynb'
 alias mux=tmuxinator 
+alias vimrc="vim ~/.vim/vimrc"
 . ~/dotfiles/tploy-alias.sh
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
