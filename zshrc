@@ -16,12 +16,9 @@ export LANG=en_US.UTF-8
 ZSH_THEME="avit"
 
 # Plugins
-plugins=(git zsh-syntax-highlighting docker vi-mode history-substring-search)
+plugins=(git zsh-syntax-highlighting docker vi-mode fzf-zsh)
 
 source $ZSH/oh-my-zsh.sh
-
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
 
 # tmuxinator autocompletion
 source ~/dotfiles/tmux/tmuxinator.zsh
@@ -32,6 +29,7 @@ alias ts='date +"%Y-%m-%d %H:%M:%S" | pbcopy'
 alias tss='date +"%Y-%m-%d" | pbcopy'
 alias tw='date +"%Y_%W" | pbcopy'
 alias tww='date +"Work-%Y_%W" | pbcopy'
+alias bww='date +"Bramondo-%Y_%W" | pbcopy'
 alias infra="cd ~/t-repo/tploy-infrastructure"
 alias dia='touch ~/Google\ Drive/nVALT-Notes/$(date +"%Y-%m-%d").md && mvim ~/Google\ Drive/nVALT-Notes/$(date +"%Y-%m-%d").md'
 alias tpl='echo "github.com/tandemploy/" | pbcopy'
