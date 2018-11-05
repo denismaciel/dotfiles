@@ -1,8 +1,10 @@
+" Markdown highlighing for txt files
 au BufNewFile,BufFilePre,BufRead *.txt set filetype=markdown
 
 set tabstop=4 "how many spaces a tab is when vim reads a file
 set softtabstop=4 "how many spaces are inserted when you hit tab
 set expandtab "tab inserts spaces
+set shiftwidth=4
 set autoindent
 "UI
 syntax enable "syntax highlighting
@@ -33,6 +35,19 @@ nnoremap <c-l> <c-w>l
 nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bnext<CR>
 
+" General shortcuts
+    " Go to previous buffer
+    nnoremap <leader><leader> <C-^>
+    nnoremap <leader>rv :source $MYVIMRC<CR>
+    " Same keys for indenting in normal and visual mode
+    nnoremap <C-t> >>
+    nnoremap <C-d> <<
+
+" Markdown
+autocmd FileType markdown inoremap ,prf  \succcurlyeq
+autocmd Filetype markdown,rmd inoremap ,a [](<++>)<++><Esc>F[a
+autocmd Filetype text, txt inoremap ,a [](<++>)<++><Esc>F[a
+
 "Rehab
 noremap <Up> <Nop>
 noremap <Down> <Nop>
@@ -40,64 +55,61 @@ noremap <Left> <Nop>
 noremap <Right> <Nop>
 
 " Save in Normal Mode
-map <Esc><Esc> :w<CR>
+"map <Esc><Esc> :w<CR>
 
 "Try to fix tmux's different color
 set background=dark
 set t_Co=256
 
 let g:airline_theme='murmur'
-" ~/.vim/plugged is where the plugins are going to be installed
+
+
 call plug#begin('~/.vim/plugged')
 
-" Plug 'vim-syntastic/syntastic'
-" Syntastic recommended settings
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" 
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-
 Plug 'https://github.com/w0rp/ale.git'
-let g:ale_python_mypy_executable = 'pipenv'
-let g:ale_python_pylint_executable = 'pipenv'
-let g:ale_linters = {'python': ['pylint']}
+    let g:ale_python_mypy_executable = 'pipenv'
+    let g:ale_python_pylint_executable = 'pipenv'
+    let g:ale_linters = {'python': ['pylint']}
+
 Plug 'https://github.com/christoomey/vim-tmux-navigator'
 Plug 'ambv/black'
 Plug 'tmhedberg/SimpylFold' " Python folding
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-let g:ycm_auto_trigger = 0
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdcommenter'
+
 "Markdown
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
+    Plug 'godlygeek/tabular'
+    Plug 'plasticboy/vim-markdown'
+        " Activate math syntax extension
+        let g:vim_markdown_math = 1
+    Plug 'junegunn/vim-easy-align'
+        au FileType markdown vmap <Leader>m :EasyAlign*<Bar><Enter>
+
+
 "Distraction-free writing
 Plug 'junegunn/goyo.vim'
-" Plug 'tpope/vim-fugitive'
 
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+    nmap ; :Buffers<CR>
+    nmap <Leader>t :Files<CR>
+    nmap <Leader>r :Tags<CR>
 
-Plug  'aserebryakov/vim-todo-lists'
+Plug 'aserebryakov/vim-todo-lists'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'tpope/vim-surround'
 
-" Better navigaton for Python
-" Plug 'python-mode/python-mode', { 'branch': 'develop' }
+" Deoplete
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+        let g:deoplete#enable_at_startup = 1
 
+Plug 'zchee/deoplete-jedi'
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Closse documentation buffer automatically
 
-
-" Scars from my attempt to make vim work with IPython
-" Plug 'https://github.com/benmills/vimux'
-" Plug 'https://github.com/julienr/vim-cellmode'
-" Plug 'https://github.com/ivanov/vim-ipython'
-
-" Activate math syntax extension
-let g:vim_markdown_math = 1
 
 call plug#end()
 
@@ -110,3 +122,6 @@ noremap  <buffer> <silent> j gj
 noremap  <buffer> <silent> 0 g0
 noremap  <buffer> <silent> $ g$
 
+"" Enable mouse inside tmux
+set ttymouse=xterm2
+set mouse=a
