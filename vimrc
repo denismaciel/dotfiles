@@ -6,9 +6,18 @@ set softtabstop=4 "how many spaces are inserted when you hit tab
 set expandtab "tab inserts spaces
 set shiftwidth=4
 set autoindent
+set hidden " switch buffers without saving
 "UI
 syntax enable "syntax highlighting
 colorscheme codedark
+
+" vimwiki
+filetype plugin on
+set nocompatible
+syntax on
+
+" copy current files path to clipboard
+nmap cp :let @+ = expand("%") <cr>
 
 set number
 set showcmd "show command in bottom bar
@@ -19,6 +28,9 @@ set backspace=2 " make backspace work like most other programs
 "Search
 set incsearch "search as characters are entered
 set hlsearch  "highlight matches
+
+noremap J 5j
+noremap K 5k
 
 "Folding 
 set foldenable        "enable folding
@@ -63,7 +75,7 @@ set t_Co=256
 
 let g:airline_theme='murmur'
 
-
+" === PLUGINS ===
 call plug#begin('~/.vim/plugged')
 
 Plug 'https://github.com/w0rp/ale.git'
@@ -96,6 +108,8 @@ Plug 'junegunn/fzf.vim'
     nmap ; :Buffers<CR>
     nmap <Leader>t :Files<CR>
     nmap <Leader>r :Tags<CR>
+    let $FZF_DEFAULT_COMMAND = 'ag -g ""'    "don't list files in .gitignore
+
 
 Plug 'aserebryakov/vim-todo-lists'
 Plug 'michaeljsmith/vim-indent-object'
@@ -109,7 +123,11 @@ Plug 'tpope/vim-surround'
 
 Plug 'zchee/deoplete-jedi'
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Closse documentation buffer automatically
-
+Plug 'leafgarland/typescript-vim'
+Plug 'vimwiki/vimwiki'
+Plug 'https://github.com/Alok/notational-fzf-vim'
+Plug 'https://github.com/vim-latex/vim-latex'
+let g:nv_search_paths = ['~/wiki', '~/Dropbox/nVALT-Notes']
 
 call plug#end()
 
