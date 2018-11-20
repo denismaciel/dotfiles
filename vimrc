@@ -66,9 +66,6 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
-" Save in Normal Mode
-"map <Esc><Esc> :w<CR>
-
 "Try to fix tmux's different color
 set background=dark
 set t_Co=256
@@ -85,14 +82,9 @@ Plug 'https://github.com/w0rp/ale.git'
 
 Plug 'https://github.com/christoomey/vim-tmux-navigator'
 Plug 'ambv/black'
-Plug 'tmhedberg/SimpylFold' " Python folding
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/nerdcommenter'
-
+Plug 'tpope/vim-commentary'
 "Markdown
-    Plug 'godlygeek/tabular'
     Plug 'plasticboy/vim-markdown'
         " Activate math syntax extension
         let g:vim_markdown_math = 1
@@ -100,16 +92,12 @@ Plug 'scrooloose/nerdcommenter'
         au FileType markdown vmap <Leader>m :EasyAlign*<Bar><Enter>
 
 
-"Distraction-free writing
-Plug 'junegunn/goyo.vim'
-
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
     nmap ; :Buffers<CR>
     nmap <Leader>t :Files<CR>
     nmap <Leader>r :Tags<CR>
     let $FZF_DEFAULT_COMMAND = 'ag -g ""'    "don't list files in .gitignore
-
 
 Plug 'aserebryakov/vim-todo-lists'
 Plug 'michaeljsmith/vim-indent-object'
@@ -125,8 +113,8 @@ Plug 'zchee/deoplete-jedi'
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Closse documentation buffer automatically
 Plug 'leafgarland/typescript-vim'
 Plug 'vimwiki/vimwiki'
-Plug 'https://github.com/Alok/notational-fzf-vim'
-Plug 'https://github.com/vim-latex/vim-latex'
+Plug 'Alok/notational-fzf-vim'
+Plug 'vim-latex/vim-latex'
 let g:nv_search_paths = ['~/wiki', '~/Dropbox/nVALT-Notes']
 
 call plug#end()
