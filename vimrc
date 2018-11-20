@@ -9,7 +9,7 @@ set autoindent
 set hidden " switch buffers without saving
 "UI
 syntax enable "syntax highlighting
-colorscheme codedark
+colorscheme desert
 
 " vimwiki
 filetype plugin on
@@ -42,6 +42,7 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+lo
 
 "Easily navigate buffers
 nnoremap <silent> [b :bprevious<CR>
