@@ -15,7 +15,7 @@ export LANG=en_US.UTF-8
 ZSH_THEME="avit"
 
 # Plugins
-plugins=(git zsh-syntax-highlighting docker vi-mode fzf-zsh)
+plugins=(git zsh-syntax-highlighting docker fzf-zsh)
 
 source $ZSH/oh-my-zsh.sh
 
