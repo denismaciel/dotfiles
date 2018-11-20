@@ -6,7 +6,7 @@ set expandtab "tab inserts spaces
 set autoindent
 "UI
 syntax enable "syntax highlighting
-colorscheme codedark
+colorscheme desert
 
 set number
 set showcmd "show command in bottom bar
@@ -28,6 +28,7 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+lo
 
 "Easily navigate buffers
 nnoremap <silent> [b :bprevious<CR>
