@@ -115,8 +115,8 @@
                                         "bundle_identifiers": [
                                             "^org\\.vim\\.",
                                             "^com.googlecode.iterm2",
-                                            "^com\\.microsoft\\.VSCode$"
-
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.apple\\.Terminal$",
                                         ],
                                         "type": "frontmost_application_unless"
                                     }

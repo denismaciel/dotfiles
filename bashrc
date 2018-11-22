@@ -3,13 +3,12 @@ export PATH=/usr/local/opt/python/libexec/bin:$PATH # Brew Python
 export VISUAL="vim"
 export EDITOR="vim"
 export AIRFLOW_HOME=~/t-projects/bi-airflow/
-export ZSH=~/.oh-my-zsh # Path to your oh-my-zsh installation.
 export TPLOY_HOME=~/t-repo/
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 # tmuxinator autocompletion
-source ~/dotfiles/tmux/tmuxinator.zsh
+# source ~/dotfiles/tmux/tmuxinator.zsh
 # Aliases
 alias ts='date +"%Y-%m-%d %H:%M:%S" | pbcopy'
 alias tss='date +"%Y-%m-%d" | pbcopy'
@@ -22,7 +21,7 @@ alias vimf="vim \$(fzf)"
 alias rm=trash
 . ~/dotfiles/tploy-alias.sh
 alias l='ls -lah'
-alias la='ls -lAh'
+alias la='ls -lAhG'
 alias ll='ls -lhG'
 alias ls='ls -G'
 alias lsa='ls -lah'
