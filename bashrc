@@ -1,4 +1,4 @@
-export PS1='🐷  \u@\h:\[\e[33m\]\w\[\e[0m\]\$ '
+export PS1='\u@\h:\[\e[33m\]\w\[\e[0m\]\$ '
 export PATH=/usr/local/opt/python/libexec/bin:$PATH # Brew Python
 export VISUAL="vim"
 export EDITOR="vim"
@@ -20,8 +20,7 @@ alias bww='date +"Bramondo-%Y_%W" | pbcopy'
 alias mux=tmuxinator 
 alias vimrc="vim ~/.vim/vimrc"
 alias vimf="vim \$(fzf)"
-alias rm=trash
-. ~/dotfiles/tploy-alias.sh
+[ "$(uname)" == "Linux" ] && echo "Hello Free Software" || alias rm=trash
 alias l='ls -lah'
 alias la='ls -lAhG'
 alias ll='ls -lhG'
@@ -32,3 +31,4 @@ alias lsa='ls -lah'
 eval "$(scmpuff init -s)"
 # fzf: History Search
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/dotfiles/tploy-alias.sh ] && ~/dotfiles/tploy-alias.sh
