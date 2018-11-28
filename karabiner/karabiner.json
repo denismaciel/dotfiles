@@ -116,7 +116,7 @@
                                             "^org\\.vim\\.",
                                             "^com.googlecode.iterm2",
                                             "^com\\.microsoft\\.VSCode$",
-                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.apple\\.Terminal$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
