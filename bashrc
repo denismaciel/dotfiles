@@ -1,11 +1,16 @@
 export PS1='🐷  \u@\h:\[\e[33m\]\w\[\e[0m\]\$ '
 export PATH=/usr/local/opt/python/libexec/bin:$PATH # Brew Python
+export PATH=/Users/account-vorlage-dev/Library/Python/3.6/bin:$PATH
 export VISUAL="vim"
 export EDITOR="vim"
 export AIRFLOW_HOME=~/t-projects/bi-airflow/
 export TPLOY_HOME=~/t-repo/
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+
+# set unlimited history
+HISTSIZE= 
+HISTFILESIZE=
 
 set -o vi
 
@@ -21,6 +26,9 @@ alias mux=tmuxinator
 alias vimrc="vim ~/.vim/vimrc"
 alias vimf="vim \$(fzf)"
 alias rm=trash
+alias t-repo="cd ~/t-repo"
+alias airflow="cd ~/t-repo/bi-airflow/"
+alias analysis="cd ~/t-repo/bi-analysis"
 . ~/dotfiles/tploy-alias.sh
 alias l='ls -lah'
 alias la='ls -lAhG'
