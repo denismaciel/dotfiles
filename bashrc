@@ -1,4 +1,4 @@
-export PS1='🐷  \u@\h:\[\e[33m\]\w\[\e[0m\]\$ '
+export PS1='\u@\h:\[\e[33m\]\w\[\e[0m\]\$ '
 export PATH=/usr/local/opt/python/libexec/bin:$PATH # Brew Python
 export PATH=/Users/account-vorlage-dev/Library/Python/3.6/bin:$PATH
 export VISUAL="vim"
@@ -29,7 +29,7 @@ alias rm=trash
 alias t-repo="cd ~/t-repo"
 alias airflow="cd ~/t-repo/bi-airflow/"
 alias analysis="cd ~/t-repo/bi-analysis"
-. ~/dotfiles/tploy-alias.sh
+[ "$(uname)" == "Linux" ] && echo "Hello Free Software" || alias rm=trash
 alias l='ls -lah'
 alias la='ls -lAhG'
 alias ll='ls -lhG'
@@ -40,3 +40,4 @@ alias lsa='ls -lah'
 eval "$(scmpuff init -s)"
 # fzf: History Search
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/dotfiles/tploy-alias.sh ] && ~/dotfiles/tploy-alias.sh

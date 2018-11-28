@@ -70,8 +70,6 @@ noremap <Right> <Nop>
 set background=dark
 set t_Co=256
 
-let g:airline_theme='murmur'
-
 " === PLUGINS ===
 call plug#begin('~/.vim/plugged')
 
@@ -80,7 +78,6 @@ Plug 'https://github.com/w0rp/ale.git'
     let g:ale_python_pylint_executable = 'pipenv'
     let g:ale_linters = {'python': ['pylint']}
 
-Plug 'https://github.com/christoomey/vim-tmux-navigator'
 Plug 'ambv/black'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-commentary'
@@ -91,7 +88,6 @@ Plug 'tpope/vim-commentary'
     Plug 'junegunn/vim-easy-align'
         au FileType markdown vmap <Leader>m :EasyAlign*<Bar><Enter>
 
-
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
     nmap ; :Buffers<CR>
@@ -99,8 +95,6 @@ Plug 'junegunn/fzf.vim'
     nmap <Leader>r :Tags<CR>
     let $FZF_DEFAULT_COMMAND = 'ag -g ""'    "don't list files in .gitignore
 
-Plug 'aserebryakov/vim-todo-lists'
-Plug 'michaeljsmith/vim-indent-object'
 Plug 'tpope/vim-surround'
 
 " Deoplete
@@ -111,16 +105,12 @@ Plug 'tpope/vim-surround'
 
 Plug 'zchee/deoplete-jedi'
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Closse documentation buffer automatically
-Plug 'leafgarland/typescript-vim'
 Plug 'vimwiki/vimwiki'
-Plug 'Alok/notational-fzf-vim'
 Plug 'vim-latex/vim-latex'
-let g:nv_search_paths = ['~/wiki', '~/Dropbox/nVALT-Notes']
+" Plug 'Alok/notational-fzf-vim'
+" let g:nv_search_paths = ['~/wiki', '~/Dropbox/nVALT-Notes']
 
 call plug#end()
-
-" Allow copy paste between vim and tmux
-set clipboard=unnamed
 
 " Treat visual lines as actual lines. 
 noremap  <buffer> <silent> k gk
