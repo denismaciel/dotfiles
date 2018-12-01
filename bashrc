@@ -25,7 +25,6 @@ alias bww='date +"Bramondo-%Y_%W" | pbcopy'
 alias mux=tmuxinator 
 alias vimrc="vim ~/.vim/vimrc"
 alias vimf="vim \$(fzf)"
-alias rm=trash
 alias t-repo="cd ~/t-repo"
 alias airflow="cd ~/t-repo/bi-airflow/"
 alias analysis="cd ~/t-repo/bi-analysis"
