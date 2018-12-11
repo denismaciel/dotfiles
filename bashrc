@@ -11,6 +11,11 @@ export LANG=en_US.UTF-8
 # set unlimited history
 HISTSIZE= 
 HISTFILESIZE=
+# Avoid duplicates
+HISTCONTROL=ignoredups:erasedups
+# When the shell exits, append to the history file instead of overwriting it
+shopt -s histappend
+
 
 set -o vi
 
@@ -38,6 +43,8 @@ alias lsa='ls -lah'
 
 # scmpuff: numbered shortcuts for git
 eval "$(scmpuff init -s)"
+export FZF_DEFAULT_COMMAND="fd --type file --color=always --follow --hidden --exclude .git"
+export FZF_DEFAULT_OPTS="--ansi"
 # fzf: History Search
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-[ -f ~/dotfiles/tploy-alias.sh ] && ~/dotfiles/tploy-alias.sh
+[ -f ~/dotfiles/tploy-alias.sh ] && source ~/dotfiles/tploy-alias.sh
