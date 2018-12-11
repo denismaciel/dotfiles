@@ -9,9 +9,7 @@ set autoindent
 set hidden " switch buffers without saving
 "UI
 syntax enable "syntax highlighting
-colorscheme desert
-
-" vimwiki
+" colorscheme desert
 filetype plugin on
 set nocompatible
 syntax on
@@ -93,18 +91,23 @@ Plug 'junegunn/fzf.vim'
     nmap ; :Buffers<CR>
     nmap <Leader>t :Files<CR>
     nmap <Leader>r :Tags<CR>
-    let $FZF_DEFAULT_COMMAND = 'ag -g ""'    "don't list files in .gitignore
 
 Plug 'tpope/vim-surround'
 
 " Deoplete
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-        let g:deoplete#enable_at_startup = 1
+    
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
 
 Plug 'zchee/deoplete-jedi'
-    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Closse documentation buffer automatically
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Close documentation buffer automatically
+    
 Plug 'vimwiki/vimwiki'
 Plug 'vim-latex/vim-latex'
 " Plug 'Alok/notational-fzf-vim'
