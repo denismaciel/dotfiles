@@ -1,6 +1,6 @@
 export PS1='\u@\h:\[\e[33m\]\w\[\e[0m\]\$ '
 export PATH=/usr/local/opt/python/libexec/bin:$PATH # Brew Python
-export PATH=/Users/account-vorlage-dev/Library/Python/3.6/bin:$PATH
+export PATH=/home/denis/.local/bin:$PATH
 export VISUAL="vim"
 export EDITOR="vim"
 export AIRFLOW_HOME=~/t-projects/bi-airflow/
@@ -47,3 +47,4 @@ export FZF_DEFAULT_OPTS="--ansi"
 # fzf: History Search
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 [ -f ~/dotfiles/tploy-alias.sh ] && source ~/dotfiles/tploy-alias.sh
+source ~/dotfiles/alias.sh

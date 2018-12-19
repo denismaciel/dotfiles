@@ -9,7 +9,6 @@ set autoindent
 set hidden " switch buffers without saving
 "UI
 syntax enable "syntax highlighting
-" colorscheme desert
 filetype plugin on
 set nocompatible
 syntax on
@@ -19,7 +18,7 @@ nmap cp :let @+ = expand("%") <cr>
 
 set number
 set showcmd "show command in bottom bar
-set cursorline
+" set cursorline
 set showmatch "highlight matching parenthesis
 set backspace=2 " make backspace work like most other programs
 
@@ -93,6 +92,13 @@ Plug 'junegunn/fzf.vim'
     nmap <Leader>r :Tags<CR>
 
 Plug 'tpope/vim-surround'
+Plug 'arcticicestudio/nord-vim'
+
+" R
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'gaalcaras/ncm-R'
+Plug 'jalvesaq/Nvim-R'
 
 " Deoplete
     
@@ -103,7 +109,7 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 
 Plug 'zchee/deoplete-jedi'
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Close documentation buffer automatically
@@ -124,3 +130,5 @@ noremap  <buffer> <silent> $ g$
 "" Enable mouse inside tmux
 set ttymouse=xterm2
 set mouse=a
+
+colorscheme nord
