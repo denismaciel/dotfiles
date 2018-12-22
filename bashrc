@@ -1,10 +1,7 @@
 export PS1='\u@\h:\[\e[33m\]\w\[\e[0m\]\$ '
-export PATH=/usr/local/opt/python/libexec/bin:$PATH # Brew Python
 export PATH=/home/denis/.local/bin:$PATH
 export VISUAL="vim"
 export EDITOR="vim"
-export AIRFLOW_HOME=~/t-projects/bi-airflow/
-export TPLOY_HOME=~/t-repo/
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
@@ -15,12 +12,8 @@ HISTFILESIZE=
 HISTCONTROL=ignoredups:erasedups
 # When the shell exits, append to the history file instead of overwriting it
 shopt -s histappend
-
-
 set -o vi
 
-# tmuxinator autocompletion
-# source ~/dotfiles/tmux/tmuxinator.zsh
 # Aliases
 alias ts='date +"%Y-%m-%d %H:%M:%S" | pbcopy'
 alias tss='date +"%Y-%m-%d" | pbcopy'
@@ -46,5 +39,4 @@ export FZF_DEFAULT_COMMAND="fd --type file --color=always --follow --hidden --ex
 export FZF_DEFAULT_OPTS="--ansi"
 # fzf: History Search
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-[ -f ~/dotfiles/tploy-alias.sh ] && source ~/dotfiles/tploy-alias.sh
 source ~/dotfiles/alias.sh
