@@ -100,8 +100,15 @@ Plug 'roxma/nvim-yarp'
 Plug 'gaalcaras/ncm-R'
 Plug 'jalvesaq/Nvim-R'
 
+
+
+Plug 'mattn/emmet-vim'    
+Plug 'mxw/vim-jsx'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+
 " Deoplete
-    
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
