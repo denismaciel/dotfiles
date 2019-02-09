@@ -29,6 +29,9 @@ set hlsearch  "highlight matches
 noremap J 5j
 noremap K 5k
 
+" Copy to Mac's clipboard
+set clipboard=unnamed
+
 "Folding 
 set foldenable        "enable folding
 set foldlevelstart=10 "open most folds by default
@@ -53,9 +56,9 @@ nnoremap <silent> ]b :bnext<CR>
     nnoremap <C-d> <<
 
 " Markdown
-autocmd FileType markdown inoremap ,prf  \succcurlyeq
-autocmd Filetype markdown,rmd inoremap ,a [](<++>)<++><Esc>F[a
-autocmd Filetype text, txt inoremap ,a [](<++>)<++><Esc>F[a
+" autocmd FileType markdown inoremap ,prf  \succcurlyeq
+" autocmd Filetype markdown,rmd inoremap ,a [](<++>)<++><Esc>F[a
+" autocmd Filetype text, txt inoremap ,a [](<++>)<++><Esc>F[a
 
 "Rehab
 noremap <Up> <Nop>
@@ -76,14 +79,10 @@ Plug 'https://github.com/w0rp/ale.git'
     let g:ale_linters = {'python': ['pylint']}
 
 Plug 'ambv/black'
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-commentary'
-"Markdown
-    Plug 'plasticboy/vim-markdown'
-        " Activate math syntax extension
-        let g:vim_markdown_math = 1
-    Plug 'junegunn/vim-easy-align'
-        au FileType markdown vmap <Leader>m :EasyAlign*<Bar><Enter>
+""Markdown
+"    Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
+"        " Activate math syntax extension
+"        let g:vim_markdown_math = 1
 
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
@@ -91,24 +90,18 @@ Plug 'junegunn/fzf.vim'
     nmap <Leader>t :Files<CR>
     nmap <Leader>r :Tags<CR>
 
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'arcticicestudio/nord-vim'
 
-" R
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'gaalcaras/ncm-R'
-Plug 'jalvesaq/Nvim-R'
-
-
-
-Plug 'mattn/emmet-vim'    
-Plug 'mxw/vim-jsx'
+"Plug 'mattn/emmet-vim',  { 'for': ['javascript', 'typescript', 'html'] }
+"Plug 'mxw/vim-jsx', { 'for': ['javascript', 'typescript', 'html'] }
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
-" Deoplete
+"" Deoplete
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -116,16 +109,14 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-" let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 1
 
-Plug 'zchee/deoplete-jedi'
+Plug 'zchee/deoplete-jedi', {'for' : 'python'}
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Close documentation buffer automatically
-    
-Plug 'vimwiki/vimwiki'
-Plug 'vim-latex/vim-latex'
-" Plug 'Alok/notational-fzf-vim'
-" let g:nv_search_paths = ['~/wiki', '~/Dropbox/nVALT-Notes']
 
+Plug 'junegunn/goyo.vim'
+Plug 'aserebryakov/vim-todo-lists'
+    
 call plug#end()
 
 " Treat visual lines as actual lines. 
