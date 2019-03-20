@@ -13,8 +13,13 @@ filetype plugin on
 set nocompatible
 syntax on
 
+
+inoremap jj <Esc>
 " copy current files path to clipboard
 nmap cp :let @+ = expand("%") <cr>
+nnoremap <leader>ev :edit $MYVIMRC<cr>
+" autocmd FileType markdown nnnoremap <buffer> <C-C> !pandoc % -o %:r.pdf
+noremap <leader>c :!pandoc % -o %:r.pdf<cr>
 
 set number
 set showcmd "show command in bottom bar
@@ -79,10 +84,12 @@ Plug 'https://github.com/w0rp/ale.git'
     let g:ale_linters = {'python': ['pylint']}
 
 Plug 'ambv/black'
+"
 ""Markdown
-"    Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
-"        " Activate math syntax extension
-"        let g:vim_markdown_math = 1
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
+   " Activate math syntax extension
+   let g:vim_markdown_math = 1
 
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
@@ -113,9 +120,8 @@ let g:deoplete#enable_at_startup = 1
 
 Plug 'zchee/deoplete-jedi', {'for' : 'python'}
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Close documentation buffer automatically
-
 Plug 'junegunn/goyo.vim'
-Plug 'aserebryakov/vim-todo-lists'
+Plug 'Raimondi/delimitMate'
     
 call plug#end()
 
