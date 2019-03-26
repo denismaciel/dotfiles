@@ -20,6 +20,7 @@ nmap cp :let @+ = expand("%") <cr>
 nnoremap <leader>ev :edit $MYVIMRC<cr>
 " autocmd FileType markdown nnnoremap <buffer> <C-C> !pandoc % -o %:r.pdf
 noremap <leader>c :!pandoc % -o %:r.pdf<cr>
+noremap <leader>o :!open %:r.pdf<cr>
 
 set number
 set showcmd "show command in bottom bar
