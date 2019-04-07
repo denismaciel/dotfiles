@@ -3,7 +3,8 @@
 
 export ZSH="/Users/denis/.oh-my-zsh"
 
-ZSH_THEME="trapd00r"
+# ZSH_THEME="trapd00r"
+ZSH_THEME="avit"
 
 # Aliases
 alias tss="date +'%Y-%m-%d %H:%M:%S' | pbcopy; pbpaste"
@@ -14,5 +15,17 @@ alias habit="open https://docs.google.com/spreadsheets/d/1nNAWoPD93CSLRWcaj2k4Rd
 
 export FZF_DEFAULT_OPTS="--preview 'head -100 {}' --height 80% --layout=reverse --border"
 source $ZSH/oh-my-zsh.sh
+# Use FZF to switch Tmux sessions:
+# bind-key s run "tmux new-window 'bash -ci fs'"
+fs() {
+	local -r fmt='#{session_id}:|#S|(#{session_attached} attached)'
+	{ tmux display-message -p -F "$fmt" && tmux list-sessions -F "$fmt"; } \
+		| awk '!seen[$1]++' \
+		| column -t -s'|' \
+		| fzf -q '$' --reverse --prompt 'switch session: ' -1 \
+		| cut -d':' -f1 \
+		| xargs tmux switch-client -t
+}
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="/usr/local/opt/sqlite/bin:$PATH"
