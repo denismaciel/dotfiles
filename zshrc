@@ -23,6 +23,9 @@ case `uname` in
     ;;
 esac
 
+export PAPERS="$HOME/Dropbox/master-thesis/literature"
+export THESIS="$HOME/Dev/master-thesis"
+
 # ZSH_THEME="trapd00r"
 ZSH_THEME="avit"
 
