@@ -109,17 +109,17 @@ Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
-" "" Deoplete
-" if has('nvim')
-"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"   Plug 'Shougo/deoplete.nvim'
-"   Plug 'roxma/nvim-yarp'
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-" let g:deoplete#enable_at_startup = 1
-" Plug 'zchee/deoplete-jedi', {'for' : 'python'}
-"     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Close documentation buffer automatically
+"" Deoplete
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
+Plug 'zchee/deoplete-jedi', {'for' : 'python'}
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Close documentation buffer automatically
  
 " Plug 'davidhalter/jedi-vim', {'for': 'python'}
 
@@ -141,4 +141,3 @@ noremap  <buffer> <silent> $ g$
 set ttymouse=xterm2
 set mouse=a
 
-colorscheme nord
