@@ -9,7 +9,6 @@ case `uname` in
         # Aliases
         alias tss="date +'%Y-%m-%d %H:%M:%S' | pbcopy; pbpaste"
         alias tsd="date +'%Y-%m-%d' | pbcopy; pbpaste"
-        alias tsb="date +'Bramondo_%Y-%W' | pbcopy; pbpaste"
         alias tsv="date +'Vida_%Y-%W' | pbcopy; pbpaste"
         alias habit="open https://docs.google.com/spreadsheets/d/1nNAWoPD93CSLRWcaj2k4Rdha7QfOXqEIcSemGgNQ-08/edit#gid=1291571794"
     ;;
@@ -17,6 +16,10 @@ case `uname` in
         echo "Hello, free software!"
         export ZSH="/home/denis/.oh-my-zsh"
         export PATH=$PATH:/home/denis/.local/bin
+        alias tss="date +'%Y-%m-%d %H:%M:%S' | xclip -selection clipboard && xclip -selection clipboard -o"
+        alias tsd="date +'%Y-%m-%d' | xclip -selection clipboard && xclip -selection clipboard -o"
+        alias tsv="date +'Vida_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o "
+        alias habit="open https://docs.google.com/spreadsheets/d/1nNAWoPD93CSLRWcaj2k4Rdha7QfOXqEIcSemGgNQ-08/edit#gid=1291571794"
     ;;
 esac
 
