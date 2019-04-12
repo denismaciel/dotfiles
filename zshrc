@@ -23,9 +23,9 @@ case `uname` in
     ;;
 esac
 
-ZSH_THEME="trapd00r"
-# ZSH_THEME="avit"
-#
+# ZSH_THEME="trapd00r"
+ZSH_THEME="avit"
+
 alias getbib="bash ~/dotfiles/utils-scripts/getbib.sh"
 
 export FZF_DEFAULT_OPTS="--preview 'head -100 {}' --height 80% --layout=reverse --border"
@@ -34,3 +34,5 @@ source $ZSH/oh-my-zsh.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/key-bindings.zsh ] && source ~/key-bindings.zsh
 
+
+[ -s "/home/denis/.scm_breeze/scm_breeze.sh" ] && source "/home/denis/.scm_breeze/scm_breeze.sh"
