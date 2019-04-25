@@ -13,7 +13,7 @@ filetype plugin on
 set nocompatible
 syntax on
 
-
+map <Space> <Leader>
 inoremap jj <Esc>
 " copy current files path to clipboard
 nmap cp :let @+ = expand("%") <cr>
@@ -22,7 +22,7 @@ nnoremap <leader>ev :edit $MYVIMRC<cr>
 noremap <leader>c :!pandoc % -o %:r.pdf<cr>
 noremap <leader>o :!open %:r.pdf<cr>
 
-set number
+" set number
 set showcmd "show command in bottom bar
 " set cursorline
 set showmatch "highlight matching parenthesis
@@ -79,10 +79,14 @@ set t_Co=256
 " === PLUGINS ===
 call plug#begin('~/.vim/plugged')
 
+Plug 'jalvesaq/Nvim-R'
+Plug 'lervag/vimtex'
 Plug 'https://github.com/w0rp/ale.git'
-    let g:ale_python_mypy_executable = 'pipenv'
-    let g:ale_python_pylint_executable = 'pipenv'
+    " let g:ale_python_mypy_executable = 'pipenv'
+    " let g:ale_python_pylint_executable = 'pipenv'
     let g:ale_linters = {'python': ['pylint']}
+    let g:ale_fixers = {'python': ['black']}
+
 
 Plug 'ambv/black'
 "
@@ -120,15 +124,13 @@ endif
 let g:deoplete#enable_at_startup = 1
 Plug 'zchee/deoplete-jedi', {'for' : 'python'}
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Close documentation buffer automatically
- 
-" Plug 'davidhalter/jedi-vim', {'for': 'python'}
 
 Plug 'junegunn/goyo.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'jpalardy/vim-slime'
     let g:slime_target = "tmux"
     let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
-     let g:slime_python_ipython = 1   
+    let g:slime_python_ipython = 1   
 call plug#end()
 
 " Treat visual lines as actual lines. 
@@ -138,6 +140,6 @@ noremap  <buffer> <silent> 0 g0
 noremap  <buffer> <silent> $ g$
 
 "" Enable mouse inside tmux
-set ttymouse=xterm2
+" set ttymouse=xterm2
 set mouse=a
 
