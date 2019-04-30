@@ -85,8 +85,7 @@ Plug 'https://github.com/w0rp/ale.git'
     " let g:ale_python_mypy_executable = 'pipenv'
     " let g:ale_python_pylint_executable = 'pipenv'
     let g:ale_linters = {'python': ['pylint']}
-    let g:ale_fixers = {'python': ['black']}
-
+    let g:ale_fixers = {'python': ['black'], 'html': ['prettier'], 'javascript': ['prettier'], 'css': ['prettier'], 'scss': ['prettier']}
 
 Plug 'ambv/black'
 "
@@ -107,8 +106,9 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'arcticicestudio/nord-vim'
 
-"Plug 'mattn/emmet-vim',  { 'for': ['javascript', 'typescript', 'html'] }
-"Plug 'mxw/vim-jsx', { 'for': ['javascript', 'typescript', 'html'] }
+Plug 'mattn/emmet-vim',  { 'for': ['javascript', 'typescript', 'html'] }
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+Plug 'mxw/vim-jsx', { 'for': ['javascript', 'typescript', 'html'] }
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
