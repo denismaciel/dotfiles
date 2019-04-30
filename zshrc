@@ -29,7 +29,6 @@ esac
 export PAPERS="$HOME/Dropbox/master-thesis/literature"
 export THESIS="$HOME/Dev/master-thesis"
 
-# ZSH_THEME="trapd00r"
 ZSH_THEME="avit"
 
 alias getbib="bash ~/dotfiles/utils-scripts/getbib.sh"
@@ -40,7 +39,8 @@ alias vi=vim
 eval "$(scmpuff init -s)"
 
 export FZF_DEFAULT_OPTS="--preview 'head -100 {}' --height 100% --layout=reverse --border"
-export FZF_DEFAULT_COMMAND='rg --files --ignore-file $HOME/.ripgrep_ignore'
+export FZF_DEFAULT_COMMAND="rg --files --ignore-file ~/.ripgrep_ignore"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 source $ZSH/oh-my-zsh.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
