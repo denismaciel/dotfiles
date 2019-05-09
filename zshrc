@@ -4,7 +4,7 @@
 case `uname` in 
     Darwin)
         echo "On a Mac!!!"
-        export ZSH="/Users/denis/.oh-my-zsh"
+        export ZSH="$HOME/.oh-my-zsh"
 
         alias tss="date +'%Y-%m-%d %H:%M:%S' | pbcopy; pbpaste"
         alias tsd="date +'%Y-%m-%d' | pbcopy; pbpaste"
