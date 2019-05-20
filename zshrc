@@ -10,7 +10,7 @@ case `uname` in
         alias tsd="date +'%Y-%m-%d' | pbcopy; pbpaste"
         alias tsv="date +'Vida_%Y-%W' | pbcopy; pbpaste"
         alias tsw="date +'Work_%Y-%W' | pbcopy; pbpaste"
-        alias habit="open https://docs.google.com/spreadsheets/d/1nNAWoPD93CSLRWcaj2k4Rdha7QfOXqEIcSemGgNQ-08/edit#gid=1291571794"
+        alias habit="open https://docs.google.com/spreadsheets/d/1nNAWoPD93CSLRWcaj2k4Rdha7QfOXqEIcSemGgNQ-08/edit#gid=1213603850"
         alias mdb="open -a MacVim ~/Dropbox/nVALT-Notes/Current/Master_Thesis.txt"
         
         
@@ -34,12 +34,12 @@ export THESIS="$HOME/Dev/master-thesis"
 ZSH_THEME="avit"
 
 alias getbib="bash ~/dotfiles/utils-scripts/getbib.sh"
-alias VISUAL=nvim
 alias vim=nvim
 alias vi=vim
 
 eval "$(scmpuff init -s)"
 
+export VISUAL=nvim
 export FZF_DEFAULT_OPTS="--preview 'head -100 {}' --height 100% --layout=reverse --border"
 export FZF_DEFAULT_COMMAND='rg --files --ignore-file $HOME/.ripgrep_ignore'
 source $ZSH/oh-my-zsh.sh
