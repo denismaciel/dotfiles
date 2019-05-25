@@ -80,7 +80,9 @@ set t_Co=256
 call plug#begin('~/.vim/plugged')
 
 Plug 'jalvesaq/Nvim-R'
+
 Plug 'lervag/vimtex'
+
 Plug 'https://github.com/w0rp/ale.git'
     " let g:ale_python_mypy_executable = 'pipenv'
     " let g:ale_python_pylint_executable = 'pipenv'
@@ -88,7 +90,7 @@ Plug 'https://github.com/w0rp/ale.git'
     let g:ale_fixers = {'python': ['black'], 'html': ['prettier'], 'javascript': ['prettier'], 'css': ['prettier'], 'scss': ['prettier']}
 
 Plug 'ambv/black'
-"
+
 ""Markdown
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
@@ -102,13 +104,15 @@ Plug 'junegunn/fzf.vim'
     nmap <Leader>r :Tags<CR>
 
 Plug 'airblade/vim-gitgutter'
+
 Plug 'tpope/vim-commentary'
+
 Plug 'tpope/vim-surround'
-Plug 'arcticicestudio/nord-vim'
 
 Plug 'mattn/emmet-vim',  { 'for': ['javascript', 'typescript', 'html'] }
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+
 Plug 'mxw/vim-jsx', { 'for': ['javascript', 'typescript', 'html'] }
+
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
@@ -122,15 +126,22 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 let g:deoplete#enable_at_startup = 1
+
 Plug 'zchee/deoplete-jedi', {'for' : 'python'}
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Close documentation buffer automatically
 
 Plug 'junegunn/goyo.vim'
+
 Plug 'Raimondi/delimitMate'
+
 Plug 'jpalardy/vim-slime'
     let g:slime_target = "tmux"
     let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
     let g:slime_python_ipython = 1   
+
+Plug 'vitalk/vim-simple-todo'
+    let g:simple_todo_list_symbol = '*'
+
 call plug#end()
 
 " Treat visual lines as actual lines. 
