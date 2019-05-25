@@ -43,7 +43,7 @@ export VISUAL=nvim
 export FZF_DEFAULT_OPTS="--preview 'head -100 {}' --height 100% --layout=reverse --border"
 export FZF_DEFAULT_COMMAND='rg --files --ignore-file $HOME/.ripgrep_ignore'
 source $ZSH/oh-my-zsh.sh
-
+export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/key-bindings.zsh ] && source ~/key-bindings.zsh
 
