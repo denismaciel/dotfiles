@@ -1,10 +1,13 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 case `uname` in 
     Darwin)
-        echo "On a Mac!!!"
+        echo "macOS"
+
         export ZSH="$HOME/.oh-my-zsh"
+        # User-installed Python executables
+        export PATH=$HOME/Library/Python/3.7/bin:$PATH
 
         alias tss="date +'%Y-%m-%d %H:%M:%S' | pbcopy; pbpaste"
         alias tsd="date +'%Y-%m-%d' | pbcopy; pbpaste"
@@ -12,9 +15,7 @@ case `uname` in
         alias tsw="date +'Work_%Y-%W' | pbcopy; pbpaste"
         alias habit="open https://docs.google.com/spreadsheets/d/1nNAWoPD93CSLRWcaj2k4Rdha7QfOXqEIcSemGgNQ-08/edit#gid=1213603850"
         alias mdb="open -a MacVim ~/Dropbox/nVALT-Notes/Current/Master_Thesis.txt"
-        
-        
-    
+
     ;;
     Linux)
         echo "Hello, free software!"
@@ -30,7 +31,6 @@ esac
 export PAPERS="$HOME/Dropbox/master-thesis/literature"
 export THESIS="$HOME/Dev/master-thesis"
 
-# ZSH_THEME="trapd00r"
 ZSH_THEME="avit"
 
 alias getbib="bash ~/dotfiles/utils-scripts/getbib.sh"
@@ -47,8 +47,8 @@ export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/key-bindings.zsh ] && source ~/key-bindings.zsh
 
-
 [ -s "/home/denis/.scm_breeze/scm_breeze.sh" ] && source "/home/denis/.scm_breeze/scm_breeze.sh"
 
 # added by travis gem
 [ -f /Users/denis/.travis/travis.sh ] && source /Users/denis/.travis/travis.sh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
