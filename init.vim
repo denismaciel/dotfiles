@@ -14,7 +14,6 @@ set nocompatible
 syntax on
 
 map <Space> <Leader>
-inoremap jj <Esc>
 nnoremap <leader>ev :edit $MYVIMRC<cr>
 
 " set number
@@ -39,8 +38,6 @@ set foldmethod=indent
     " Go to previous buffer
     nnoremap <leader>rv :source $MYVIMRC<CR>
     " Same keys for indenting in normal and visual mode
-    nnoremap <C-t> >>
-    nnoremap <C-d> <<
 " Treat visual lines as actual lines. 
 noremap  <buffer> <silent> k gk
 noremap  <buffer> <silent> j gj
@@ -54,10 +51,7 @@ noremap <Left> <Nop>
 noremap <Right> <Nop>
 
 " === PLUGINS ===
-call plug#begin('~/.vim/plugged')
-
-Plug 'jalvesaq/Nvim-R'
-    let R_assign = 0
+call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'https://github.com/w0rp/ale.git'
     " let g:ale_python_mypy_executable = 'pipenv'
@@ -80,19 +74,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-"" Deoplete
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-" let g:deoplete#enable_at_startup = 1
-
-Plug 'zchee/deoplete-jedi', {'for' : 'python'}
-    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "Close documentation buffer automatically
-
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/goyo.vim'
 Plug 'jpalardy/vim-slime'
     let g:slime_target = "tmux"
@@ -101,6 +83,4 @@ Plug 'jpalardy/vim-slime'
 Plug 'vitalk/vim-simple-todo'
     let g:simple_todo_list_symbol = '*'
 Plug 'arcticicestudio/nord-vim' 
-
-
 
