@@ -3,13 +3,13 @@ windows:
     - window_name: Shell
       panes:
           - shell_command:
-              - echo "Hi there, Mr. Pinto Maciell"
+              - echo "Hi there, Mr. Pinto Maciel"
           - shell_command: echo "Guten Morgen, Herr Pinto Maciel"
     - window_name: Notes
       panes:
           - shell_command:
               - cd ~/Dropbox/nVALT-Notes/Current/ 
-              - vim "$(tsw).md"
+              - nvim "$(tsw).md"
     - window_name: datadir
       layout: 265e,200x49,0,0[200x24,0,0{99x24,0,0,4,100x24,100,0,5},200x24,0,25{99x24,0,25,6,100x24,100,25,7}]
       options: {}
@@ -26,4 +26,7 @@ windows:
       - shell_command:
         - cd /Users/dmaciel/datadir
         - zsh
-
+    - window_name: Shiny
+      panes:
+      - shell_command:
+        - cd /Users/dmaciel/Dev/shiny_app && zsh
