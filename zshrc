@@ -1,13 +1,21 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+PS1="
+🍪 %~
+$ "
+
+bindkey "^P" up-line-or-search
+bindkey "^N" down-line-or-search
+export PS1
+# For whatever reason, this variable is set when I am in tmux
+# This prevents venv & pyenv from working together
+[ -z $__PYVENV_LAUNCHER__ ] || unset __PYVENV_LAUNCHER__
+
 case `uname` in 
     Darwin)
-        echo "macOS"
-
         export ZSH="$HOME/.oh-my-zsh"
-        # User-installed Python executables
-        export PATH=$HOME/Library/Python/3.7/bin:$PATH
+        export PATH=$HOME/Library/Python/3.7/bin:$PATH # User-installed Python executables
 
         alias tss="date +'%Y-%m-%d %H:%M:%S' | pbcopy; pbpaste"
         alias tsd="date +'%Y-%m-%d' | pbcopy; pbpaste"
@@ -18,8 +26,7 @@ case `uname` in
 
     ;;
     Linux)
-        echo "Hello, free software!"
-        export ZSH="/home/denis/.oh-my-zsh"
+        # export ZSH="/home/denis/.oh-my-zsh"
         export PATH=$PATH:/home/denis/.local/bin
 
         alias tss="date +'%Y-%m-%d %H:%M:%S' | xclip -selection clipboard && xclip -selection clipboard -o"
@@ -28,18 +35,13 @@ case `uname` in
     ;;
 esac
 
-export PAPERS="$HOME/Dropbox/master-thesis/literature"
-export THESIS="$HOME/Dev/master-thesis"
-
-ZSH_THEME="avit"
-
 eval "$(scmpuff init -s)"
 
 export VISUAL=vim
 export FZF_DEFAULT_OPTS="--preview 'head -100 {}' --height 100% --layout=reverse --border"
 export FZF_DEFAULT_COMMAND="rg --files --ignore-file ~/.ripgrep_ignore"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-source $ZSH/oh-my-zsh.sh
+# source $ZSH/oh-my-zsh.sh
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/key-bindings.zsh ] && source ~/key-bindings.zsh
