@@ -37,9 +37,6 @@ nnoremap <c-l> <c-w>l
     map <Space> <Leader>
     nnoremap <leader><leader> <C-^>
     nnoremap <leader>rv :source $MYVIMRC<CR>
-    " Same keys for indenting in normal and visual mode
-    nnoremap <C-t> >>
-    nnoremap <C-d> <<
 
 "Rehab
 noremap <Up> <Nop>

@@ -15,6 +15,7 @@ syntax on
 
 map <Space> <Leader>
 nnoremap <leader>ev :edit $MYVIMRC<cr>
+nnoremap <leader>rv :source $MYVIMRC<CR>
 
 " set number
 set showcmd "show command in bottom bar
@@ -34,10 +35,6 @@ set foldenable        "enable folding
 set foldlevelstart=10 "open most folds by default
 set foldmethod=indent
 
-" General shortcuts
-    " Go to previous buffer
-    nnoremap <leader>rv :source $MYVIMRC<CR>
-    " Same keys for indenting in normal and visual mode
 " Treat visual lines as actual lines. 
 noremap  <buffer> <silent> k gk
 noremap  <buffer> <silent> j gj
@@ -61,9 +58,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 "     " let g:ale_python_pylint_executable = 'pipenv'
 "     let g:ale_linters = {'python': ['pylint']}
 "     let g:ale_fixers = {'python': ['black'], 'html': ['prettier'], 'javascript': ['prettier'], 'css': ['prettier'], 'scss': ['prettier']}
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" 	set statusline^=%{coc#status()}
-
 Plug 'dracula/vim'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
@@ -111,11 +105,14 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#disable_auto_complete = 1
 " let g:jedi#completions_enabled = 0
 inoremap <expr> <C-n>  deoplete#manual_complete()
+nmap <c-c><c-c> :SlimeSendCurrentLine <Enter>
+" let g:slime_no_mappings = 1
 
 " fzf
 nmap ; :Buffers<CR>
 nmap <Leader>t :Files<CR>
 nmap <Leader>r :Tags<CR>
+nmap <Leader>c :Commands<CR>
 
 call deoplete#custom#source('LanguageClient',
             \ 'min_pattern_length',
@@ -144,3 +141,6 @@ augroup LSP
   autocmd!
   autocmd FileType python call SetLSPShortcuts()
 augroup END
+
+
+nmap <leader>s <Plug>SlimeSendCurrentLine
