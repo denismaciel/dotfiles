@@ -30,3 +30,15 @@ windows:
       panes:
       - shell_command:
         - cd /Users/dmaciel/Dev/shiny_app && zsh
+    - window_name: Drone
+      layout: tiled
+      panes:
+      -
+      -
+      start_directory: ~/
+    - window_name: Graph
+      layout: tiled
+      panes:
+      -
+      -
+      start_directory: /Users/dmaciel/Dev/graph-project
