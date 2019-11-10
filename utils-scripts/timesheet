@@ -37,6 +37,6 @@ def fmt(i):
     return datetime.strftime(i, "%H.%M")
 
 
-ts = [f"{fmt(i)} {fmt(j)}" for i, j in zip(r[:-1], r[1:])]
+ts = [f"- [ ] {fmt(i)} {fmt(j)}" for i, j in zip(r[:-1], r[1:])]
 
 sys.stdout.write("\n".join(ts))
