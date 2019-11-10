@@ -1,5 +1,6 @@
 " Markdown highlighing for txt files
 au BufNewFile,BufFilePre,BufRead *.txt set filetype=markdown
+let g:deoplete#enable_at_startup = 1
 
 set tabstop=4 "how many spaces a tab is when vim reads a file
 set softtabstop=4 "how many spaces are inserted when you hit tab
@@ -53,12 +54,6 @@ set completeopt-=preview
 " === PLUGINS ===
 call plug#begin('~/.local/share/nvim/plugged')
 
-" Plug 'https://github.com/w0rp/ale.git'
-"     " let g:ale_python_mypy_executable = 'pipenv'
-"     " let g:ale_python_pylint_executable = 'pipenv'
-"     let g:ale_linters = {'python': ['pylint']}
-"     let g:ale_fixers = {'python': ['black'], 'html': ['prettier'], 'javascript': ['prettier'], 'css': ['prettier'], 'scss': ['prettier']}
-Plug 'dracula/vim'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
@@ -70,17 +65,18 @@ Plug 'jpalardy/vim-slime'
     let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
     let g:slime_python_ipython = 1   
 Plug 'vitalk/vim-simple-todo'
-    let g:simple_todo_list_symbol = '*'
+    let g:simple_todo_list_symbol = '-'
 Plug 'arcticicestudio/nord-vim' 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'deoplete-plugins/deoplete-jedi'
 " Plug 'davidhalter/jedi-vim'
+"
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
 let g:LanguageClient_serverCommands = {
-    \ 'python': ['/Users/dmaciel/.pyenv/versions/3.7.4/bin/pyls']
+    \ 'python': ['/Users/denis/.pyenv/versions/3.8.0/bin/pyls']
     \ }
 
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
@@ -89,19 +85,17 @@ nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
-Plug 'psf/black' 
+Plug 'psf/black', {'for': 'python'}
 Plug 'masukomi/vim-markdown-folding'
     " set nocompatible " already set up in the file
     if has("autocmd")
       filetype plugin indent on
     endif
 Plug 'Shougo/echodoc.vim'
-
-
 call plug#end()
 " ==== END PLUG ==== 
 "
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 let g:deoplete#disable_auto_complete = 1
 " let g:jedi#completions_enabled = 0
 inoremap <expr> <C-n>  deoplete#manual_complete()
@@ -122,7 +116,6 @@ set cmdheight=2
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'signature'
 set signcolumn=yes
-colorscheme dracula
 
 function SetLSPShortcuts()
   nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
