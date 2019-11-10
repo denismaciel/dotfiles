@@ -1,7 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-export PATH=$HOME/scripts:$PATH
+export PATH=$HOME/bin:$PATH
 
 export PS1="
 🍪 %~
@@ -123,3 +123,4 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 eval "$(jump shell)"
 eval "$(pyenv init -)"
 export PATH="/usr/local/opt/node@10/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
