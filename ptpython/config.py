@@ -74,10 +74,10 @@ def configure(repl):
     repl.paste_mode = False
 
     # Use the classic prompt. (Display '>>>' instead of 'In [1]'.)
-    repl.prompt_style = 'classic'  # 'classic' or 'ipython'
+    repl.prompt_style = 'ipython'  # 'classic' or 'ipython'
 
     # Don't insert a blank line after the output.
-    repl.insert_blank_line_after_output = False
+    repl.insert_blank_line_after_output = True
 
     # History Search.
     # When True, going back in history will filter the history on the records
