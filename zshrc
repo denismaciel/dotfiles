@@ -47,6 +47,15 @@ bindkey -v '^?' backward-delete-char
 # }
 # zle -N zle-keymap-select
 
+function zle-line-init zle-keymap-select {
+    RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
+    RPS2=$RPS1
+    zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+
 # bindkey -e #Emacs keybinding
 bindkey "^E" backward-word
 bindkey "^F" forward-word
@@ -66,9 +75,6 @@ bindkey '^x^e' edit-command-line
 
 case `uname` in 
     Darwin)
-        export ZSH="$HOME/.oh-my-zsh"
-        # export PATH=$HOME/Library/Python/3.7/bin:$PATH # User-installed Python executables
-
         alias tss="date +'%Y-%m-%d %H:%M:%S' | pbcopy; pbpaste"
         alias tsd="date +'%Y-%m-%d' | pbcopy; pbpaste"
         alias tsv="date +'Vida_%Y-%W' | pbcopy; pbpaste"
@@ -76,13 +82,9 @@ case `uname` in
         alias habit="open https://docs.google.com/spreadsheets/d/1nNAWoPD93CSLRWcaj2k4Rdha7QfOXqEIcSemGgNQ-08/edit#gid=1213603850"
         alias mdb="open -a MacVim ~/Dropbox/nVALT-Notes/Current/Master_Thesis.txt"
         alias pydss=$HOME/pythings/py-installation/bin/python3.6
-
-
     ;;
     Linux)
-        # export ZSH="/home/denis/.oh-my-zsh"
-        export PATH=$PATH:/home/denis/.local/bin
-
+        export PATH=$PATH:$HOME/.local/bin
         alias tss="date +'%Y-%m-%d %H:%M:%S' | xclip -selection clipboard && xclip -selection clipboard -o"
         alias tsd="date +'%Y-%m-%d' | xclip -selection clipboard && xclip -selection clipboard -o"
         alias tsv="date +'Vida_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o "
@@ -99,6 +101,12 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/key-bindings.zsh ] && source ~/key-bindings.zsh
+
+# Fuzzy completion !!!
+zstyle ':completion:*' matcher-list '' \
+  'm:{a-z\-}={A-Z\_}' \
+  'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
+  'r:|?=** m:{a-z\-}={A-Z\_}'
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fpath=($HOME/.zsh/zsh-completions/src $fpath)
