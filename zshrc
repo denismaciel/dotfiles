@@ -13,6 +13,11 @@ alias la='ls -lAh'
 alias ll='ls -lh'
 alias ls='ls -G'
 alias lsa='ls -lah' 
+alias t='todo.sh'
+alias ta='todo.sh add'
+alias tl='todo.sh list'
+alias R='R --no-save'
+
 
 
 # Basic auto/tab complete:
@@ -93,7 +98,7 @@ esac
 
 eval "$(scmpuff init -s)"
 
-export VISUAL=vim
+export VISUAL=nvim
 export FZF_DEFAULT_OPTS="--preview 'head -100 {}' --height 100% --layout=reverse --border"
 export FZF_DEFAULT_COMMAND="rg --files --ignore-file ~/.ripgrep_ignore"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
