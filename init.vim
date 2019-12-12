@@ -67,38 +67,25 @@ Plug 'jpalardy/vim-slime'
 Plug 'vitalk/vim-simple-todo'
     let g:simple_todo_list_symbol = '-'
 Plug 'arcticicestudio/nord-vim' 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'deoplete-plugins/deoplete-jedi'
-" Plug 'davidhalter/jedi-vim'
-"
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-let g:LanguageClient_serverCommands = {
-    \ 'python': ['/Users/denis/.pyenv/versions/3.8.0/bin/pyls']
-    \ }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-" Or map each action separately
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-
-Plug 'psf/black', {'for': 'python'}
+Plug 'psf/black'
 Plug 'masukomi/vim-markdown-folding'
     " set nocompatible " already set up in the file
     if has("autocmd")
       filetype plugin indent on
     endif
 Plug 'Shougo/echodoc.vim'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'tpope/vim-unimpaired'
+Plug 'jalvesaq/Nvim-R', {'for': 'R'}
 call plug#end()
 " ==== END PLUG ==== 
-"
+
 " let g:deoplete#enable_at_startup = 1
-let g:deoplete#disable_auto_complete = 1
-" let g:jedi#completions_enabled = 0
-inoremap <expr> <C-n>  deoplete#manual_complete()
+" let g:deoplete#disable_auto_complete = 1
+" inoremap <expr> <C-n>  deoplete#manual_complete()
 nmap <c-c><c-c> :SlimeSendCurrentLine <Enter>
 " let g:slime_no_mappings = 1
 
@@ -108,32 +95,17 @@ nmap <Leader>t :Files<CR>
 nmap <Leader>r :Tags<CR>
 nmap <Leader>c :Commands<CR>
 
-call deoplete#custom#source('LanguageClient',
-            \ 'min_pattern_length',
-            \ 2)
-
 set cmdheight=2
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'signature'
 set signcolumn=yes
 
-function SetLSPShortcuts()
-  nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-  nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-  nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
-  nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
-  nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
-  nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
-  nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
-  nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-  nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
-  nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
-endfunction()
-
-augroup LSP
-  autocmd!
-  autocmd FileType python call SetLSPShortcuts()
-augroup END
-
-
 nmap <leader>s <Plug>SlimeSendCurrentLine
+
+let R_assign = 2
+
+vmap <leader>p  <Plug>(coc-format-selected)
+nmap <leader>p  <Plug>(coc-format)
+
+
+
