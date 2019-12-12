@@ -43,3 +43,10 @@ windows:
   -
   -
   start_directory: /Users/dmaciel/Desktop/graphql-course
+- window_name: Python DS
+  layout: tiled
+  panes:
+  - ptipython
+  - cd ~/projects
+  -
+  start_directory: /Users/dmaciel/
