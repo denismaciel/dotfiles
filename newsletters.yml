@@ -1,0 +1,55 @@
+programming:
+    - "@danielmiessler.com"
+    - "@gedd.ski"
+    - "@pycoders.com"
+    - "@pythonweekly.com"
+    - "@realpython.com"
+    - "@rust-lang.org"
+    - "kball@zendev.com"
+    - "jsw@peterc.org"
+    - "node@cooperpress.com"
+    - "pat@starterstory.com"
+    - "the-morning-paper"
+
+indiehackers:
+    - "@marketingexamples.com"
+    - "@joelhooks.com"
+    - "chris@christopherbiscardi.com"
+    - "team@demandcurve.com"
+    - "@indiehackers.com"
+    - "@jake-jorgovan.com"
+    - "@megamaker.co"
+    - "@nateliason.com"
+    - "@producthabits.com"
+    - "@rickshawlabs.com"
+
+startups:
+    - "@founderweekly.com"
+    - "eugenewei"
+    - "@nesslabs.com"
+    - "Brianne Kimmel <wfh@substack.com>"
+    - "vgonz@seedtable.com"
+    - "cstarterkit@substack.com"
+    - "@andrewchen.co"
+    - "@ben-evans.com"
+    - "@exponentialview.co"
+    - "@firstround.com"
+    - "@howitactuallyworks.com"
+    - "@seedtable.com"
+    - "@transistor.fm"
+    - "david@perell.com"
+    - "davidperell@substack.com"
+    - "hello@digest.producthunt.com"
+
+datascience:
+    - "dataengweekly@substack.com"
+    - "Import AI"
+    - "Sebastian Ruder"
+    - "@dataelixir.com"
+    - "@dataengweekly.com"
+    - "vicki@substack.com"
+
+self-help:
+    - "@fourhourbody.com"
+    - "@jamesclear.com"
+

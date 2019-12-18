@@ -1,6 +1,5 @@
 " Markdown highlighing for txt files
 au BufNewFile,BufFilePre,BufRead *.txt set filetype=markdown
-let g:deoplete#enable_at_startup = 1
 
 set tabstop=4 "how many spaces a tab is when vim reads a file
 set softtabstop=4 "how many spaces are inserted when you hit tab
@@ -59,6 +58,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 Plug 'junegunn/goyo.vim'
 Plug 'jpalardy/vim-slime'
     let g:slime_target = "tmux"
@@ -67,10 +67,7 @@ Plug 'jpalardy/vim-slime'
 Plug 'vitalk/vim-simple-todo'
     let g:simple_todo_list_symbol = '-'
 Plug 'arcticicestudio/nord-vim' 
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-Plug 'psf/black'
 Plug 'masukomi/vim-markdown-folding'
     " set nocompatible " already set up in the file
     if has("autocmd")
@@ -78,7 +75,7 @@ Plug 'masukomi/vim-markdown-folding'
     endif
 Plug 'Shougo/echodoc.vim'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'tpope/vim-unimpaired'
+Plug 'psf/black', {'for': 'python'}
 Plug 'jalvesaq/Nvim-R', {'for': 'R'}
 call plug#end()
 " ==== END PLUG ==== 
@@ -106,6 +103,19 @@ let R_assign = 2
 
 vmap <leader>p  <Plug>(coc-format-selected)
 nmap <leader>p  <Plug>(coc-format)
+nmap <silent> <leader>lp <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>ln <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>ld <Plug>(coc-definition)
+nmap <silent> <leader>lt <Plug>(coc-type-definition)
+nmap <silent> <leader>li <Plug>(coc-implementation)
+nmap <silent> <leader>lf <Plug>(coc-references)
+nmap <silent> <leader>ls <Plug>(coc-range-select)
 
-
-
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
