@@ -66,7 +66,6 @@ Plug 'jpalardy/vim-slime'
     let g:slime_python_ipython = 1   
 Plug 'vitalk/vim-simple-todo'
     let g:simple_todo_list_symbol = '-'
-Plug 'arcticicestudio/nord-vim' 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'masukomi/vim-markdown-folding'
     " set nocompatible " already set up in the file
@@ -77,6 +76,12 @@ Plug 'Shougo/echodoc.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'psf/black', {'for': 'python'}
 Plug 'jalvesaq/Nvim-R', {'for': 'R'}
+Plug 'wellle/targets.vim'
+Plug 'jeetsukumaran/vim-pythonsense'
+
+" Themes
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'arcticicestudio/nord-vim' 
 call plug#end()
 " ==== END PLUG ==== 
 
