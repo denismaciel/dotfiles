@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd $HOME/Dropbox/nVALT-Notes/Current
+
+nvim $1.md
+

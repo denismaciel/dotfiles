@@ -1,0 +1,172 @@
+#! /usr/local/bin/python3
+
+import sqlite3
+import argparse
+import sys
+from sys import exit
+from datetime import datetime
+from pathlib import Path
+
+conn = sqlite3.connect(Path(__file__).parent / "habits.sqlite")
+
+c = conn.cursor()
+
+init_commands = [
+    """CREATE TABLE IF NOT EXISTS habits (
+            id integer PRIMARY KEY AUTOINCREMENT,
+            habit text UNIQUE,
+            type string);
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS records (
+        id integer PRIMARY KEY AUTOINCREMENT,
+        habit_id integer,
+        ts timestamp,
+        stat string,
+        FOREIGN KEY (habit_id) REFERENCES habits(id)
+    );
+    """,
+]
+
+for cmd in init_commands:
+    c.execute(cmd)
+
+
+class CLI:
+    def __init__(self):
+        self._now = datetime.now()
+        parser = argparse.ArgumentParser(usage="ht <command> [args]")
+        parser.add_argument("command")
+        args = parser.parse_args(sys.argv[1:2])
+        if not hasattr(self, args.command):
+            print("Command not recognized")
+            parser.print_help()
+            exit(1)
+        getattr(self, args.command)()
+
+    def type(self):
+        parser = argparse.ArgumentParser(description="Check type of habit")
+        parser.add_argument("habit")
+        args = parser.parse_args(sys.argv[2:])
+        with conn:
+            c.execute(
+                """
+                SELECT habit, type 
+                FROM habits 
+                WHERE habit = ?
+                """,
+                (args.habit,),
+            )
+            print("\n\t%s is of type %s" % c.fetchone())
+
+    def add(self):
+        """ Add new habit to be tracked
+
+        Ex: habittracker add wake-up-early --type done_or_not
+        """
+        parser = argparse.ArgumentParser(description="Add a new action to be tracked")
+        parser.add_argument("habit")
+        parser.add_argument(
+            "--type",
+            default="done_or_not",
+            choices=["done_or_not", "numeric", "duration"],
+        )
+        args = parser.parse_args(sys.argv[2:])
+        with conn:
+            c.execute(
+                """
+                INSERT INTO habits(habit, type) VALUES (?, ?)
+                """,
+                (args.habit, args.type),
+            )
+
+    def record(self):
+        """ Record completion of habit
+        """
+        parser = argparse.ArgumentParser()
+        parser.add_argument("habit")
+        parser.add_argument("stat", default="done")
+        parser.add_argument("--date", default=self._now)
+        args = parser.parse_args(sys.argv[2:])
+
+        print(args.habit)
+        query = "SELECT * FROM habits WHERE habit = '{}'".format(args.habit.strip())
+        c.execute(query)
+        _id, habit, _type = c.fetchone()
+
+        # id integer PRIMARY KEY AUTOINCREMENT,
+        # habit_id integer,
+        # ts timestamp,
+        # stat string,
+
+        with conn:
+
+            if _type == "numeric":
+                try:
+                    stat = float(args.stat)
+                except ValueError:
+                    print("This must be a number")
+                    exit(1)
+
+                print(stat)
+                c.execute(
+                    "INSERT INTO records(habit_id, ts, stat) VALUES(?, ?, ?)",
+                    (_id, args.date, stat),
+                )
+
+            if _type == "done_or_not":
+                if args.stat != "done":
+                    print("What do you mean by {}".format(args.stat))
+                    exit(1)
+                c.execute(
+                    "INSERT INTO records(habit_id, ts, stat) VALUES(?, ?, ?)",
+                    (_id, args.date, args.stat),
+                )
+
+            if _type == "duration":
+                try:
+                    datetime.strptime(args.stat, "%H:%M")
+                except ValueError:
+                    print("Cannot parse {} as hour and minutes".format(args.stat))
+                    exit(1)
+
+                c.execute(
+                    "INSERT INTO records(habit_id, ts, stat) VALUES(?, ?, ?)",
+                    (_id, args.date, args.stat),
+                )
+
+    def list(self):
+        """ List tasks completed today
+        """
+        habits = c.execute("SELECT habit FROM habits;").fetchall()
+        habits = [t[0] for t in habits]
+
+        # Tasks completed today
+        dones_records = c.execute(
+            """
+                SELECT ts, habit, stat, type
+                FROM records r
+                  LEFT JOIN habits h ON r.habit_id = h.id
+                WHERE date(r.ts) = date('now');
+                """
+        ).fetchall()
+
+        dones = {s[1] for s in dones_records}
+        todos = {h for h in habits if h not in dones}
+        progress_bar = "✅" * len(dones) + "⚪️" * len(todos)
+
+        print(
+            f"""
+        {progress_bar}
+        Still to do:
+                {' '.join(todos)}
+
+        Dones:
+               {' '.join(dones)}
+        """
+        )
+
+
+if __name__ == "__main__":
+    o = CLI()
+    conn.close()
