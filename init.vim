@@ -78,6 +78,7 @@ Plug 'psf/black', {'for': 'python'}
 Plug 'jalvesaq/Nvim-R', {'for': 'R'}
 Plug 'wellle/targets.vim'
 Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
 " Themes
 Plug 'dracula/vim', { 'as': 'dracula' }
