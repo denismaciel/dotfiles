@@ -135,6 +135,7 @@ class CLI:
                     (_id, args.date, args.stat),
                 )
 
+
     def list(self):
         """ List tasks completed today
         """
@@ -148,7 +149,7 @@ class CLI:
                 FROM records r
                   LEFT JOIN habits h ON r.habit_id = h.id
                 WHERE date(r.ts) = date('now');
-                """
+            """
         ).fetchall()
 
         dones = {s[1] for s in dones_records}
@@ -165,6 +166,45 @@ class CLI:
                {' '.join(dones)}
         """
         )
+
+    def last(self):
+        """ List last inserted records
+        """
+        parser = argparse.ArgumentParser(description="")
+        parser.add_argument("habit")
+        args = parser.parse_args(sys.argv[2:])
+        print(args)
+        print(args.habit)
+
+        if args.habit:
+            # If an habit was passed as argument,
+            # display only last entries of this item
+            recs = c.execute(
+                """
+                    SELECT ts, habit, stat
+                    FROM records r
+                      LEFT JOIN habits h ON r.habit_id = h.id
+                    WHERE habit = ?
+                    ORDER BY ts DESC
+                    LIMIT 10;
+                """,
+                (args.habit,),
+            ).fetchall()
+        else:
+            recs = c.execute(
+            """
+                SELECT ts, habit, stat
+                FROM records r
+                  LEFT JOIN habits h ON r.habit_id = h.id
+                ORDER BY ts DESC
+                LIMIT 10;
+            """
+            ).fetchall()
+
+        print("\n")
+
+        for ts, habit, stat in reversed(recs):
+            print(ts[:16].rjust(20), "  ", habit.ljust(16), stat)
 
 
 if __name__ == "__main__":
