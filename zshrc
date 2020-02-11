@@ -17,6 +17,7 @@ alias t='todo.sh'
 alias ta='todo.sh add'
 alias tl='todo.sh list'
 alias R='R --no-save'
+alias diary='nvim "$HOME/Dropbox/Notes/Diary/$(date +'%Y-%m-%d').md"'
 
 
 
