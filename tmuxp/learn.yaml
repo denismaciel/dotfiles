@@ -1,52 +1,8 @@
 session_name: learn
 windows:
-- layout: tiled
-  options:
-    automatic-rename: 'off'
-  panes:
-  - focus: 'true'
-    shell_command: 
-  - zsh
-  start_directory: /Users/dmaciel/Dev/courses/advanced-css-course/lec01
-  window_name: CSS
-- focus: 'true'
-  layout: tiled
-  panes:
-  - zsh
-  - focus: 'true'
-    shell_command: 
-  start_directory: /Users/dmaciel/Dev/courses/flask
-  window_name: Flask
-- layout: tiled
-  panes:
-  - 
-  - 
-  start_directory: /Users/dmaciel/Dev/courses/mega-flask-tutorial
-  window_name: MegaFlask
-
-- window_name: CompSciPy
+- window_name: PythonDS
   layout: tiled
   panes:
   -
   -
-  start_directory: /Users/dmaciel/Dev/courses/compsci-py
-
-- window_name: TypeScript 
-  layout: tiled
-  panes:
-  -
-  -
-  start_directory: /Users/dmaciel/Desktop/typescript-course
-- window_name: GraphQL
-  layout: tiled
-  panes:
-  -
-  -
-  start_directory: /Users/dmaciel/Desktop/graphql-course
-- window_name: Python DS
-  layout: tiled
-  panes:
-  - ptipython
-  - cd ~/projects
-  -
-  start_directory: /Users/dmaciel/
+  start_directory: $HOME

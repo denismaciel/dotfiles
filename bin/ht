@@ -7,7 +7,8 @@ from sys import exit
 from datetime import datetime
 from pathlib import Path
 
-conn = sqlite3.connect(Path(__file__).parent / "habits.sqlite")
+# conn = sqlite3.connect(Path(__file__).parent / "habits.sqlite")
+conn = sqlite3.connect(Path.home() / "Dropbox" / "habits.sqlite")
 
 c = conn.cursor()
 
@@ -75,9 +76,39 @@ class CLI:
         with conn:
             c.execute(
                 """
-                INSERT INTO habits(habit, type) VALUES (?, ?)
+                INSERT INTO habits(habit, type, active) VALUES (?, ?, ?)
                 """,
-                (args.habit, args.type),
+                (args.habit, args.type, True),
+            )
+
+    def toggle(self):
+        parser = argparse.ArgumentParser(description="(In)activate a habit")
+        parser.add_argument("habit")
+        args = parser.parse_args(sys.argv[2:])
+
+        query = c.execute(
+            """
+            SELECT habit, active 
+            FROM habits
+            WHERE habit = ?
+        """,
+            (args.habit,),
+        )
+
+        habit, activation_status = query.fetchone()
+
+        print(
+            "Activation status of '%s' will now be %s" % (habit, not activation_status)
+        )
+
+        with conn:
+            c.execute(
+                """
+            UPDATE habits
+            SET active = ?
+            WHERE habit = ?
+            """,
+                (not activation_status, habit),
             )
 
     def record(self):
@@ -90,7 +121,9 @@ class CLI:
         args = parser.parse_args(sys.argv[2:])
 
         print(args.habit)
-        query = "SELECT * FROM habits WHERE habit = '{}'".format(args.habit.strip())
+        query = "SELECT id, habit, type FROM habits WHERE habit = '{}'".format(
+            args.habit.strip()
+        )
         c.execute(query)
         _id, habit, _type = c.fetchone()
 
@@ -134,26 +167,32 @@ class CLI:
                     "INSERT INTO records(habit_id, ts, stat) VALUES(?, ?, ?)",
                     (_id, args.date, args.stat),
                 )
-
+        self.list()
 
     def list(self):
         """ List tasks completed today
         """
-        habits = c.execute("SELECT habit FROM habits;").fetchall()
+        habits = c.execute("SELECT habit FROM habits WHERE active = 1;").fetchall()
         habits = [t[0] for t in habits]
 
         # Tasks completed today
         dones_records = c.execute(
             """
-                SELECT ts, habit, stat, type
-                FROM records r
-                  LEFT JOIN habits h ON r.habit_id = h.id
-                WHERE date(r.ts) = date('now');
+            SELECT ts, habit, stat, type, active
+            FROM records r
+              LEFT JOIN habits h ON r.habit_id = h.id
+            WHERE date(r.ts) = date('now') 
+              AND active = 1; 
             """
         ).fetchall()
 
         dones = {s[1] for s in dones_records}
         todos = {h for h in habits if h not in dones}
+
+        # Make sure that the order is constant
+        todos = sorted(list(todos))
+        dones = sorted(list(dones))
+
         progress_bar = "✅" * len(dones) + "⚪️" * len(todos)
 
         print(
@@ -167,38 +206,85 @@ class CLI:
         """
         )
 
+    def listall(self):
+        habits = c.execute("SELECT habit, type, active FROM habits;").fetchall()
+
+        from operator import itemgetter
+
+        for h in sorted(habits, key=itemgetter(2), reverse=True):
+            print("{0:15} {2} {1}".format(*h))
+
+    def fifteen(self):
+        last15 = c.execute(
+            """
+            SELECT ts, habit, stat, type, active
+            FROM records r
+              LEFT JOIN habits h ON r.habit_id = h.id
+            WHERE date(r.ts) >= date('now', '-15 days')
+              AND active = 1; 
+        """
+        ).fetchall()
+
+        last15 = [(t[0][:10], t[1]) for t in last15]
+
+        active_habits = c.execute(
+            "SELECT habit FROM habits WHERE active = 1;"
+        ).fetchall()
+        active_habits = sorted([h[0] for h in active_habits])
+
+        from datetime import datetime, timedelta
+
+        today = datetime.now().date()
+        dates = [str(today - timedelta(i)) for i in range(0, 14)]
+
+        output = []
+        for h in active_habits:
+            line = [h.rjust(15), ': ']
+            for d in reversed(dates):
+                if (d, h) in last15:
+                    line.append('✅')
+                else:
+                    line.append('🔘')
+            line.append('|')
+            output.append(''.join(line))
+
+        print('\n')
+        print(f"{today}".rjust(15))
+        print(f"{today - timedelta(14)}".rjust(15))
+        print(" ")
+        print('\n'.join(output))
+
     def last(self):
         """ List last inserted records
         """
         parser = argparse.ArgumentParser(description="")
-        parser.add_argument("habit")
+        parser.add_argument("habit", default=None)
         args = parser.parse_args(sys.argv[2:])
         print(args)
-        print(args.habit)
 
         if args.habit:
             # If an habit was passed as argument,
             # display only last entries of this item
             recs = c.execute(
                 """
-                    SELECT ts, habit, stat
-                    FROM records r
-                      LEFT JOIN habits h ON r.habit_id = h.id
-                    WHERE habit = ?
-                    ORDER BY ts DESC
-                    LIMIT 10;
+                SELECT ts, habit, stat
+                FROM records r
+                  LEFT JOIN habits h ON r.habit_id = h.id
+                WHERE habit = ?
+                ORDER BY ts DESC
+                LIMIT 10;
                 """,
                 (args.habit,),
             ).fetchall()
         else:
             recs = c.execute(
-            """
+                """
                 SELECT ts, habit, stat
                 FROM records r
                   LEFT JOIN habits h ON r.habit_id = h.id
                 ORDER BY ts DESC
                 LIMIT 10;
-            """
+                """
             ).fetchall()
 
         print("\n")

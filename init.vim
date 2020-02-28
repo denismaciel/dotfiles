@@ -1,5 +1,11 @@
 " Markdown highlighing for txt files
+" call matchadd('Conceal', 'lambda', 0,12, {'conceal': 'a'})
 au BufNewFile,BufFilePre,BufRead *.txt set filetype=markdown
+
+" set conceallevel=1
+" set concealcursor=ni
+" syntax match Conceal /lambda/ conceal cchar=λ
+" highlight clear Conceal
 
 set tabstop=4 "how many spaces a tab is when vim reads a file
 set softtabstop=4 "how many spaces are inserted when you hit tab
@@ -35,11 +41,6 @@ set foldenable        "enable folding
 set foldlevelstart=10 "open most folds by default
 set foldmethod=indent
 
-" Treat visual lines as actual lines. 
-noremap  <buffer> <silent> k gk
-noremap  <buffer> <silent> j gj
-noremap  <buffer> <silent> 0 g0
-noremap  <buffer> <silent> $ g$
 
 "Rehab
 noremap <Up> <Nop>
@@ -67,7 +68,7 @@ Plug 'jpalardy/vim-slime'
 Plug 'vitalk/vim-simple-todo'
     let g:simple_todo_list_symbol = '-'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'masukomi/vim-markdown-folding'
+" Plug 'masukomi/vim-markdown-folding'
     " set nocompatible " already set up in the file
     if has("autocmd")
       filetype plugin indent on
@@ -79,10 +80,14 @@ Plug 'jalvesaq/Nvim-R', {'for': 'R'}
 Plug 'wellle/targets.vim'
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+Plug 'vimwiki/vimwiki'
 
-" Themes
+" Colorschems
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'arcticicestudio/nord-vim' 
+Plug 'ewilazarus/preto'
+Plug 'Jorengarenar/vim-darkness'
+Plug 'pgdouyon/vim-yin-yang'
 call plug#end()
 " ==== END PLUG ==== 
 
@@ -91,6 +96,10 @@ call plug#end()
 " inoremap <expr> <C-n>  deoplete#manual_complete()
 nmap <c-c><c-c> :SlimeSendCurrentLine <Enter>
 " let g:slime_no_mappings = 1
+
+" VimWiki
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
 
 " fzf
 nmap ; :Buffers<CR>
@@ -102,6 +111,7 @@ set cmdheight=2
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'signature'
 set signcolumn=yes
+colorscheme preto
 
 nmap <leader>s <Plug>SlimeSendCurrentLine
 
@@ -125,3 +135,9 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+
+" Treat visual lines as actual lines. 
+nnoremap  <buffer> <silent> k gk
+nnoremap  <buffer> <silent> j gj
+nnoremap  <buffer> <silent> 0 g0
+nnoremap  <buffer> <silent> $ g$

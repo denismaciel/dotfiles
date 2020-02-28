@@ -8,7 +8,7 @@ windows:
     - window_name: Notes
       panes:
           - shell_command:
-              - cd ~/Dropbox/nVALT-Notes/Current/ 
+              - cd ~/Dropbox/Notes/Current/ 
               - nvim "$(tsw).md"
     - window_name: datadir
       layout: 265e,200x49,0,0[200x24,0,0{99x24,0,0,4,100x24,100,0,5},200x24,0,25{99x24,0,25,6,100x24,100,25,7}]
