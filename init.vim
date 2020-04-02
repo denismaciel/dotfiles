@@ -1,12 +1,7 @@
 " Markdown highlighing for txt files
-" call matchadd('Conceal', 'lambda', 0,12, {'conceal': 'a'})
 au BufNewFile,BufFilePre,BufRead *.txt set filetype=markdown
 
-" set conceallevel=1
-" set concealcursor=ni
-" syntax match Conceal /lambda/ conceal cchar=λ
-" highlight clear Conceal
-
+set number
 set tabstop=4 "how many spaces a tab is when vim reads a file
 set softtabstop=4 "how many spaces are inserted when you hit tab
 set expandtab "tab inserts spaces
@@ -20,10 +15,9 @@ set nocompatible
 syntax on
 
 map <Space> <Leader>
-nnoremap <leader>ev :edit $MYVIMRC<cr>
-nnoremap <leader>rv :source $MYVIMRC<CR>
+nnoremap <leader>ev :edit $MYVIMRC<Enter>
+nnoremap <leader>rv :source $MYVIMRC<Enter>
 
-" set number
 set showcmd "show command in bottom bar
 " set cursorline
 set showmatch "highlight matching parenthesis
@@ -41,7 +35,6 @@ set foldenable        "enable folding
 set foldlevelstart=10 "open most folds by default
 set foldmethod=indent
 
-
 "Rehab
 noremap <Up> <Nop>
 noremap <Down> <Nop>
@@ -56,66 +49,64 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
+Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'junegunn/goyo.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+"" Markdown Stuff
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+    let g:vim_markdown_folding_style_pythonic = 1
+Plug 'vitalk/vim-simple-todo'
+    let g:simple_todo_list_symbol = '-'
+
+"" Python
+Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'psf/black', {'for': 'python', 'tag': '19.10b0'}
 Plug 'jpalardy/vim-slime'
     let g:slime_target = "tmux"
     let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
     let g:slime_python_ipython = 1   
-Plug 'vitalk/vim-simple-todo'
-    let g:simple_todo_list_symbol = '-'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'masukomi/vim-markdown-folding'
-    " set nocompatible " already set up in the file
-    if has("autocmd")
-      filetype plugin indent on
-    endif
+
 Plug 'Shougo/echodoc.vim'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'psf/black', {'for': 'python'}
-Plug 'jalvesaq/Nvim-R', {'for': 'R'}
 Plug 'wellle/targets.vim'
-Plug 'jeetsukumaran/vim-pythonsense'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
-Plug 'vimwiki/vimwiki'
 
-" Colorschems
+" Coloschemes
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'arcticicestudio/nord-vim' 
 Plug 'ewilazarus/preto'
 Plug 'Jorengarenar/vim-darkness'
 Plug 'pgdouyon/vim-yin-yang'
-call plug#end()
-" ==== END PLUG ==== 
 
-" let g:deoplete#enable_at_startup = 1
-" let g:deoplete#disable_auto_complete = 1
-" inoremap <expr> <C-n>  deoplete#manual_complete()
+call plug#end()
+
+
+colorscheme nord
+set termguicolors 
 nmap <c-c><c-c> :SlimeSendCurrentLine <Enter>
-" let g:slime_no_mappings = 1
 
 " VimWiki
 let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
 " fzf
-nmap ; :Buffers<CR>
-nmap <Leader>t :Files<CR>
-nmap <Leader>r :Tags<CR>
-nmap <Leader>c :Commands<CR>
+nmap ; :Buffers<Enter>
+nmap <Leader>t :Files<Enter>
+nmap <Leader>r :Tags<Enter>
+nmap <Leader>c :Commands<Enter>
 
 set cmdheight=2
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'signature'
 set signcolumn=yes
-colorscheme preto
 
 nmap <leader>s <Plug>SlimeSendCurrentLine
-
-let R_assign = 2
 
 vmap <leader>p  <Plug>(coc-format-selected)
 nmap <leader>p  <Plug>(coc-format)
@@ -127,7 +118,7 @@ nmap <silent> <leader>li <Plug>(coc-implementation)
 nmap <silent> <leader>lf <Plug>(coc-references)
 nmap <silent> <leader>ls <Plug>(coc-range-select)
 
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> K :call <SID>show_documentation()<Enter>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
