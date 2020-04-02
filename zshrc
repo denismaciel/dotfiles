@@ -1,11 +1,34 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 export PATH=$HOME/bin:$PATH
-
-export PS1="
+export insert_mode="
 🍪 %~
-$ "
+λ "
+export visual_mode="
+⚽️ %~
+($VIRTUAL_ENV) λ "    
+export PS1=$insert_mode
+
+function zle-line-init zle-keymap-select {
+    if [ -z ${VIRTUAL_ENV+x} ]
+    then 
+        VENV=""
+    else
+        full_repo_path=$(dirname $VIRTUAL_ENV)
+        repo_name=${full_repo_path##*/}
+        VENV="($repo_name) "
+    fi
+
+    insert_mode="
+🍪 ${VENV}%~
+λ "
+    visual_mode="
+⚽️ ${VENV}%~
+λ "    
+    PS1="${${KEYMAP/vicmd/$visual_mode}/(main|viins)/$insert_mode}"
+    zle reset-prompt
+}
+zle -N zle-line-init 
+zle -N zle-keymap-select
+
 export LC_ALL=en_US.UTF-8 # Fix problem when opening nvim
 export HOMEBREW_AUTO_UPDATE_SECS=604800 # Autoupdate on weekly basis
 alias l='ls -lah'
@@ -18,7 +41,6 @@ alias ta='todo.sh add'
 alias tl='todo.sh list'
 alias R='R --no-save'
 alias diary='nvim "$HOME/Dropbox/Notes/Diary/$(date +'%Y-%m-%d').md"'
-
 
 
 # Basic auto/tab complete:
@@ -39,28 +61,6 @@ bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
 
-# # Change cursor shape for different vi modes.
-# function zle-keymap-select {
-#   if [[ ${KEYMAP} == vicmd ]] ||
-#      [[ $1 = 'block' ]]; then
-#     echo -ne '\e[1 q'
-#   elif [[ ${KEYMAP} == main ]] ||
-#        [[ ${KEYMAP} == viins ]] ||
-#        [[ ${KEYMAP} = '' ]] ||
-#        [[ $1 = 'beam' ]]; then
-#     echo -ne '\e[5 q'
-#   fi
-# }
-# zle -N zle-keymap-select
-
-function zle-line-init zle-keymap-select {
-    RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
-    RPS2=$RPS1
-    zle reset-prompt
-}
-
-zle -N zle-line-init
-zle -N zle-keymap-select
 
 # bindkey -e #Emacs keybinding
 bindkey "^E" backward-word
@@ -138,3 +138,11 @@ eval "$(jump shell)"
 eval "$(pyenv init -)"
 export PATH="/usr/local/opt/node@10/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+
+source ~/aboutyou.sh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/denis.maciel/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/denis.maciel/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/denis.maciel/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/denis.maciel/google-cloud-sdk/completion.zsh.inc'; fi
