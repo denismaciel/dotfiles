@@ -1,0 +1,5 @@
+.mypy_cache
+.vim
+.pytest_cache
+.vscode
+venv
