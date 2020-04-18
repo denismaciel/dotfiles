@@ -139,7 +139,7 @@ eval "$(pyenv init -)"
 export PATH="/usr/local/opt/node@10/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
-source ~/aboutyou.sh
+[[ -f $HOME/aboutyou.sh ]] && source $HOME/aboutyou.sh
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/denis.maciel/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/denis.maciel/google-cloud-sdk/path.zsh.inc'; fi
