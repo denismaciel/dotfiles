@@ -85,9 +85,9 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'ewilazarus/preto'
 Plug 'Jorengarenar/vim-darkness'
 Plug 'pgdouyon/vim-yin-yang'
-
+Plug 'rakr/vim-two-firewatch'
+Plug 'alexanderjeurissen/lumiere.vim'
 call plug#end()
-
 
 colorscheme dracula
 " Highligh line number where cursor is
@@ -95,7 +95,9 @@ highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 set cursorline
 
 set termguicolors 
+
 nmap <c-c><c-c> :SlimeSendCurrentLine <Enter>
+nmap <leader>s <Plug>SlimeSendCurrentLine
 
 " VimWiki
 let g:vimwiki_list = [{'path': '~/vimwiki/',
@@ -115,8 +117,6 @@ let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'signature'
 set signcolumn=yes
 
-nmap <leader>s <Plug>SlimeSendCurrentLine
-
 vmap <leader>p  <Plug>(coc-format-selected)
 nmap <leader>p  <Plug>(coc-format)
 nmap <silent> <leader>lp <Plug>(coc-diagnostic-prev)
@@ -126,6 +126,7 @@ nmap <silent> <leader>lt <Plug>(coc-type-definition)
 nmap <silent> <leader>li <Plug>(coc-implementation)
 nmap <silent> <leader>lf <Plug>(coc-references)
 nmap <silent> <leader>ls <Plug>(coc-range-select)
+nmap <leader>rn <Plug>(coc-rename)
 
 nnoremap <silent> K :call <SID>show_documentation()<Enter>
 function! s:show_documentation()

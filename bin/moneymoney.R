@@ -1,3 +1,4 @@
+#!/usr/local/bin/Rscript
 library(magrittr)
 suppressMessages(library(dplyr))
 
@@ -10,6 +11,6 @@ df <- df %>%
              Sender = V2,
              Reason = V3,
              IBAN = V4,
-             Value = readr::parse_double(df$V6, locale = readr::locale(decimal_mark = ",")))
+             Value = readr::parse_number(df$V6, locale = readr::locale(decimal_mark = ",")))
 df %>%
     write.table(pipe("pbcopy"), sep = "\t", row.names = FALSE)
