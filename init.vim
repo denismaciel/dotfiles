@@ -9,7 +9,7 @@ set shiftwidth=4
 set autoindent
 set hidden " switch buffers without saving
 set mouse=a
-syntax enable "syntax highlighting
+syntax enable 
 filetype plugin on
 set nocompatible
 syntax on
@@ -54,6 +54,8 @@ Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-vinegar'
 Plug 'junegunn/goyo.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -87,7 +89,11 @@ Plug 'pgdouyon/vim-yin-yang'
 call plug#end()
 
 
-colorscheme nord
+colorscheme dracula
+" Highligh line number where cursor is
+highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
+set cursorline
+
 set termguicolors 
 nmap <c-c><c-c> :SlimeSendCurrentLine <Enter>
 
@@ -100,6 +106,9 @@ nmap ; :Buffers<Enter>
 nmap <Leader>t :Files<Enter>
 nmap <Leader>r :Tags<Enter>
 nmap <Leader>c :Commands<Enter>
+
+nmap <C-X> :bd<Enter>
+imap jj <Esc>
 
 set cmdheight=2
 let g:echodoc#enable_at_startup = 1

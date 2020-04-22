@@ -1,10 +1,12 @@
-export PATH=$HOME/bin:$PATH
+# Load version control information
+autoload -Uz vcs_info
+precmd() { vcs_info }
+zstyle ':vcs_info:git:*' formats '[%b]'
+
 export insert_mode="
-🍪 %~
-λ "
-export visual_mode="
-⚽️ %~
-($VIRTUAL_ENV) λ "    
+🐷 %~   
+$ "
+
 export PS1=$insert_mode
 
 function zle-line-init zle-keymap-select {
@@ -18,11 +20,11 @@ function zle-line-init zle-keymap-select {
     fi
 
     insert_mode="
-🍪 ${VENV}%~
-λ "
+🐷 ${VENV}%~ ${vcs_info_msg_0_}
+$ "
     visual_mode="
-⚽️ ${VENV}%~
-λ "    
+⚽️ ${VENV}%~ ${vcs_info_msg_0_}
+$ "    
     PS1="${${KEYMAP/vicmd/$visual_mode}/(main|viins)/$insert_mode}"
     zle reset-prompt
 }
@@ -41,7 +43,15 @@ alias ta='todo.sh add'
 alias tl='todo.sh list'
 alias R='R --no-save'
 alias diary='nvim "$HOME/Dropbox/Notes/Diary/$(date +'%Y-%m-%d').md"'
+alias ..='cd ..'
+alias ...='cd ...'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias renamewin='tmux rename-window -t $(tmux display-message -p "#{window_index}") ${PWD##*/}'
 
+setopt autocd               # .. is shortcut for cd .. (etc)
+setopt histignorealldups    # filter duplicates from history
+setopt histignorespace      # don't record commands starting with a space
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -100,7 +110,8 @@ esac
 eval "$(scmpuff init -s)"
 
 export VISUAL=nvim
-export FZF_DEFAULT_OPTS="--preview 'head -100 {}' --height 100% --layout=reverse --border"
+# export FZF_DEFAULT_OPTS="--preview 'head -100 {}' --height 100% --layout=reverse --border"
+export FZF_DEFAULT_OPTS="--height 100% --layout=reverse"
 export FZF_DEFAULT_COMMAND="rg --files --ignore-file ~/.ripgrep_ignore"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
@@ -136,6 +147,8 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
 eval "$(jump shell)"
 eval "$(pyenv init -)"
+
+export PATH=$HOME/bin:$PATH
 export PATH="/usr/local/opt/node@10/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -143,6 +156,5 @@ source ~/aboutyou.sh
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/denis.maciel/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/denis.maciel/google-cloud-sdk/path.zsh.inc'; fi
-
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/denis.maciel/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/denis.maciel/google-cloud-sdk/completion.zsh.inc'; fi
