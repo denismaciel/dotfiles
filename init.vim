@@ -87,7 +87,7 @@ Plug 'rakr/vim-two-firewatch'
 Plug 'alexanderjeurissen/lumiere.vim'
 call plug#end()
 
-colorscheme nord
+colorscheme dracula
 set termguicolors 
 
 nmap <c-c><c-c> :SlimeSendCurrentLine <Enter>
