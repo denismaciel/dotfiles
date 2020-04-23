@@ -90,6 +90,7 @@ Plug 'alexanderjeurissen/lumiere.vim'
 call plug#end()
 
 colorscheme dracula
+
 " Highligh line number where cursor is
 highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 set cursorline
