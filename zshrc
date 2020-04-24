@@ -4,7 +4,7 @@ precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '[%b]'
 
 export insert_mode="
-🐷 %~   
+🥚 %~   
 $ "
 
 export PS1=$insert_mode
@@ -20,10 +20,10 @@ function zle-line-init zle-keymap-select {
     fi
 
     insert_mode="
-🐷 ${VENV}%~ ${vcs_info_msg_0_}
+🥚 ${VENV}%~ ${vcs_info_msg_0_}
 $ "
     visual_mode="
-⚽️ ${VENV}%~ ${vcs_info_msg_0_}
+🐣 ${VENV}%~ ${vcs_info_msg_0_}
 $ "    
     PS1="${${KEYMAP/vicmd/$visual_mode}/(main|viins)/$insert_mode}"
     zle reset-prompt
@@ -50,8 +50,6 @@ alias ....='cd ../../..'
 alias renamewin='tmux rename-window -t $(tmux display-message -p "#{window_index}") ${PWD##*/}'
 
 setopt autocd               # .. is shortcut for cd .. (etc)
-setopt histignorealldups    # filter duplicates from history
-setopt histignorespace      # don't record commands starting with a space
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -95,15 +93,11 @@ case `uname` in
         alias tsd="date +'%Y-%m-%d' | pbcopy; pbpaste"
         alias tsv="date +'Vida_%Y-%W' | pbcopy; pbpaste"
         alias tsw="date +'Work_%Y-%W' | pbcopy; pbpaste"
-        alias habit="open https://docs.google.com/spreadsheets/d/1nNAWoPD93CSLRWcaj2k4Rdha7QfOXqEIcSemGgNQ-08/edit#gid=1213603850"
-        alias mdb="open -a MacVim ~/Dropbox/nVALT-Notes/Current/Master_Thesis.txt"
-        alias pydss=$HOME/pythings/py-installation/bin/python3.6
     ;;
     Linux)
         export PATH=$PATH:$HOME/.local/bin
         alias tss="date +'%Y-%m-%d %H:%M:%S' | xclip -selection clipboard && xclip -selection clipboard -o"
         alias tsd="date +'%Y-%m-%d' | xclip -selection clipboard && xclip -selection clipboard -o"
-        alias tsv="date +'Vida_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o "
     ;;
 esac
 
@@ -135,18 +129,14 @@ setopt BANG_HIST                 # Treat the '!' character specially during expa
 setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
 setopt SHARE_HISTORY             # Share history between all sessions.
-setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
-setopt HIST_IGNORE_DUPS          # Dont record an entry that was just recorded again.
 setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
-setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
-setopt HIST_IGNORE_SPACE         # Dont record an entry starting with a space.
 setopt HIST_SAVE_NO_DUPS         # Dont write duplicate entries in the history file.
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Dont execute immediately upon history expansion.
-setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
 eval "$(jump shell)"
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 export PATH=$HOME/bin:$PATH
 export PATH="/usr/local/opt/node@10/bin:$PATH"
@@ -154,7 +144,3 @@ export PATH="$HOME/.local/bin:$PATH"
 
 [[ -f $HOME/aboutyou.sh ]] && source $HOME/aboutyou.sh
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/denis.maciel/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/denis.maciel/google-cloud-sdk/path.zsh.inc'; fi
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/denis.maciel/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/denis.maciel/google-cloud-sdk/completion.zsh.inc'; fi
