@@ -1,8 +1,9 @@
 apt update --quiet
-# apt install -y -q vim sudo 
-apt-get install -qq vim sudo 
+sudo apt install -y -q vim sudo 
+ 
 
 sudo apt update -qq -y && apt upgrade -qq -y
+sudo apt-get install -qq vim sudo
 
 sudo apt install -y -qq curl make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev git > /dev/null
 
@@ -29,7 +30,7 @@ git clone https://github.com/denismaciel/dotfiles
 mkdir -p .config/nvim
 ln $HOME/dotfiles/init.vim $HOME/.config/nvim/init.vim -s
 pip install -Uq pynvim
-sudo apt install -yq neovim > dev/null
+sudo apt install -yq neovim > /dev/null
 
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -56,6 +57,7 @@ ln $HOME/dotfiles/zshrc $HOME/.zshrc -s
 # Tmux
 sudo apt install -y tmux
 ln dotfiles/tmux/tmux.conf .tmux.conf -s
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # Docker
 sudo apt-get install \
@@ -75,3 +77,16 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 sudo usermod -aG docker $USER
 sudo docker run hello-world
+
+# NodeJs
+sudo apt-get install -y nodejs npm
+
+# Alacritty
+sudo add-apt-repository ppa:mmstick76/alacritty && sudo apt-get alacritty
+mkdir -p $HOME/.config/alacritty
+ln $HOME/dotfiles/alacritty.yml $HOME/.config/alacritty/alacritty.yml -s
+
+## SF Mono
+git clone https://github.com/ZulwiyozaPutra/SF-Mono-Font.git
+mkdir .local/share/fonts
+cp SF-Mono-Font/*.otf ~/.local/share/fonts/
