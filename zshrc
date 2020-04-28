@@ -125,7 +125,6 @@ zstyle ':completion:*' matcher-list '' \
   'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
   'r:|?=** m:{a-z\-}={A-Z\_}'
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fpath=($HOME/.zsh/zsh-completions/src $fpath)
 
 HISTFILE="$HOME/.zsh_history"
@@ -145,14 +144,16 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording en
 setopt HIST_VERIFY               # Dont execute immediately upon history expansion.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
-eval "$(jump shell)"
-eval "$(pyenv init -)"
-
+export PATH=$HOME/.pyenv/bin:$PATH
 export PATH=$HOME/bin:$PATH
 export PATH="/usr/local/opt/node@10/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
+eval "$(jump shell)"
+eval "$(pyenv init -)"
+
 [[ -f $HOME/aboutyou.sh ]] && source $HOME/aboutyou.sh
+[[ -d $HOME/zsh-syntax-highlighting ]] && source $HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/denis.maciel/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/denis.maciel/google-cloud-sdk/path.zsh.inc'; fi

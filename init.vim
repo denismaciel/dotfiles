@@ -28,7 +28,7 @@ set incsearch "search as characters are entered
 set hlsearch  "highlight matches
 
 " Copy to Mac's clipboard
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 "Folding 
 set foldenable        "enable folding
@@ -47,7 +47,12 @@ set completeopt-=preview
 " === PLUGINS ===
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/vim-easy-align'
+    " Start interactive EasyAlign in visual mode (e.g. vipga)
+    xmap ga <Plug>(EasyAlign)
+    " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+    nmap ga <Plug>(EasyAlign)
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Plug 'airblade/vim-gitgutter'
 Plug 'mhinz/vim-signify'
@@ -87,6 +92,7 @@ Plug 'Jorengarenar/vim-darkness'
 Plug 'pgdouyon/vim-yin-yang'
 Plug 'rakr/vim-two-firewatch'
 Plug 'alexanderjeurissen/lumiere.vim'
+Plug 'chriskempson/base16-vim'
 call plug#end()
 
 colorscheme dracula
