@@ -56,6 +56,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-fugitive'
 Plug 'junegunn/goyo.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -87,15 +88,17 @@ Plug 'Jorengarenar/vim-darkness'
 Plug 'pgdouyon/vim-yin-yang'
 Plug 'rakr/vim-two-firewatch'
 Plug 'alexanderjeurissen/lumiere.vim'
+Plug 'morhetz/gruvbox'
 call plug#end()
 
-colorscheme dracula
+set termguicolors 
+let g:gruvbox_contrast_dark = 'hard'
+colorscheme gruvbox
 
 " Highligh line number where cursor is
 highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 set cursorline
 
-set termguicolors 
 
 nmap <c-c><c-c> :SlimeSendCurrentLine <Enter>
 nmap <leader>s <Plug>SlimeSendCurrentLine
