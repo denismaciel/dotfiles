@@ -14,6 +14,7 @@ filetype plugin on
 set nocompatible
 syntax on
 
+
 map <Space> <Leader>
 nnoremap <leader>ev :edit $MYVIMRC<Enter>
 nnoremap <leader>rv :source $MYVIMRC<Enter>
@@ -105,19 +106,18 @@ colorscheme gruvbox
 highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 set cursorline
 
-
-nmap <c-c><c-c> :SlimeSendCurrentLine <Enter>
-nmap <leader>s <Plug>SlimeSendCurrentLine
+nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
+nmap <leader>s :SlimeSendCurrentLine<Enter>
 
 " VimWiki
 let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
-" fzf
+" FZF
 nmap ; :Buffers<Enter>
 nmap <Leader>t :Files<Enter>
-nmap <Leader>r :Tags<Enter>
 nmap <Leader>c :Commands<Enter>
+nmap <Leader>rg :Rg<Enter>
 
 nmap <C-X> :bd<Enter>
 imap jj <Esc>
@@ -137,6 +137,13 @@ nmap <silent> <leader>li <Plug>(coc-implementation)
 nmap <silent> <leader>lf <Plug>(coc-references)
 nmap <silent> <leader>ls <Plug>(coc-range-select)
 nmap <leader>rn <Plug>(coc-rename)
+
+" BIG QUERIES
+    nmap <leader>y :%y+<CR>
+    nmap <Leader>bc :!python dump/check_syntax.py % <Enter>
+    nmap <leader>br :!python replace_clip.py \| xclip -selection c<Enter>
+    nmap <leader>bs :!python dump/sq_snapshots.py % <cword>
+    nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/ 
 
 nnoremap <silent> K :call <SID>show_documentation()<Enter>
 function! s:show_documentation()
