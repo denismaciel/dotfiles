@@ -154,8 +154,8 @@ eval "$(pyenv init -)"
 
 [[ -f $HOME/aboutyou.sh ]] && source $HOME/aboutyou.sh
 [[ -d $HOME/zsh-syntax-highlighting ]] && source $HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/denis.maciel/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/denis.maciel/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/home/denis/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/denis/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/denis.maciel/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/denis.maciel/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/home/denis/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/denis/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
