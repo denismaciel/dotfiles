@@ -1,0 +1,15 @@
+session_name: default
+windows:
+    - window_name: Shell
+      panes:
+          - shell_command: echo "Hi there, Mr. Pinto Maciel"
+          - shell_command: echo "Guten Morgen, Herr Pinto Maciel"
+    - window_name: Diário de Bordo
+      panes:
+          - shell_command:
+              - cd ~/Dropbox/Notes/Current/ 
+              - nvim "diario-de-bordo-master-thesis.md"
+    - window_name: Code
+      panes:
+          -
+          -
