@@ -16,9 +16,10 @@ syntax on
 
 
 map <Space> <Leader>
-nnoremap <leader>ev :edit $MYVIMRC<Enter>
-nnoremap <leader>rv :source $MYVIMRC<Enter>
+nnoremap <leader>ve :edit $MYVIMRC<Enter>
+nnoremap <leader>vr :source $MYVIMRC<Enter>
 
+set nowrap
 set showcmd "show command in bottom bar
 " set cursorline
 set showmatch "highlight matching parenthesis
@@ -143,7 +144,11 @@ nmap <leader>rn <Plug>(coc-rename)
     nmap <Leader>bc :!python dump/check_syntax.py % <Enter>
     nmap <leader>br :!python replace_clip.py \| xclip -selection c<Enter>
     nmap <leader>bs :!python dump/sq_snapshots.py % <cword>
-    nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/ 
+    nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/  <Enter>
+
+" Python
+    nmap <leader>rr  :!python % <Enter>
+    nmap <leader>rpt :!tmux send-keys -t right "\%run %" Enter <Enter>
 
 nnoremap <silent> K :call <SID>show_documentation()<Enter>
 function! s:show_documentation()

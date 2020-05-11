@@ -9,4 +9,5 @@ windows:
       panes:
           - shell_command:
               - cd ~/Dropbox/Notes/Current/ 
-              - nvim "$(tsw).md"
+              - nvim $(date +'Work_%Y-%W').md
+

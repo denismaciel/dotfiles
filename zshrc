@@ -38,9 +38,6 @@ alias la='ls -lAh'
 alias ll='ls -lh'
 alias ls='ls -G'
 alias lsa='ls -lah' 
-alias t='todo.sh'
-alias ta='todo.sh add'
-alias tl='todo.sh list'
 alias R='R --no-save'
 alias diary='nvim "$HOME/Dropbox/Notes/Diary/$(date +'%Y-%m-%d').md"'
 alias ..='cd ..'
@@ -95,15 +92,13 @@ case `uname` in
         alias tsd="date +'%Y-%m-%d' | pbcopy; pbpaste"
         alias tsv="date +'Vida_%Y-%W' | pbcopy; pbpaste"
         alias tsw="date +'Work_%Y-%W' | pbcopy; pbpaste"
-        alias habit="open https://docs.google.com/spreadsheets/d/1nNAWoPD93CSLRWcaj2k4Rdha7QfOXqEIcSemGgNQ-08/edit#gid=1213603850"
-        alias mdb="open -a MacVim ~/Dropbox/nVALT-Notes/Current/Master_Thesis.txt"
-        alias pydss=$HOME/pythings/py-installation/bin/python3.6
     ;;
     Linux)
         export PATH=$PATH:$HOME/.local/bin
         alias tss="date +'%Y-%m-%d %H:%M:%S' | xclip -selection clipboard && xclip -selection clipboard -o"
         alias tsd="date +'%Y-%m-%d' | xclip -selection clipboard && xclip -selection clipboard -o"
-        alias tsv="date +'Vida_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o "
+        alias tsv="date +'Vida_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o"
+        alias tsw="date +'Work_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o"
     ;;
 esac
 
