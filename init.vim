@@ -13,29 +13,33 @@ syntax enable
 filetype plugin on
 set nocompatible
 syntax on
-
+set smartcase
+set nobackup
+set noswapfile
+set nowrap
+set undodir=~/.config/nvim/undodir
+set showcmd "show command in bottom bar
+set showmatch "highlight matching parenthesis
+set backspace=2 " make backspace work like most other programs
+"Search
+set incsearch "search as characters are entered
+set hlsearch  "highlight matches
+" Copy to Mac's clipboark
+set clipboard=unnamedplus
+"Folding 
+set foldenable        "enable folding
+set foldlevelstart=10 "open most folds by default
+set foldmethod=indent
+set colorcolumn=80
 
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
 nnoremap <leader>vr :source $MYVIMRC<Enter>
 
-set nowrap
-set showcmd "show command in bottom bar
-" set cursorline
-set showmatch "highlight matching parenthesis
-set backspace=2 " make backspace work like most other programs
+vnoremap <silent> J :m '>+1<CR>gv=gv
+vnoremap <silent> K :m '<-2<CR>gv=gv
 
-"Search
-set incsearch "search as characters are entered
-set hlsearch  "highlight matches
-
-" Copy to Mac's clipboard
-set clipboard=unnamedplus
-
-"Folding 
-set foldenable        "enable folding
-set foldlevelstart=10 "open most folds by default
-set foldmethod=indent
+nnoremap <leader>k :w<CR>
 
 "Rehab
 noremap <Up> <Nop>
@@ -87,6 +91,8 @@ Plug 'Shougo/echodoc.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'wellle/targets.vim'
 
+Plug 'jalvesaq/Nvim-R'
+
 " Coloschemes
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'arcticicestudio/nord-vim' 
@@ -122,6 +128,7 @@ nmap <Leader>rg :Rg<Enter>
 
 nmap <C-X> :bd<Enter>
 imap jj <Esc>
+
 
 set cmdheight=2
 let g:echodoc#enable_at_startup = 1
