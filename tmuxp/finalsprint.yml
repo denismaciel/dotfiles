@@ -7,7 +7,7 @@ windows:
     - window_name: Diário de Bordo
       panes:
           - shell_command:
-              - cd ~/Dropbox/Notes/Current/ 
+              - cd ~/Dropbox/MasterThesis/ 
               - nvim "diario-de-bordo-master-thesis.md"
     - window_name: Code
       panes:

@@ -1,5 +1,6 @@
 " Markdown highlighing for txt files
 au BufNewFile,BufFilePre,BufRead *.txt set filetype=markdown
+autocmd FileType markdown set wrap colorcolumn=0
 
 set number
 set tabstop=4 "how many spaces a tab is when vim reads a file
@@ -38,9 +39,10 @@ nnoremap <leader>vr :source $MYVIMRC<Enter>
 
 vnoremap <silent> J :m '>+1<CR>gv=gv
 vnoremap <silent> K :m '<-2<CR>gv=gv
-
+nnoremap <leader>fdt "=strftime('%Y-%m-%d %H:%M')<CR>p
+nnoremap <leader>fdd "=strftime('%Y-%m-%d')<CR>p
+nnoremap <leader>fw "=strftime('%Y-%W')<CR>p
 nnoremap <leader>k :w<CR>
-
 "Rehab
 noremap <Up> <Nop>
 noremap <Down> <Nop>
@@ -60,54 +62,46 @@ Plug 'junegunn/vim-easy-align'
     nmap ga <Plug>(EasyAlign)
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/goyo.vim'
 " Plug 'airblade/vim-gitgutter'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-fugitive'
-Plug 'junegunn/goyo.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-"" Markdown Stuff
+"" Markdown 
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
+Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
     let g:vim_markdown_folding_style_pythonic = 1
 Plug 'vitalk/vim-simple-todo'
     let g:simple_todo_list_symbol = '-'
-
 "" Python
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'psf/black', {'for': 'python', 'tag': '19.10b0'}
 Plug 'jpalardy/vim-slime'
     let g:slime_target = "tmux"
     let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
-    let g:slime_python_ipython = 1   
-
+    let g:slime_python_ipython = 0   
 Plug 'Shougo/echodoc.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'wellle/targets.vim'
-
-Plug 'jalvesaq/Nvim-R'
-
+Plug 'justinmk/vim-sneak'
+    let g:sneak#label = 1
+Plug 'jalvesaq/Nvim-R', {'for': 'R'}
 " Coloschemes
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'arcticicestudio/nord-vim' 
-Plug 'ewilazarus/preto'
-Plug 'Jorengarenar/vim-darkness'
-Plug 'pgdouyon/vim-yin-yang'
-Plug 'rakr/vim-two-firewatch'
-Plug 'alexanderjeurissen/lumiere.vim'
-Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox'
+Plug 'tomasiser/vim-code-dark'
 call plug#end()
 
 set termguicolors 
-let g:gruvbox_contrast_dark = 'hard'
-colorscheme gruvbox
+" let g:gruvbox_contrast_dark = 'hard'
+" colorscheme gruvbox
+colorscheme codedark
 
 " Highligh line number where cursor is
 highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
@@ -121,7 +115,7 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
 " FZF
-nmap ; :Buffers<Enter>
+nmap <Leader>; :Buffers<Enter>
 nmap <Leader>t :Files<Enter>
 nmap <Leader>c :Commands<Enter>
 nmap <Leader>rg :Rg<Enter>
@@ -171,3 +165,4 @@ nnoremap  <buffer> <silent> k gk
 nnoremap  <buffer> <silent> j gj
 nnoremap  <buffer> <silent> 0 g0
 nnoremap  <buffer> <silent> $ g$
+

@@ -5,9 +5,23 @@ windows:
           - shell_command:
               - echo "Hi there, Mr. Pinto Maciel"
           - shell_command: echo "Guten Morgen, Herr Pinto Maciel"
-    - window_name: Notes
+    - window_name: pen
       panes:
-          - shell_command:
-              - cd ~/Dropbox/Notes/Current/ 
-              - nvim $(date +'Work_%Y-%W').md
+          - shell_command: cd ~/Code/pen-platform
+          - shell_command: cd ~/Code/pen-platform
+    - window_name: pen1
+      panes:
+          - shell_command: cd ~/Code/pen-platform-1
+          - shell_command: cd ~/Code/pen-platform-1
+    - window_name: trainer
+      panes:
+          - shell_command: cd ~/Code/pen-trainer
+          - shell_command: cd ~/Code/pen-trainer
+    - window_name: openvpn
+      panes:
+          - shell_command: sudo openvpn --config /etc/openvpn/collins-vpn.conf
+    - window_name: metaflow
+      panes:
+          - shell_command: cd ~/Code/metaflow
+          - shell_command: cd ~/Code/metaflow
 
