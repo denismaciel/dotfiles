@@ -4,7 +4,7 @@ precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '[%b]'
 
 export insert_mode="
-🐷 %~   
+🥚 %~   
 $ "
 
 export PS1=$insert_mode
@@ -20,10 +20,10 @@ function zle-line-init zle-keymap-select {
     fi
 
     insert_mode="
-🐷 ${VENV}%~ ${vcs_info_msg_0_}
+🥚 ${VENV}%~ ${vcs_info_msg_0_}
 $ "
     visual_mode="
-⚽️ ${VENV}%~ ${vcs_info_msg_0_}
+🐣 ${VENV}%~ ${vcs_info_msg_0_}
 $ "    
     PS1="${${KEYMAP/vicmd/$visual_mode}/(main|viins)/$insert_mode}"
     zle reset-prompt
@@ -45,6 +45,7 @@ alias ...='cd ...'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias renamewin='tmux rename-window -t $(tmux display-message -p "#{window_index}") ${PWD##*/}'
+alias v=nvim
 
 setopt autocd               # .. is shortcut for cd .. (etc)
 setopt histignorealldups    # filter duplicates from history
@@ -107,7 +108,7 @@ eval "$(scmpuff init -s)"
 export VISUAL=nvim
 # export FZF_DEFAULT_OPTS="--preview 'head -100 {}' --height 100% --layout=reverse --border"
 export FZF_DEFAULT_OPTS="--height 100% --layout=reverse"
-export FZF_DEFAULT_COMMAND="rg --files --ignore-file ~/.ripgrep_ignore"
+export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --ignore-file ~/.ripgrep_ignore"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does

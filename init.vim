@@ -37,6 +37,11 @@ map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
 nnoremap <leader>vr :source $MYVIMRC<Enter>
 
+" Treat visual lines as actual lines. 
+nnoremap <buffer> <silent> k gk
+nnoremap <buffer> <silent> j gj
+nnoremap <buffer> <silent> 0 g0
+nnoremap <buffer> <silent> $ g$
 vnoremap <silent> J :m '>+1<CR>gv=gv
 vnoremap <silent> K :m '<-2<CR>gv=gv
 nnoremap <leader>fdt "=strftime('%Y-%m-%d %H:%M')<CR>p
@@ -90,7 +95,6 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'wellle/targets.vim'
 Plug 'justinmk/vim-sneak'
     let g:sneak#label = 1
-Plug 'jalvesaq/Nvim-R', {'for': 'R'}
 " Coloschemes
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'arcticicestudio/nord-vim' 
@@ -160,9 +164,4 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Treat visual lines as actual lines. 
-nnoremap  <buffer> <silent> k gk
-nnoremap  <buffer> <silent> j gj
-nnoremap  <buffer> <silent> 0 g0
-nnoremap  <buffer> <silent> $ g$
 
