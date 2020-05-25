@@ -36,7 +36,7 @@ export HOMEBREW_AUTO_UPDATE_SECS=604800 # Autoupdate on weekly basis
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'
-alias ls='ls -G'
+alias ls='ls -G --color=auto'
 alias lsa='ls -lah' 
 alias R='R --no-save'
 alias diary='nvim "$HOME/Dropbox/Notes/Diary/$(date +'%Y-%m-%d').md"'
