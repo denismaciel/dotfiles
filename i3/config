@@ -76,7 +76,7 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
+# bindsym $mod+s layout stacking
 # bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
@@ -171,7 +171,7 @@ bar {
 
 exec --no-startup-id dropbox star
 exec --no-startup-id s
-exec --no-startup-id s
+exec --no-startup-id feh --bg-scale ~/wallpaper.jpg
 for_window [title=rascunho] move scratchpad
 for_window [title="^Add"] move scratchpad
 # exec --no-startup-id 'alacritty -t rascunho --command "nvim ~/Dropbox/Notes/Current/week.md"'
@@ -185,10 +185,12 @@ bindsym $mod+n workspace next
 bindsym $mod+p workspace prev
 bindsym $mod+w exec "rofi -combi-modi window,drun -show combi -modi combi -theme gruvbox-dark"
 bindsym $mod+d exec "rofi -show run -theme gruvbox-dark"
+bindsym $mod+s exec search_books.sh
 
 mode "scratchpad" {
     bindsym f [title="rascunho"] scratchpad show; mode "default"
     bindsym j [title="Add"] scratchpad show; mode "default"
+    bindsym --release s exec "scrot '%Y-%m-%d_$wx$h.png' -s -e 'mv $f ~/shots/ && xdg-open ~/shots/$f'"; mode "default"
     bindsym Escape mode "default"
     bindsym d mode "display_selection"
 }
