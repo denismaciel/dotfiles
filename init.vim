@@ -19,18 +19,14 @@ set nobackup
 set noswapfile
 set nowrap
 set undodir=~/.config/nvim/undodir
+set undofile
 set showcmd "show command in bottom bar
 set showmatch "highlight matching parenthesis
 set backspace=2 " make backspace work like most other programs
-"Search
 set incsearch "search as characters are entered
 set hlsearch  "highlight matches
 " Copy to Mac's clipboark
 set clipboard=unnamedplus
-"Folding 
-set foldenable        "enable folding
-set foldlevelstart=10 "open most folds by default
-set foldmethod=indent
 set colorcolumn=80
 
 map <Space> <Leader>
@@ -48,11 +44,6 @@ nnoremap <leader>fdt "=strftime('%Y-%m-%d %H:%M')<CR>p
 nnoremap <leader>fdd "=strftime('%Y-%m-%d')<CR>p
 nnoremap <leader>fw "=strftime('%Y-%W')<CR>p
 nnoremap <leader>k :w<CR>
-"Rehab
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
 
 " prevent scratch buffer from opening on autocompletion
 set completeopt-=preview
@@ -67,22 +58,13 @@ Plug 'junegunn/vim-easy-align'
     nmap ga <Plug>(EasyAlign)
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-" Plug 'junegunn/goyo.vim'
-" Plug 'airblade/vim-gitgutter'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "" Markdown 
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
-    let g:vim_markdown_folding_style_pythonic = 1
-Plug 'vitalk/vim-simple-todo'
-    let g:simple_todo_list_symbol = '-'
 "" Python
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'psf/black', {'for': 'python', 'tag': '19.10b0'}
@@ -93,6 +75,8 @@ Plug 'jpalardy/vim-slime'
 Plug 'Shougo/echodoc.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'wellle/targets.vim'
+Plug 'mbbill/undotree'
+    nnoremap <leader>u :UndotreeShow<CR>
 Plug 'justinmk/vim-sneak'
     let g:sneak#label = 1
 " Coloschemes
@@ -103,20 +87,15 @@ Plug 'tomasiser/vim-code-dark'
 call plug#end()
 
 set termguicolors 
-" let g:gruvbox_contrast_dark = 'hard'
-" colorscheme gruvbox
 colorscheme codedark
 
 " Highligh line number where cursor is
 highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 set cursorline
 
+" Slime
 nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
 nmap <leader>s :SlimeSendCurrentLine<Enter>
-
-" VimWiki
-let g:vimwiki_list = [{'path': '~/vimwiki/',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
 
 " FZF
 nmap <Leader>; :Buffers<Enter>
@@ -126,12 +105,6 @@ nmap <Leader>rg :Rg<Enter>
 
 nmap <C-X> :bd<Enter>
 imap jj <Esc>
-
-
-set cmdheight=2
-let g:echodoc#enable_at_startup = 1
-let g:echodoc#type = 'signature'
-set signcolumn=yes
 
 vmap <leader>p  <Plug>(coc-format-selected)
 nmap <leader>p  <Plug>(coc-format)
@@ -144,6 +117,15 @@ nmap <silent> <leader>lf <Plug>(coc-references)
 nmap <silent> <leader>ls <Plug>(coc-range-select)
 nmap <leader>rn <Plug>(coc-rename)
 
+nnoremap <silent> K :call <SID>show_documentation()<Enter>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
 " BIG QUERIES
     nmap <leader>y :%y+<CR>
     nmap <Leader>bc :!python dump/check_syntax.py % <Enter>
@@ -154,14 +136,4 @@ nmap <leader>rn <Plug>(coc-rename)
 " Python
     nmap <leader>rr  :!python % <Enter>
     nmap <leader>rpt :!tmux send-keys -t right "\%run %" Enter <Enter>
-
-nnoremap <silent> K :call <SID>show_documentation()<Enter>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
 
