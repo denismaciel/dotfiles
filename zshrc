@@ -46,6 +46,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias renamewin='tmux rename-window -t $(tmux display-message -p "#{window_index}") ${PWD##*/}'
 alias v=nvim
+alias p=ptipython
 
 setopt autocd               # .. is shortcut for cd .. (etc)
 setopt histignorealldups    # filter duplicates from history
