@@ -44,10 +44,10 @@ alias renamewin='tmux rename-window -t $(tmux display-message -p "#{window_index
 alias v=nvim
 alias p=ptipython
 
-alias dl="bash ~/.screenlayout/laptop.sh"
-alias dd="bash ~/.screenlayout/desktop.sh"
-alias db="bash ~/.screenlayout/both.sh"
-alias dq="bash ~/.screenlayout/quartinho-desktop.sh"
+alias dl="bash ~/.screenlayout/laptop.sh && s"
+alias dd="bash ~/.screenlayout/desktop.sh && s"
+alias db="bash ~/.screenlayout/both.sh && s"
+alias dq="bash ~/.screenlayout/quartinho-desktop.sh && s"
 
 alias q="nvim ~/Code/pen-platform/dump/queries/default.sql"
 setopt autocd               # .. is shortcut for cd .. (etc)
@@ -59,6 +59,12 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
 
+# Fuzzy completion !!!
+zstyle ':completion:*' matcher-list '' \
+  'm:{a-z\-}={A-Z\_}' \
+  'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
+  'r:|?=** m:{a-z\-}={A-Z\_}'
+
 # vi mode
 bindkey -v
 export KEYTIMEOUT=1
@@ -69,7 +75,6 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
-
 
 # bindkey -e #Emacs keybinding
 bindkey "^E" backward-word
@@ -104,10 +109,8 @@ case `uname` in
     ;;
 esac
 
-eval "$(scmpuff init -s)"
 
 export VISUAL=nvim
-# export FZF_DEFAULT_OPTS="--preview 'head -100 {}' --height 100% --layout=reverse --border"
 export FZF_DEFAULT_OPTS="--height 100% --layout=reverse"
 export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --ignore-file ~/.ripgrep_ignore"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -115,12 +118,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/key-bindings.zsh ] && source ~/key-bindings.zsh
-
-# Fuzzy completion !!!
-zstyle ':completion:*' matcher-list '' \
-  'm:{a-z\-}={A-Z\_}' \
-  'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
-  'r:|?=** m:{a-z\-}={A-Z\_}'
 
 fpath=($HOME/.zsh/zsh-completions/src $fpath)
 
@@ -135,12 +132,13 @@ setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a d
 setopt HIST_SAVE_NO_DUPS         # Dont write duplicate entries in the history file.
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Dont execute immediately upon history expansion.
-
+setopt INTERACTIVE_COMMENTS       # Allow for comments
 export PATH=$HOME/.pyenv/bin:$PATH
 export PATH=$HOME/bin:$PATH
 export PATH="/usr/local/opt/node@10/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
+eval "$(scmpuff init -s)"
 eval "$(jump shell)"
 eval "$(pyenv init -)"
 
