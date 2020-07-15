@@ -239,7 +239,7 @@ class CLI:
 
         output = []
         for h in active_habits:
-            line = [h.rjust(15), ': ']
+            line = [h.rjust(30), ': ']
             for d in reversed(dates):
                 if (d, h) in last15:
                     line.append('✅')
