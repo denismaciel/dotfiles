@@ -51,8 +51,6 @@ alias dq="bash ~/.screenlayout/quartinho-desktop.sh"
 
 alias q="nvim ~/Code/pen-platform/dump/queries/default.sql"
 setopt autocd               # .. is shortcut for cd .. (etc)
-setopt histignorealldups    # filter duplicates from history
-setopt histignorespace      # don't record commands starting with a space
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -133,15 +131,10 @@ setopt BANG_HIST                 # Treat the '!' character specially during expa
 setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
 setopt SHARE_HISTORY             # Share history between all sessions.
-setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
-setopt HIST_IGNORE_DUPS          # Dont record an entry that was just recorded again.
 setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
-setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
-setopt HIST_IGNORE_SPACE         # Dont record an entry starting with a space.
 setopt HIST_SAVE_NO_DUPS         # Dont write duplicate entries in the history file.
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Dont execute immediately upon history expansion.
-setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
 export PATH=$HOME/.pyenv/bin:$PATH
 export PATH=$HOME/bin:$PATH
