@@ -1,6 +1,5 @@
-" Markdown highlighing for txt files
-au BufNewFile,BufFilePre,BufRead *.txt set filetype=markdown
-autocmd FileType markdown set wrap colorcolumn=0
+autocmd FileType markdown,tex set wrap colorcolumn=0
+let g:tex_flavor='latex'
 
 set number
 set tabstop=4 "how many spaces a tab is when vim reads a file
@@ -34,16 +33,22 @@ nnoremap <leader>ve :edit $MYVIMRC<Enter>
 nnoremap <leader>vr :source $MYVIMRC<Enter>
 
 " Treat visual lines as actual lines. 
-nnoremap <buffer> <silent> k gk
-nnoremap <buffer> <silent> j gj
-nnoremap <buffer> <silent> 0 g0
-nnoremap <buffer> <silent> $ g$
+nnoremap <silent> k gk
+nnoremap <silent> j gj
+nnoremap <silent> 0 g0
+nnoremap <silent> $ g$
 vnoremap <silent> J :m '>+1<CR>gv=gv
 vnoremap <silent> K :m '<-2<CR>gv=gv
-nnoremap <leader>fdt "=strftime('%Y-%m-%d %H:%M')<CR>p
+nnoremap <leader>fdt "=strftime('%Y-%m-%d %H:%M (%a)')<CR>p
 nnoremap <leader>fdd "=strftime('%Y-%m-%d')<CR>p
 nnoremap <leader>fw "=strftime('%Y-%W')<CR>p
 nnoremap <leader>k :w<CR>
+" Highlight text pasted last
+nnoremap gp `[v`] 
+
+nmap <leader>gj :diffget //3<CR>
+nmap <leader>gf :diffget //2<CR>
+nmap <leader>gs :G<CR>
 
 " prevent scratch buffer from opening on autocompletion
 set completeopt-=preview
@@ -58,6 +63,7 @@ Plug 'junegunn/vim-easy-align'
     nmap ga <Plug>(EasyAlign)
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -79,15 +85,18 @@ Plug 'mbbill/undotree'
     nnoremap <leader>u :UndotreeShow<CR>
 Plug 'justinmk/vim-sneak'
     let g:sneak#label = 1
+Plug 'lervag/vimtex'
 " Coloschemes
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'arcticicestudio/nord-vim' 
 Plug 'morhetz/gruvbox'
 Plug 'tomasiser/vim-code-dark'
+Plug 'joshdick/onedark.vim'
+Plug 'gilgigilgil/anderson.vim'
 call plug#end()
 
 set termguicolors 
-colorscheme codedark
+colorscheme gruvbox
 
 " Highligh line number where cursor is
 highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
@@ -132,8 +141,11 @@ endfunction
     nmap <leader>br :!python replace_clip.py \| xclip -selection c<Enter>
     nmap <leader>bs :!python dump/sq_snapshots.py % <cword>
     nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/  <Enter>
+    nmap <leader>bp :!(xdg-open <cword>.png) & <Enter>
 
 " Python
     nmap <leader>rr  :!python % <Enter>
     nmap <leader>rpt :!tmux send-keys -t right "\%run %" Enter <Enter>
+
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
