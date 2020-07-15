@@ -3,3 +3,5 @@ venv
 env
 node_modules
 *.twb 
+__pycache__
+*.egg-info
