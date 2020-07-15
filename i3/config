@@ -167,6 +167,12 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         status_command i3status
+        position top
+        font pango:DejaVu Sans Mono 10
+
+        colors {
+
+        }
 }
 
 exec --no-startup-id dropbox star
@@ -174,6 +180,7 @@ exec --no-startup-id s
 exec --no-startup-id feh --bg-scale ~/wallpaper.jpg
 for_window [title=rascunho] move scratchpad
 for_window [title="^Add"] move scratchpad
+for_window [title="^Alacritty"] border pixel 1
 # exec --no-startup-id 'alacritty -t rascunho --command "nvim ~/Dropbox/Notes/Current/week.md"'
 exec --no-startup-id alacritty -t rascunho 
 
@@ -188,9 +195,10 @@ bindsym $mod+d exec "rofi -show run -theme gruvbox-dark"
 bindsym $mod+s exec search_books.sh
 
 mode "scratchpad" {
+    bindsym s move scratchpad; mode "default"
     bindsym f [title="rascunho"] scratchpad show; mode "default"
     bindsym j [title="Add"] scratchpad show; mode "default"
-    bindsym --release s exec "scrot '%Y-%m-%d_$wx$h.png' -s -e 'mv $f ~/shots/ && xdg-open ~/shots/$f'"; mode "default"
+    bindsym --release p exec "scrot '%Y-%m-%d_$wx$h.png' -s -e 'mv $f ~/shots/ && xdg-open ~/shots/$f'"; mode "default"
     bindsym Escape mode "default"
     bindsym d mode "display_selection"
 }
@@ -198,6 +206,7 @@ mode "scratchpad" {
 mode "display_selection" {
     bindsym l exec "bash $HOME/.screenlayout/laptop.sh"; mode "default"
     bindsym d exec "bash $HOME/.screenlayout/desktop.sh"; mode "default"
+    bindsym q exec "bash $HOME/.screenlayout/quartinho-desktop.sh"; mode "default"
     bindsym b exec "bash $HOME/.screenlayout/both.sh"; mode "default"
     bindsym n move workspace to output primary; mode "default"
     bindsym Escape mode "default"
