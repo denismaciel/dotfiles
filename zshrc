@@ -4,7 +4,7 @@ precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '[%b]'
 
 export insert_mode="
-🥚 %~   
+🐣 %~   
 $ "
 
 export PS1=$insert_mode
@@ -20,10 +20,10 @@ function zle-line-init zle-keymap-select {
     fi
 
     insert_mode="
-🥚 ${VENV}%~ ${vcs_info_msg_0_}
+🐣 ${VENV}%~ ${vcs_info_msg_0_}
 $ "
     visual_mode="
-🐣 ${VENV}%~ ${vcs_info_msg_0_}
+🥚 ${VENV}%~ ${vcs_info_msg_0_}
 $ "    
     PS1="${${KEYMAP/vicmd/$visual_mode}/(main|viins)/$insert_mode}"
     zle reset-prompt
@@ -40,14 +40,16 @@ alias ls='ls -G --color=auto'
 alias lsa='ls -lah' 
 alias R='R --no-save'
 alias diary='nvim "$HOME/Dropbox/Notes/Diary/$(date +'%Y-%m-%d').md"'
-alias ..='cd ..'
-alias ...='cd ...'
-alias ...='cd ../..'
-alias ....='cd ../../..'
 alias renamewin='tmux rename-window -t $(tmux display-message -p "#{window_index}") ${PWD##*/}'
 alias v=nvim
 alias p=ptipython
 
+alias dl="bash ~/.screenlayout/laptop.sh"
+alias dd="bash ~/.screenlayout/desktop.sh"
+alias db="bash ~/.screenlayout/both.sh"
+alias dq="bash ~/.screenlayout/quartinho-desktop.sh"
+
+alias q="nvim ~/Code/pen-platform/dump/queries/default.sql"
 setopt autocd               # .. is shortcut for cd .. (etc)
 setopt histignorealldups    # filter duplicates from history
 setopt histignorespace      # don't record commands starting with a space
@@ -153,6 +155,3 @@ eval "$(pyenv init -)"
 [[ -d $HOME/zsh-syntax-highlighting ]] && source $HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/denis/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/denis/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/denis/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/denis/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
