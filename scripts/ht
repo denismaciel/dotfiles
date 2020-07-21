@@ -7,8 +7,7 @@ from sys import exit
 from datetime import datetime
 from pathlib import Path
 
-# conn = sqlite3.connect(Path(__file__).parent / "habits.sqlite")
-conn = sqlite3.connect(Path.home() / "Dropbox" / "habits.sqlite")
+conn = sqlite3.connect(Path.home() / "Sync" / "habits.sqlite")
 
 c = conn.cursor()
 
