@@ -135,6 +135,7 @@ export PATH=$HOME/.pyenv/bin:$PATH
 export PATH=$HOME/bin:$PATH
 export PATH="/usr/local/opt/node@10/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/ay_bin:$PATH"
 
 eval "$(scmpuff init -s)"
 eval "$(jump shell)"
