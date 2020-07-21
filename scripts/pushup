@@ -1,0 +1,91 @@
+#! /usr/bin/env python3
+
+from pathlib import Path
+import sqlite3
+from datetime import datetime, date, timedelta
+
+HOME = Path().home()
+DB_PATH = HOME / "Dropbox" / "habits.sqlite"
+
+conn = sqlite3.connect(DB_PATH)
+
+with conn:
+    query = """
+    WITH `raw` AS (
+        SELECT 
+            SUBSTR(ts, 1, 10) AS ts,
+            habit,
+            stat
+        FROM records
+        LEFT JOIN habits
+            ON records.habit_id = habits.id
+        WHERE habit = 'Marinheiro'
+    )
+    SELECT ts, SUM(stat) AS marinheiro
+    FROM `raw`
+    GROUP BY ts
+    """
+    results = conn.execute(query)
+
+    def str_to_date(x):
+        return datetime.strptime(x[:10], "%Y-%m-%d").date()
+    actual = {str_to_date(a): b for a, b in results.fetchall()}
+
+start_date = date(2020, 7, 9)
+start_pushup = 100
+goals = {start_date + timedelta(i): start_pushup + 15 * i for i in range(29)}
+
+def create_tuple(date, goal):
+    return date, goal, actual.get(date, 0) 
+
+final = [create_tuple(date, goal) for date, goal in goals.items()]
+
+lines = []
+for date, goal, actual in final:
+    if date.today() < date:
+        line = f"{date}: {goal} | ___"
+    else:
+        line = f"{date}: {goal} | {actual}"
+
+    lines.append(line)
+
+lines = '\n      '.join(lines)
+
+header = """ 
+     30-DAY PUSHUP CHALLENGE    
+     -----------------------
+      """
+
+message = header + lines
+print(message)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

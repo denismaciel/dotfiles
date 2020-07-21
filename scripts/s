@@ -1,0 +1,4 @@
+#! /usr/bin/bash
+(dwmstatus & )
+setxkbmap -layout us -option ctrl:nocaps
+xset r rate 200 80
