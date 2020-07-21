@@ -1,0 +1,6 @@
+#! /bin/bash
+
+tbl_path=$HOME/ay_bin/bq_tables_list.txt
+
+tbl=$(cat $tbl_path | fzf)
+bq show $tbl
