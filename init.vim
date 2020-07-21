@@ -1,7 +1,7 @@
 autocmd FileType markdown,tex set wrap colorcolumn=0
 let g:tex_flavor='latex'
 
-set number
+" set number
 set tabstop=4 "how many spaces a tab is when vim reads a file
 set softtabstop=4 "how many spaces are inserted when you hit tab
 set expandtab "tab inserts spaces
@@ -21,12 +21,12 @@ set undodir=~/.config/nvim/undodir
 set undofile
 set showcmd "show command in bottom bar
 set showmatch "highlight matching parenthesis
-set backspace=2 " make backspace work like most other programs
+set backspace=2 "make backspace work like most other programs
 set incsearch "search as characters are entered
 set hlsearch  "highlight matches
 " Copy to Mac's clipboark
 set clipboard=unnamedplus
-set colorcolumn=80
+" set colorcolumn=80
 
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
@@ -93,6 +93,7 @@ Plug 'morhetz/gruvbox'
 Plug 'tomasiser/vim-code-dark'
 Plug 'joshdick/onedark.vim'
 Plug 'gilgigilgil/anderson.vim'
+Plug 'mhartington/oceanic-next'
 call plug#end()
 
 set termguicolors 
@@ -115,8 +116,9 @@ nmap <Leader>rg :Rg<Enter>
 nmap <C-X> :bd<Enter>
 imap jj <Esc>
 
-vmap <leader>p  <Plug>(coc-format-selected)
-nmap <leader>p  <Plug>(coc-format)
+vmap <leader>p <Plug>(coc-format-selected)
+nmap <leader>p <Plug>(coc-format)
+nmap <silent> <leader>le <Plug>(coc-diagnostic-display)
 nmap <silent> <leader>lp <Plug>(coc-diagnostic-prev)
 nmap <silent> <leader>ln <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>ld <Plug>(coc-definition)
@@ -135,6 +137,11 @@ function! s:show_documentation()
   endif
 endfunction
 
+" Toggles
+nnoremap <leader>gc :execute "set colorcolumn=" . (&colorcolumn == "" ? "80" : "")<CR>
+nnoremap <silent> <leader>gn :set nu!<CR>
+nnoremap <silent> <leader>gg :SignifyToggle<CR>
+
 " BIG QUERIES
     nmap <leader>y :%y+<CR>
     nmap <Leader>bc :!python dump/check_syntax.py % <Enter>
@@ -147,5 +154,5 @@ endfunction
     nmap <leader>rr  :!python % <Enter>
     nmap <leader>rpt :!tmux send-keys -t right "\%run %" Enter <Enter>
 
+" While searching, Rg shouldn't match file name, only it's content
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
-
