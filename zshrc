@@ -127,7 +127,7 @@ setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
 setopt SHARE_HISTORY             # Share history between all sessions.
 setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
-setopt HIST_SAVE_NO_DUPS         # Dont write duplicate entries in the history file.
+# setopt HIST_SAVE_NO_DUPS         # Dont write duplicate entries in the history file.
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Dont execute immediately upon history expansion.
 setopt INTERACTIVE_COMMENTS       # Allow for comments
@@ -137,6 +137,7 @@ export PATH="/usr/local/opt/node@10/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/ay_bin:$PATH"
 export PATH="$HOME/scripts:$PATH"
+export PATH="$HOME/go/bin/:$PATH"
 
 eval "$(scmpuff init -s)"
 eval "$(jump shell)"
