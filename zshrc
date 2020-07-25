@@ -1,3 +1,4 @@
+alias qqq="cat file.txt"
 # Load version control information
 autoload -Uz vcs_info
 precmd() { vcs_info }
@@ -54,6 +55,7 @@ alias dd="bash ~/.screenlayout/desktop.sh && s"
 alias db="bash ~/.screenlayout/both.sh && s"
 alias dq="bash ~/.screenlayout/quartinho-desktop.sh && s"
 alias q="nvim ~/Code/pen-platform/dump/queries/default.sql"
+alias pacman="sudo pacman"
 
 setopt autocd               # .. is shortcut for cd .. 
 alias ...="../.."

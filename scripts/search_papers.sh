@@ -18,7 +18,7 @@
 # Script:
 
 # Books directory
-BOOKS_DIR=~/Zotero
+BOOKS_DIR=~/Sync/Papers
 
 # Save find result to F_ARRAY
 readarray -t F_ARRAY <<< "$(find "$BOOKS_DIR" -type f -name '*.pdf')"

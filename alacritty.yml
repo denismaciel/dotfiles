@@ -97,7 +97,11 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
+    # family: Source Code Pro
+    # family: Ubuntu Mono
     family: SF Mono
+    # family: Noto Sans Mono
+    # family: FiraCode,Fira Code Light
     # family: IBM Plex Mono
     # family: Ubuntu Mono
 

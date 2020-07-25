@@ -2,8 +2,12 @@ session_name: finalsprint
 windows:
     - window_name: Shell
       panes:
-          - shell_command: echo "Hi there, Mr. Pinto Maciel"
-          - shell_command: echo "Guten Morgen, Herr Pinto Maciel"
+          - shell_command: 
+                - cd 
+                - echo "Hi there, Mr. Pinto Maciel"
+          - shell_command: 
+                - cd
+                - echo "Guten Morgen, Herr Pinto Maciel"
     - window_name: Diário de Bordo
       panes:
           - shell_command:
@@ -15,5 +19,5 @@ windows:
           - cd ~/Code/dynamic-pricing-simulations
     - window_name: Text
       panes:
-          - shell_command: cd ~/master-thesis
-          - shell_command: cd ~/master-thesis
+          - cd ~/Code/master-thesis
+          - cd ~/Code/master-thesis

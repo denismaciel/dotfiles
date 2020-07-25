@@ -64,6 +64,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
+Plug 'junegunn/vim-peekaboo'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -156,3 +157,5 @@ nnoremap <silent> <leader>gg :SignifyToggle<CR>
 
 " While searching, Rg shouldn't match file name, only it's content
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+
+command! LS call fzf#run(fzf#wrap({'source': 'cat ~/file.txt'}))
