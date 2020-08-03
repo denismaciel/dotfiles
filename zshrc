@@ -57,9 +57,11 @@ alias renamewin='tmux rename-window -t $(tmux display-message -p "#{window_index
 alias v=nvim
 alias p=ipython
 alias dl="bash ~/.screenlayout/laptop.sh && s"
+alias mdl="bash ~/.screenlayout/mac-laptop.sh && mackeyboard"
 alias dd="bash ~/.screenlayout/desktop.sh && s"
 alias db="bash ~/.screenlayout/both.sh && s"
 alias dq="bash ~/.screenlayout/quartinho-desktop.sh && s"
+alias mdq="bash ~/.screenlayout/mac-quartinho.sh && mackeyboard"
 alias q="nvim ~/Code/pen-platform/dump/queries/default.sql"
 alias pacman="sudo pacman"
 
