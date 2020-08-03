@@ -4,8 +4,14 @@ autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '[%b]'
 
+# pyenv
+export PATH="/home/denis/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+[ -z $PYENV_VERSION ] || unset PYENV_VERSION
 export insert_mode="
-🐣 %~   
+  | %~   
 $ "
 
 export PS1=$insert_mode
@@ -21,10 +27,10 @@ function zle-line-init zle-keymap-select {
     fi
 
     insert_mode="
-🐣 ${VENV}%~ ${vcs_info_msg_0_}
+  %~ ${vcs_info_msg_0_/feature\//}
 $ "
     visual_mode="
-🥚 ${VENV}%~ ${vcs_info_msg_0_}
+Δ %~ ${vcs_info_msg_0_}
 $ "    
     PS1="${${KEYMAP/vicmd/$visual_mode}/(main|viins)/$insert_mode}"
     zle reset-prompt
@@ -97,7 +103,7 @@ bindkey '^x^e' edit-command-line
 
 # For whatever reason, this variable is set when I am in tmux
 # This prevents venv & pyenv from working together
-[ -z $__PYVENV_LAUNCHER__ ] || unset __PYVENV_LAUNCHER__
+# [ -z $__PYVENV_LAUNCHER__ ] || unset __PYVENV_LAUNCHER__
 
 case `uname` in 
     Darwin)
@@ -133,7 +139,6 @@ setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a d
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Dont execute immediately upon history expansion.
 setopt INTERACTIVE_COMMENTS       # Allow for comments
-export PATH=$HOME/.pyenv/bin:$PATH
 export PATH=$HOME/bin:$PATH
 export PATH="/usr/local/opt/node@10/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
@@ -142,10 +147,10 @@ export PATH="$HOME/scripts:$PATH"
 export PATH="$HOME/go/bin/:$PATH"
 
 eval "$(scmpuff init -s)"
-eval "$(jump shell)"
-eval "$(pyenv init -)"
+eval "$(jump shell zsh)"
+
 
 [[ -f $HOME/aboutyou.sh ]] && source $HOME/aboutyou.sh
 [[ -d $HOME/zsh-syntax-highlighting ]] && source $HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/denis/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/denis/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+# if [ -f '/home/denis/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/denis/Downloads/google-cloud-sdk/path.zsh.inc'; fi
