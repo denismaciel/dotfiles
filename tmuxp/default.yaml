@@ -6,8 +6,8 @@ windows:
           - shell_command: echo "Guten Morgen, Herr Pinto Maciel"
     - window_name: pen
       panes:
-          - shell_command: cd ~/Code/pen-platform
-          - shell_command: cd ~/Code/pen-platform
+          - shell_command: cd ~/Code/pen-platform-0
+          - shell_command: cd ~/Code/pen-platform-0
     - window_name: pen1
       panes:
           - shell_command: cd ~/Code/pen-platform-1
