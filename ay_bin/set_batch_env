@@ -1,0 +1,23 @@
+#! /bin/env python
+
+import sys
+import shutil
+import pathlib
+
+env = sys.argv[1]
+
+if env not in ('integration', 'staging', 'production'):
+    print('Environment {} does not exists'.format(env))
+    exit(1)
+
+HOME = pathlib.Path().home()
+
+src = HOME / '.metaflowconfig' / (env + '.json')
+dest = HOME / '.metaflowconfig' / 'config.json'
+
+shutil.copyfile(src, dest)
+
+
+
+
+

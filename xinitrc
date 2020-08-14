@@ -4,15 +4,18 @@ bluetoothctl power on
 
 picom -b --config /home/$USER/config/picom/picom.conf &
 
+eval $(ssh-agent)
+
 HOSTNAME=$(hostname)
 
 if [ $HOSTNAME == "MacbookPro" ]; then 
     echo "Setting Layout for a Mac keyboard"
     setxkbmap -option # Reset
-    setxkbmap -layout us -option ctrl:nocaps
     setxkbmap -option altwin:swap_alt_win
 fi
 
+echo "Setting general keyboard options"
+setxkbmap -layout us -option ctrl:nocaps
 xset r rate 200 80
 
 # relaunch DWM if the binary changes, otherwise bail

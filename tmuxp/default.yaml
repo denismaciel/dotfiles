@@ -1,18 +1,14 @@
 session_name: default
 windows:
-    - window_name: shell
-      panes:
-          - shell_command: echo "Hi there, Mr. Pinto Maciel"
-          - shell_command: echo "Guten Morgen, Herr Pinto Maciel"
-    - window_name: pen
+    - window_name: pen-0
       panes:
           - shell_command: cd ~/Code/pen-platform-0
           - shell_command: cd ~/Code/pen-platform-0
-    - window_name: pen1
+    - window_name: pen-1
       panes:
           - shell_command: cd ~/Code/pen-platform-1
           - shell_command: cd ~/Code/pen-platform-1
-    - window_name: pen2
+    - window_name: pen-2
       panes:
           - shell_command: cd ~/Code/pen-platform-2
           - shell_command: cd ~/Code/pen-platform-2

@@ -24,8 +24,7 @@ set showmatch "highlight matching parenthesis
 set backspace=2 "make backspace work like most other programs
 set incsearch "search as characters are entered
 set hlsearch  "highlight matches
-" Copy to Mac's clipboark
-set clipboard=unnamedplus
+set clipboard+=unnamedplus
 " set colorcolumn=80
 
 map <Space> <Leader>
@@ -82,6 +81,7 @@ Plug 'jpalardy/vim-slime'
 Plug 'Shougo/echodoc.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'wellle/targets.vim'
+Plug 'google/vim-jsonnet'
 Plug 'mbbill/undotree'
     nnoremap <leader>u :UndotreeShow<CR>
 Plug 'justinmk/vim-sneak'
@@ -99,7 +99,7 @@ call plug#end()
 
 set termguicolors 
 colorscheme gruvbox
-
+highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
 " Highligh line number where cursor is
 highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 set cursorline
