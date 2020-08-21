@@ -8,7 +8,8 @@ client_pricing_staging = bq.Client()
 client_bi_production = bq.Client("bi-production-2")
 
 datasets = itertools.chain(
-    client_pricing_staging.list_datasets(), [client_bi_production.get_dataset("cube")]
+    client_pricing_staging.list_datasets(), 
+    # [client_bi_production.get_dataset("cube")]
 )
 
 table_names = []
