@@ -26,6 +26,9 @@ set incsearch "search as characters are entered
 set hlsearch  "highlight matches
 set clipboard+=unnamedplus
 " set colorcolumn=80
+" Open splits the _right way_
+set splitbelow
+set splitright
 
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
@@ -93,16 +96,14 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'morhetz/gruvbox'
 Plug 'tomasiser/vim-code-dark'
 Plug 'joshdick/onedark.vim'
-Plug 'gilgigilgil/anderson.vim'
 Plug 'mhartington/oceanic-next'
 call plug#end()
 
 set termguicolors 
-colorscheme gruvbox
+colorscheme onedark
 highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
 " Highligh line number where cursor is
 highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
-set cursorline
 
 " Slime
 nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
@@ -114,7 +115,7 @@ nmap <Leader>t :Files<Enter>
 nmap <Leader>c :Commands<Enter>
 nmap <Leader>rg :Rg<Enter>
 
-nmap <C-X> :bd<Enter>
+nmap <C-X> :bp\|bd #<CR>
 imap jj <Esc>
 
 vmap <leader>p <Plug>(coc-format-selected)
@@ -158,4 +159,35 @@ nnoremap <silent> <leader>gg :SignifyToggle<CR>
 " While searching, Rg shouldn't match file name, only it's content
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 command! LS call fzf#run(fzf#wrap({'source': 'cat ~/file.txt'}))
+
+
+" " Dim inactive windows using 'colorcolumn' setting
+" " This tends to slow down redrawing, but is very useful.
+" " Based on https://groups.google.com/d/msg/vim_use/IJU-Vk-QLJE/xz4hjPjCRBUJ
+" " XXX: this will only work with lines containing text (i.e. not '~')
+" function! s:DimInactiveWindows()
+"   for i in range(1, tabpagewinnr(tabpagenr(), '$'))
+"     let l:range = ""
+"     if i != winnr()
+"       if &wrap
+"         " HACK: when wrapping lines is enabled, we use the maximum number
+"         " of columns getting highlighted. This might get calculated by
+"         " looking for the longest visible line and using a multiple of
+"         " winwidth().
+"         let l:width=256 " max
+"       else
+"         let l:width=winwidth(i)
+"       endif
+"       let l:range = join(range(1, l:width), ',')
+"     endif
+"     call setwinvar(i, '&colorcolumn', l:range)
+"   endfor
+" endfunction
+" augroup DimInactiveWindows
+"   au!
+"   au WinEnter * call s:DimInactiveWindows()
+"   au WinEnter * set cursorline
+"   au WinLeave * set nocursorline
+" augroup END
