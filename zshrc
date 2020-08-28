@@ -30,8 +30,8 @@ function zle-line-init zle-keymap-select {
   %~ ${vcs_info_msg_0_/feature\//}
 $ "
     visual_mode="
-Δ %~ ${vcs_info_msg_0_}
-$ "    
+  %~ ${vcs_info_msg_0_}
+_ "    
     PS1="${${KEYMAP/vicmd/$visual_mode}/(main|viins)/$insert_mode}"
     zle reset-prompt
 }
@@ -147,6 +147,8 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/ay_bin:$PATH"
 export PATH="$HOME/scripts:$PATH"
 export PATH="$HOME/go/bin/:$PATH"
+
+export REQ_DEV="https://raw.githubusercontent.com/denismaciel/dotfiles/master/requirements-dev.txt"
 
 eval "$(scmpuff init -s)"
 eval "$(jump shell zsh)"
