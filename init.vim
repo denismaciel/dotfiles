@@ -25,6 +25,7 @@ set backspace=2 "make backspace work like most other programs
 set incsearch "search as characters are entered
 set hlsearch  "highlight matches
 set clipboard+=unnamedplus
+set signcolumn=yes
 " set colorcolumn=80
 " Open splits the _right way_
 set splitbelow
@@ -57,38 +58,30 @@ set completeopt-=preview
 
 " === PLUGINS ===
 call plug#begin('~/.local/share/nvim/plugged')
+Plug 'neovim/nvim-lsp'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete-lsp'
+let g:deoplete#enable_at_startup = 1
 
-Plug 'junegunn/vim-easy-align'
-    " Start interactive EasyAlign in visual mode (e.g. vipga)
-    xmap ga <Plug>(EasyAlign)
-    " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-    nmap ga <Plug>(EasyAlign)
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/vim-peekaboo'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"" Markdown 
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 "" Python
-Plug 'jeetsukumaran/vim-pythonsense'
+" Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'psf/black', {'for': 'python', 'tag': '19.10b0'}
 Plug 'jpalardy/vim-slime'
     let g:slime_target = "tmux"
     let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
     let g:slime_python_ipython = 0   
-Plug 'Shougo/echodoc.vim'
+" Plug 'Shougo/echodoc.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'wellle/targets.vim'
 Plug 'google/vim-jsonnet'
 Plug 'mbbill/undotree'
     nnoremap <leader>u :UndotreeShow<CR>
-Plug 'justinmk/vim-sneak'
-    let g:sneak#label = 1
 Plug 'lervag/vimtex'
 " Coloschemes
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -97,10 +90,11 @@ Plug 'morhetz/gruvbox'
 Plug 'tomasiser/vim-code-dark'
 Plug 'joshdick/onedark.vim'
 Plug 'mhartington/oceanic-next'
+Plug 'fxn/vim-monochrome'
 call plug#end()
 
 set termguicolors 
-colorscheme onedark
+colorscheme gruvbox
 highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
 " Highligh line number where cursor is
 highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
@@ -117,27 +111,6 @@ nmap <Leader>rg :Rg<Enter>
 
 nmap <C-X> :bp\|bd #<CR>
 imap jj <Esc>
-
-vmap <leader>p <Plug>(coc-format-selected)
-nmap <leader>p <Plug>(coc-format)
-nmap <silent> <leader>le <Plug>(coc-diagnostic-display)
-nmap <silent> <leader>lp <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>ln <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>ld <Plug>(coc-definition)
-nmap <silent> <leader>lt <Plug>(coc-type-definition)
-nmap <silent> <leader>li <Plug>(coc-implementation)
-nmap <silent> <leader>lf <Plug>(coc-references)
-nmap <silent> <leader>ls <Plug>(coc-range-select)
-nmap <leader>rn <Plug>(coc-rename)
-
-nnoremap <silent> K :call <SID>show_documentation()<Enter>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
 
 " Toggles
 nnoremap <leader>gc :execute "set colorcolumn=" . (&colorcolumn == "" ? "80" : "")<CR>
@@ -159,35 +132,46 @@ nnoremap <silent> <leader>gg :SignifyToggle<CR>
 " While searching, Rg shouldn't match file name, only it's content
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
+" Search for selection
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-command! LS call fzf#run(fzf#wrap({'source': 'cat ~/file.txt'}))
 
+" :packadd nvim-lsp
+:lua <<EOF
+-- require'nvim_lsp'.jedi_language_server.setup{}
+require'nvim_lsp'.dockerls.setup{}
+require'nvim_lsp'.pyls.setup{
+    settings = {
+          pyls = {
+            plugins = {
+              mccabe = {
+                enabled = false;
+              };
+              flake8 = {
+                enabled = false;
+              };
+              pycodestyle = {
+                enabled = false;
+              };
+              yapf = {
+                enabled = false;
+              };
+              pyls_mypy = {
+                enabled = true;
+            -- live_mode = false
+              };
+            }
+          }
+    }
+}
+EOF
 
-" " Dim inactive windows using 'colorcolumn' setting
-" " This tends to slow down redrawing, but is very useful.
-" " Based on https://groups.google.com/d/msg/vim_use/IJU-Vk-QLJE/xz4hjPjCRBUJ
-" " XXX: this will only work with lines containing text (i.e. not '~')
-" function! s:DimInactiveWindows()
-"   for i in range(1, tabpagewinnr(tabpagenr(), '$'))
-"     let l:range = ""
-"     if i != winnr()
-"       if &wrap
-"         " HACK: when wrapping lines is enabled, we use the maximum number
-"         " of columns getting highlighted. This might get calculated by
-"         " looking for the longest visible line and using a multiple of
-"         " winwidth().
-"         let l:width=256 " max
-"       else
-"         let l:width=winwidth(i)
-"       endif
-"       let l:range = join(range(1, l:width), ',')
-"     endif
-"     call setwinvar(i, '&colorcolumn', l:range)
-"   endfor
-" endfunction
-" augroup DimInactiveWindows
-"   au!
-"   au WinEnter * call s:DimInactiveWindows()
-"   au WinEnter * set cursorline
-"   au WinLeave * set nocursorline
-" augroup END
+" Use LSP omni-completion in Python files.
+autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+
+nnoremap <silent>gd    <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent>K     <cmd>lua vim.lsp.buf.hover()<CR>
+
+inoremap <expr> <c-x><c-f> fzf#vim#complete#path('fd')
+imap <c-x><c-l> <plug>(fzf-complete-line)
+inoremap <expr> <c-x><c-k> fzf#vim#complete('cat ~/ay_bin/bq_tables_list.txt')
+
