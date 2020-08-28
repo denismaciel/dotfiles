@@ -31,6 +31,8 @@ set signcolumn=yes
 set splitbelow
 set splitright
 
+let g:python3_host_prog = '/home/denis/.pyenv/versions/neovim3/bin/python'
+
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
 nnoremap <leader>vr :source $MYVIMRC<Enter>
@@ -166,7 +168,7 @@ require'nvim_lsp'.pyls.setup{
 EOF
 
 " Use LSP omni-completion in Python files.
-autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+" autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
 nnoremap <silent>gd    <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent>K     <cmd>lua vim.lsp.buf.hover()<CR>
@@ -174,4 +176,18 @@ nnoremap <silent>K     <cmd>lua vim.lsp.buf.hover()<CR>
 inoremap <expr> <c-x><c-f> fzf#vim#complete#path('fd')
 imap <c-x><c-l> <plug>(fzf-complete-line)
 inoremap <expr> <c-x><c-k> fzf#vim#complete('cat ~/ay_bin/bq_tables_list.txt')
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RENAME CURRENT FILE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! RenameFile()
+    let old_name = expand('%')
+    let new_name = input('New file name: ', expand('%'), 'file')
+    if new_name != '' && new_name != old_name
+        exec ':saveas ' . new_name
+        exec ':silent !rm ' . old_name
+        redraw!
+    endif
+endfunction
+map <leader>n :call RenameFile()<cr>
 
