@@ -31,7 +31,7 @@ set signcolumn=yes
 set splitbelow
 set splitright
 
-let g:python3_host_prog = '/home/denis/.pyenv/versions/neovim3/bin/python'
+let g:python3_host_prog = '~/.pyenv/versions/neovim3/bin/python'
 
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
