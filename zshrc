@@ -48,7 +48,6 @@ export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'
-alias ls='ls -G --color=auto'
 alias lsa='ls -lah' 
 alias R='R --no-save'
 alias diary='nvim "$HOME/Dropbox/Notes/Diary/$(date +'%Y-%m-%d').md"'
@@ -113,6 +112,7 @@ case `uname` in
         alias tsd="date +'%Y-%m-%d' | pbcopy; pbpaste"
         alias tsv="date +'Vida_%Y-%W' | pbcopy; pbpaste"
         alias tsw="date +'Work_%Y-%W' | pbcopy; pbpaste"
+        alias ls='ls -G'
     ;;
     Linux)
         export PATH=$PATH:$HOME/.local/bin
@@ -120,6 +120,7 @@ case `uname` in
         alias tsd="date +'%Y-%m-%d' | xclip -selection clipboard && xclip -selection clipboard -o"
         alias tsv="date +'Vida_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o"
         alias tsw="date +'Work_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o"
+        alias ls='ls -G --color=auto'
     ;;
 esac
 
