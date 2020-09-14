@@ -144,7 +144,12 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " :packadd nvim-lsp
 :lua <<EOF
--- require'nvim_lsp'.jedi_language_server.setup{}
+require'nvim_lsp'.jedi_language_server.setup{
+    on_attach=require'completion'.on_attach
+}
+require'nvim_lsp'.bashls.setup{
+    on_attach=require'completion'.on_attach
+}
 require'nvim_lsp'.elmls.setup{}
 require'nvim_lsp'.tsserver.setup{
     on_attach=require'completion'.on_attach
@@ -169,7 +174,7 @@ require'nvim_lsp'.pyls.setup{
               };
               pyls_mypy = {
                 enabled = true;
-            -- live_mode = false
+                live_mode = false
               };
             }
           }
