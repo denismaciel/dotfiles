@@ -6,8 +6,7 @@ zstyle ':vcs_info:git:*' formats '[%b]'
 
 # pyenv
 export PATH="/home/denis/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+eval "$(pyenv init - zsh --no-rehash)"
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 [ -z $PYENV_VERSION ] || unset PYENV_VERSION
 export insert_mode="
