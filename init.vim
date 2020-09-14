@@ -72,8 +72,9 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 "" Python
-" Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'psf/black', {'for': 'python', 'tag': '19.10b0'}
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'jpalardy/vim-slime'
     let g:slime_target = "tmux"
     let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
@@ -85,6 +86,7 @@ Plug 'google/vim-jsonnet'
 Plug 'mbbill/undotree'
     nnoremap <leader>u :UndotreeShow<CR>
 Plug 'lervag/vimtex'
+" Plug 'elmcast/elm-vim'
 " Coloschemes
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'arcticicestudio/nord-vim' 
@@ -122,10 +124,8 @@ nnoremap <silent> <leader>gg :SignifyToggle<CR>
 " BIG QUERIES
     nmap <leader>y :%y+<CR>
     nmap <Leader>bc :!python dump/check_syntax.py % <Enter>
-    nmap <leader>br :!python replace_clip.py \| xclip -selection c<Enter>
     nmap <leader>bs :!python dump/sq_snapshots.py % <cword>
     nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/  <Enter>
-    nmap <leader>bp :!(xdg-open <cword>.png) & <Enter>
 
 " Python
     nmap <leader>rr  :!python % <Enter>
@@ -140,6 +140,7 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 " :packadd nvim-lsp
 :lua <<EOF
 -- require'nvim_lsp'.jedi_language_server.setup{}
+require'nvim_lsp'.elmls.setup{}
 require'nvim_lsp'.dockerls.setup{}
 require'nvim_lsp'.pyls.setup{
     settings = {
