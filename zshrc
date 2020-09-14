@@ -1,9 +1,9 @@
-alias qqq="cat file.txt"
 # Load version control information
 autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '[%b]'
-
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 # pyenv
 export PATH="/home/denis/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
@@ -39,7 +39,6 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 
 export LC_ALL=en_US.UTF-8 # Fix problem when opening nvim
-export HOMEBREW_AUTO_UPDATE_SECS=604800 # Autoupdate on weekly basis
 export VISUAL=nvim
 export FZF_DEFAULT_OPTS="--height 100% --layout=reverse"
 export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --ignore-file ~/.ripgrep_ignore"
@@ -98,7 +97,7 @@ bindkey "^P" up-line-or-search
 bindkey "^N" down-line-or-search
 # Enable Ctrl-x-e to edit command line
 autoload -U edit-command-line
-# # Emacs style
+# Emacs style
 zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
@@ -109,6 +108,7 @@ bindkey '^x^e' edit-command-line
 
 case `uname` in 
     Darwin)
+        export HOMEBREW_AUTO_UPDATE_SECS=604800 # Autoupdate on weekly basis
         alias tss="date +'%Y-%m-%d %H:%M:%S' | pbcopy; pbpaste"
         alias tsd="date +'%Y-%m-%d' | pbcopy; pbpaste"
         alias tsv="date +'Vida_%Y-%W' | pbcopy; pbpaste"
@@ -147,12 +147,12 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/ay_bin:$PATH"
 export PATH="$HOME/scripts:$PATH"
 export PATH="$HOME/go/bin/:$PATH"
+export PATH=$HOME/node/bin:$PATH
 
 export REQ_DEV="https://raw.githubusercontent.com/denismaciel/dotfiles/master/requirements-dev.txt"
 
 eval "$(scmpuff init -s)"
 eval "$(jump shell zsh)"
-
 
 [[ -f $HOME/aboutyou.sh ]] && source $HOME/aboutyou.sh
 [[ -d $HOME/zsh-syntax-highlighting ]] && source $HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
