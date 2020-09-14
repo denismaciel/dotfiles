@@ -14,8 +14,8 @@ windows:
           - shell_command: cd ~/Code/pen-platform-2
     - window_name: trainer
       panes:
-          - shell_command: cd ~/Code/pen-trainer
-          - shell_command: cd ~/Code/pen-trainer
+          - shell_command: cd ~/Code/pen-trainer-tf
+          - shell_command: cd ~/Code/pen-trainer-tf
     - window_name: openvpn
       panes:
           - shell_command: sudo openvpn --config /etc/openvpn/collins-vpn.conf
