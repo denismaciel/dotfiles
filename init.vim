@@ -12,8 +12,6 @@ set mouse=a
 syntax enable 
 filetype plugin on
 set nocompatible
-syntax on
-set smartcase
 set nobackup
 set noswapfile
 set nowrap
@@ -24,12 +22,12 @@ set showmatch "highlight matching parenthesis
 set backspace=2 "make backspace work like most other programs
 set incsearch "search as characters are entered
 set hlsearch  "highlight matches
+set ignorecase smartcase
 set clipboard+=unnamedplus
 set signcolumn=yes
 " set colorcolumn=80
 " Open splits the _right way_
-set splitbelow
-set splitright
+set splitbelow splitright
 
 let g:python3_host_prog = '~/.pyenv/versions/neovim3/bin/python'
 
@@ -56,45 +54,52 @@ nmap <leader>gf :diffget //2<CR>
 nmap <leader>gs :G<CR>
 
 " prevent scratch buffer from opening on autocompletion
-set completeopt-=preview
+" set completeopt-=preview
+set completeopt=menuone,noinsert,noselect
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 " === PLUGINS ===
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'neovim/nvim-lsp'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/deoplete-lsp'
-let g:deoplete#enable_at_startup = 1
 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'mhinz/vim-signify'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-fugitive'
-"" Python
-Plug 'jeetsukumaran/vim-pythonsense'
-Plug 'psf/black', {'for': 'python', 'tag': '19.10b0'}
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-Plug 'jpalardy/vim-slime'
-    let g:slime_target = "tmux"
-    let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
-    let g:slime_python_ipython = 0   
-" Plug 'Shougo/echodoc.vim'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'wellle/targets.vim'
-Plug 'google/vim-jsonnet'
-Plug 'mbbill/undotree'
-    nnoremap <leader>u :UndotreeShow<CR>
-Plug 'lervag/vimtex'
-" Plug 'elmcast/elm-vim'
-" Coloschemes
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'arcticicestudio/nord-vim' 
-Plug 'morhetz/gruvbox'
-Plug 'tomasiser/vim-code-dark'
-Plug 'joshdick/onedark.vim'
-Plug 'mhartington/oceanic-next'
-Plug 'fxn/vim-monochrome'
+" === Vi ===
+    Plug 'neovim/nvim-lsp'
+    Plug 'nvim-lua/completion-nvim'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+    Plug 'mhinz/vim-signify'
+    Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-fugitive'
+    Plug 'google/vim-jsonnet'
+    Plug 'mbbill/undotree'
+        nnoremap <leader>u :UndotreeShow<CR>
+    Plug 'lervag/vimtex'
+    Plug 'pechorin/any-jump.vim'
+
+" === Python ===
+    Plug 'jeetsukumaran/vim-pythonsense'
+    Plug 'psf/black', {'for': 'python', 'tag': '19.10b0'}
+    Plug 'jpalardy/vim-slime'
+        let g:slime_target = "tmux"
+        let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
+        let g:slime_python_ipython = 0   
+    Plug 'christoomey/vim-tmux-navigator'
+    Plug 'wellle/targets.vim'
+
+" === Node.js ===
+    Plug 'prettier/vim-prettier', {
+      \ 'do': 'yarn install',
+      \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+
+
+" === Coloschemes ===
+    Plug 'dracula/vim', { 'as': 'dracula' }
+    Plug 'arcticicestudio/nord-vim' 
+    Plug 'morhetz/gruvbox'
+    Plug 'tomasiser/vim-code-dark'
+    Plug 'joshdick/onedark.vim'
+    Plug 'mhartington/oceanic-next'
+    Plug 'fxn/vim-monochrome'
 call plug#end()
 
 set termguicolors 
@@ -112,6 +117,9 @@ nmap <Leader>; :Buffers<Enter>
 nmap <Leader>t :Files<Enter>
 nmap <Leader>c :Commands<Enter>
 nmap <Leader>rg :Rg<Enter>
+nmap <Leader>h :History:<Enter>
+" While searching, Rg shouldn't match file name, only it's content
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
 nmap <C-X> :bp\|bd #<CR>
 imap jj <Esc>
@@ -131,9 +139,6 @@ nnoremap <silent> <leader>gg :SignifyToggle<CR>
     nmap <leader>rr  :!python % <Enter>
     nmap <leader>rpt :!tmux send-keys -t right "\%run %" Enter <Enter>
 
-" While searching, Rg shouldn't match file name, only it's content
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
-
 " Search for selection
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
@@ -141,8 +146,12 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 :lua <<EOF
 -- require'nvim_lsp'.jedi_language_server.setup{}
 require'nvim_lsp'.elmls.setup{}
+require'nvim_lsp'.tsserver.setup{
+    on_attach=require'completion'.on_attach
+}
 require'nvim_lsp'.dockerls.setup{}
 require'nvim_lsp'.pyls.setup{
+    on_attach=require'completion'.on_attach;
     settings = {
           pyls = {
             plugins = {
@@ -171,8 +180,15 @@ EOF
 " Use LSP omni-completion in Python files.
 " autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
-nnoremap <silent>gd    <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent>K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
 inoremap <expr> <c-x><c-f> fzf#vim#complete#path('fd')
 imap <c-x><c-l> <plug>(fzf-complete-line)

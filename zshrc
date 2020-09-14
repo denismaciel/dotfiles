@@ -6,8 +6,7 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 # pyenv
 export PATH="/home/denis/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+eval "$(pyenv init - zsh --no-rehash)"
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 [ -z $PYENV_VERSION ] || unset PYENV_VERSION
 export insert_mode="
