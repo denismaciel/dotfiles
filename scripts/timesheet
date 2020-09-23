@@ -13,7 +13,7 @@ parser.add_argument("-e", "--end", dest="end", help="When does your day end?")
 
 args = parser.parse_args()
 
-START = args.start or "10:00"
+START = args.start or "08:00"
 END = args.end or "18:00"
 
 
