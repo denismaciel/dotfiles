@@ -42,12 +42,14 @@ nnoremap <silent> 0 g0
 nnoremap <silent> $ g$
 vnoremap <silent> J :m '>+1<CR>gv=gv
 vnoremap <silent> K :m '<-2<CR>gv=gv
+" Select last pasted text
+nnoremap gp `[v`]
 nnoremap <leader>fdt "=strftime('%Y-%m-%d %H:%M (%a)')<CR>p
 nnoremap <leader>fdd "=strftime('%Y-%m-%d')<CR>p
 nnoremap <leader>fw "=strftime('%Y-%W')<CR>p
+" Copy current buffer's file path to clipbpoard
+nnoremap <leader>fc :!echo % \| xclip -selection clipboard<CR>
 nnoremap <leader>k :w<CR>
-" Highlight text pasted last
-nnoremap gp `[v`] 
 
 nmap <leader>gj :diffget //3<CR>
 nmap <leader>gf :diffget //2<CR>
@@ -58,10 +60,13 @@ nmap <leader>gs :G<CR>
 set completeopt=menuone,noinsert,noselect
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
+" ===============
 " === PLUGINS ===
+" ===============
 call plug#begin('~/.local/share/nvim/plugged')
-
+" ==========
 " === Vi ===
+" ==========
     Plug 'neovim/nvim-lsp'
     Plug 'nvim-lua/completion-nvim'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -75,8 +80,15 @@ call plug#begin('~/.local/share/nvim/plugged')
         nnoremap <leader>u :UndotreeShow<CR>
     Plug 'lervag/vimtex'
     Plug 'pechorin/any-jump.vim'
-
+    Plug 'tpope/vim-markdown'
+        let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'json']
+    Plug 'vitalk/vim-simple-todo'
+        " let g:simple_todo_map_keys = 0
+        " nmap <leader><i> <Plug>(simple-todo-new)
+        " imap <c-i> <Plug>(simple-todo-new)
+" ==============
 " === Python ===
+" ==============
     Plug 'jeetsukumaran/vim-pythonsense'
     Plug 'psf/black', {'for': 'python', 'tag': '19.10b0'}
     Plug 'jpalardy/vim-slime'
@@ -85,14 +97,17 @@ call plug#begin('~/.local/share/nvim/plugged')
         let g:slime_python_ipython = 0   
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'wellle/targets.vim'
-
+    Plug 'tmhedberg/SimpylFold'
+    Plug 'numirias/semshi'
+" ===============
 " === Node.js ===
+" ===============
     Plug 'prettier/vim-prettier', {
       \ 'do': 'yarn install',
       \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-
-
+" ===================
 " === Coloschemes ===
+" ===================
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'arcticicestudio/nord-vim' 
     Plug 'morhetz/gruvbox'
@@ -121,6 +136,7 @@ nmap <Leader>h :History:<Enter>
 " While searching, Rg shouldn't match file name, only it's content
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
+command! -bang -nargs=* RgFiles call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -l".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 nmap <C-X> :bp\|bd #<CR>
 imap jj <Esc>
 
@@ -131,8 +147,8 @@ nnoremap <silent> <leader>gg :SignifyToggle<CR>
 
 " BIG QUERIES
     nmap <leader>y :%y+<CR>
-    nmap <Leader>bc :!python dump/check_syntax.py % <Enter>
-    nmap <leader>bs :!python dump/sq_snapshots.py % <cword>
+    nmap <Leader>bc :!python aydev/bigquery.py check_compilation % <Enter>
+    nmap <leader>bs :!python aydev/bigquery.py snapshot % <cword>
     nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/  <Enter>
 
 " Python
@@ -144,9 +160,12 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " :packadd nvim-lsp
 :lua <<EOF
-require'nvim_lsp'.jedi_language_server.setup{
-    on_attach=require'completion'.on_attach
-}
+-- require'nvim_lsp'.jedi_language_server.setup{
+--     on_attach=require'completion'.on_attach
+-- }
+-- require'nvim_lsp'.pyls_ms.setup{
+--     on_attach=require'completion'.on_attach
+-- }
 require'nvim_lsp'.bashls.setup{
     on_attach=require'completion'.on_attach
 }
@@ -155,31 +174,31 @@ require'nvim_lsp'.tsserver.setup{
     on_attach=require'completion'.on_attach
 }
 require'nvim_lsp'.dockerls.setup{}
-require'nvim_lsp'.pyls.setup{
-    on_attach=require'completion'.on_attach;
-    settings = {
-          pyls = {
-            plugins = {
-              mccabe = {
-                enabled = false;
-              };
-              flake8 = {
-                enabled = false;
-              };
-              pycodestyle = {
-                enabled = false;
-              };
-              yapf = {
-                enabled = false;
-              };
-              pyls_mypy = {
-                enabled = true;
-                live_mode = false
-              };
-            }
-          }
-    }
-}
+-- require'nvim_lsp'.pyls.setup{
+--     on_attach=require'completion'.on_attach;
+--     settings = {
+--           pyls = {
+--             plugins = {
+--               mccabe = {
+--                 enabled = false;
+--               };
+--               flake8 = {
+--                 enabled = false;
+--               };
+--               pycodestyle = {
+--                 enabled = false;
+--               };
+--               yapf = {
+--                 enabled = false;
+--               };
+--               pyls_mypy = {
+--                 enabled = true;
+--                 live_mode = false
+--               };
+--             }
+--           }
+--     }
+-- }
 EOF
 
 " Use LSP omni-completion in Python files.
