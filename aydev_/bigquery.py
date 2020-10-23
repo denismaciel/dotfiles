@@ -62,14 +62,14 @@ def check_syntax(query: str) -> Union[str, Exception]:
         return "~~~ Yay! Query compiles ~~~"
 
 
-def cmd_check_compilation(file, args):
-    with open(config_file, "r") as f:
+def cmd_check_compilation(file, args, configs, **kwargs):
+    with open(file, "r") as f:
         sql = f.read().format(**configs)
     print(check_syntax(sql))
     return 0
 
 
-def cmd_snapshot(file, args):
+def cmd_snapshot(file, args, configs, **kwargs):
     pd.set_option("display.max_columns", 500)
     pd.set_option("display.width", 1_000_000)
     pd.set_option("display.max_rows", 1_000)
@@ -78,6 +78,9 @@ def cmd_snapshot(file, args):
 
     path_dir = file.parent
     file_name = file.name
+
+    with open(file, 'r') as f:
+        file_content = f.read()
 
     sqlfile = SQLFile(file_content.format(**configs))
 
@@ -96,7 +99,7 @@ def cmd_snapshot(file, args):
 
     # Save to file
     suffix = ""
-    for k, v in file_vars.items():
+    for k, v in kwargs['file_vars'].items():
         suffix += f"__{k}_{v}"
 
     with open(snaps_dir / (subquery_name + suffix + ".txt"), "w") as f:
@@ -136,7 +139,7 @@ def main():
     commands = {"snapshot": cmd_snapshot, "check_compilation": cmd_check_compilation}
 
     try:
-        return commands[command](file, args)
+        return commands[command](file, args, configs, file_vars=file_vars)
     except KeyError:
         raise Exception("Command '{command}' not found")
 
