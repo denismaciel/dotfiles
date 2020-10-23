@@ -127,10 +127,10 @@ def main():
     file = Path(file)
 
     if not file.exists():
-        raise FileNotFoundError(f"{file_name} does not exists")
+        raise FileNotFoundError(f"{file} does not exists")
 
     if not file.is_file():
-        raise FileNotFoundError(f"{file_name} ios not a file")
+        raise FileNotFoundError(f"{file} is not a file")
 
     with open(file) as f:
         file_vars = parse_header(f.read())
