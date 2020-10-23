@@ -29,7 +29,7 @@ c.InlineBackend.figure_formats = ['retina']
 #c.InteractiveShellApp.exec_files = []
 
 ## lines of code to run at IPython startup.
-c.InteractiveShellApp.exec_lines = ['%autoreload 2', 'print("hi")']
+c.InteractiveShellApp.exec_lines = ['%autoreload 2']
 
 ## A list of dotted module names of IPython extensions to load.
 c.InteractiveShellApp.extensions = ['autoreload']
