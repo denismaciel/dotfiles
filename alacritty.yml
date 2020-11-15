@@ -99,7 +99,8 @@ font:
     #   - (Windows) Consolas
     # family: Source Code Pro
     # family: Ubuntu Mono
-    family: SF Mono
+    # family: SF Mono
+    family: Cascadia Mono
     # family: Noto Sans Mono
     # family: FiraCode,Fira Code Light
     # family: IBM Plex Mono
@@ -147,7 +148,8 @@ font:
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
-    x: -1
+    # x: -1
+    x: 0
   #  y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
