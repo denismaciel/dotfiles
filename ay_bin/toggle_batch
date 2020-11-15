@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 from pathlib import Path
-import shutil
+import os
 
 
 home = Path().home()
@@ -10,12 +10,12 @@ on = home / ".metaflowconfig"
 off = home / ".metaflowconfig_bkp"
 
 if on.exists():
-    print("Moving {} to {}".format(on, off))
-    shutil.move(on, off)
+    os.rename(on, off)
+    print("Moved{} to {}".format(on, off))
 elif off.exists():
-    print("Moving {} to {}".format(off, on))
-    shutil.move(off, on)
+    os.rename(off, on)
+    print("Moved {} to {}".format(off, on))
 else:
-    raise FileNotFoundError("")
+    raise FileNotFoundError
 
     
