@@ -27,6 +27,7 @@ from typing import Tuple
 from typing import Union
 
 from google.cloud import bigquery
+from google.oauth2 import service_account
 
 from aymario.auth import Config
 
@@ -51,9 +52,17 @@ def load_config(path):
 
 
 def check_syntax(query: str) -> Union[str, Exception]:
+    scopes = (
+        "https://www.googleapis.com/auth/bigquery",
+        "https://www.googleapis.com/auth/cloud-platform",
+        "https://www.googleapis.com/auth/drive",
+    )
+    credentials = service_account.Credentials.from_service_account_file(
+        os.getenv("GOOGLE_APPLICATION_CREDENTIALS"), scopes=scopes
+    )
     # dry_run makes sure no data is processed
     job_config = bigquery.QueryJobConfig(dry_run=True, use_query_cache=False)
-    client = bigquery.Client(project="bi-s-pricing")
+    client = bigquery.Client(project="bi-s-pricing", credentials=credentials)
     try:
         _ = client.query(query, job_config=job_config)
     except Exception as e:
@@ -87,8 +96,16 @@ def cmd_snapshot(file, args, configs, **kwargs):
     if subquery_name not in sqlfile.subquery_names:
         raise Exception(f"{subquery_name} is not a subquery of {file_name}")
 
+    scopes = (
+        "https://www.googleapis.com/auth/bigquery",
+        "https://www.googleapis.com/auth/cloud-platform",
+        "https://www.googleapis.com/auth/drive",
+    )
+    credentials = service_account.Credentials.from_service_account_file(
+        os.getenv("GOOGLE_APPLICATION_CREDENTIALS"), scopes=scopes
+    )
     # Query BQ
-    client = bigquery.Client()
+    client = bigquery.Client(project="bi-s-pricing", credentials=credentials)
     query = sqlfile.runnable_subquery(subquery_name)
     res = client.query(query)
 
@@ -109,7 +126,7 @@ def cmd_snapshot(file, args, configs, **kwargs):
 
 
 def main():
-    configs = load_config("config/compiled/dev_local/base.json")["self_conf"]
+    configs = load_config("config/compiled/dev_local/shop_model.json")["self_conf"]
     run_date = date.today() - timedelta(days=1)
     RUNTIME_VARS = {
         "RUN_DATE": run_date,
@@ -141,7 +158,7 @@ def main():
     try:
         return commands[command](file, args, configs, file_vars=file_vars)
     except KeyError:
-        raise Exception("Command '{command}' not found")
+        raise Exception(f"Command '{command}' not found")
 
 
 if __name__ == "__main__":
