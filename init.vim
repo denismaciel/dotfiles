@@ -59,6 +59,7 @@ nmap <leader>gs :G<CR>
 " set completeopt-=preview
 set completeopt=menuone,noinsert,noselect
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+autocmd BufEnter * lua require'completion'.on_attach()
 
 " ===============
 " === PLUGINS ===
@@ -79,7 +80,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'mbbill/undotree'
         nnoremap <leader>u :UndotreeShow<CR>
     Plug 'lervag/vimtex'
-    Plug 'pechorin/any-jump.vim'
     Plug 'tpope/vim-markdown'
         let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'json']
     Plug 'vitalk/vim-simple-todo'
@@ -138,7 +138,6 @@ command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-hea
 
 command! -bang -nargs=* RgFiles call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -l".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 nmap <C-X> :bp\|bd #<CR>
-imap jj <Esc>
 
 " Toggles
 nnoremap <leader>gc :execute "set colorcolumn=" . (&colorcolumn == "" ? "80" : "")<CR>
