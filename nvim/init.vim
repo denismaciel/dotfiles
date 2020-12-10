@@ -1,3 +1,5 @@
+lua require 'init'
+
 autocmd FileType markdown,tex set wrap colorcolumn=0
 let g:tex_flavor='latex'
 
@@ -29,7 +31,7 @@ set signcolumn=yes
 " Open splits the _right way_
 set splitbelow splitright
 
-let g:python3_host_prog = '~/.pyenv/versions/neovim3/bin/python'
+" let g:python3_host_prog = '~/.pyenv/versions/neovim3/bin/python'
 
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
@@ -49,17 +51,17 @@ nnoremap <leader>fdd "=strftime('%Y-%m-%d')<CR>p
 nnoremap <leader>fw "=strftime('%Y-%W')<CR>p
 " Copy current buffer's file path to clipbpoard
 nnoremap <leader>fc :!echo % \| xclip -selection clipboard<CR>
-nnoremap <leader>k :w<CR>
+nnoremap <leader>p :!pre-commit run --file %<CR> :e!<CR>
 
 nmap <leader>gj :diffget //3<CR>
 nmap <leader>gf :diffget //2<CR>
 nmap <leader>gs :G<CR>
 
-" prevent scratch buffer from opening on autocompletion
-" set completeopt-=preview
+
+" Set completeopt to have a better completion experience
 set completeopt=menuone,noinsert,noselect
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-autocmd BufEnter * lua require'completion'.on_attach()
+" Avoid showing message extra message when using completion
+set shortmess+=c
 
 " ===============
 " === PLUGINS ===
@@ -68,8 +70,9 @@ call plug#begin('~/.local/share/nvim/plugged')
 " ==========
 " === Vi ===
 " ==========
-    Plug 'neovim/nvim-lsp'
+    Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/completion-nvim'
+    Plug 'christoomey/vim-tmux-navigator'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'mhinz/vim-signify'
@@ -83,22 +86,18 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-markdown'
         let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'json']
     Plug 'vitalk/vim-simple-todo'
-        " let g:simple_todo_map_keys = 0
-        " nmap <leader><i> <Plug>(simple-todo-new)
-        " imap <c-i> <Plug>(simple-todo-new)
 " ==============
 " === Python ===
 " ==============
     Plug 'jeetsukumaran/vim-pythonsense'
-    Plug 'psf/black', {'for': 'python', 'tag': '19.10b0'}
+    " Plug 'psf/black', {'for': 'python', 'tag': '19.10b0'}
+    Plug 'numirias/semshi'
     Plug 'jpalardy/vim-slime'
         let g:slime_target = "tmux"
         let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
         let g:slime_python_ipython = 0   
-    Plug 'christoomey/vim-tmux-navigator'
     Plug 'wellle/targets.vim'
     Plug 'tmhedberg/SimpylFold'
-    Plug 'numirias/semshi'
 " ===============
 " === Node.js ===
 " ===============
@@ -112,13 +111,12 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'arcticicestudio/nord-vim' 
     Plug 'morhetz/gruvbox'
     Plug 'tomasiser/vim-code-dark'
-    Plug 'joshdick/onedark.vim'
-    Plug 'mhartington/oceanic-next'
-    Plug 'fxn/vim-monochrome'
 call plug#end()
 
+lua require 'lsp'
+
 set termguicolors 
-colorscheme gruvbox
+colorscheme dracula
 highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
 " Highligh line number where cursor is
 highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
@@ -137,7 +135,7 @@ nmap <Leader>h :History:<Enter>
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
 command! -bang -nargs=* RgFiles call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -l".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
-nmap <C-X> :bp\|bd #<CR>
+nmap <C-X> :e #\|bd #<CR>
 
 " Toggles
 nnoremap <leader>gc :execute "set colorcolumn=" . (&colorcolumn == "" ? "80" : "")<CR>
@@ -157,48 +155,6 @@ nnoremap <silent> <leader>gg :SignifyToggle<CR>
 " Search for selection
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
-" :packadd nvim-lsp
-:lua <<EOF
--- require'nvim_lsp'.jedi_language_server.setup{
---     on_attach=require'completion'.on_attach
--- }
--- require'nvim_lsp'.pyls_ms.setup{
---     on_attach=require'completion'.on_attach
--- }
-require'nvim_lsp'.bashls.setup{
-    on_attach=require'completion'.on_attach
-}
-require'nvim_lsp'.elmls.setup{}
-require'nvim_lsp'.tsserver.setup{
-    on_attach=require'completion'.on_attach
-}
-require'nvim_lsp'.dockerls.setup{}
--- require'nvim_lsp'.pyls.setup{
---     on_attach=require'completion'.on_attach;
---     settings = {
---           pyls = {
---             plugins = {
---               mccabe = {
---                 enabled = false;
---               };
---               flake8 = {
---                 enabled = false;
---               };
---               pycodestyle = {
---                 enabled = false;
---               };
---               yapf = {
---                 enabled = false;
---               };
---               pyls_mypy = {
---                 enabled = true;
---                 live_mode = false
---               };
---             }
---           }
---     }
--- }
-EOF
 
 " Use LSP omni-completion in Python files.
 " autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
