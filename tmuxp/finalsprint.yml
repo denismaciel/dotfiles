@@ -1,23 +1,31 @@
 session_name: finalsprint
 windows:
-    - window_name: Shell
-      panes:
-          - shell_command: 
-                - cd 
-                - echo "Hi there, Mr. Pinto Maciel"
-          - shell_command: 
-                - cd
-                - echo "Guten Morgen, Herr Pinto Maciel"
     - window_name: Diário de Bordo
       panes:
           - shell_command:
-              - cd ~/Dropbox/MasterThesis/ 
+              - cd ~/Personal/mt
               - nvim "diario-de-bordo-master-thesis.md"
-    - window_name: Code
+    - window_name: Simulations
       panes:
-          - cd ~/Code/dynamic-pricing-simulations
-          - cd ~/Code/dynamic-pricing-simulations
+          - shell_command:
+              - cd ~/Personal/mt/dynamic-pricing-simulations 
+              - clear
+          - shell_command:
+              - cd ~/Personal/mt/dynamic-pricing-simulations 
+              - clear
+    - window_name: Lib
+      panes:
+          - shell_command: 
+            - cd ~/Personal/mt/dynpric 
+            - clear
+          - shell_command: 
+            - cd ~/Personal/mt/dynpric 
+            - clear
     - window_name: Text
       panes:
-          - cd ~/Code/master-thesis
-          - cd ~/Code/master-thesis
+          - shell_command: 
+            - cd ~/Personal/mt/dynamic-pricing-simulations 
+            - clear
+          - shell_command: 
+            - cd ~/Personal/mt/dynamic-pricing-simulations 
+            - clear
