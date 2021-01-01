@@ -88,10 +88,14 @@ def cmd_snapshot(file, args, configs, **kwargs):
     path_dir = file.parent
     file_name = file.name
 
-    with open(file, 'r') as f:
-        file_content = f.read()
+    # with open(file, 'r') as f:
+    #     file_content = f.read()
 
-    sqlfile = SQLFile(file_content.format(**configs))
+    # sqlfile = SQLFile(file_content.format(**configs))
+    with open(file, 'r') as f:
+        query = f.read()
+
+    sqlfile = SQLFile(query)
 
     if subquery_name not in sqlfile.subquery_names:
         raise Exception(f"{subquery_name} is not a subquery of {file_name}")
@@ -106,7 +110,7 @@ def cmd_snapshot(file, args, configs, **kwargs):
     )
     # Query BQ
     client = bigquery.Client(project="bi-s-pricing", credentials=credentials)
-    query = sqlfile.runnable_subquery(subquery_name)
+    query = sqlfile.runnable_subquery(subquery_name).format(**configs)
     res = client.query(query)
 
     # Create directory if non existent
