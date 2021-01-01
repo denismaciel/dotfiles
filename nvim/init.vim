@@ -31,7 +31,7 @@ set signcolumn=yes
 " Open splits the _right way_
 set splitbelow splitright
 
-" let g:python3_host_prog = '~/.pyenv/versions/neovim3/bin/python'
+let g:python3_host_prog = '~/.pyenv/versions/neovim3/bin/python'
 
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
@@ -86,6 +86,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-markdown'
         let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'json']
     Plug 'vitalk/vim-simple-todo'
+    " Plug 'kyazdani42/nvim-web-devicons' " for file icons
+    " Plug 'kyazdani42/nvim-tree.lua'
 " ==============
 " === Python ===
 " ==============
@@ -104,6 +106,12 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'prettier/vim-prettier', {
       \ 'do': 'yarn install',
       \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+
+" ===============
+" === WebDev ===
+" ===============
+    Plug 'alvan/vim-closetag'
+        let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
 " ===================
 " === Coloschemes ===
 " ===================
@@ -116,7 +124,7 @@ call plug#end()
 lua require 'lsp'
 
 set termguicolors 
-colorscheme dracula
+colorscheme gruvbox
 highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
 " Highligh line number where cursor is
 highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
@@ -133,8 +141,8 @@ nmap <Leader>rg :Rg<Enter>
 nmap <Leader>h :History:<Enter>
 " While searching, Rg shouldn't match file name, only it's content
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
-
 command! -bang -nargs=* RgFiles call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -l".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+
 nmap <C-X> :e #\|bd #<CR>
 
 " Toggles
@@ -148,16 +156,11 @@ nnoremap <silent> <leader>gg :SignifyToggle<CR>
     nmap <leader>bs :!python aydev/bigquery.py snapshot % <cword>
     nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/  <Enter>
 
-" Python
-    nmap <leader>rr  :!python % <Enter>
-    nmap <leader>rpt :!tmux send-keys -t right "\%run %" Enter <Enter>
-
 " Search for selection
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
-
 " Use LSP omni-completion in Python files.
-" autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
