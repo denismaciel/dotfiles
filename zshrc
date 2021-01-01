@@ -37,6 +37,14 @@ _ "
 zle -N zle-line-init 
 zle -N zle-keymap-select
 
+function open() {
+    nohup xdg-open "$*" &
+}
+
+function open-zathura() {
+    nohup zathura "$*" & exit
+}
+
 export LC_ALL=en_US.UTF-8 # Fix problem when opening nvim
 export VISUAL=nvim
 export FZF_DEFAULT_OPTS="--height 100%"
@@ -52,15 +60,15 @@ alias R='R --no-save'
 alias diary='nvim "$HOME/Sync/Notes/Diary/$(date +'%Y-%m-%d').md"'
 alias renamewin='tmux rename-window -t $(tmux display-message -p "#{window_index}") ${PWD##*/}'
 alias v=nvim
-alias p=ipython
+alias p='pyenv exec ipython'
 alias dl="bash ~/.screenlayout/laptop.sh && s"
 alias mdl="bash ~/.screenlayout/mac-laptop.sh && mackeyboard"
 alias dd="bash ~/.screenlayout/desktop.sh && s"
 alias db="bash ~/.screenlayout/both.sh && s"
 alias dq="bash ~/.screenlayout/quartinho-desktop.sh && s"
 alias mdq="bash ~/.screenlayout/mac-quartinho.sh && mackeyboard"
-alias q="nvim ~/Code/pen-platform/dump/queries/default.sql"
 alias pacman="sudo pacman"
+alias pdf='open-zathura "$(fd "pdf|epub" | fzf)"'
 
 setopt autocd               # .. is shortcut for cd .. 
 alias ...="../.."
@@ -147,11 +155,10 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/ay_bin:$PATH"
 export PATH="$HOME/scripts:$PATH"
 export PATH="$HOME/go/bin/:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/node/bin:$PATH"
 export PATH="$HOME/.npm-global/bin:$PATH"
 export PYTHONBREAKPOINT=ipdb.set_trace
-
-export REQ_DEV="https://raw.githubusercontent.com/denismaciel/dotfiles/master/requirements-dev.txt"
 
 eval "$(scmpuff init -s)"
 eval "$(jump shell zsh)"
