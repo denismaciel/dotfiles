@@ -28,6 +28,7 @@ set ignorecase smartcase
 set clipboard+=unnamedplus
 set signcolumn=yes
 " set colorcolumn=80
+set cursorline
 " Open splits the _right way_
 set splitbelow splitright
 
@@ -46,7 +47,7 @@ vnoremap <silent> J :m '>+1<CR>gv=gv
 vnoremap <silent> K :m '<-2<CR>gv=gv
 " Select last pasted text
 nnoremap gp `[v`]
-nnoremap <leader>fdt "=strftime('%Y-%m-%d %H:%M (%a)')<CR>p
+nnoremap <leader>fdt "=strftime('%Y-%m-%d %H:%M')<CR>p
 nnoremap <leader>fdd "=strftime('%Y-%m-%d')<CR>p
 nnoremap <leader>fw "=strftime('%Y-%W')<CR>p
 " Copy current buffer's file path to clipbpoard
@@ -127,7 +128,7 @@ set termguicolors
 colorscheme gruvbox
 highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
 " Highligh line number where cursor is
-highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
+" highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 
 " Slime
 nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
