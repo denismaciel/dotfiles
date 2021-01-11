@@ -5,27 +5,8 @@ windows:
           - shell_command:
               - cd ~/Personal/mt
               - nvim "diario-de-bordo-master-thesis.md"
-    - window_name: Simulations
+    - window_name: MT
       panes:
           - shell_command:
-              - cd ~/Personal/mt/dynamic-pricing-simulations 
+              - cd ~/Personal/mt/
               - clear
-          - shell_command:
-              - cd ~/Personal/mt/dynamic-pricing-simulations 
-              - clear
-    - window_name: Lib
-      panes:
-          - shell_command: 
-            - cd ~/Personal/mt/dynpric 
-            - clear
-          - shell_command: 
-            - cd ~/Personal/mt/dynpric 
-            - clear
-    - window_name: Text
-      panes:
-          - shell_command: 
-            - cd ~/Personal/mt/dynamic-pricing-simulations 
-            - clear
-          - shell_command: 
-            - cd ~/Personal/mt/dynamic-pricing-simulations 
-            - clear
