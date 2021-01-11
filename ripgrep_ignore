@@ -2,6 +2,7 @@ Library
 venv
 env
 node_modules
+docker
 *.twb 
 __pycache__
 *.egg-info
