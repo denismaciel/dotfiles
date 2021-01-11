@@ -38,7 +38,7 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 
 function open() {
-    nohup xdg-open "$*" &
+    nohup xdg-open "$*" >> /dev/null &
 }
 
 function open-zathura() {
