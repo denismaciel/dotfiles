@@ -33,8 +33,9 @@ from aymario.auth import Config
 
 
 def parse_header(query_string):
+    bangs = [m.start() for m in re.finditer("###", query_string)]
     try:
-        begin, end = [m.start() for m in re.finditer("###", query_string)]
+        begin, end, *_ =  bangs
     except ValueError:
         print("Could not parse a config header")
         vars = {}
