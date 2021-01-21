@@ -1,5 +1,6 @@
 # Load version control information
 autoload -Uz vcs_info
+autoload -U colors && colors
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '[%b]'
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
@@ -9,11 +10,6 @@ export PATH="/home/denis/.pyenv/bin:$PATH"
 eval "$(pyenv init - zsh )"
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 [ -z $PYENV_VERSION ] || unset PYENV_VERSION
-export insert_mode="
-  | %~   
-$ "
-
-export PS1=$insert_mode
 
 function zle-line-init zle-keymap-select {
     if [ -z ${VIRTUAL_ENV+x} ]
@@ -25,13 +21,13 @@ function zle-line-init zle-keymap-select {
         VENV="($repo_name) "
     fi
 
-    insert_mode="
-  %~ ${vcs_info_msg_0_/feature\//}
+    INSERT_MODE="
+  %~ %{$fg[cyan]%}${vcs_info_msg_0_/feature\//}%{$reset_color%}
 $ "
-    visual_mode="
-  %~ ${vcs_info_msg_0_}
-_ "    
-    PS1="${${KEYMAP/vicmd/$visual_mode}/(main|viins)/$insert_mode}"
+    VISUAL_MODE="
+
+  "    
+    PS1="${${KEYMAP/vicmd/$VISUAL_MODE}/(main|viins)/$INSERT_MODE}"
     zle reset-prompt
 }
 zle -N zle-line-init 
