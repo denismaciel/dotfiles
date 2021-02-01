@@ -1,6 +1,5 @@
 Library
 venv
-env
 node_modules
 docker
 *.twb 
