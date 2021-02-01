@@ -26,7 +26,7 @@ set incsearch "search as characters are entered
 set hlsearch  "highlight matches
 set ignorecase smartcase
 set clipboard+=unnamedplus
-set signcolumn=yes
+set signcolumn=no
 " set colorcolumn=80
 set cursorline
 " Open splits the _right way_
@@ -117,16 +117,16 @@ call plug#begin('~/.local/share/nvim/plugged')
 " === Coloschemes ===
 " ===================
     Plug 'dracula/vim', { 'as': 'dracula' }
-    Plug 'arcticicestudio/nord-vim' 
     Plug 'morhetz/gruvbox'
-    Plug 'tomasiser/vim-code-dark'
 call plug#end()
 
 lua require 'lsp'
 
 set termguicolors 
-colorscheme gruvbox
+colorscheme dracula
 highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
+highlight SignColumn ctermbg=233 ctermfg=233
+
 " Highligh line number where cursor is
 " highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 
@@ -151,9 +151,12 @@ nnoremap <leader>gc :execute "set colorcolumn=" . (&colorcolumn == "" ? "80" : "
 nnoremap <silent> <leader>gn :set nu!<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
 
+cabbrev <expr> YMD strftime("%Y-%W")
+nmap <leader>d :e ~/Sync/Notes/Current/Work-YMD.md<CR>
 " BIG QUERIES
     nmap <leader>y :%y+<CR>
     nmap <Leader>bc :!python aydev/bigquery.py check_compilation % <Enter>
+    nmap <Leader>bf :!python aydev/bigquery.py whole_query % <Enter>
     nmap <leader>bs :!python aydev/bigquery.py snapshot % <cword>
     nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/  <Enter>
 
