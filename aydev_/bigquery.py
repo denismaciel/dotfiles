@@ -32,6 +32,18 @@ from google.oauth2 import service_account
 from aymario.auth import Config
 
 
+def get_client():
+    scopes = (
+        "https://www.googleapis.com/auth/bigquery",
+        "https://www.googleapis.com/auth/cloud-platform",
+        "https://www.googleapis.com/auth/drive",
+    )
+    credentials = service_account.Credentials.from_service_account_file(
+        os.getenv("GOOGLE_APPLICATION_CREDENTIALS"), scopes=scopes
+    )
+    # Query BQ
+    return bigquery.Client(project="bi-s-pricing", credentials=credentials)
+
 def parse_header(query_string):
     bangs = [m.start() for m in re.finditer("###", query_string)]
     try:
@@ -53,17 +65,8 @@ def load_config(path):
 
 
 def check_syntax(query: str) -> Union[str, Exception]:
-    scopes = (
-        "https://www.googleapis.com/auth/bigquery",
-        "https://www.googleapis.com/auth/cloud-platform",
-        "https://www.googleapis.com/auth/drive",
-    )
-    credentials = service_account.Credentials.from_service_account_file(
-        os.getenv("GOOGLE_APPLICATION_CREDENTIALS"), scopes=scopes
-    )
-    # dry_run makes sure no data is processed
+    client = get_client()
     job_config = bigquery.QueryJobConfig(dry_run=True, use_query_cache=False)
-    client = bigquery.Client(project="bi-s-pricing", credentials=credentials)
     try:
         _ = client.query(query, job_config=job_config)
     except Exception as e:
@@ -101,16 +104,7 @@ def cmd_snapshot(file, args, configs, **kwargs):
     if subquery_name not in sqlfile.subquery_names:
         raise Exception(f"{subquery_name} is not a subquery of {file_name}")
 
-    scopes = (
-        "https://www.googleapis.com/auth/bigquery",
-        "https://www.googleapis.com/auth/cloud-platform",
-        "https://www.googleapis.com/auth/drive",
-    )
-    credentials = service_account.Credentials.from_service_account_file(
-        os.getenv("GOOGLE_APPLICATION_CREDENTIALS"), scopes=scopes
-    )
-    # Query BQ
-    client = bigquery.Client(project="bi-s-pricing", credentials=credentials)
+    client = get_client()
     query = sqlfile.runnable_subquery(subquery_name).format(**configs)
     res = client.query(query)
 
@@ -124,14 +118,25 @@ def cmd_snapshot(file, args, configs, **kwargs):
     for k, v in kwargs['file_vars'].items():
         suffix += f"__{k}_{v}"
 
+    # Limit file name length
+    suffix = suffix[:50]
+
     with open(snaps_dir / (subquery_name + suffix + ".txt"), "w") as f:
         f.write(repr(res.to_dataframe()))
 
     return 0
 
+def cmd_whole_query(file, args, config, **kwargs):
+    client = get_client()
+    
+    with open(file) as f:
+        sql = f.read().format(**config)
+
+    print(client.query(sql))
+    return 0
 
 def main():
-    configs = load_config("config/compiled/dev_local/shop_model.json")["self_conf"]
+    configs = load_config("config/compiled/dev_local/deepar_train_v8.json")["self_conf"]
     run_date = date.today() - timedelta(days=1)
     RUNTIME_VARS = {
         "RUN_DATE": run_date,
@@ -158,7 +163,7 @@ def main():
         file_vars = parse_header(f.read())
     configs.update(file_vars)
 
-    commands = {"snapshot": cmd_snapshot, "check_compilation": cmd_check_compilation}
+    commands = {"snapshot": cmd_snapshot, "check_compilation": cmd_check_compilation, 'whole_query': cmd_whole_query}
 
     try:
         return commands[command](file, args, configs, file_vars=file_vars)
