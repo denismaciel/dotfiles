@@ -8,6 +8,12 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 # pyenv
 export PATH="/home/denis/.pyenv/bin:$PATH"
 eval "$(pyenv init - zsh )"
+
+INSERT_MODE="
+  %~ %F{238}${vcs_info_msg_0_/feature\//}%{$reset_color%}
+$ "
+
+export PS1=$INSERT_MODE
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 [ -z $PYENV_VERSION ] || unset PYENV_VERSION
 
@@ -22,7 +28,7 @@ function zle-line-init zle-keymap-select {
     fi
 
     INSERT_MODE="
-  %~ %{$fg[cyan]%}${vcs_info_msg_0_/feature\//}%{$reset_color%}
+  %~ %F{238}${vcs_info_msg_0_/feature\//}%{$reset_color%}
 $ "
     VISUAL_MODE="
 
@@ -65,6 +71,7 @@ alias dq="bash ~/.screenlayout/quartinho-desktop.sh && s"
 alias mdq="bash ~/.screenlayout/mac-quartinho.sh && mackeyboard"
 alias pacman="sudo pacman"
 alias pdf='open-zathura "$(fd "pdf|epub" | fzf)"'
+alias rm='echo Use trash-put instead...'
 
 setopt autocd               # .. is shortcut for cd .. 
 alias ...="../.."
@@ -113,7 +120,6 @@ case `uname` in
         export HOMEBREW_AUTO_UPDATE_SECS=604800 # Autoupdate on weekly basis
         alias tss="date +'%Y-%m-%d %H:%M:%S' | pbcopy; pbpaste"
         alias tsd="date +'%Y-%m-%d' | pbcopy; pbpaste"
-        alias tsv="date +'Vida_%Y-%W' | pbcopy; pbpaste"
         alias tsw="date +'Work_%Y-%W' | pbcopy; pbpaste"
         alias ls='ls -G'
     ;;
@@ -121,7 +127,6 @@ case `uname` in
         export PATH=$PATH:$HOME/.local/bin
         alias tss="date +'%Y-%m-%d %H:%M:%S' | xclip -selection clipboard && xclip -selection clipboard -o"
         alias tsd="date +'%Y-%m-%d' | xclip -selection clipboard && xclip -selection clipboard -o"
-        alias tsv="date +'Vida_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o"
         alias tsw="date +'Work_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o"
         alias ls='ls -G --color=auto'
     ;;
