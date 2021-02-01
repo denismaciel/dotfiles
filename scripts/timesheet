@@ -13,7 +13,13 @@ parser.add_argument("-e", "--end", dest="end", help="When does your day end?")
 
 args = parser.parse_args()
 
-START = args.start or "08:00"
+START = args.start
+if START is None:
+    now = datetime.now()
+    hour = now.hour
+    minute = "00" if now.minute < 30 else "30"
+    START = f"{hour}:{minute}"
+
 END = args.end or "18:00"
 
 
