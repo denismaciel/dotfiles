@@ -3,19 +3,8 @@ autoload -Uz vcs_info
 autoload -U colors && colors
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '[%b]'
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-# pyenv
-export PATH="/home/denis/.pyenv/bin:$PATH"
-eval "$(pyenv init - zsh )"
-
-INSERT_MODE="
-  %~ %F{238}${vcs_info_msg_0_/feature\//}%{$reset_color%}
-$ "
-
-export PS1=$INSERT_MODE
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-[ -z $PYENV_VERSION ] || unset PYENV_VERSION
+# export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 function zle-line-init zle-keymap-select {
     if [ -z ${VIRTUAL_ENV+x} ]
@@ -28,12 +17,13 @@ function zle-line-init zle-keymap-select {
     fi
 
     INSERT_MODE="
-  %~ %F{238}${vcs_info_msg_0_/feature\//}%{$reset_color%}
+  %~ %F{238}${vcs_info_msg_0_/feature\//}
 $ "
-    VISUAL_MODE="
+    # VISUAL_MODE="
 
-  "    
-    PS1="${${KEYMAP/vicmd/$VISUAL_MODE}/(main|viins)/$INSERT_MODE}"
+  # "    
+    # PS1="${${KEYMAP/vicmd/$VISUAL_MODE}/(main|viins)/$INSERT_MODE}"
+    PS1=$INSERT_MODE
     zle reset-prompt
 }
 zle -N zle-line-init 
@@ -62,7 +52,6 @@ alias R='R --no-save'
 alias diary='nvim "$HOME/Sync/Notes/Diary/$(date +'%Y-%m-%d').md"'
 alias renamewin='tmux rename-window -t $(tmux display-message -p "#{window_index}") ${PWD##*/}'
 alias v=nvim
-alias p='pyenv exec ipython'
 alias dl="bash ~/.screenlayout/laptop.sh && s"
 alias mdl="bash ~/.screenlayout/mac-laptop.sh && mackeyboard"
 alias dd="bash ~/.screenlayout/desktop.sh && s"
@@ -110,10 +99,6 @@ autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
-
-# For whatever reason, this variable is set when I am in tmux
-# This prevents venv & pyenv from working together
-# [ -z $__PYVENV_LAUNCHER__ ] || unset __PYVENV_LAUNCHER__
 
 case `uname` in 
     Darwin)
@@ -166,5 +151,3 @@ eval "$(jump shell zsh)"
 
 [[ -f $HOME/aboutyou.sh ]] && source $HOME/aboutyou.sh
 [[ -d $HOME/zsh-syntax-highlighting ]] && source $HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# The next line updates PATH for the Google Cloud SDK.
-# if [ -f '/home/denis/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/denis/Downloads/google-cloud-sdk/path.zsh.inc'; fi
