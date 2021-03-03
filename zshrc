@@ -6,35 +6,36 @@ zstyle ':vcs_info:git:*' formats '[%b]'
 # export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
-function zle-line-init zle-keymap-select {
+function zle-line-init {
     if [ -z ${VIRTUAL_ENV+x} ]
     then 
         VENV=""
     else
         full_repo_path=$(dirname $VIRTUAL_ENV)
         repo_name=${full_repo_path##*/}
-        VENV="($repo_name) "
+        VENV="(${repo_name})"
     fi
 
-    INSERT_MODE="
-  %~ %F{238}${vcs_info_msg_0_/feature\//}
-$ "
-    # VISUAL_MODE="
+    BRANCH_NAME="${vcs_info_msg_0_/feature\//}"
 
-  # "    
-    # PS1="${${KEYMAP/vicmd/$VISUAL_MODE}/(main|viins)/$INSERT_MODE}"
+    INSERT_MODE=" 
+ ${VENV} %~ ${BRANCH_NAME}
+$ "
     PS1=$INSERT_MODE
     zle reset-prompt
 }
 zle -N zle-line-init 
-zle -N zle-keymap-select
 
 function open() {
     nohup xdg-open "$*" >> /dev/null &
 }
 
 function open-zathura() {
-    nohup zathura "$*" & exit
+    nohup zathura "$*" >> /dev/null  & exit
+}
+
+function pydeps() {
+    pip install jedi-language-server ipdb ipython 
 }
 
 export LC_ALL=en_US.UTF-8 # Fix problem when opening nvim
@@ -44,6 +45,8 @@ export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --ignore-file ~/.ripgrep_
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 
+
+alias act='source venv/bin/activate'
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'

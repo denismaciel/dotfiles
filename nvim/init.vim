@@ -1,6 +1,6 @@
 lua require 'init'
 
-autocmd FileType markdown,tex set wrap colorcolumn=0
+autocmd FileType markdown,tex set wrap colorcolumn=0 textwidth=80
 let g:tex_flavor='latex'
 
 " set number
@@ -32,7 +32,7 @@ set cursorline
 " Open splits the _right way_
 set splitbelow splitright
 
-let g:python3_host_prog = '~/.pyenv/versions/neovim3/bin/python'
+let g:python3_host_prog = '~/venvs/neovim/bin/python'
 
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
@@ -54,25 +54,25 @@ nnoremap <leader>fw "=strftime('%Y-%W')<CR>p
 nnoremap <leader>fc :!echo % \| xclip -selection clipboard<CR>
 nnoremap <leader>p :!pre-commit run --file %<CR> :e!<CR>
 
+" Format latex
+nnoremap <leader>fp {V}gq<C-O><C-O>
+
 nmap <leader>gj :diffget //3<CR>
 nmap <leader>gf :diffget //2<CR>
 nmap <leader>gs :G<CR>
 
 
-" Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
-" Avoid showing message extra message when using completion
-set shortmess+=c
-
-" ===============
-" === PLUGINS ===
-" ===============
 call plug#begin('~/.local/share/nvim/plugged')
 " ==========
 " === Vi ===
 " ==========
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/completion-nvim'
+        autocmd BufEnter * lua require'completion'.on_attach()
+        set completeopt=menuone,noinsert,noselect
+        " Avoid showing message extra message when using completion
+        set shortmess+=c
+        let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
@@ -124,6 +124,7 @@ lua require 'lsp'
 
 set termguicolors 
 colorscheme dracula
+au Colorscheme * :hi pythonClassVar gui=italic cterm=italic
 highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
 highlight SignColumn ctermbg=233 ctermfg=233
 
@@ -132,19 +133,19 @@ highlight SignColumn ctermbg=233 ctermfg=233
 
 " Slime
 nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
-nmap <leader>s :SlimeSendCurrentLine<Enter>
 
 " FZF
 nmap <Leader>; :Buffers<Enter>
-nmap <Leader>t :Files<Enter>
+nmap <Leader>t :GFiles<Enter>
 nmap <Leader>c :Commands<Enter>
 nmap <Leader>rg :Rg<Enter>
 nmap <Leader>h :History:<Enter>
-" While searching, Rg shouldn't match file name, only it's content
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
-command! -bang -nargs=* RgFiles call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -l".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
-nmap <C-X> :e #\|bd #<CR>
+
+command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, {'options': '--no-preview'}, <bang>0)
+" While searching, Rg shouldn't match file name, only it's content
+command! -bang -nargs=* Rg call fzf#vim#grep("rg -g '!*archived*' --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+command! -bang -nargs=* RgFiles call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -l".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
 " Toggles
 nnoremap <leader>gc :execute "set colorcolumn=" . (&colorcolumn == "" ? "80" : "")<CR>
@@ -194,3 +195,19 @@ function! RenameFile()
 endfunction
 map <leader>n :call RenameFile()<cr>
 
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+command! BD call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:delete_buffers(lines) },
+  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+\ }))

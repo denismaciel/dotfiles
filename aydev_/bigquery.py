@@ -5,20 +5,10 @@ How to call this:
     python snapshot query_file.sql subquery_name
     python check_syntax query_file.sql
 """
+import datetime
+import json
 import os
 import re
-import sys
-from pathlib import Path
-import datetime
-import yaml
-
-from google.cloud import bigquery
-import pandas as pd
-from dotenv import dotenv_values
-
-from aymario.sql import SQLFile
-
-import json
 import sys
 from datetime import date
 from datetime import timedelta
@@ -26,28 +16,30 @@ from pathlib import Path
 from typing import Tuple
 from typing import Union
 
+import pandas as pd
+import yaml
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
 from aymario.auth import Config
+from aymario.sql import SQLFile
+from aymario.sql import extract_runnable_cte
+from aymario.auth import get_bq_client 
+from aymario.gbq_interact import format_query
+from aymario.devtools import mock_flowspec
 
 
 def get_client():
-    scopes = (
-        "https://www.googleapis.com/auth/bigquery",
-        "https://www.googleapis.com/auth/cloud-platform",
-        "https://www.googleapis.com/auth/drive",
-    )
-    credentials = service_account.Credentials.from_service_account_file(
-        os.getenv("GOOGLE_APPLICATION_CREDENTIALS"), scopes=scopes
-    )
-    # Query BQ
-    return bigquery.Client(project="bi-s-pricing", credentials=credentials)
+    c = Config()
+    c.GOOGLE_APPLICATION_CREDENTIALS = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+    c.PROJECT_ID = 'bi-s-pricing'
+    return get_bq_client(c)
+
 
 def parse_header(query_string):
     bangs = [m.start() for m in re.finditer("###", query_string)]
     try:
-        begin, end, *_ =  bangs
+        begin, end, *_ = bangs
     except ValueError:
         print("Could not parse a config header")
         vars = {}
@@ -75,9 +67,16 @@ def check_syntax(query: str) -> Union[str, Exception]:
         return "~~~ Yay! Query compiles ~~~"
 
 
+def cmd_compile(file, args, configs, **kwargs):
+    with open(file, "r") as f:
+        sql = format_query(f.read(), configs)
+    print(sql)
+    return 0
+
+
 def cmd_check_compilation(file, args, configs, **kwargs):
     with open(file, "r") as f:
-        sql = f.read().format(**configs)
+        sql = format_query(f.read(), configs)
     print(check_syntax(sql))
     return 0
 
@@ -87,26 +86,17 @@ def cmd_snapshot(file, args, configs, **kwargs):
     pd.set_option("display.width", 1_000_000)
     pd.set_option("display.max_rows", 1_000)
 
-    subquery_name = args[0]
+    cte = args[0]
 
     path_dir = file.parent
     file_name = file.name
 
-    # with open(file, 'r') as f:
-    #     file_content = f.read()
+    with open(file, "r") as f:
+        query = format_query(f.read(), configs)
 
-    # sqlfile = SQLFile(file_content.format(**configs))
-    with open(file, 'r') as f:
-        query = f.read()
-
-    sqlfile = SQLFile(query)
-
-    if subquery_name not in sqlfile.subquery_names:
-        raise Exception(f"{subquery_name} is not a subquery of {file_name}")
-
+    runnable_cte = extract_runnable_cte(query, cte)
     client = get_client()
-    query = sqlfile.runnable_subquery(subquery_name).format(**configs)
-    res = client.query(query)
+    res = client.query(runnable_cte)
 
     # Create directory if non existent
     snaps_dir = path_dir / "snaps" / file.stem
@@ -115,38 +105,45 @@ def cmd_snapshot(file, args, configs, **kwargs):
 
     # Save to file
     suffix = ""
-    for k, v in kwargs['file_vars'].items():
+    for k, v in kwargs["file_vars"].items():
         suffix += f"__{k}_{v}"
 
     # Limit file name length
     suffix = suffix[:50]
 
-    with open(snaps_dir / (subquery_name + suffix + ".txt"), "w") as f:
+    with open(snaps_dir / (cte + suffix + ".txt"), "w") as f:
         f.write(repr(res.to_dataframe()))
 
     return 0
 
-def cmd_whole_query(file, args, config, **kwargs):
-    client = get_client()
-    
-    with open(file) as f:
-        sql = f.read().format(**config)
 
-    print(client.query(sql))
+def cmd_whole_query(file, args, config, **kwargs):
+    import time
+
+    client = get_client()
+
+    with open(file) as f:
+        sql = format_query(f.read(), config)
+        print(sql)
+    job = client.query(sql)
+
+    while job.running():
+        time.sleep(1)
+
     return 0
 
+
 def main():
-    configs = load_config("config/compiled/dev_local/deepar_train_v8.json")["self_conf"]
+    conf = mock_flowspec("config/compiled/dev_local/deepar_train_v8.json").conf
     run_date = date.today() - timedelta(days=1)
-    RUNTIME_VARS = {
+    conf._d.update({
         "RUN_DATE": run_date,
         "FORECAST_DATE": run_date,
         "FORECAST_DATE_TABLE_ID": format(run_date, "%Y%m%d"),
         "COUNTRY_CLUSTER": "DE",
         "COUNTRY_CODE": "DE",
         "APPLICATION_ID": "(135)",
-    }
-    configs.update(RUNTIME_VARS)
+    })
 
     # Parse command line arguments
     _, command, file, *args = sys.argv
@@ -161,12 +158,17 @@ def main():
 
     with open(file) as f:
         file_vars = parse_header(f.read())
-    configs.update(file_vars)
+    conf._d.update(file_vars)
 
-    commands = {"snapshot": cmd_snapshot, "check_compilation": cmd_check_compilation, 'whole_query': cmd_whole_query}
+    commands = {
+        "snapshot": cmd_snapshot,
+        "compile": cmd_compile,
+        "check_compilation": cmd_check_compilation,
+        "whole_query": cmd_whole_query,
+    }
 
     try:
-        return commands[command](file, args, configs, file_vars=file_vars)
+        return commands[command](file, args, conf, file_vars=file_vars)
     except KeyError:
         raise Exception(f"Command '{command}' not found")
 
