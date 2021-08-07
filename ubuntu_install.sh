@@ -1,7 +1,6 @@
 apt update --quiet
 sudo apt install -y -q vim sudo 
  
-
 sudo apt update -qq -y && apt upgrade -qq -y
 sudo apt-get install -qq vim sudo
 
@@ -10,15 +9,6 @@ sudo apt install -y -qq curl make build-essential libssl-dev zlib1g-dev libbz2-d
 git config --global user.name "Denis Maciel"
 git config --global user.email "denispmaciel@gmail.com"
 
-# Python
-curl https://pyenv.run | bash
-
-export PATH=$HOME/.pyenv/bin:$PATH
-eval "$(pyenv init -)"
-
-pyenv install 3.8.1
-pyenv global 3.8.1
-
 # FZF
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
@@ -26,11 +16,6 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 # Neovim
 cd $HOME
 git clone https://github.com/denismaciel/dotfiles
-
-mkdir -p .config/nvim
-ln $HOME/dotfiles/init.vim $HOME/.config/nvim/init.vim -s
-pip install -Uq pynvim
-sudo apt install -yq neovim > /dev/null
 
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -52,11 +37,8 @@ mv scmpuff ./bin/
 # ZSH
 sudo apt install -y zsh zsh-syntax-highlighting
 sudo chsh -s /bin/zsh
-ln $HOME/dotfiles/zshrc $HOME/.zshrc -s
 
 # Tmux
-sudo apt install -y tmux
-ln dotfiles/tmux/tmux.conf .tmux.conf -s
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # Docker
@@ -82,9 +64,7 @@ sudo docker run hello-world
 sudo apt-get install -y nodejs npm
 
 # Alacritty
-sudo add-apt-repository ppa:mmstick76/alacritty && sudo apt-get alacritty
-mkdir -p $HOME/.config/alacritty
-ln $HOME/dotfiles/alacritty.yml $HOME/.config/alacritty/alacritty.yml -s
+sudo add-apt-repository ppa:mmstick76/alacritty && sudo apt-get install alacritty
 
 ## SF Mono
 git clone https://github.com/ZulwiyozaPutra/SF-Mono-Font.git
