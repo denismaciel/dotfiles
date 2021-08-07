@@ -6,8 +6,31 @@ sudo apt-get install -qq vim sudo
 
 sudo apt install -y -qq curl make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev git > /dev/null
 
+
 git config --global user.name "Denis Maciel"
 git config --global user.email "denispmaciel@gmail.com"
+
+
+# ZSH
+sudo apt install -y zsh zsh-syntax-highlighting
+sudo chsh -s /bin/zsh
+
+# Acitvate ZSH === !
+zsh
+
+# Syncthing
+sudo apt install -y curl apt-transport-https &&
+    curl -s https://syncthing.net/release-key.txt | sudo apt-key add - &&
+    sudo su -c "echo 'deb https://apt.syncthing.net/ syncthing release' > /etc/apt/sources.list.d/syncthing.list" &&
+    sudo apt-get update &&
+    sudo apt-get install -y syncthing 
+
+sudo add-apt-repository -y ppa:phoerious/keepassxc &&
+    sudo apt-get update &&
+    sudo apt-get install -y keepassxc
+
+
+curl -L https://nixos.org/nix/install | sh
 
 # FZF
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
@@ -34,9 +57,6 @@ tar -xzvf scmpuff_0.3.0_linux_x64.tar.gz
 mkdir bin
 mv scmpuff ./bin/
 
-# ZSH
-sudo apt install -y zsh zsh-syntax-highlighting
-sudo chsh -s /bin/zsh
 
 # Tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

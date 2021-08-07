@@ -154,3 +154,4 @@ eval "$(jump shell zsh)"
 
 [[ -f $HOME/aboutyou.sh ]] && source $HOME/aboutyou.sh
 [[ -d $HOME/zsh-syntax-highlighting ]] && source $HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ -e /home/denis/.nix-profile/etc/profile.d/nix.sh ]; then . /home/denis/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
