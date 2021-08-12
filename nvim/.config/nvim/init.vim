@@ -54,6 +54,12 @@ nnoremap <leader>fp {V}gq<C-O><C-O>
 " Search for selection
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=300}
+augroup END
+
+
 call plug#begin('~/.local/share/nvim/plugged')
     " Checkout eventually: https://github.com/windwp/nvim-autopairs
     Plug 'christoomey/vim-tmux-navigator'
