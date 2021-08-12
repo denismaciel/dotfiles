@@ -5,6 +5,26 @@ require'nvim-treesitter.configs'.setup {
       additional_vim_regex_highlighting = false,
   },
   textobjects = {
+     move = {
+         enable = true,
+         set_jumps = true, -- whether to set jumps in the jumplist
+         goto_next_start = {
+           ["<C-n>"] = "@function.outer",
+           ["]]"] = "@class.outer",
+         },
+         goto_next_end = {
+           ["]M"] = "@function.outer",
+           ["]["] = "@class.outer",
+         },
+         goto_previous_start = {
+           ["<C-p>"] = "@function.outer",
+           ["[["] = "@class.outer",
+         },
+         goto_previous_end = {
+           ["[M"] = "@function.outer",
+           ["[]"] = "@class.outer",
+         },
+    },
     select = {
       enable = true,
 
