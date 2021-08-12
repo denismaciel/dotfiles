@@ -29,6 +29,9 @@ set signcolumn=no
 set cursorline
 " Open splits the _right way_
 set splitbelow splitright
+" Folding with treesitter
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
 
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
