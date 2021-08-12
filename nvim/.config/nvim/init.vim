@@ -1,9 +1,7 @@
 lua require 'init'
 
-autocmd FileType markdown,tex set wrap colorcolumn=0 textwidth=80
-let g:tex_flavor='latex'
+let g:python3_host_prog = '~/venvs/neovim/bin/python'
 
-" set number
 set tabstop=4 "how many spaces a tab is when vim reads a file
 set softtabstop=4 "how many spaces are inserted when you hit tab
 set expandtab "tab inserts spaces
@@ -32,12 +30,10 @@ set cursorline
 " Open splits the _right way_
 set splitbelow splitright
 
-let g:python3_host_prog = '~/venvs/neovim/bin/python'
-
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
 nnoremap <leader>vr :source $MYVIMRC<Enter>
-
+nnoremap <leader>vf :Files ~/.config/nvim/<Enter>
 " Treat visual lines as actual lines. 
 nnoremap <silent> k gk
 nnoremap <silent> j gj
@@ -53,120 +49,90 @@ nnoremap <leader>fw "=strftime('%Y-%W')<CR>p
 " Copy current buffer's file path to clipbpoard
 nnoremap <leader>fc :!echo % \| xclip -selection clipboard<CR>
 nnoremap <leader>p :!pre-commit run --file %<CR> :e!<CR>
-
 " Format latex
 nnoremap <leader>fp {V}gq<C-O><C-O>
-
-nmap <leader>gj :diffget //3<CR>
-nmap <leader>gf :diffget //2<CR>
-nmap <leader>gs :G<CR>
-
+" Search for selection
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 call plug#begin('~/.local/share/nvim/plugged')
-" ==========
-" === Vi ===
-" ==========
-    Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-lua/completion-nvim'
-        autocmd BufEnter * lua require'completion'.on_attach()
-        set completeopt=menuone,noinsert,noselect
-        " Avoid showing message extra message when using completion
-        set shortmess+=c
-        let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+    " Checkout eventually: https://github.com/windwp/nvim-autopairs
     Plug 'christoomey/vim-tmux-navigator'
+    Plug 'google/vim-jsonnet'
+    Plug 'jpalardy/vim-slime'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
-    Plug 'mhinz/vim-signify'
-    Plug 'tpope/vim-commentary'
-    Plug 'machakann/vim-sandwich'
-    Plug 'tpope/vim-fugitive'
-    Plug 'google/vim-jsonnet'
-    Plug 'mbbill/undotree'
-        nnoremap <leader>u :UndotreeShow<CR>
     Plug 'lervag/vimtex'
-    Plug 'tpope/vim-markdown'
-        let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'json']
-    Plug 'vitalk/vim-simple-todo'
-    " Plug 'kyazdani42/nvim-web-devicons' " for file icons
-    " Plug 'kyazdani42/nvim-tree.lua'
-" ==============
-" === Python ===
-" ==============
-    Plug 'jeetsukumaran/vim-pythonsense'
-    " Plug 'psf/black', {'for': 'python', 'tag': '19.10b0'}
-    " Plug 'numirias/semshi'
-    Plug 'jpalardy/vim-slime'
-        let g:slime_target = "tmux"
-        let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
-        let g:slime_python_ipython = 0   
-    Plug 'wellle/targets.vim'
-    Plug 'tmhedberg/SimpylFold'
-" ===============
-" === Node.js ===
-" ===============
-    Plug 'prettier/vim-prettier', {
-      \ 'do': 'yarn install',
-      \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-
-" ===============
-" === WebDev ===
-" ===============
-    Plug 'alvan/vim-closetag'
-        let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
-" ===================
-" === Coloschemes ===
-" ===================
+    Plug 'machakann/vim-sandwich'
+    Plug 'mbbill/undotree'
+    Plug 'mhinz/vim-signify'
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-lua/completion-nvim'
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+    Plug 'tpope/vim-commentary'
+    " === Coloschemes ===
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'morhetz/gruvbox'
 call plug#end()
 
+" ==========================
+" ===== Plugins Config =====
+" ==========================
 lua require 'lsp'
+lua require 'treesitter'
+" 'jpalardy/vim-slime'
+    let g:slime_target = "tmux"
+    let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
+    let g:slime_python_ipython = 0   
+" 'mbbill/undotree'
+    nnoremap <leader>u :UndotreeShow<CR>
+" 'nvim-lua/completion-nvim'
+    autocmd BufEnter * lua require'completion'.on_attach()
+    set completeopt=menuone,noinsert,noselect
+    " Avoid showing message extra message when using completion
+    set shortmess+=c
+    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+" 'lervag/vimtex'
+    let g:tex_flavor='latex'
 
+" ---- Colorscheme ----
 set termguicolors 
 colorscheme gruvbox
-au Colorscheme * :hi pythonClassVar gui=italic cterm=italic
 highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
 highlight SignColumn ctermbg=233 ctermfg=233
 
-" Highligh line number where cursor is
-" highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
-
-" Slime
+" ---- Slime ----
 nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
 
-" FZF
+" ---- FZF ----
 nmap <Leader>; :Buffers<Enter>
 nmap <Leader>t :GFiles<Enter>
 nmap <Leader>c :Commands<Enter>
 nmap <Leader>rg :Rg<Enter>
-nmap <Leader>h :History:<Enter>
-
-
 command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, {'options': '--no-preview'}, <bang>0)
 " While searching, Rg shouldn't match file name, only it's content
 command! -bang -nargs=* Rg call fzf#vim#grep("rg -g '!*archived*' --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 command! -bang -nargs=* RgFiles call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -l".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+inoremap <expr> <c-x><c-f> fzf#vim#complete#path('fd')
+imap <c-x><c-l> <plug>(fzf-complete-line)
 
-" Toggles
+" ---- Toggles ----
 nnoremap <leader>gc :execute "set colorcolumn=" . (&colorcolumn == "" ? "80" : "")<CR>
 nnoremap <silent> <leader>gn :set nu!<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
 
 cabbrev <expr> YMD strftime("%Y-%W")
 nmap <leader>d :e ~/Sync/Notes/Current/Work-YMD.md<CR>
-" BIG QUERIES
-    nmap <leader>y :%y+<CR>
-    nmap <Leader>bc :!python aydev/bigquery.py check_compilation % <Enter>
-    nmap <Leader>bf :!python aydev/bigquery.py whole_query % <Enter>
-    nmap <leader>bs :!python aydev/bigquery.py snapshot % <cword>
-    nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/  <Enter>
+" ---- BIG QUERIES ----
+nmap <leader>y :%y+<CR>
+nmap <Leader>bc :!python aydev/bigquery.py check_compilation % <Enter>
+nmap <Leader>bf :!python aydev/bigquery.py whole_query % <Enter>
+nmap <leader>bs :!python aydev/bigquery.py snapshot % <cword>
+nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/  <Enter>
 
-" Search for selection
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-
-" Use LSP omni-completion in Python files.
-autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
-
+" =======================
+" === Language Server ===
+" =======================
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
@@ -176,14 +142,12 @@ nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+" Use LSP omni-completion in Python files.
+autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
-inoremap <expr> <c-x><c-f> fzf#vim#complete#path('fd')
-imap <c-x><c-l> <plug>(fzf-complete-line)
-inoremap <expr> <c-x><c-k> fzf#vim#complete('cat ~/ay_bin/bq_tables_list.txt')
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RENAME CURRENT FILE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =========================
+" === Utility Functions ===
+" =========================
 function! RenameFile()
     let old_name = expand('%')
     let new_name = input('New file name: ', expand('%'), 'file')
@@ -194,20 +158,3 @@ function! RenameFile()
     endif
 endfunction
 map <leader>n :call RenameFile()<cr>
-
-function! s:list_buffers()
-  redir => list
-  silent ls
-  redir END
-  return split(list, "\n")
-endfunction
-
-function! s:delete_buffers(lines)
-  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
-endfunction
-
-command! BD call fzf#run(fzf#wrap({
-  \ 'source': s:list_buffers(),
-  \ 'sink*': { lines -> s:delete_buffers(lines) },
-  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
-\ }))
