@@ -3,8 +3,13 @@ autoload -Uz vcs_info
 autoload -U colors && colors
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '[%b]'
-# export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+[[ "$(uname)" = "Linux" ]] && xset r rate 200 80 && setxkbmap -layout us -option ctrl:nocaps
+
+# ----------------------------------
+# --------- Warnings ---------------
+# ----------------------------------
+git -C $HOME/dotfiles diff --exit-code > /dev/null ||  "Commit the changes to your dotfiles, my man!"
 
 function zle-line-init {
     if [ -z ${VIRTUAL_ENV+x} ]
@@ -31,7 +36,7 @@ function open() {
 }
 
 function open-zathura() {
-    nohup zathura "$*" >> /dev/null  & exit
+    nohup zathura "$*" >> /dev/null & exit
 }
 
 function pydeps() {
@@ -45,7 +50,6 @@ export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --ignore-file ~/.ripgrep_
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 
-
 alias act='source venv/bin/activate'
 alias l='ls -lah'
 alias la='ls -lAh'
@@ -53,22 +57,9 @@ alias ll='ls -lh'
 alias lsa='ls -lah' 
 alias R='R --no-save'
 alias diary='nvim "$HOME/Sync/Notes/Diary/$(date +'%Y-%m-%d').md"'
-alias renamewin='tmux rename-window -t $(tmux display-message -p "#{window_index}") ${PWD##*/}'
-alias v=nvim
-alias dl="bash ~/.screenlayout/laptop.sh && s"
-alias mdl="bash ~/.screenlayout/mac-laptop.sh && mackeyboard"
-alias dd="bash ~/.screenlayout/desktop.sh && s"
-alias db="bash ~/.screenlayout/both.sh && s"
-alias dq="bash ~/.screenlayout/quartinho-desktop.sh && s"
-alias mdq="bash ~/.screenlayout/mac-quartinho.sh && mackeyboard"
-alias pacman="sudo pacman"
 alias pdf='open-zathura "$(fd "pdf|epub" | fzf)"'
-alias rm='echo Use trash-put instead...'
 
 setopt autocd               # .. is shortcut for cd .. 
-alias ...="../.."
-alias ....="../../.."
-alias .....="../../../.."
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -112,7 +103,6 @@ case `uname` in
         alias ls='ls -G'
     ;;
     Linux)
-        export PATH=$PATH:$HOME/.local/bin
         alias tss="date +'%Y-%m-%d %H:%M:%S' | xclip -selection clipboard && xclip -selection clipboard -o"
         alias tsd="date +'%Y-%m-%d' | xclip -selection clipboard && xclip -selection clipboard -o"
         alias tsw="date +'Work_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o"
@@ -134,11 +124,12 @@ setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
 setopt SHARE_HISTORY             # Share history between all sessions.
 setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
-# setopt HIST_SAVE_NO_DUPS         # Dont write duplicate entries in the history file.
+setopt HIST_SAVE_NO_DUPS         # Dont write duplicate entries in the history file.
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Dont execute immediately upon history expansion.
 setopt INTERACTIVE_COMMENTS       # Allow for comments
 export PATH=$HOME/bin:$PATH
+export PATH=$PATH:/usr/local/go/bin
 export PATH="/usr/local/opt/node@10/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/ay_bin:$PATH"
@@ -147,11 +138,17 @@ export PATH="$HOME/go/bin/:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/node/bin:$PATH"
 export PATH="$HOME/.npm-global/bin:$PATH"
-export PYTHONBREAKPOINT=ipdb.set_trace
+export PATH="$HOME/venvs/default/bin:$PATH"
 
 eval "$(scmpuff init -s)"
-eval "$(jump shell zsh)"
+# eval "$(jump shell zsh)"
 
-[[ -f $HOME/aboutyou.sh ]] && source $HOME/aboutyou.sh
+export PYTHONBREAKPOINT=ipdb.set_trace
+[[ -f $HOME/ay/shell-config.sh ]] && source $HOME/ay/shell-config.sh
 [[ -d $HOME/zsh-syntax-highlighting ]] && source $HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 if [ -e /home/denis/.nix-profile/etc/profile.d/nix.sh ]; then . /home/denis/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+# Fix annoying warning: 
+#     - https://nixos.wiki/wiki/Locales
+#     - https://www.reddit.com/r/NixOS/comments/oj4kmd/every_time_i_run_a_program_installed_with_nix_i/
+export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive

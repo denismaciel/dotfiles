@@ -2,21 +2,17 @@ session_name: default
 windows:
     - window_name: pen-0
       panes:
-          - shell_command: cd ~/Code/pen-platform-0
-          - shell_command: cd ~/Code/pen-platform-0
+          - shell_command: cd ~/code/pen0
+          - shell_command: cd ~/code/pen0
     - window_name: pen-1
       panes:
-          - shell_command: cd ~/Code/pen-platform-1
-          - shell_command: cd ~/Code/pen-platform-1
+          - shell_command: cd ~/code/pen1
+          - shell_command: cd ~/code/pen1
     - window_name: pen-2
       panes:
-          - shell_command: cd ~/Code/pen-platform-2
-          - shell_command: cd ~/Code/pen-platform-2
+          - shell_command: cd ~/code/pen2
+          - shell_command: cd ~/code/pen2
     - window_name: openvpn
       panes:
-          - shell_command: sudo openvpn --config /etc/openvpn/collins-vpn.conf
-    - window_name: metaflow
-      panes:
-          - shell_command: cd ~/Code/metaflow
-          - shell_command: cd ~/Code/metaflow
-
+          # - shell_command: sudo openvpn --config /etc/openvpn/collins-vpn.conf
+          - shell_command: echo "hi"

@@ -14,7 +14,7 @@ git config --global user.email "denispmaciel@gmail.com"
 
 # ZSH
 sudo apt install -y zsh zsh-syntax-highlighting
-sudo chsh -s /bin/zsh
+sudo chsh -s $(which zsh)
 
 # Acitvate ZSH === !
 zsh
@@ -93,6 +93,24 @@ sudo add-apt-repository \
 # NodeJs
 sudo apt-get install -y nodejs npm
 
+# Python
+sudo add-apt-repository -y ppa:deadsnakes/ppa &&
+    sudo apt-get update
+    sudo apt-get install python3.9-dev
+
+## Bootstrap virtualenv
+sudo apt-get install -y curl &&
+    curl --location --output virtualenv.pyz https://bootstrap.pypa.io/virtualenv/3.9/virtualenv.pyz
+    python3.9 virtualenv.pyz ~/venv/default
+
+# Go
+curl -L --output go1.16.7.linux-amd64.tar.gz https://golang.org/dl/go1.16.7.linux-amd64.tar.gz && \
+    sudo \rm -rf /usr/local/go && \
+    sudo tar -C /usr/local -xzf go1.16.7.linux-amd64.tar.gz
+
+## Install Lsp
+GO111MODULE=on go get golang.org/x/tools/gopls@latest
+
 # Alacritty
 sudo add-apt-repository -y ppa:mmstick76/alacritty &&
     sudo apt-get install -y alacritty
@@ -105,3 +123,24 @@ wget "https://github.com/microsoft/cascadia-code/releases/download/v2106.17/Casc
 unzip CascadiaCode-2106.17.zip
 cp $(find . -type f -name "*.otf")  ~/.local/share/fonts
 cd
+
+
+# Apps ===
+# Chrome
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
+    sudo apt install ./google-chrome-stable_current_amd64.deb
+
+# Brave
+sudo apt install -y apt-transport-https curl
+sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+sudo apt update
+sudo apt install -y brave-browser
+
+# Spotify
+curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add - 
+echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+sudo apt-get update && sudo apt-get install spotify-client
+
+# Latex
+sudo apt install -y texlive-latex-extra texlive-bibtex-extra biber

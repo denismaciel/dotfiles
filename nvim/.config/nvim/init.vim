@@ -78,7 +78,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'junegunn/fzf.vim'
     Plug 'mhinz/vim-signify'
     Plug 'tpope/vim-commentary'
-    Plug 'tpope/vim-surround'
+    Plug 'machakann/vim-sandwich'
     Plug 'tpope/vim-fugitive'
     Plug 'google/vim-jsonnet'
     Plug 'mbbill/undotree'
@@ -94,7 +94,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 " ==============
     Plug 'jeetsukumaran/vim-pythonsense'
     " Plug 'psf/black', {'for': 'python', 'tag': '19.10b0'}
-    Plug 'numirias/semshi'
+    " Plug 'numirias/semshi'
     Plug 'jpalardy/vim-slime'
         let g:slime_target = "tmux"
         let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
@@ -123,7 +123,7 @@ call plug#end()
 lua require 'lsp'
 
 set termguicolors 
-colorscheme dracula
+colorscheme gruvbox
 au Colorscheme * :hi pythonClassVar gui=italic cterm=italic
 highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
 highlight SignColumn ctermbg=233 ctermfg=233
