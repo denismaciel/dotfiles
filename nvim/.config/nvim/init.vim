@@ -59,6 +59,9 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=300}
 augroup END
 
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
 
 call plug#begin('~/.local/share/nvim/plugged')
     " Checkout eventually: https://github.com/windwp/nvim-autopairs
