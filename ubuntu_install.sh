@@ -12,6 +12,8 @@ git config --global user.name "Denis Maciel"
 git config --global user.email "denispmaciel@gmail.com"
 
 
+mkdir ~/applications
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/applications/zsh-syntax-highlighting
 # ZSH
 sudo apt install -y zsh zsh-syntax-highlighting
 sudo chsh -s $(which zsh)
