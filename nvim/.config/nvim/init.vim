@@ -141,7 +141,7 @@ nmap <leader>d :e ~/Sync/Notes/Current/Work-YMD.md<CR>
 nmap <leader>y :%y+<CR>
 nmap <Leader>bc :!python aydev/bigquery.py check_compilation % <Enter>
 nmap <Leader>bf :!python aydev/bigquery.py whole_query % <Enter>
-nmap <leader>bs :!python aydev/bigquery.py snapshot % <cword>
+nmap <leader>bs :!python -m aymario.bigquery snapshot % <cword>
 nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/  <Enter>
 
 " =======================
