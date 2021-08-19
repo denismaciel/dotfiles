@@ -1,0 +1,14 @@
+session_name: recap
+windows:
+    - window_name: core-0
+      panes:
+          - shell_command: cd ~/work/core0
+          - shell_command: cd ~/work/core0
+    - window_name: core-1
+      panes:
+          - shell_command: cd ~/work/core1
+          - shell_command: cd ~/work/core1
+    - window_name: core-2
+      panes:
+          - shell_command: cd ~/work/core2
+          - shell_command: cd ~/work/core2

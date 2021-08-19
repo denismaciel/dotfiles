@@ -82,6 +82,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     " === Coloschemes ===
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'morhetz/gruvbox'
+    Plug 'editorconfig/editorconfig-vim'
 call plug#end()
 
 " ==========================

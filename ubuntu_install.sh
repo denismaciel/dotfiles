@@ -46,6 +46,7 @@ stow python
 stow zsh
 stow tmux
 stow tools
+stow node
 
 
 # Tmux Plugin Manager
@@ -91,9 +92,6 @@ sudo add-apt-repository \
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io &&
     sudo usermod -aG docker $USER &&
     sudo docker run hello-world
-
-# NodeJs
-sudo apt-get install -y nodejs npm
 
 # Python
 sudo add-apt-repository -y ppa:deadsnakes/ppa &&
@@ -155,3 +153,8 @@ sudo apt install r-base
 sudo apt install -y libcurl4-openssl-dev libxml2-dev
 Rscript -e "install.packages('tidyverse')"
 
+# NodeJS
+mkdir $HOME/node
+curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
+sudo bash nodesource_setup.sh
+sudo apt-get install -y nodejs

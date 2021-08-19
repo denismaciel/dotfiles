@@ -137,7 +137,6 @@ export PATH="$HOME/scripts:$PATH"
 export PATH="$HOME/go/bin/:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/node/bin:$PATH"
-export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$HOME/venvs/default/bin:$PATH"
 
 eval "$(scmpuff init -s)"
