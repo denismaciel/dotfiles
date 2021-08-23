@@ -79,6 +79,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
     Plug 'tpope/vim-commentary'
+    Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
     " === Coloschemes ===
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'morhetz/gruvbox'
@@ -98,7 +99,7 @@ set foldexpr=nvim_treesitter#foldexpr()
 " 'jpalardy/vim-slime'
     let g:slime_target = "tmux"
     let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
-    let g:slime_python_ipython = 0   
+    let g:slime_python_ipython = 1
 " 'mbbill/undotree'
     nnoremap <leader>u :UndotreeShow<CR>
 " 'nvim-lua/completion-nvim'
