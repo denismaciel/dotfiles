@@ -2,8 +2,7 @@ sudo apt update --quiet &&
   sudo apt install -y -q vim sudo 
  
 sudo apt update -qq -y && 
-  sudo apt upgrade -qq -y &&
-  sudo apt-get install -qq vim sudo
+  sudo apt upgrade -qq -y
 
 sudo apt install -y -qq curl make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev git
 
@@ -16,7 +15,7 @@ mkdir ~/applications
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/applications/zsh-syntax-highlighting
 # ZSH
 sudo apt install -y zsh zsh-syntax-highlighting
-sudo chsh -s $(which zsh)
+sudo chsh --shell $(which zsh) $USER
 
 # Acitvate ZSH === !
 zsh
@@ -47,7 +46,6 @@ stow zsh
 stow tmux
 stow tools
 stow node
-
 
 # Tmux Plugin Manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -94,14 +92,17 @@ sudo add-apt-repository \
     sudo docker run hello-world
 
 # Python
-sudo add-apt-repository -y ppa:deadsnakes/ppa &&
-    sudo apt-get update
-    sudo apt-get install python3.9-dev
+sudo add-apt-repository -y ppa:deadsnakes/ppa && \
+    sudo apt-get update && \
+    sudo apt-get install -y python3.9-dev python3.9-distutils python3.9-venv
 
 ## Bootstrap virtualenv
 sudo apt-get install -y curl &&
-    curl --location --output virtualenv.pyz https://bootstrap.pypa.io/virtualenv/3.9/virtualenv.pyz
-    python3.9 virtualenv.pyz ~/venv/default
+    curl --location --output virtualenv.pyz https://bootstrap.pypa.io/virtualenv/3.9/virtualenv.pyz && \
+    python3.9 virtualenv.pyz ~/venvs/default
+
+curl --location --output get-pip.py https://bootstrap.pypa.io/get-pip.py && \
+    python3.9 get-pip.py
 
 # Go
 curl -L --output go1.16.7.linux-amd64.tar.gz https://golang.org/dl/go1.16.7.linux-amd64.tar.gz && \
