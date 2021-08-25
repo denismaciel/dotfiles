@@ -3,19 +3,19 @@ windows:
     - window_name: Diário de Bordo
       panes:
           - shell_command:
-              - cd ~/personal/master-thesis
+              - cd ~/mine/master-thesis
               - nvim "diario-de-bordo-master-thesis.md"
     - window_name: Text
       panes:
           - shell_command:
-              - cd ~/personal/master-thesis/master-thesis
+              - cd ~/mine/master-thesis/master-thesis
     
     - window_name: Simulations
       panes:
           - shell_command:
-              - cd ~/personal/master-thesis/dynamic-pricing-simulations
+              - cd ~/mine/master-thesis/dynamic-pricing-simulations
 
     - window_name: dynpric
       panes:
           - shell_command:
-              - cd ~/personal/master-thesis/dynpric
+              - cd ~/mine/master-thesis/dynpric
