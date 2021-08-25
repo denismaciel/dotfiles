@@ -9,7 +9,7 @@ zstyle ':vcs_info:git:*' formats '[%b]'
 # ----------------------------------
 # --------- Warnings ---------------
 # ----------------------------------
-git -C $HOME/dotfiles diff --exit-code > /dev/null ||  "Commit the changes to your dotfiles, my man!"
+git -C $HOME/dotfiles diff --exit-code > /dev/null || echo " === Commit the changes to your dotfiles, my man! ==="
 
 function zle-line-init {
     if [ -z ${VIRTUAL_ENV+x} ]
@@ -43,6 +43,7 @@ function pydeps() {
     pip install jedi-language-server ipdb ipython 
 }
 
+export R_LIBS_USER="$HOME/r/x86_64-pc-linux-gnu-library/4.1" # Custom location for R packages
 export LC_ALL=en_US.UTF-8 # Fix problem when opening nvim
 export VISUAL=nvim
 export FZF_DEFAULT_OPTS="--height 100%"
@@ -110,7 +111,6 @@ case `uname` in
     ;;
 esac
 
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/key-bindings.zsh ] && source ~/key-bindings.zsh
 
@@ -130,9 +130,7 @@ setopt HIST_VERIFY               # Dont execute immediately upon history expansi
 setopt INTERACTIVE_COMMENTS       # Allow for comments
 export PATH=$HOME/bin:$PATH
 export PATH=$PATH:/usr/local/go/bin
-export PATH="/usr/local/opt/node@10/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/ay_bin:$PATH"
 export PATH="$HOME/scripts:$PATH"
 export PATH="$HOME/go/bin/:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"

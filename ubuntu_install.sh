@@ -50,6 +50,18 @@ stow node
 # Tmux Plugin Manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
+
+
+# Neovim from source
+cd ~/applications
+git clone git@github.com:neovim/neovim
+cd neovim
+sudo apt-get install ninja-build gettext libtool \
+    libtool-bin autoconf automake cmake g++ pkg-config unzip curl
+make CMAKE_BUILD_TYPE=Release
+sudo make install
+cd
+
 # FZF
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
@@ -125,6 +137,14 @@ unzip CascadiaCode-2106.17.zip
 cp $(find . -type f -name "*.otf")  ~/.local/share/fonts
 cd
 
+# RAND_FOLDER=/tmp/folder-$RANDOM
+# mkdir $RAND_FOLDER
+# cd $RAND_FOLDER
+# wget "https://github.com/i-tu/Hasklig/releases/download/v1.2/Hasklig-1.2.zip"
+# unzip Hasklig-1.2.zip.zip
+# cp $(find . -type f -name "*.otf")  ~/.local/share/fonts
+# cd
+
 
 # Apps ===
 # Chrome
@@ -149,7 +169,7 @@ sudo apt install -y texlive-latex-extra texlive-bibtex-extra biber
 # Install R
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'
-sudo apt install r-base
+sudo apt install -y r-base
 ## Tidyverse deps
 sudo apt install -y libcurl4-openssl-dev libxml2-dev
 Rscript -e "install.packages('tidyverse')"

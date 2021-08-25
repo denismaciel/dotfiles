@@ -79,11 +79,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
     Plug 'tpope/vim-commentary'
-    Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
+    Plug 'editorconfig/editorconfig-vim'
     " === Coloschemes ===
     Plug 'dracula/vim', { 'as': 'dracula' }
+    Plug 'ray-x/aurora'      " for Plug user
     Plug 'morhetz/gruvbox'
-    Plug 'editorconfig/editorconfig-vim'
+    " It seems semshi needs to be the last plugin to run...
+    Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins', 'for': 'python' }
 call plug#end()
 
 " ==========================
@@ -113,9 +115,9 @@ set foldexpr=nvim_treesitter#foldexpr()
 
 " ---- Colorscheme ----
 set termguicolors 
-colorscheme gruvbox
-highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
-highlight SignColumn ctermbg=233 ctermfg=233
+colorscheme aurora
+" highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
+" highlight SignColumn ctermbg=233 ctermfg=233
 
 " ---- Slime ----
 nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
