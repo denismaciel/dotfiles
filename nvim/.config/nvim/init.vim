@@ -70,7 +70,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'jpalardy/vim-slime'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
-    Plug 'lervag/vimtex'
+    " Plug 'lervag/vimtex'
     Plug 'machakann/vim-sandwich'
     Plug 'mbbill/undotree'
     Plug 'mhinz/vim-signify'
@@ -86,6 +86,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'morhetz/gruvbox'
     " It seems semshi needs to be the last plugin to run...
     Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins', 'for': 'python' }
+    Plug 'tjdevries/colorbuddy.vim'
+    Plug 'Th3Whit3Wolf/spacebuddy'
+    Plug 'marko-cerovac/material.nvim'
 call plug#end()
 
 " ==========================
@@ -115,7 +118,10 @@ set foldexpr=nvim_treesitter#foldexpr()
 
 " ---- Colorscheme ----
 set termguicolors 
-colorscheme aurora
+" colorscheme aurora
+" lua require('colorbuddy').colorscheme('spacebuddy')
+:lua vim.g.material_style = "deep ocean"
+colorscheme material
 " highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
 " highlight SignColumn ctermbg=233 ctermfg=233
 

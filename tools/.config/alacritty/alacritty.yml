@@ -211,7 +211,7 @@ schemes:
         white:   '#fdf6e3' # base3
     dracula: &dracula
       primary:
-        background: '0x282a36'
+        background: '0x0f111a'
         foreground: '0xf8f8f2'
       cursor:
         text: '0x44475a'
@@ -334,7 +334,7 @@ colors: *dracula
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 0.95
+background_opacity: 1
 
 selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
