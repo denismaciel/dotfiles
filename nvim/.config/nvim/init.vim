@@ -43,11 +43,16 @@ vnoremap <silent> J :m '>+1<CR>gv=gv
 vnoremap <silent> K :m '<-2<CR>gv=gv
 " Select last pasted text
 nnoremap gp `[v`]
+" copy whole file to clipboard
+nmap <leader>y :%y+<CR> 
+" File path to clipboard
+nnoremap <leader>fc :!echo % \| xclip -selection clipboard<CR>
+
+" Insert dates
 nnoremap <leader>fdt "=strftime('%Y-%m-%d %H:%M')<CR>p
 nnoremap <leader>fdd "=strftime('%Y-%m-%d')<CR>p
 nnoremap <leader>fw "=strftime('%Y-%W')<CR>p
 " Copy current buffer's file path to clipbpoard
-nnoremap <leader>fc :!echo % \| xclip -selection clipboard<CR>
 nnoremap <leader>p :!pre-commit run --file %<CR> :e!<CR>
 " Format latex
 nnoremap <leader>fp {V}gq<C-O><C-O>
@@ -148,11 +153,10 @@ nnoremap <silent> <leader>gg :SignifyToggle<CR>
 cabbrev <expr> YMD strftime("%Y-%W")
 nmap <leader>d :e ~/Sync/Notes/Current/Work-YMD.md<CR>
 " ---- BIG QUERIES ----
-nmap <leader>y :%y+<CR>
-nmap <Leader>bc :!python aydev/bigquery.py check_compilation % <Enter>
-nmap <Leader>bf :!python aydev/bigquery.py whole_query % <Enter>
-nmap <leader>bs :!python -m aymario.bigquery snapshot % <cword>
-nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/  <Enter>
+" nmap <Leader>bc :!python aydev/bigquery.py check_compilation % <Enter>
+" nmap <Leader>bf :!python aydev/bigquery.py whole_query % <Enter>
+" nmap <leader>bs :!python -m aymario.bigquery snapshot % <cword>
+" nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/  <Enter>
 
 " =======================
 " === Language Server ===
