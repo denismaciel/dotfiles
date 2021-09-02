@@ -63,7 +63,8 @@ alias pdf='open-zathura "$(fd "pdf|epub" | fzf)"'
 setopt autocd               # .. is shortcut for cd .. 
 
 # Basic auto/tab complete:
-autoload -U compinit
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit 
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
@@ -73,6 +74,8 @@ zstyle ':completion:*' matcher-list '' \
   'm:{a-z\-}={A-Z\_}' \
   'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
   'r:|?=** m:{a-z\-}={A-Z\_}'
+
+complete -C '$HOME/.local/bin/aws_completer' aws
 
 # vi mode
 bindkey -v
