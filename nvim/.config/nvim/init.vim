@@ -75,6 +75,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'jpalardy/vim-slime'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
     " Plug 'lervag/vimtex'
     Plug 'machakann/vim-sandwich'
     Plug 'mbbill/undotree'
@@ -126,17 +128,38 @@ set foldlevel=99
 set termguicolors 
 " colorscheme aurora
 " lua require('colorbuddy').colorscheme('spacebuddy')
-:lua vim.g.material_style = "deep ocean"
-colorscheme material
+" :lua vim.g.material_style = "deep ocean"
+colorscheme gruvbox
 " highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
 " highlight SignColumn ctermbg=233 ctermfg=233
 
 " ---- Slime ----
 nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
 
+lua << EOF
+require('telescope').setup{
+    defaults = {
+        vimgrep_arguments = {
+          'rg',
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case'
+        },
+        file_ignore_patterns = {
+            "%.eot",
+            "%.ttf",
+            "%.woff",
+            "%.woff2",
+        }
+    }
+}
+EOF
 " ---- FZF ----
 nmap <Leader>; :Buffers<Enter>
-nmap <Leader>t :GFiles<Enter>
+nmap <Leader>t <cmd>Telescope find_files<Enter>
 nmap <Leader>c :Commands<Enter>
 nmap <Leader>rg :Rg<Enter>
 command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, {'options': '--no-preview'}, <bang>0)
@@ -166,7 +189,7 @@ nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> gs <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
@@ -187,3 +210,4 @@ function! RenameFile()
     endif
 endfunction
 map <leader>n :call RenameFile()<cr>
+
