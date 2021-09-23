@@ -30,6 +30,7 @@ set cursorline
 " Open splits the _right way_
 set splitbelow splitright
 
+" inoremap iemb __import__('IPython').embed()
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
 nnoremap <leader>vr :source $MYVIMRC<Enter>
@@ -46,7 +47,7 @@ nnoremap gp `[v`]
 " copy whole file to clipboard
 nmap <leader>y :%y+<CR> 
 " File path to clipboard
-nnoremap <leader>fc :!echo % \| xclip -selection clipboard<CR>
+nnoremap <leader>fc :!echo -n % \| xclip -selection clipboard<CR>
 
 " Insert dates
 nnoremap <leader>fdt "=strftime('%Y-%m-%d %H:%M')<CR>p
@@ -71,31 +72,29 @@ nnoremap N Nzzzv
 call plug#begin('~/.local/share/nvim/plugged')
     " Checkout eventually: https://github.com/windwp/nvim-autopairs
     Plug 'christoomey/vim-tmux-navigator'
-    Plug 'google/vim-jsonnet'
+    " Plug 'google/vim-jsonnet'
     Plug 'jpalardy/vim-slime'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
-    " Plug 'lervag/vimtex'
     Plug 'machakann/vim-sandwich'
     Plug 'mbbill/undotree'
     Plug 'mhinz/vim-signify'
     Plug 'neovim/nvim-lspconfig'
+    Plug 'glepnir/lspsaga.nvim'
     Plug 'nvim-lua/completion-nvim'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
     Plug 'tpope/vim-commentary'
     Plug 'editorconfig/editorconfig-vim'
+    Plug 'vimwiki/vimwiki'
+    Plug 'norcalli/snippets.nvim'
     " === Coloschemes ===
     Plug 'dracula/vim', { 'as': 'dracula' }
-    Plug 'ray-x/aurora'      " for Plug user
     Plug 'morhetz/gruvbox'
     " It seems semshi needs to be the last plugin to run...
     Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins', 'for': 'python' }
-    Plug 'tjdevries/colorbuddy.vim'
-    Plug 'Th3Whit3Wolf/spacebuddy'
-    Plug 'marko-cerovac/material.nvim'
 call plug#end()
 
 " ==========================
@@ -104,6 +103,83 @@ call plug#end()
 lua require 'lsp'
 lua require 'treesitter'
 
+
+" Vimwiki
+let g:vimwiki_list = [{'path': '~/Sync/vault',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_key_mappings = { 'all_maps': 0, }
+nmap <Leader>ww <Plug>VimwikiIndex
+nmap <Leader><Enter> <Plug>VimwikiFollowLink
+command! SearchNotes lua require'telescope.builtin'.find_files({cwd = "~/Sync/vault"})
+nmap <Leader>wfs <cmd> lua require'telescope.builtin'.find_files({cwd = "~/Sync/vault"})<Enter>
+nmap <Leader>wfn <cmd> lua require'telescope.builtin'.find_files({cwd = "~/Sync/Notes/Current/"})<Enter>
+
+lua << EOF
+function scandir(directory)
+    local i, t, popen = 0, {}, io.popen
+    local pfile = popen('ls -a "'..directory..'"')
+    for filename in pfile:lines() do
+        i = i + 1
+        t[i] = filename
+    end
+    pfile:close()
+    return t
+end
+
+function cycle_notes(direction)
+    local idx
+    local buf_dir = vim.fn.expand('%:p:h')
+    local f_name = vim.fn.expand('%:t')
+    if buf_dir == '/home/denis/Sync/Notes/Current' then
+        local files = scandir(buf_dir)
+        for i, f in pairs(files) do
+           if f == f_name then
+               idx = i
+           end
+        end
+
+        if direction == 'up' then
+            next_f = files[idx+1]
+        elseif direction == 'down' then
+            next_f = files[idx-1]
+        else
+            print('Unkown direction')
+        end
+
+        vim.api.nvim_buf_delete(0, {force = false})
+        vim.api.nvim_command('edit '..buf_dir..'/'..next_f)
+    else
+        print('Not in notes directory, sucker. Current at '..buf_dir)
+    end
+end
+EOF
+nnoremap <C-P> <cmd> lua cycle_notes('up')<Enter>
+nnoremap <C-N> <cmd> lua cycle_notes('down')<Enter>
+
+" Snippets
+lua << EOF
+require'snippets'.snippets = {
+    _global = {
+        todo = [[NOTE(${=io.popen("id -un"):read"*l"}): ]];
+        newnote = [[
+============
+${0}
+=----------=
+============]];
+    }, 
+
+    python = {
+        ibed = [[__import__('IPython').embed()]];
+    }
+}
+EOF
+
+command Bd bp | sp | bn | bd
+
+inoremap <tab> <cmd>lua return require'snippets'.expand_or_advance(1)<CR>
+inoremap <s-tab> <cmd>lua return require'snippets'.advance_snippet(-1)<CR>
+
+command OpenAnki :e /home/denis/Sync/vault/anki.md
 
 " Folding with treesitter
 set foldmethod=expr
@@ -126,9 +202,6 @@ set foldlevel=99
 
 " ---- Colorscheme ----
 set termguicolors 
-" colorscheme aurora
-" lua require('colorbuddy').colorscheme('spacebuddy')
-" :lua vim.g.material_style = "deep ocean"
 colorscheme gruvbox
 " highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
 " highlight SignColumn ctermbg=233 ctermfg=233
@@ -187,15 +260,30 @@ nmap <leader>d :e ~/Sync/Notes/Current/Work-YMD.md<CR>
 " =======================
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+" nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> gs <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gs    <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> gtd   <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> grn    <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+
+
+nnoremap <silent> gtr    <cmd>Telescope lsp_references<CR>
+
+nnoremap <silent> gk <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
+nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
+nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
+nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
+nnoremap <silent><leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
+nnoremap <silent> gp <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
+nnoremap <silent> gp <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+
 " Use LSP omni-completion in Python files.
 autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+
+
 
 " =========================
 " === Utility Functions ===
