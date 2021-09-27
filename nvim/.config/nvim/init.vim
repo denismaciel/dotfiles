@@ -105,6 +105,7 @@ call plug#end()
 lua require 'lsp'
 lua require 'treesitter'
 lua require 'dap-config'
+lua require 'telescope-config'
 
 
 " Vimwiki
@@ -241,10 +242,11 @@ require('telescope').setup{
 }
 EOF
 " ---- FZF ----
-nmap <Leader>; :Buffers<Enter>
+nmap <Leader>; <cmd>Telescope buffers<Enter>
 nmap <Leader>t <cmd>Telescope find_files<Enter>
 nmap <Leader>c :Commands<Enter>
-nmap <Leader>rg :Rg<Enter>
+" nmap <Leader>rg :Rg<Enter>
+nmap <Leader>rg <cmd>Telescope live_grep<Enter>
 command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, {'options': '--no-preview'}, <bang>0)
 " While searching, Rg shouldn't match file name, only it's content
 command! -bang -nargs=* Rg call fzf#vim#grep("rg -g '!*archived*' --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
