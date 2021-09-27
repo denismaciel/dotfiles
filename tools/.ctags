@@ -1,5 +1,0 @@
---exclude=public
---exclude=node_modules
---exclude=venv*
-
---languages=Python,Go

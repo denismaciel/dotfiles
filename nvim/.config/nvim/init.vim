@@ -86,6 +86,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'nvim-lua/completion-nvim'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+    Plug 'mfussenegger/nvim-dap'
+    Plug 'rcarriga/nvim-dap-ui'
     Plug 'tpope/vim-commentary'
     Plug 'editorconfig/editorconfig-vim'
     Plug 'vimwiki/vimwiki'
@@ -102,6 +104,7 @@ call plug#end()
 " ==========================
 lua require 'lsp'
 lua require 'treesitter'
+lua require 'dap-config'
 
 
 " Vimwiki
@@ -170,7 +173,14 @@ ${0}
 
     python = {
         ibed = [[__import__('IPython').embed()]];
+    },
+    go = {
+        iferr = [[if err != nil {
+            ${0}
+  }]]
+
     }
+
 }
 EOF
 
@@ -271,6 +281,7 @@ nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
 
 nnoremap <silent> gtr    <cmd>Telescope lsp_references<CR>
+nnoremap <silent> gtt    <cmd>Telescope tags<CR>
 
 nnoremap <silent> gk <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
 nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
@@ -279,6 +290,16 @@ nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
 nnoremap <silent><leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
 nnoremap <silent> gp <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
 nnoremap <silent> gp <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+
+" DAP
+"
+nnoremap <silent> <F5> <cmd>lua require('dap').continue()<CR>
+nnoremap <silent> <F9> <cmd>lua require('dap').toggle_breakpoint()<CR>
+" {"n", "<F9>"  , [[<cmd>lua require('dap').toggle_breakpoint()<CR>]], opts}
+" {"n", "<F10>" , [[<cmd>lua require('dap').step_over()<CR>]], opts}
+" {"n", "<F11>" , [[<cmd>lua require('dap').step_into()<CR>]], opts}
+" {"n", "<F12>" , [[<cmd>lua require('dap').step_out()<CR>]], opts}
+
 
 " Use LSP omni-completion in Python files.
 autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
