@@ -29,6 +29,7 @@ set signcolumn=no
 set cursorline
 " Open splits the _right way_
 set splitbelow splitright
+set number
 
 " inoremap iemb __import__('IPython').embed()
 map <Space> <Leader>
