@@ -31,11 +31,10 @@ set cursorline
 set splitbelow splitright
 set number
 
-" inoremap iemb __import__('IPython').embed()
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
 nnoremap <leader>vr :source $MYVIMRC<Enter>
-nnoremap <leader>vf :Files ~/.config/nvim/<Enter>
+nnoremap <leader>vf <cmd>lua require('telescope.builtin').find_files({cwd = '~/.config/nvim/'})<cr>
 " Treat visual lines as actual lines. 
 nnoremap <silent> k gk
 nnoremap <silent> j gj
@@ -69,14 +68,10 @@ augroup END
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-
 call plug#begin('~/.local/share/nvim/plugged')
     " Checkout eventually: https://github.com/windwp/nvim-autopairs
     Plug 'christoomey/vim-tmux-navigator'
-    " Plug 'google/vim-jsonnet'
     Plug 'jpalardy/vim-slime'
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'machakann/vim-sandwich'
@@ -88,11 +83,12 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
     Plug 'mfussenegger/nvim-dap'
-    Plug 'rcarriga/nvim-dap-ui'
+    Plug 'mfussenegger/nvim-dap-python'
     Plug 'tpope/vim-commentary'
     Plug 'editorconfig/editorconfig-vim'
     Plug 'vimwiki/vimwiki'
     Plug 'norcalli/snippets.nvim'
+    Plug 'onsails/vimway-lsp-diag.nvim'
     " === Coloschemes ===
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'morhetz/gruvbox'
@@ -108,7 +104,6 @@ lua require 'treesitter'
 lua require 'dap-config'
 lua require 'telescope-config'
 
-
 " Vimwiki
 let g:vimwiki_list = [{'path': '~/Sync/vault',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
@@ -119,45 +114,6 @@ command! SearchNotes lua require'telescope.builtin'.find_files({cwd = "~/Sync/va
 nmap <Leader>wfs <cmd> lua require'telescope.builtin'.find_files({cwd = "~/Sync/vault"})<Enter>
 nmap <Leader>wfn <cmd> lua require'telescope.builtin'.find_files({cwd = "~/Sync/Notes/Current/"})<Enter>
 
-lua << EOF
-function scandir(directory)
-    local i, t, popen = 0, {}, io.popen
-    local pfile = popen('ls -a "'..directory..'"')
-    for filename in pfile:lines() do
-        i = i + 1
-        t[i] = filename
-    end
-    pfile:close()
-    return t
-end
-
-function cycle_notes(direction)
-    local idx
-    local buf_dir = vim.fn.expand('%:p:h')
-    local f_name = vim.fn.expand('%:t')
-    if buf_dir == '/home/denis/Sync/Notes/Current' then
-        local files = scandir(buf_dir)
-        for i, f in pairs(files) do
-           if f == f_name then
-               idx = i
-           end
-        end
-
-        if direction == 'up' then
-            next_f = files[idx+1]
-        elseif direction == 'down' then
-            next_f = files[idx-1]
-        else
-            print('Unkown direction')
-        end
-
-        vim.api.nvim_buf_delete(0, {force = false})
-        vim.api.nvim_command('edit '..buf_dir..'/'..next_f)
-    else
-        print('Not in notes directory, sucker. Current at '..buf_dir)
-    end
-end
-EOF
 nnoremap <C-P> <cmd> lua cycle_notes('up')<Enter>
 nnoremap <C-N> <cmd> lua cycle_notes('down')<Enter>
 
@@ -182,7 +138,6 @@ ${0}
   }]]
 
     }
-
 }
 EOF
 
@@ -245,28 +200,12 @@ EOF
 " ---- FZF ----
 nmap <Leader>; <cmd>Telescope buffers<Enter>
 nmap <Leader>t <cmd>Telescope find_files<Enter>
-nmap <Leader>c :Commands<Enter>
-" nmap <Leader>rg :Rg<Enter>
 nmap <Leader>rg <cmd>Telescope live_grep<Enter>
-command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, {'options': '--no-preview'}, <bang>0)
-" While searching, Rg shouldn't match file name, only it's content
-command! -bang -nargs=* Rg call fzf#vim#grep("rg -g '!*archived*' --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
-command! -bang -nargs=* RgFiles call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -l".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
-inoremap <expr> <c-x><c-f> fzf#vim#complete#path('fd')
-imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " ---- Toggles ----
 nnoremap <leader>gc :execute "set colorcolumn=" . (&colorcolumn == "" ? "80" : "")<CR>
 nnoremap <silent> <leader>gn :set nu!<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
-
-cabbrev <expr> YMD strftime("%Y-%W")
-nmap <leader>d :e ~/Sync/Notes/Current/Work-YMD.md<CR>
-" ---- BIG QUERIES ----
-" nmap <Leader>bc :!python aydev/bigquery.py check_compilation % <Enter>
-" nmap <Leader>bf :!python aydev/bigquery.py whole_query % <Enter>
-" nmap <leader>bs :!python -m aymario.bigquery snapshot % <cword>
-" nmap <leader>be :Sexplore %:p:h/snaps/%:p:t:r/  <Enter>
 
 " =======================
 " === Language Server ===
@@ -281,11 +220,8 @@ nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> grn    <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-
-
 nnoremap <silent> gtr    <cmd>Telescope lsp_references<CR>
 nnoremap <silent> gtt    <cmd>Telescope tags<CR>
-
 nnoremap <silent> gk <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
 nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
 nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
@@ -293,6 +229,8 @@ nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
 nnoremap <silent><leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
 nnoremap <silent> gp <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
 nnoremap <silent> gp <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+nmap <space>dw <cmd>lua require('vimway-lsp-diag').open_all_diagnostics()<cr>
+nmap <space>d0 <cmd>lua require('vimway-lsp-diag').open_buffer_diagnostics()<cr>
 
 " DAP
 "
@@ -307,8 +245,6 @@ nnoremap <silent> <F9> <cmd>lua require('dap').toggle_breakpoint()<CR>
 " Use LSP omni-completion in Python files.
 autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
-
-
 " =========================
 " === Utility Functions ===
 " =========================
@@ -322,4 +258,3 @@ function! RenameFile()
     endif
 endfunction
 map <leader>n :call RenameFile()<cr>
-

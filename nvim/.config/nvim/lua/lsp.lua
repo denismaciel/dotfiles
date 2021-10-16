@@ -39,6 +39,6 @@ Google's lsp server for golang.
 
 require'lspconfig'.tsserver.setup{on_attach=require'completion'.on_attach}
 require'lspconfig'.jedi_language_server.setup{on_attach=require'completion'.on_attach}
--- require'lspconfig'.pyright.setup{on_attach=require'completion'.on_attach}
+require'lspconfig'.pyright.setup{on_attach=require'completion'.on_attach}
 require'lspconfig'.gopls.setup{on_attach=require'completion'.on_attach}
 require'lspconfig'.terraformls.setup{on_attach=require'completion'.on_attach}
