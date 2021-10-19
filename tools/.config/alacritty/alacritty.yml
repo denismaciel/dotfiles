@@ -100,7 +100,8 @@ font:
     # family: Source Code Pro
     # family: Ubuntu Mono
     # family: SF Mono
-    family: Cascadia Code
+    # family: Cascadia Code
+    family: CaskaydiaCove Nerd Font Mono
     # family: Noto Sans Mono
     # family: FiraCode,Fira Code Light
     # family: IBM Plex Mono

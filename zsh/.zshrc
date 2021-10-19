@@ -11,25 +11,7 @@ zstyle ':vcs_info:git:*' formats '[%b]'
 # ----------------------------------
 git -C $HOME/dotfiles diff --exit-code > /dev/null || echo " === Commit the changes to your dotfiles, my man! ==="
 
-function zle-line-init {
-    if [ -z ${VIRTUAL_ENV+x} ]
-    then 
-        VENV=""
-    else
-        full_repo_path=$(dirname $VIRTUAL_ENV)
-        repo_name=${full_repo_path##*/}
-        VENV="(${repo_name})"
-    fi
-
-    BRANCH_NAME="${vcs_info_msg_0_/feature\//}"
-
-    INSERT_MODE=" 
- ${VENV} %~ ${BRANCH_NAME}
-$ "
-    PS1=$INSERT_MODE
-    zle reset-prompt
-}
-zle -N zle-line-init 
+eval "$(starship init zsh)"
 
 function open() {
     nohup xdg-open "$*" >> /dev/null &
@@ -152,3 +134,5 @@ if [ -e /home/denis/recap.sh ]; then . /home/denis/recap.sh; fi
 #     - https://nixos.wiki/wiki/Locales
 #     - https://www.reddit.com/r/NixOS/comments/oj4kmd/every_time_i_run_a_program_installed_with_nix_i/
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

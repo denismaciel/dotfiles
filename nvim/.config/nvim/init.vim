@@ -89,6 +89,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vimwiki/vimwiki'
     Plug 'norcalli/snippets.nvim'
     Plug 'onsails/vimway-lsp-diag.nvim'
+    Plug 'kyazdani42/nvim-web-devicons' " for file icons
+    Plug 'kyazdani42/nvim-tree.lua'
     " === Coloschemes ===
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'morhetz/gruvbox'
@@ -103,6 +105,7 @@ lua require 'lsp'
 lua require 'treesitter'
 lua require 'dap-config'
 lua require 'telescope-config'
+lua require 'nvim-tree-config'
 
 " Vimwiki
 let g:vimwiki_list = [{'path': '~/Sync/vault',
@@ -199,7 +202,9 @@ require('telescope').setup{
 EOF
 " ---- FZF ----
 nmap <Leader>; <cmd>Telescope buffers<Enter>
-nmap <Leader>t <cmd>Telescope find_files<Enter>
+nmap <Leader>tt <cmd>Telescope find_files<Enter>
+nmap <Leader>tc <cmd>Telescope commands<Enter>
+nmap <Leader>th <cmd>Telescope command_history<Enter>
 nmap <Leader>rg <cmd>Telescope live_grep<Enter>
 
 " ---- Toggles ----

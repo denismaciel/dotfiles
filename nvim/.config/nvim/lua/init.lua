@@ -1,3 +1,4 @@
+
 function scandir(directory)
     local i, t, popen = 0, {}, io.popen
     local pfile = popen('ls -a "'..directory..'"')
