@@ -1,0 +1,19 @@
+session_name: cor-0
+windows:
+    - window_name: top
+      panes:
+        - shell_command: cd ~/work/core0
+        - shell_command: cd ~/work/core0
+    - window_name: data-pipelines
+      panes:
+        - shell_command: cd ~/work/core0/data-pipelines
+        - shell_command: cd ~/work/core0/data-pipelines
+    - window_name: backend
+      panes:
+        - shell_command: cd ~/work/core0/backend
+        - shell_command: cd ~/work/core0/backend
+    - window_name: frontend
+      start_directory: ~/work/core0/recap-app
+      panes:
+        - shell_command: 
+        - shell_command:

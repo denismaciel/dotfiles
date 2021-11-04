@@ -25,6 +25,12 @@ function pydeps() {
     pip install jedi-language-server ipdb ipython 
 }
 
+function clean-downloads() {
+    mv ~/downloads/*.pdf ~/downloads/docs
+    mv ~/downloads/*.epub ~/downloads/docs
+    mv ~/downloads/*.mobi ~/downloads/docs
+}
+
 export R_LIBS_USER="$HOME/r/x86_64-pc-linux-gnu-library/4.1" # Custom location for R packages
 export LC_ALL=en_US.UTF-8 # Fix problem when opening nvim
 export VISUAL=nvim
@@ -101,6 +107,7 @@ esac
 
 fpath=($HOME/.zsh/zsh-completions/src $fpath)
 
+
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000000
 SAVEHIST=10000000
@@ -121,6 +128,7 @@ export PATH="$HOME/go/bin/:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/node/bin:$PATH"
 export PATH="$HOME/venvs/default/bin:$PATH"
+export GOPATH=$(go env GOPATH)
 
 eval "$(scmpuff init -s)"
 # eval "$(jump shell zsh)"

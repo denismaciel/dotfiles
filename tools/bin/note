@@ -1,6 +1,3 @@
 #!/bin/bash
 
-cd $HOME/Dropbox/nVALT-Notes/Current
-
-nvim $1.md
-
+nvim $HOME/Sync/Notes/Current/$1.md

@@ -13,6 +13,7 @@ syntax enable
 filetype plugin on
 set nocompatible
 set nobackup
+set background=dark
 set noswapfile
 set nowrap
 set undodir=~/.config/nvim/undodir
@@ -151,6 +152,7 @@ inoremap <s-tab> <cmd>lua return require'snippets'.advance_snippet(-1)<CR>
 
 command OpenAnki :e /home/denis/Sync/vault/anki.md
 
+
 " Folding with treesitter
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
@@ -200,12 +202,15 @@ require('telescope').setup{
     }
 }
 EOF
-" ---- FZF ----
+" ---- Telescope ----
 nmap <Leader>; <cmd>Telescope buffers<Enter>
-nmap <Leader>tt <cmd>Telescope find_files<Enter>
-nmap <Leader>tc <cmd>Telescope commands<Enter>
-nmap <Leader>th <cmd>Telescope command_history<Enter>
+nnoremap tt <cmd>Telescope find_files<Enter>
+nnoremap tc <cmd>Telescope commands<Enter>
+nnoremap th <cmd>Telescope command_history<Enter>
 nmap <Leader>rg <cmd>Telescope live_grep<Enter>
+
+" ---- Tree -----
+nnoremap tre <cmd>NvimTreeToggle<Enter>
 
 " ---- Toggles ----
 nnoremap <leader>gc :execute "set colorcolumn=" . (&colorcolumn == "" ? "80" : "")<CR>
@@ -226,7 +231,9 @@ nnoremap <silent> grn    <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> gtr    <cmd>Telescope lsp_references<CR>
-nnoremap <silent> gtt    <cmd>Telescope tags<CR>
+nnoremap <silent> gtt    <cmd>Telescope tags theme=dropdown<CR>
+" nnoremap <silent> gtt    <cmd>lua require('telescope.builtin').tags({layout_strategy='vertical', layout_config={width=0.5}})<CR>
+
 nnoremap <silent> gk <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
 nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
 nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
@@ -234,8 +241,8 @@ nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
 nnoremap <silent><leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
 nnoremap <silent> gp <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
 nnoremap <silent> gp <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
-nmap <space>dw <cmd>lua require('vimway-lsp-diag').open_all_diagnostics()<cr>
-nmap <space>d0 <cmd>lua require('vimway-lsp-diag').open_buffer_diagnostics()<cr>
+nmap <space>dw <cmd>lua require('diaglist').open_all_diagnostics()<cr>
+nmap <space>d0 <cmd>lua require('diaglist').open_buffer_diagnostics()<cr>
 
 " DAP
 "
