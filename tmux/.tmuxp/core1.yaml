@@ -1,4 +1,4 @@
-session_name: core-1
+session_name: core1
 windows:
     - window_name: top
       panes:
