@@ -70,7 +70,6 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 
 call plug#begin('~/.local/share/nvim/plugged')
-    " Checkout eventually: https://github.com/windwp/nvim-autopairs
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'jpalardy/vim-slime'
     Plug 'nvim-lua/plenary.nvim'
@@ -92,11 +91,15 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'onsails/vimway-lsp-diag.nvim'
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
     Plug 'kyazdani42/nvim-tree.lua'
+    Plug 'ThePrimeagen/harpoon'
+    Plug 'windwp/nvim-autopairs'
+    Plug 'windwp/nvim-ts-autotag'
     " === Coloschemes ===
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'morhetz/gruvbox'
     " It seems semshi needs to be the last plugin to run...
     Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins', 'for': 'python' }
+    Plug 'savq/melange'
 call plug#end()
 
 " ==========================
@@ -107,6 +110,35 @@ lua require 'treesitter'
 lua require 'dap-config'
 lua require 'telescope-config'
 lua require 'nvim-tree-config'
+lua require('nvim-autopairs').setup({})
+
+lua << EOF
+require("nvim-autopairs").setup{}
+local remap = vim.api.nvim_set_keymap
+local npairs = require('nvim-autopairs')
+
+-- skip it, if you use another global object
+_G.MUtils= {}
+
+vim.g.completion_confirm_key = ""
+
+MUtils.completion_confirm=function()
+  if vim.fn.pumvisible() ~= 0  then
+    if vim.fn.complete_info()["selected"] ~= -1 then
+      require'completion'.confirmCompletion()
+      return npairs.esc("<c-y>")
+    else
+      vim.api.nvim_select_popupmenu_item(0 , false , false ,{})
+      require'completion'.confirmCompletion()
+      return npairs.esc("<c-n><c-y>")
+    end
+  else
+    return npairs.autopairs_cr()
+  end
+end
+
+remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
+EOF
 
 " Vimwiki
 let g:vimwiki_list = [{'path': '~/Sync/vault',
@@ -117,6 +149,14 @@ nmap <Leader><Enter> <Plug>VimwikiFollowLink
 command! SearchNotes lua require'telescope.builtin'.find_files({cwd = "~/Sync/vault"})
 nmap <Leader>wfs <cmd> lua require'telescope.builtin'.find_files({cwd = "~/Sync/vault"})<Enter>
 nmap <Leader>wfn <cmd> lua require'telescope.builtin'.find_files({cwd = "~/Sync/Notes/Current/"})<Enter>
+
+"Harpoon
+
+nmap <Leader>hh <cmd> lua require("harpoon.ui").toggle_quick_menu()<Enter>
+nmap <Leader>ha <cmd> lua require("harpoon.mark").add_file()<Enter>
+nmap <Leader>j <cmd> lua require("harpoon.ui").nav_file(1)<Enter>
+nmap <Leader>k <cmd> lua require("harpoon.ui").nav_file(2)<Enter>
+nmap <Leader>l <cmd> lua require("harpoon.ui").nav_file(3)<Enter>
 
 nnoremap <C-P> <cmd> lua cycle_notes('up')<Enter>
 nnoremap <C-N> <cmd> lua cycle_notes('down')<Enter>
@@ -174,7 +214,7 @@ set foldlevel=99
 
 " ---- Colorscheme ----
 set termguicolors 
-colorscheme gruvbox
+colorscheme melange
 " highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
 " highlight SignColumn ctermbg=233 ctermfg=233
 
@@ -220,32 +260,39 @@ nnoremap <silent> <leader>gg :SignifyToggle<CR>
 " =======================
 " === Language Server ===
 " =======================
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-" nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> gs    <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> gtd   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> grn    <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-nnoremap <silent> gtr    <cmd>Telescope lsp_references<CR>
-nnoremap <silent> gtt    <cmd>Telescope tags theme=dropdown<CR>
-" nnoremap <silent> gtt    <cmd>lua require('telescope.builtin').tags({layout_strategy='vertical', layout_config={width=0.5}})<CR>
+" Reserved
+"     gf
+"     gF
+"     gv
+"     gp
 
-nnoremap <silent> gk <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
-nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
+" nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gdd       <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <c-]>     <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gD        <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> gs        <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> gtd       <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr        <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> grn       <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <silent> g0        <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW        <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> gtr       <cmd>Telescope lsp_references<CR>
+nnoremap <silent> gtt       <cmd>Telescope tags theme=dropdown<CR>
+
+nnoremap <silent> gk        <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
+nnoremap <silent> gh        <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
 nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
-nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
-nnoremap <silent><leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
-nnoremap <silent> gp <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
-nnoremap <silent> gp <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
-nmap <space>dw <cmd>lua require('diaglist').open_all_diagnostics()<cr>
-nmap <space>d0 <cmd>lua require('diaglist').open_buffer_diagnostics()<cr>
+
+nnoremap <silent> gdp       <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
+nnoremap <silent> gdn       <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+
+nmap <leader>dw             <cmd>lua require('diaglist').open_all_diagnostics()<cr>
+nmap <leader>d0             <cmd>lua require('diaglist').open_buffer_diagnostics()<cr>
+
+nnoremap <leader>ff         <cmd>lua vim.lsp.buf.formatting()<cr>
+
 
 " DAP
-"
 nnoremap <silent> <F5> <cmd>lua require('dap').continue()<CR>
 nnoremap <silent> <F9> <cmd>lua require('dap').toggle_breakpoint()<CR>
 " {"n", "<F9>"  , [[<cmd>lua require('dap').toggle_breakpoint()<CR>]], opts}

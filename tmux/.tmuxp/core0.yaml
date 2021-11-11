@@ -1,4 +1,4 @@
-session_name: cor-0
+session_name: core-0
 windows:
     - window_name: top
       panes:
@@ -15,5 +15,5 @@ windows:
     - window_name: frontend
       start_directory: ~/work/core0/recap-app
       panes:
-        - shell_command: 
-        - shell_command:
+        - shell_command: cd ~/work/core0/recap-app
+        - shell_command: cd ~/work/core0/recap-app
