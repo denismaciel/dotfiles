@@ -31,6 +31,10 @@ function clean-downloads() {
     mv ~/downloads/*.mobi ~/downloads/docs
 }
 
+function add-in() {
+    printf "Addressed in $(git rev-parse HEAD)" | xclip -selection clipboard 
+}
+
 export R_LIBS_USER="$HOME/r/x86_64-pc-linux-gnu-library/4.1" # Custom location for R packages
 export LC_ALL=en_US.UTF-8 # Fix problem when opening nvim
 export VISUAL=nvim
