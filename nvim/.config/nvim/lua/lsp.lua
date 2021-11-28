@@ -37,8 +37,17 @@ Google's lsp server for golang.
   },
 }
 
-require'lspconfig'.tsserver.setup{on_attach=require'completion'.on_attach}
-require'lspconfig'.jedi_language_server.setup{on_attach=require'completion'.on_attach}
-require'lspconfig'.pyright.setup{on_attach=require'completion'.on_attach}
-require'lspconfig'.gopls.setup{on_attach=require'completion'.on_attach}
-require'lspconfig'.terraformls.setup{on_attach=require'completion'.on_attach}
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+require'lspconfig'.tsserver.setup{
+    capabilities = capabilities
+}
+require'lspconfig'.jedi_language_server.setup{
+    capabilities = capabilities
+}
+require'lspconfig'.pyright.setup{
+    capabilities = capabilities
+}
+require'lspconfig'.gopls.setup{
+    capabilities = capabilities
+}
+require'lspconfig'.terraformls.setup{}

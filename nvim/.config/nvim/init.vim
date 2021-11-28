@@ -69,17 +69,19 @@ augroup END
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
+vnoremap < <gv
+vnoremap > >gv
+
 call plug#begin('~/.local/share/nvim/plugged')
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'jpalardy/vim-slime'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
-    Plug 'machakann/vim-sandwich'
+    " Plug 'machakann/vim-sandwich'
     Plug 'mbbill/undotree'
     Plug 'mhinz/vim-signify'
     Plug 'neovim/nvim-lspconfig'
     Plug 'glepnir/lspsaga.nvim'
-    Plug 'nvim-lua/completion-nvim'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
     Plug 'mfussenegger/nvim-dap'
@@ -87,13 +89,25 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-commentary'
     Plug 'editorconfig/editorconfig-vim'
     Plug 'vimwiki/vimwiki'
-    Plug 'norcalli/snippets.nvim'
     Plug 'onsails/vimway-lsp-diag.nvim'
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
     Plug 'kyazdani42/nvim-tree.lua'
     Plug 'ThePrimeagen/harpoon'
     Plug 'windwp/nvim-autopairs'
     Plug 'windwp/nvim-ts-autotag'
+    Plug 'folke/twilight.nvim'
+    Plug 'ggandor/lightspeed.nvim'
+    Plug 'sindrets/diffview.nvim'
+
+    Plug 'neovim/nvim-lspconfig'
+
+    Plug 'hrsh7th/vim-vsnip'
+    Plug 'hrsh7th/vim-vsnip-integ'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'hrsh7th/cmp-cmdline'
+    Plug 'hrsh7th/nvim-cmp'
     " === Coloschemes ===
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'morhetz/gruvbox'
@@ -110,35 +124,14 @@ lua require 'treesitter'
 lua require 'dap-config'
 lua require 'telescope-config'
 lua require 'nvim-tree-config'
+lua require 'diffview-config'
+
+lua require 'cmp-config'
 lua require('nvim-autopairs').setup({})
+lua require('twilight').setup{}
 
-lua << EOF
-require("nvim-autopairs").setup{}
-local remap = vim.api.nvim_set_keymap
-local npairs = require('nvim-autopairs')
+set completeopt=menu,menuone,noselect
 
--- skip it, if you use another global object
-_G.MUtils= {}
-
-vim.g.completion_confirm_key = ""
-
-MUtils.completion_confirm=function()
-  if vim.fn.pumvisible() ~= 0  then
-    if vim.fn.complete_info()["selected"] ~= -1 then
-      require'completion'.confirmCompletion()
-      return npairs.esc("<c-y>")
-    else
-      vim.api.nvim_select_popupmenu_item(0 , false , false ,{})
-      require'completion'.confirmCompletion()
-      return npairs.esc("<c-n><c-y>")
-    end
-  else
-    return npairs.autopairs_cr()
-  end
-end
-
-remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
-EOF
 
 " Vimwiki
 let g:vimwiki_list = [{'path': '~/Sync/vault',
@@ -161,34 +154,7 @@ nmap <Leader>l <cmd> lua require("harpoon.ui").nav_file(3)<Enter>
 nnoremap <C-P> <cmd> lua cycle_notes('up')<Enter>
 nnoremap <C-N> <cmd> lua cycle_notes('down')<Enter>
 
-" Snippets
-lua << EOF
-require'snippets'.snippets = {
-    _global = {
-        todo = [[NOTE(${=io.popen("id -un"):read"*l"}): ]];
-        newnote = [[
-============
-${0}
-=----------=
-============]];
-    }, 
-
-    python = {
-        ibed = [[__import__('IPython').embed()]];
-    },
-    go = {
-        iferr = [[if err != nil {
-            ${0}
-  }]]
-
-    }
-}
-EOF
-
 command Bd bp | sp | bn | bd
-
-inoremap <tab> <cmd>lua return require'snippets'.expand_or_advance(1)<CR>
-inoremap <s-tab> <cmd>lua return require'snippets'.advance_snippet(-1)<CR>
 
 command OpenAnki :e /home/denis/Sync/vault/anki.md
 
@@ -203,14 +169,6 @@ set foldlevel=99
     let g:slime_python_ipython = 1
 " 'mbbill/undotree'
     nnoremap <leader>u :UndotreeShow<CR>
-" 'nvim-lua/completion-nvim'
-    autocmd BufEnter * lua require'completion'.on_attach()
-    set completeopt=menuone,noinsert,noselect
-    " Avoid showing message extra message when using completion
-    set shortmess+=c
-    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
-" 'lervag/vimtex'
-    let g:tex_flavor='latex'
 
 " ---- Colorscheme ----
 set termguicolors 
@@ -220,12 +178,12 @@ colorscheme melange
 
 " ---- Slime ----
 nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
-
 lua << EOF
 require('telescope').setup{
     defaults = {
         vimgrep_arguments = {
           'rg',
+          '--hiden',
           '--color=never',
           '--no-heading',
           '--with-filename',
@@ -244,7 +202,7 @@ require('telescope').setup{
 EOF
 " ---- Telescope ----
 nmap <Leader>; <cmd>Telescope buffers<Enter>
-nnoremap tt <cmd>Telescope find_files<Enter>
+nnoremap tt <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<Enter>
 nnoremap tc <cmd>Telescope commands<Enter>
 nnoremap th <cmd>Telescope command_history<Enter>
 nmap <Leader>rg <cmd>Telescope live_grep<Enter>
@@ -301,8 +259,6 @@ nnoremap <silent> <F9> <cmd>lua require('dap').toggle_breakpoint()<CR>
 " {"n", "<F12>" , [[<cmd>lua require('dap').step_out()<CR>]], opts}
 
 
-" Use LSP omni-completion in Python files.
-autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
 " =========================
 " === Utility Functions ===
