@@ -6,3 +6,6 @@ add_newline = true
 success_symbol = '[\$](white)'     # The "success_symbol" segment is being set to "➜" with the color "bold green"
 error_symbol = '[\$](red)' 
 vicmd_symbol = '[\$](blue)' 
+
+[aws]
+disabled = true

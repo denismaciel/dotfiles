@@ -31,6 +31,13 @@ set cursorline
 " Open splits the _right way_
 set splitbelow splitright
 set number
+set list lcs=trail:·,tab:»·
+
+
+au FileType go let b:EditorConfig_disable = 1 
+au FileType go setlocal noexpandtab
+
+
 
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>

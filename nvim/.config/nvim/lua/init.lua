@@ -36,3 +36,24 @@ function cycle_notes(direction)
         print('Not in notes directory, sucker. Current at '..buf_dir)
     end
 end
+
+function get_current_commit_sha(directory)
+    local i, t, popen = 0, {}, io.popen
+    local result = popen('git -C "'..directory..'" '.."rev-parse HEAD")
+    for line in result:lines() do
+        return line
+    end
+end
+
+function get_github_permalink() 
+    local sha = get_current_commit_sha(vim.fn.getcwd())
+    local linenr = vim.api.nvim_win_get_cursor(0)[1]
+    local file = vim.fn.expand('%:p')
+
+    local _, j = string.find(file, "core")
+
+    -- We want to get rid of: `.../core{0,1,2}/`. That's why j + 3.
+    file = file:sub(j + 3, nil)
+    local permalink = ("https://github.com/recap-technologies/core/blob/"..sha.."/"..file.."#L"..linenr)
+    vim.cmd("let @+ = '"..permalink.."'")
+end
