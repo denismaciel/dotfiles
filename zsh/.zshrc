@@ -49,7 +49,9 @@ alias la='ls -lAh'
 alias ll='ls -lh'
 alias lsa='ls -lah' 
 alias R='R --no-save'
-alias diary='nvim "$HOME/Sync/Notes/Diary/$(date +'%Y-%m-%d').md"'
+alias diary='nvim "$HOME/Sync/Notes/Current/Diary/$(date +'%Y-%m-%d').md"'
+alias research='nvim -c "Research"'
+
 alias pdf='open-zathura "$(fd "pdf|epub" | fzf)"'
 
 setopt autocd               # .. is shortcut for cd .. 

@@ -14,7 +14,8 @@ function cycle_notes(direction)
     local idx
     local buf_dir = vim.fn.expand('%:p:h')
     local f_name = vim.fn.expand('%:t')
-    if buf_dir == '/home/denis/Sync/Notes/Current' then
+    -- if buf_dir == '/home/denis/Sync/Notes/Current' then
+    if true then
         local files = scandir(buf_dir)
         for i, f in pairs(files) do
            if f == f_name then
@@ -33,7 +34,7 @@ function cycle_notes(direction)
         vim.api.nvim_buf_delete(0, {force = false})
         vim.api.nvim_command('edit '..buf_dir..'/'..next_f)
     else
-        print('Not in notes directory, sucker. Current at '..buf_dir)
+        print('Not inside notes directory, sucker. Current at '..buf_dir)
     end
 end
 

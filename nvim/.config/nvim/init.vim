@@ -36,6 +36,11 @@ set list lcs=trail:·,tab:»·
 
 au FileType go let b:EditorConfig_disable = 1 
 au FileType go setlocal noexpandtab
+au FileType markdown setlocal wrap
+
+:cabbrev W w
+:cabbrev Wq wq
+:cabbrev WQ wq
 
 
 
@@ -88,11 +93,11 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'mbbill/undotree'
     Plug 'mhinz/vim-signify'
     Plug 'neovim/nvim-lspconfig'
-    Plug 'glepnir/lspsaga.nvim'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
     Plug 'mfussenegger/nvim-dap'
     Plug 'mfussenegger/nvim-dap-python'
+    Plug 'leoluz/nvim-dap-go'
     Plug 'tpope/vim-commentary'
     Plug 'editorconfig/editorconfig-vim'
     Plug 'vimwiki/vimwiki'
@@ -105,6 +110,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'folke/twilight.nvim'
     Plug 'ggandor/lightspeed.nvim'
     Plug 'sindrets/diffview.nvim'
+
+    Plug 'APZelos/blamer.nvim'
 
     Plug 'neovim/nvim-lspconfig'
 
@@ -129,6 +136,10 @@ call plug#end()
 lua require 'lsp'
 lua require 'treesitter'
 lua require 'dap-config'
+lua require('dap-go').setup()
+nmap <silent> <leader>dd :lua require('dap-go').debug_test()<CR>
+nmap <silent> <leader>dc :lua require('dap-go').continue()<CR>
+nmap <silent> <leader>db :lua require('dap-go').toggle_breakpoint()<CR>
 lua require 'telescope-config'
 lua require 'nvim-tree-config'
 lua require 'diffview-config'
@@ -146,8 +157,7 @@ let g:vimwiki_list = [{'path': '~/Sync/vault',
 let g:vimwiki_key_mappings = { 'all_maps': 0, }
 nmap <Leader>ww <Plug>VimwikiIndex
 nmap <Leader><Enter> <Plug>VimwikiFollowLink
-command! SearchNotes lua require'telescope.builtin'.find_files({cwd = "~/Sync/vault"})
-nmap <Leader>wfs <cmd> lua require'telescope.builtin'.find_files({cwd = "~/Sync/vault"})<Enter>
+command! Research lua require'telescope.builtin'.find_files({cwd = "~/Sync/Notes/Current/Research"})
 nmap <Leader>wfn <cmd> lua require'telescope.builtin'.find_files({cwd = "~/Sync/Notes/Current/"})<Enter>
 
 "Harpoon
@@ -243,29 +253,12 @@ nnoremap <silent> g0        <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW        <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> gtr       <cmd>Telescope lsp_references<CR>
 nnoremap <silent> gtt       <cmd>Telescope tags theme=dropdown<CR>
-
-nnoremap <silent> gk        <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
-nnoremap <silent> gh        <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
-nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
-
-nnoremap <silent> gdp       <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
-nnoremap <silent> gdn       <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+nnoremap <silent> K         <cmd>lua vim.lsp.buf.hover()<CR>
 
 nmap <leader>dw             <cmd>lua require('diaglist').open_all_diagnostics()<cr>
 nmap <leader>d0             <cmd>lua require('diaglist').open_buffer_diagnostics()<cr>
 
 nnoremap <leader>ff         <cmd>lua vim.lsp.buf.formatting()<cr>
-
-
-" DAP
-nnoremap <silent> <F5> <cmd>lua require('dap').continue()<CR>
-nnoremap <silent> <F9> <cmd>lua require('dap').toggle_breakpoint()<CR>
-" {"n", "<F9>"  , [[<cmd>lua require('dap').toggle_breakpoint()<CR>]], opts}
-" {"n", "<F10>" , [[<cmd>lua require('dap').step_over()<CR>]], opts}
-" {"n", "<F11>" , [[<cmd>lua require('dap').step_into()<CR>]], opts}
-" {"n", "<F12>" , [[<cmd>lua require('dap').step_out()<CR>]], opts}
-
-
 
 " =========================
 " === Utility Functions ===
