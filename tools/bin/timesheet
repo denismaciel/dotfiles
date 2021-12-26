@@ -17,7 +17,8 @@ START = args.start
 if START is None:
     now = datetime.now()
     hour = now.hour
-    minute = "00" if now.minute < 30 else "30"
+    # minute = "00" if now.minute < 30 else "30"
+    minute = now.minute
     START = f"{hour}:{minute}"
 
 END = args.end or "18:00"
