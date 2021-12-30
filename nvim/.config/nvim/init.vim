@@ -44,6 +44,8 @@ au FileType markdown setlocal wrap
 
 
 
+
+
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
 nnoremap <leader>vr :source $MYVIMRC<Enter>
@@ -273,3 +275,6 @@ function! RenameFile()
     endif
 endfunction
 map <leader>n :call RenameFile()<cr>
+
+" nnoremap j <Nop>
+" nnoremap k <Nop>
