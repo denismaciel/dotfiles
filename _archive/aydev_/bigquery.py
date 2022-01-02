@@ -18,15 +18,14 @@ from typing import Union
 
 import pandas as pd
 import yaml
+from aymario.auth import Config
+from aymario.auth import get_bq_client
+from aymario.devtools import mock_flowspec
+from aymario.gbq_interact import format_query
+from aymario.sql import extract_runnable_cte
+from aymario.sql import SQLFile
 from google.cloud import bigquery
 from google.oauth2 import service_account
-
-from aymario.auth import Config
-from aymario.sql import SQLFile
-from aymario.sql import extract_runnable_cte
-from aymario.auth import get_bq_client 
-from aymario.gbq_interact import format_query
-from aymario.devtools import mock_flowspec
 
 
 def get_client():
@@ -37,17 +36,17 @@ def get_client():
 
 
 def parse_header(query_string):
-    bangs = [m.start() for m in re.finditer("###", query_string)]
+    bangs = [m.start() for m in re.finditer('###', query_string)]
     try:
         begin, end, *_ = bangs
     except ValueError:
-        print("Could not parse a config header")
+        print('Could not parse a config header')
         vars = {}
     else:
         begin += 3
         vars = yaml.safe_load(query_string[begin:end])
 
-    print("Variables from file header: ", vars)
+    print('Variables from file header: ', vars)
     return vars
 
 
@@ -64,34 +63,34 @@ def check_syntax(query: str) -> Union[str, Exception]:
     except Exception as e:
         return e
     else:
-        return "~~~ Yay! Query compiles ~~~"
+        return '~~~ Yay! Query compiles ~~~'
 
 
 def cmd_compile(file, args, configs, **kwargs):
-    with open(file, "r") as f:
+    with open(file, 'r') as f:
         sql = format_query(f.read(), configs)
     print(sql)
     return 0
 
 
 def cmd_check_compilation(file, args, configs, **kwargs):
-    with open(file, "r") as f:
+    with open(file, 'r') as f:
         sql = format_query(f.read(), configs)
     print(check_syntax(sql))
     return 0
 
 
 def cmd_snapshot(file, args, configs, **kwargs):
-    pd.set_option("display.max_columns", 500)
-    pd.set_option("display.width", 1_000_000)
-    pd.set_option("display.max_rows", 1_000)
+    pd.set_option('display.max_columns', 500)
+    pd.set_option('display.width', 1_000_000)
+    pd.set_option('display.max_rows', 1_000)
 
     cte = args[0]
 
     path_dir = file.parent
     file_name = file.name
 
-    with open(file, "r") as f:
+    with open(file, 'r') as f:
         query = format_query(f.read(), configs)
 
     runnable_cte = extract_runnable_cte(query, cte)
@@ -99,19 +98,19 @@ def cmd_snapshot(file, args, configs, **kwargs):
     res = client.query(runnable_cte)
 
     # Create directory if non existent
-    snaps_dir = path_dir / "snaps" / file.stem
+    snaps_dir = path_dir / 'snaps' / file.stem
     if not snaps_dir.exists():
         os.makedirs(snaps_dir)
 
     # Save to file
-    suffix = ""
-    for k, v in kwargs["file_vars"].items():
-        suffix += f"__{k}_{v}"
+    suffix = ''
+    for k, v in kwargs['file_vars'].items():
+        suffix += f'__{k}_{v}'
 
     # Limit file name length
     suffix = suffix[:50]
 
-    with open(snaps_dir / (cte + suffix + ".txt"), "w") as f:
+    with open(snaps_dir / (cte + suffix + '.txt'), 'w') as f:
         f.write(repr(res.to_dataframe()))
 
     return 0
@@ -134,16 +133,18 @@ def cmd_whole_query(file, args, config, **kwargs):
 
 
 def main():
-    conf = mock_flowspec("config/compiled/dev_local/deepar_train_v8.json").conf
+    conf = mock_flowspec('config/compiled/dev_local/deepar_train_v8.json').conf
     run_date = date.today() - timedelta(days=1)
-    conf._d.update({
-        "RUN_DATE": run_date,
-        "FORECAST_DATE": run_date,
-        "FORECAST_DATE_TABLE_ID": format(run_date, "%Y%m%d"),
-        "COUNTRY_CLUSTER": "DE",
-        "COUNTRY_CODE": "DE",
-        "APPLICATION_ID": "(135)",
-    })
+    conf._d.update(
+        {
+            'RUN_DATE': run_date,
+            'FORECAST_DATE': run_date,
+            'FORECAST_DATE_TABLE_ID': format(run_date, '%Y%m%d'),
+            'COUNTRY_CLUSTER': 'DE',
+            'COUNTRY_CODE': 'DE',
+            'APPLICATION_ID': '(135)',
+        }
+    )
 
     # Parse command line arguments
     _, command, file, *args = sys.argv
@@ -151,20 +152,20 @@ def main():
     file = Path(file)
 
     if not file.exists():
-        raise FileNotFoundError(f"{file} does not exists")
+        raise FileNotFoundError(f'{file} does not exists')
 
     if not file.is_file():
-        raise FileNotFoundError(f"{file} is not a file")
+        raise FileNotFoundError(f'{file} is not a file')
 
     with open(file) as f:
         file_vars = parse_header(f.read())
     conf._d.update(file_vars)
 
     commands = {
-        "snapshot": cmd_snapshot,
-        "compile": cmd_compile,
-        "check_compilation": cmd_check_compilation,
-        "whole_query": cmd_whole_query,
+        'snapshot': cmd_snapshot,
+        'compile': cmd_compile,
+        'check_compilation': cmd_check_compilation,
+        'whole_query': cmd_whole_query,
     }
 
     try:
@@ -173,5 +174,5 @@ def main():
         raise Exception(f"Command '{command}' not found")
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     exit(main())

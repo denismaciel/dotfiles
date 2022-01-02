@@ -1,15 +1,18 @@
 #!/usr/bin/env python
-
-from datetime import datetime, timedelta
-from typing import Any
 import sys
 from argparse import ArgumentParser
+from datetime import datetime
+from datetime import timedelta
+from typing import Any
 
 parser = ArgumentParser()
 parser.add_argument(
-    "-s", "--start", dest="start", help="When does your day start?",
+    '-s',
+    '--start',
+    dest='start',
+    help='When does your day start?',
 )
-parser.add_argument("-e", "--end", dest="end", help="When does your day end?")
+parser.add_argument('-e', '--end', dest='end', help='When does your day end?')
 
 args = parser.parse_args()
 
@@ -19,13 +22,13 @@ if START is None:
     hour = now.hour
     # minute = "00" if now.minute < 30 else "30"
     minute = now.minute
-    START = f"{hour}:{minute}"
+    START = f'{hour}:{minute}'
 
-END = args.end or "18:00"
+END = args.end or '18:00'
 
 
 def timesheet(start: str, end: str) -> Any:
-    fmt = "%H:%M"
+    fmt = '%H:%M'
     s = datetime.strptime(start, fmt)
     e = datetime.strptime(end, fmt)
     l = [s]
@@ -38,12 +41,14 @@ def timesheet(start: str, end: str) -> Any:
     l.append(e)
     return l
 
+
 r = timesheet(START, END)
 
+
 def fmt(i):
-    return datetime.strftime(i, "%H.%M")
+    return datetime.strftime(i, '%H.%M')
 
 
-ts = [f"- [ ] {fmt(i)} {fmt(j)}" for i, j in zip(r[:-1], r[1:])]
+ts = [f'- [ ] {fmt(i)} {fmt(j)}' for i, j in zip(r[:-1], r[1:])]
 
-sys.stdout.write("\n".join(ts))
+sys.stdout.write('\n'.join(ts))

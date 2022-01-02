@@ -1,6 +1,7 @@
 #! env python
-from pathlib import Path
 import sys
+from pathlib import Path
+
 import pandas as pd
 from google.cloud import bigquery as bq
 
@@ -28,5 +29,5 @@ WHERE table_name = '{table_name}'
 
 df = client.query(query).to_dataframe()
 
-with open(Path().home() / f"ay_data/schemata/{table_name}.txt", 'w') as f:
+with open(Path().home() / f'ay_data/schemata/{table_name}.txt', 'w') as f:
     f.write(repr(df))

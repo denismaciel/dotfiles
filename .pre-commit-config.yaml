@@ -1,0 +1,25 @@
+repos:
+  - repo: git://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-yaml
+      # Python specific
+      - id: debug-statements # prevents commiting calls to breakpoint()
+      - id: double-quote-string-fixer # replaces " with ' in string literals
+  - repo: https://github.com/psf/black
+    rev: 21.11b1
+    hooks:
+      - id: black
+        args: [--skip-string-normalization]
+
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: "3.9.2"
+    hooks:
+      - id: flake8
+  - repo: https://github.com/asottile/reorder_python_imports
+    rev: v2.6.0
+    hooks:
+      - id: reorder-python-imports
+        args: [--application-directories, "data-pipelines"]

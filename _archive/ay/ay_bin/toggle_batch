@@ -1,21 +1,18 @@
 #! /usr/bin/env python
-
-from pathlib import Path
 import os
+from pathlib import Path
 
 
 home = Path().home()
 
-on = home / ".metaflowconfig"
-off = home / ".metaflowconfig_bkp"
+on = home / '.metaflowconfig'
+off = home / '.metaflowconfig_bkp'
 
 if on.exists():
     os.rename(on, off)
-    print("Moved{} to {}".format(on, off))
+    print('Moved{} to {}'.format(on, off))
 elif off.exists():
     os.rename(off, on)
-    print("Moved {} to {}".format(off, on))
+    print('Moved {} to {}'.format(off, on))
 else:
     raise FileNotFoundError
-
-    

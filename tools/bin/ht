@@ -1,13 +1,12 @@
 #! /usr/bin/env python3
-
-import sqlite3
 import argparse
+import sqlite3
 import sys
-from sys import exit
 from datetime import datetime
 from pathlib import Path
+from sys import exit
 
-conn = sqlite3.connect(Path.home() / "Sync" / "habits.sqlite")
+conn = sqlite3.connect(Path.home() / 'Sync' / 'habits.sqlite')
 
 c = conn.cursor()
 
@@ -35,18 +34,18 @@ for cmd in init_commands:
 class CLI:
     def __init__(self):
         self._now = datetime.now()
-        parser = argparse.ArgumentParser(usage="ht <command> [args]")
-        parser.add_argument("command")
+        parser = argparse.ArgumentParser(usage='ht <command> [args]')
+        parser.add_argument('command')
         args = parser.parse_args(sys.argv[1:2])
         if not hasattr(self, args.command):
-            print("Command not recognized")
+            print('Command not recognized')
             parser.print_help()
             exit(1)
         getattr(self, args.command)()
 
     def type(self):
-        parser = argparse.ArgumentParser(description="Check type of habit")
-        parser.add_argument("habit")
+        parser = argparse.ArgumentParser(description='Check type of habit')
+        parser.add_argument('habit')
         args = parser.parse_args(sys.argv[2:])
         with conn:
             c.execute(
@@ -57,19 +56,19 @@ class CLI:
                 """,
                 (args.habit,),
             )
-            print("\n\t%s is of type %s" % c.fetchone())
+            print('\n\t%s is of type %s' % c.fetchone())
 
     def add(self):
-        """ Add new habit to be tracked
+        """Add new habit to be tracked
 
         Ex: habittracker add wake-up-early --type done_or_not
         """
-        parser = argparse.ArgumentParser(description="Add a new action to be tracked")
-        parser.add_argument("habit")
+        parser = argparse.ArgumentParser(description='Add a new action to be tracked')
+        parser.add_argument('habit')
         parser.add_argument(
-            "--type",
-            default="done_or_not",
-            choices=["done_or_not", "numeric", "duration"],
+            '--type',
+            default='done_or_not',
+            choices=['done_or_not', 'numeric', 'duration'],
         )
         args = parser.parse_args(sys.argv[2:])
         with conn:
@@ -81,8 +80,8 @@ class CLI:
             )
 
     def toggle(self):
-        parser = argparse.ArgumentParser(description="(In)activate a habit")
-        parser.add_argument("habit")
+        parser = argparse.ArgumentParser(description='(In)activate a habit')
+        parser.add_argument('habit')
         args = parser.parse_args(sys.argv[2:])
 
         query = c.execute(
@@ -111,12 +110,11 @@ class CLI:
             )
 
     def record(self):
-        """ Record completion of habit
-        """
+        """Record completion of habit"""
         parser = argparse.ArgumentParser()
-        parser.add_argument("habit")
-        parser.add_argument("stat", default="done")
-        parser.add_argument("--date", default=self._now)
+        parser.add_argument('habit')
+        parser.add_argument('stat', default='done')
+        parser.add_argument('--date', default=self._now)
         args = parser.parse_args(sys.argv[2:])
 
         print(args.habit)
@@ -133,45 +131,44 @@ class CLI:
 
         with conn:
 
-            if _type == "numeric":
+            if _type == 'numeric':
                 try:
                     stat = float(args.stat)
                 except ValueError:
-                    print("This must be a number")
+                    print('This must be a number')
                     exit(1)
 
                 print(stat)
                 c.execute(
-                    "INSERT INTO records(habit_id, ts, stat) VALUES(?, ?, ?)",
+                    'INSERT INTO records(habit_id, ts, stat) VALUES(?, ?, ?)',
                     (_id, args.date, stat),
                 )
 
-            if _type == "done_or_not":
-                if args.stat != "done":
-                    print("What do you mean by {}".format(args.stat))
+            if _type == 'done_or_not':
+                if args.stat != 'done':
+                    print('What do you mean by {}'.format(args.stat))
                     exit(1)
                 c.execute(
-                    "INSERT INTO records(habit_id, ts, stat) VALUES(?, ?, ?)",
+                    'INSERT INTO records(habit_id, ts, stat) VALUES(?, ?, ?)',
                     (_id, args.date, args.stat),
                 )
 
-            if _type == "duration":
+            if _type == 'duration':
                 try:
-                    datetime.strptime(args.stat, "%H:%M")
+                    datetime.strptime(args.stat, '%H:%M')
                 except ValueError:
-                    print("Cannot parse {} as hour and minutes".format(args.stat))
+                    print('Cannot parse {} as hour and minutes'.format(args.stat))
                     exit(1)
 
                 c.execute(
-                    "INSERT INTO records(habit_id, ts, stat) VALUES(?, ?, ?)",
+                    'INSERT INTO records(habit_id, ts, stat) VALUES(?, ?, ?)',
                     (_id, args.date, args.stat),
                 )
         self.list()
 
     def list(self):
-        """ List tasks completed today
-        """
-        habits = c.execute("SELECT habit FROM habits WHERE active = 1;").fetchall()
+        """List tasks completed today"""
+        habits = c.execute('SELECT habit FROM habits WHERE active = 1;').fetchall()
         habits = [t[0] for t in habits]
 
         # Tasks completed today
@@ -192,7 +189,7 @@ class CLI:
         todos = sorted(list(todos))
         dones = sorted(list(dones))
 
-        progress_bar = "✅" * len(dones) + "⚪️" * len(todos)
+        progress_bar = '✅' * len(dones) + '⚪️' * len(todos)
 
         print(
             f"""
@@ -206,12 +203,12 @@ class CLI:
         )
 
     def listall(self):
-        habits = c.execute("SELECT habit, type, active FROM habits;").fetchall()
+        habits = c.execute('SELECT habit, type, active FROM habits;').fetchall()
 
         from operator import itemgetter
 
         for h in sorted(habits, key=itemgetter(2), reverse=True):
-            print("{0:15} {2} {1}".format(*h))
+            print('{0:15} {2} {1}'.format(*h))
 
     def fifteen(self):
         last15 = c.execute(
@@ -227,7 +224,7 @@ class CLI:
         last15 = [(t[0][:10], t[1]) for t in last15]
 
         active_habits = c.execute(
-            "SELECT habit FROM habits WHERE active = 1;"
+            'SELECT habit FROM habits WHERE active = 1;'
         ).fetchall()
         active_habits = sorted([h[0] for h in active_habits])
 
@@ -248,16 +245,15 @@ class CLI:
             output.append(''.join(line))
 
         print('\n')
-        print(f"{today}".rjust(15))
-        print(f"{today - timedelta(14)}".rjust(15))
-        print(" ")
+        print(f'{today}'.rjust(15))
+        print(f'{today - timedelta(14)}'.rjust(15))
+        print(' ')
         print('\n'.join(output))
 
     def last(self):
-        """ List last inserted records
-        """
-        parser = argparse.ArgumentParser(description="")
-        parser.add_argument("habit", default=None)
+        """List last inserted records"""
+        parser = argparse.ArgumentParser(description='')
+        parser.add_argument('habit', default=None)
         args = parser.parse_args(sys.argv[2:])
         print(args)
 
@@ -286,12 +282,12 @@ class CLI:
                 """
             ).fetchall()
 
-        print("\n")
+        print('\n')
 
         for ts, habit, stat in reversed(recs):
-            print(ts[:16].rjust(20), "  ", habit.ljust(16), stat)
+            print(ts[:16].rjust(20), '  ', habit.ljust(16), stat)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     o = CLI()
     conn.close()
