@@ -9,7 +9,7 @@ zstyle ':vcs_info:git:*' formats '[%b]'
 function check_syncthing() {
     running=`ps ax | grep -v grep | grep syncthing | wc -l`
     if [ $running -le 1 ]; then
-        echo "syncthing is not running"
+        echo "🚨 syncthing is not running 🚨"
     fi
 }
 
