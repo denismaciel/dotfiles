@@ -6,10 +6,18 @@ zstyle ':vcs_info:git:*' formats '[%b]'
 
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 80 && setxkbmap -layout us -option ctrl:nocaps
 
+function check_syncthing() {
+    running=`ps ax | grep -v grep | grep syncthing | wc -l`
+    if [ $running -le 1 ]; then
+        echo "syncthing is not running"
+    fi
+}
+
 # ----------------------------------
 # --------- Warnings ---------------
 # ----------------------------------
 git -C $HOME/dotfiles diff --exit-code > /dev/null || echo " === Commit the changes to your dotfiles, my man! ==="
+check_syncthing
 
 eval "$(starship init zsh)"
 
@@ -33,6 +41,7 @@ function clean-downloads() {
 
 function add-in() {
     printf "Addressed in $(git rev-parse HEAD)" | xclip -selection clipboard 
+    git push origin HEAD
 }
 
 export R_LIBS_USER="$HOME/r/x86_64-pc-linux-gnu-library/4.1" # Custom location for R packages
