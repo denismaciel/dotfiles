@@ -58,3 +58,10 @@ function get_github_permalink()
     local permalink = ("https://github.com/recap-technologies/core/blob/"..sha.."/"..file.."#L"..linenr)
     vim.cmd("let @+ = '"..permalink.."'")
 end
+
+function breakpoint()
+    local linenr = vim.api.nvim_win_get_cursor(0)[1]
+    local file = vim.fn.expand('%')
+    local file_with_line = (file..":"..linenr)
+    vim.cmd("let @+ = '"..file_with_line.."'")
+end

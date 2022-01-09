@@ -42,10 +42,6 @@ au FileType markdown setlocal wrap
 :cabbrev Wq wq
 :cabbrev WQ wq
 
-
-
-
-
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
 nnoremap <leader>vr :source $MYVIMRC<Enter>
