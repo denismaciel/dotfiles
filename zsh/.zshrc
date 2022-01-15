@@ -159,3 +159,5 @@ if [ -e /home/denis/recap.sh ]; then . /home/denis/recap.sh; fi
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+source /home/denis/.config/broot/launcher/bash/br
