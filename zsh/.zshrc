@@ -151,7 +151,7 @@ eval "$(scmpuff init -s)"
 export PYTHONBREAKPOINT=ipdb.set_trace
 [[ -d $HOME/applications/zsh-syntax-highlighting ]] && source $HOME/applications/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 if [ -e /home/denis/.nix-profile/etc/profile.d/nix.sh ]; then . /home/denis/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-if [ -e /home/denis/recap.sh ]; then . /home/denis/recap.sh; fi
+if [ -e /home/denis/.recap.sh ]; then . /home/denis/.recap.sh; fi
 
 # Fix annoying warning: 
 #     - https://nixos.wiki/wiki/Locales

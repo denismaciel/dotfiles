@@ -42,6 +42,7 @@ au FileType markdown setlocal wrap
 :cabbrev Wq wq
 :cabbrev WQ wq
 
+
 map <Space> <Leader>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
 nnoremap <leader>vr :source $MYVIMRC<Enter>
@@ -87,7 +88,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'jpalardy/vim-slime'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
-    " Plug 'machakann/vim-sandwich'
     Plug 'mbbill/undotree'
     Plug 'mhinz/vim-signify'
     Plug 'neovim/nvim-lspconfig'
@@ -108,11 +108,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'folke/twilight.nvim'
     Plug 'ggandor/lightspeed.nvim'
     Plug 'sindrets/diffview.nvim'
-
     Plug 'APZelos/blamer.nvim'
-
     Plug 'neovim/nvim-lspconfig'
-
+    " === Completion ===
     Plug 'hrsh7th/vim-vsnip'
     Plug 'hrsh7th/vim-vsnip-integ'
     Plug 'hrsh7th/cmp-nvim-lsp'
@@ -123,9 +121,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     " === Coloschemes ===
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'morhetz/gruvbox'
-    " It seems semshi needs to be the last plugin to run...
-    Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins', 'for': 'python' }
     Plug 'savq/melange'
+    " It seems semshi needs to be the last plugin to run...
+    " Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins', 'for': 'python' }
 call plug#end()
 
 " ==========================
@@ -220,7 +218,8 @@ nmap <Leader>; <cmd>Telescope buffers<Enter>
 nnoremap tt <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<Enter>
 nnoremap tc <cmd>Telescope commands<Enter>
 nnoremap th <cmd>Telescope command_history<Enter>
-nmap <Leader>rg <cmd>Telescope live_grep<Enter>
+" nmap <Leader>rg <cmd>Telescope live_grep<Enter>
+nmap <Leader>rg <cmd>Rg<Enter>
 
 " ---- Tree -----
 nnoremap tre <cmd>NvimTreeToggle<Enter>

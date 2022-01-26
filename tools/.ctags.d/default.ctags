@@ -1,5 +1,5 @@
 --exclude=*public*
 --exclude=*node_modules*
---exclude=venv*
+--exclude=*venv*
 
 --languages=Python,Go,TypeScript
