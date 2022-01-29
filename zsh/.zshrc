@@ -21,6 +21,17 @@ check_syncthing
 
 eval "$(starship init zsh)"
 
+function togglep() {
+    if [[ -f playground/p.go ]]; then 
+        echo "==> gopher"
+        mv playground/p.go playground/p.gopher
+    elif [[ -f playground/p.gopher ]]; then
+        echo "==> go"
+        mv playground/p.gopher playground/p.go
+    else
+        echo "No gopher, no go"
+    fi
+}
 function open() {
     nohup xdg-open "$*" >> /dev/null &
 }
