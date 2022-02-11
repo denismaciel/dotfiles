@@ -10,7 +10,7 @@ require'nvim-treesitter.configs'.setup {
   textobjects = {
      move = {
          enable = true,
-         set_jumps = true, -- whether to set jumps in the jumplist
+         set_jumps = false, -- whether to set jumps in the jumplist
          goto_next_start = {
            ["<C-n>"] = "@function.outer",
            ["]]"] = "@class.outer",
@@ -30,21 +30,14 @@ require'nvim-treesitter.configs'.setup {
     },
     select = {
       enable = true,
-
       -- Automatically jump forward to textobj, similar to targets.vim 
-      lookahead = true,
-
+      lookahead = false,
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
         ["ac"] = "@class.outer",
         ["ic"] = "@class.inner",
-
-        -- Or you can define your own textobjects like this
-        ["iF"] = {
-          python = "(function_definition) @function",
-        },
       },
     },
   },

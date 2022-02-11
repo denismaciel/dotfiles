@@ -2,6 +2,7 @@ lua require 'init'
 
 let g:python3_host_prog = '~/venvs/neovim/bin/python'
 
+" autocmd BufWritePre *.go <buffer> call execute('LspCodeActionSync source.organizeImports')
 set completeopt=menu,menuone,noselect
 set tabstop=4 "how many spaces a tab is when vim reads a file
 set softtabstop=4 "how many spaces are inserted when you hit tab
@@ -26,13 +27,11 @@ set incsearch "search as characters are entered
 set hlsearch  "highlight matches
 set ignorecase smartcase
 set clipboard+=unnamedplus
-set signcolumn=no
-" set colorcolumn=80
 set cursorline
 " Open splits the _right way_
 set splitbelow splitright
 set number
-set list lcs=trail:·,tab:»·
+" set list lcs=trail:·,tab:»·
 
 
 au FileType go let b:EditorConfig_disable = 1 
@@ -80,64 +79,29 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=300}
 augroup END
 
-call plug#begin('~/.local/share/nvim/plugged')
-    Plug 'christoomey/vim-tmux-navigator'
-    Plug 'jpalardy/vim-slime'
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-telescope/telescope.nvim'
-    Plug 'mbbill/undotree'
-    Plug 'mhinz/vim-signify'
-    Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-    Plug 'tpope/vim-commentary'
-    Plug 'editorconfig/editorconfig-vim'
-    Plug 'vimwiki/vimwiki'
-    Plug 'onsails/vimway-lsp-diag.nvim'
-    Plug 'kyazdani42/nvim-web-devicons'
-    Plug 'kyazdani42/nvim-tree.lua'
-    Plug 'ThePrimeagen/harpoon'
-    Plug 'windwp/nvim-autopairs'
-    Plug 'windwp/nvim-ts-autotag'
-    Plug 'ggandor/lightspeed.nvim'
-    Plug 'APZelos/blamer.nvim'
-    Plug 'neovim/nvim-lspconfig'
-    " === Completion ===
-    Plug 'hrsh7th/vim-vsnip'
-    Plug 'hrsh7th/vim-vsnip-integ'
-    Plug 'hrsh7th/cmp-nvim-lsp'
-    Plug 'hrsh7th/cmp-buffer'
-    Plug 'hrsh7th/cmp-path'
-    Plug 'hrsh7th/cmp-cmdline'
-    Plug 'hrsh7th/nvim-cmp'
-    " === Coloschemes ===
-    Plug 'dracula/vim', { 'as': 'dracula' }
-    Plug 'morhetz/gruvbox'
-    Plug 'savq/melange'
-    " It seems semshi needs to be the last plugin to run...
-    " Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins', 'for': 'python' }
-call plug#end()
-
 " ==========================
 " ===== Plugins Config =====
 " ==========================
+lua require 'plugins'
+lua require 'vim-gutentags'
 lua require 'lsp'
 lua require 'treesitter'
 lua require 'telescope-config'
-lua require 'nvim-tree-config'
+" lua require 'nvim-tree-config'
 lua require 'cmp-config'
 lua require('nvim-autopairs').setup({})
+lua require 'colors-config'
+
 
 " =================
 " ===== Notes =====
 " =================
-let g:vimwiki_list = [{'path': '~/Sync/vault',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
-let g:vimwiki_key_mappings = { 'all_maps': 0, }
+let g:vimwiki_list = [{'path': '~/Sync/vault', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_key_mappings = { 'all_maps': 0 }
 nmap <Leader>ww <Plug>VimwikiIndex
+nmap <Leader>wfn <cmd> lua require'telescope.builtin'.find_files({cwd = "~/Sync/Notes/Current/"})<Enter>
 nmap <Leader><Enter> <Plug>VimwikiFollowLink
 command! Research lua require'telescope.builtin'.find_files({cwd = "~/Sync/Notes/Current/Research"})
-nmap <Leader>wfn <cmd> lua require'telescope.builtin'.find_files({cwd = "~/Sync/Notes/Current/"})<Enter>
 command OpenAnki :e /home/denis/Sync/vault/anki.md
 nnoremap <C-P> <cmd> lua cycle_notes('up')<Enter>
 nnoremap <C-N> <cmd> lua cycle_notes('down')<Enter>
@@ -162,13 +126,6 @@ set foldlevel=99
 " 'mbbill/undotree'
     nnoremap <leader>u :UndotreeShow<CR>
 
-" =======================
-" ===== Coloschemes =====
-" =======================
-set termguicolors 
-colorscheme melange
-" highlight Normal ctermfg=223 ctermbg=none guifg=#ebdbb2 guibg=none
-" highlight SignColumn ctermbg=233 ctermfg=233
 
 " ---- Slime ----
 nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
@@ -176,39 +133,18 @@ nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
 " =====================
 " ===== Telescope =====
 " =====================
-lua << EOF
-require('telescope').setup{
-    defaults = {
-        vimgrep_arguments = {
-          'rg',
-          '--hiden',
-          '--color=never',
-          '--no-heading',
-          '--with-filename',
-          '--line-number',
-          '--column',
-          '--smart-case'
-        },
-        file_ignore_patterns = {
-            "%.eot",
-            "%.ttf",
-            "%.woff",
-            "%.woff2",
-        }
-    }
-}
-EOF
+".config/nvim/lua/telescope-config.lua
 nmap <Leader>; <cmd>Telescope buffers<Enter>
 nnoremap tt <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<Enter>
 nnoremap tc <cmd>Telescope commands<Enter>
 nnoremap th <cmd>Telescope command_history<Enter>
 nmap <Leader>rg <cmd>Telescope live_grep<Enter>
 
-" ---- Tree -----
+" ============
+" === Tree ===
+" ============
 nnoremap tre <cmd>NvimTreeToggle<Enter>
 
-" ---- Toggles ----
-nnoremap <silent> <leader>gg :SignifyToggle<CR>
 
 " =======================
 " === Language Server ===
@@ -224,8 +160,9 @@ nnoremap <silent> <c-]>     <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gD        <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> gs        <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> gtd       <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr        <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> gtr       <cmd>Telescope lsp_references<CR>
+" nnoremap <silent> gr        <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> gr        <cmd>Trouble lsp_references<cr>
+" nnoremap <silent> gr       <cmd>Telescope lsp_references<CR>
 nnoremap <silent> grn       <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> g0        <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW        <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
