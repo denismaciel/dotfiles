@@ -30,6 +30,7 @@ function togglep() {
         mv playground/p.gopher playground/p.go
     else
         echo "No gopher, no go"
+        return 1
     fi
 }
 function open() {
@@ -50,7 +51,7 @@ function clean-downloads() {
     mv ~/downloads/*.mobi ~/downloads/docs
 }
 
-function add-in() {
+function addin() {
     printf "Addressed in $(git rev-parse HEAD)" | xclip -selection clipboard 
     git push origin HEAD
 }

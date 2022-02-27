@@ -48,7 +48,7 @@ vim.g.gutentags_ctags_exclude = {
     }
 
 vim.g.gutentags_add_default_project_roots = false
-vim.g.gutentags_project_root = {'package.json', 'go.mod'}
+vim.g.gutentags_project_root = {'package.json', 'go.mod', 'requirements.txt'}
 vim.g.gutentags_cache_dir = vim.fn.expand('~/.cache/nvim/ctags/')
 vim.g.gutentags_generate_on_new = true
 vim.g.gutentags_generate_on_missing = true

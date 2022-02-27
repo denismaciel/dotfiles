@@ -58,5 +58,7 @@ return require('packer').startup(function()
     use 'savq/melange'
     use 'marko-cerovac/material.nvim'
     use 'Mofiqul/vscode.nvim'
+    use 'rebelot/kanagawa.nvim'
+
 end)
 

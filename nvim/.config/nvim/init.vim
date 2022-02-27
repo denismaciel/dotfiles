@@ -28,6 +28,7 @@ set hlsearch  "highlight matches
 set ignorecase smartcase
 set clipboard+=unnamedplus
 set cursorline
+set formatoptions+=cro
 " Open splits the _right way_
 set splitbelow splitright
 set number
@@ -139,6 +140,7 @@ nnoremap tt <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg
 nnoremap tc <cmd>Telescope commands<Enter>
 nnoremap th <cmd>Telescope command_history<Enter>
 nmap <Leader>rg <cmd>Telescope live_grep<Enter>
+nmap <Leader>/ <cmd>Telescope treesitter<Enter>
 
 " ============
 " === Tree ===

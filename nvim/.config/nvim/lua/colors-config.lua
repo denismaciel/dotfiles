@@ -40,7 +40,8 @@ require('material').setup({
 vim.g.material_style = "deep ocean"
 vim.api.nvim_set_keymap('n', '<leader>ms', ':lua require("material.functions").toggle_style()<CR>', { noremap = true, silent = true }) -- Enable style toggling
 
-vim.cmd [[ set termguicolors ]]
 vim.o.background = 'dark'
 vim.g.vscode_style = "dark"
-vim.cmd [[ colorscheme vscode ]]
+
+vim.cmd [[ set termguicolors ]]
+vim.cmd [[ colorscheme kanagawa ]]

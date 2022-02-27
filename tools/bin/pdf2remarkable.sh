@@ -70,7 +70,7 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-RESTART_XOCHITL_DEFAULT=${RESTART_XOCHITL_DEFAULT:-1}
+RESTART_XOCHITL_DEFAULT=${RESTART_XOCHITL_DEFAULT:-0}
 RESTART_XOCHITL=${RESTART_XOCHITL_DEFAULT}
 if [ "$1" = "-r" ] ; then
     shift
@@ -150,7 +150,7 @@ EOF
 		# Add thumbnails directory
 		mkdir ${tmpdir}/${uuid}.thumbnails
 
-	elif [ "$extension" == "epub" ]; then
+	elif [ "$extension" = "epub" ]; then
 
 		# Add content information
 		cat <<EOF >${tmpdir}/${uuid}.content
