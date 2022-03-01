@@ -172,4 +172,4 @@ export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-source /home/denis/.config/broot/launcher/bash/br
+eval "$(direnv hook zsh)"

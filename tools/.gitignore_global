@@ -6,6 +6,8 @@ venv
 .DS_Store
 
 snaps
+.direnv
+.envrc
 .python-version
 tags
 playground
