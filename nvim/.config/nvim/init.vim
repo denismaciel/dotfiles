@@ -43,8 +43,10 @@ au FileType markdown setlocal wrap
 :cabbrev Wq wq
 :cabbrev WQ wq
 :cabbrev bd Bd
+:cabbrev bd! Bdd
 
 command Bd bp | sp | bn | bd
+command Bdd bp! | sp! | bn! | bd!
 
 map <Space> <Leader>
 nnoremap n nzzzv
