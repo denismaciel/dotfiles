@@ -33,8 +33,7 @@ set formatoptions+=cro
 set splitbelow splitright
 set number
 " set list lcs=trail:·,tab:»·
-
-
+"
 au FileType go let b:EditorConfig_disable = 1 
 au FileType go setlocal noexpandtab
 au FileType markdown setlocal wrap
@@ -191,3 +190,6 @@ function! RenameFile()
     endif
 endfunction
 map <leader>n :call RenameFile()<cr>
+
+set laststatus=3
+highlight WinSeparator guibg=None
