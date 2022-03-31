@@ -78,8 +78,8 @@ wget https://github.com/gsamokovarov/jump/releases/download/v0.30.1/jump_0.30.1_
 RAND_FOLDER=/tmp/folder-$RANDOM
 mkdir $RAND_FOLDER
 cd $RAND_FOLDER
-wget https://github.com/mroth/scmpuff/releases/download/v0.3.0/scmpuff_0.3.0_linux_x64.tar.gz
-tar -xzvf scmpuff_0.3.0_linux_x64.tar.gz
+wget https://github.com/mroth/scmpuff/releases/download/v0.5.0/scmpuff_0.5.0_linux_x64.tar.gz
+tar -xzvf scmpuff_0.5.0_linux_x64.tar.gz
 [ -d $HOME/bin ] || mkdir $HOME/bin
 mv scmpuff $HOME/bin/
 cd

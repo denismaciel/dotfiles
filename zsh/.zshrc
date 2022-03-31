@@ -6,6 +6,12 @@ zstyle ':vcs_info:git:*' formats '[%b]'
 
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 80 && setxkbmap -layout us -option ctrl:nocaps
 
+
+function gb() {
+    branch=$(git branch -a | sed "s|remotes/origin/||" | tr -d "*+ " | fzf)
+    [ $status -eq 0 ] && git checkout $branch || echo "cancelling"
+}
+
 function check_syncthing() {
     running=`ps ax | grep -v grep | grep syncthing | wc -l`
     if [ $running -le 1 ]; then
@@ -72,6 +78,7 @@ alias lsa='ls -lah'
 alias R='R --no-save'
 alias diary='nvim "$HOME/Sync/Notes/Current/Diary/$(date +'%Y-%m-%d').md"'
 alias research='nvim -c "Research"'
+alias gp="git push origin HEAD"
 
 alias pdf='open-zathura "$(fd "pdf|epub" | fzf)"'
 

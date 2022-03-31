@@ -65,3 +65,7 @@ function breakpoint()
     local file_with_line = (file..":"..linenr)
     vim.cmd("let @+ = '"..file_with_line.."'")
 end
+
+require('leap').setup {
+  case_insensitive = true,
+}

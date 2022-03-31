@@ -4,7 +4,10 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function()
-  -- Packer can manage itself
+    -- Candidate packages
+    use 'ggandor/leap.nvim'
+
+    -- Packer can manage itself
     use 'wbthomason/packer.nvim'
     use 'christoomey/vim-tmux-navigator'
     use 'nvim-lua/plenary.nvim'
@@ -60,5 +63,9 @@ return require('packer').startup(function()
     use 'Mofiqul/vscode.nvim'
     use 'rebelot/kanagawa.nvim'
 
+
+    require('leap').setup {
+      case_insensitive = true,
+    }
 end)
 

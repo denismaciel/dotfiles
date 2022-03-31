@@ -138,6 +138,7 @@ nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
 ".config/nvim/lua/telescope-config.lua
 nmap <Leader>; <cmd>Telescope buffers<Enter>
 nnoremap tt <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<Enter>
+nnoremap td <cmd>lua require'telescope.builtin'.find_files({ find_command = {'git', 'diff', '--name-only', '--relative' }})<Enter>
 nnoremap tc <cmd>Telescope commands<Enter>
 nnoremap th <cmd>Telescope command_history<Enter>
 nmap <Leader>rg <cmd>Telescope live_grep<Enter>
@@ -176,6 +177,8 @@ nmap <leader>dw             <cmd>lua require('diaglist').open_all_diagnostics()<
 nmap <leader>d0             <cmd>lua require('diaglist').open_buffer_diagnostics()<cr>
 
 nnoremap <leader>ff         <cmd>lua vim.lsp.buf.formatting()<cr>
+nnoremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
+
 
 " =========================
 " === Utility Functions ===

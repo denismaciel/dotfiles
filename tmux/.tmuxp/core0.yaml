@@ -13,7 +13,12 @@ windows:
         - shell_command: cd ~/work/core0/backend
         - shell_command: cd ~/work/core0/backend
     - window_name: frontend
-      start_directory: ~/work/core0/recap-app
       panes:
         - shell_command: cd ~/work/core0/recap-app
         - shell_command: cd ~/work/core0/recap-app
+    - window_name: control-pane
+      panes:
+        - shell_command: cd ~/work/core0/backend && make watch
+        - shell_command: cd ~/work/core0/recap-app && yarn start
+        - shell_command: cd ~/work/core0/recap-app && yarn start-ops
+
