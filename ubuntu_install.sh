@@ -117,12 +117,13 @@ curl --location --output get-pip.py https://bootstrap.pypa.io/get-pip.py && \
     python3.9 get-pip.py
 
 # Go
-curl -L --output go1.16.7.linux-amd64.tar.gz https://golang.org/dl/go1.16.7.linux-amd64.tar.gz && \
+GO_VERSION=1.18
+curl -L --output go$GO_VERSION.linux-amd64.tar.gz https://golang.org/dl/go$GO_VERSION.linux-amd64.tar.gz && \
     sudo \rm -rf /usr/local/go && \
-    sudo tar -C /usr/local -xzf go1.16.7.linux-amd64.tar.gz
+    sudo tar -C /usr/local -xzf go$GO_VERSION.linux-amd64.tar.gz
 
 ## Install Lsp
-GO111MODULE=on go get golang.org/x/tools/gopls@latest
+GO111MODULE=on go install golang.org/x/tools/gopls@latest
 
 # Alacritty
 sudo add-apt-repository -y ppa:mmstick76/alacritty &&
