@@ -53,5 +53,7 @@ require'lspconfig'.gopls.setup{
 require'lspconfig'.rust_analyzer.setup{
     capabilities = capabilities
 }
-require'lspconfig'.terraformls.setup{}
+require'lspconfig'.terraformls.setup{
+    filetypes = { 'terraform', 'hcl' },
+}
 require'lspconfig'.sumneko_lua.setup{}

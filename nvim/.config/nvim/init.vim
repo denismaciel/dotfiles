@@ -2,7 +2,6 @@ lua require 'init'
 
 let g:python3_host_prog = '~/venvs/neovim/bin/python'
 
-" autocmd BufWritePre *.go <buffer> call execute('LspCodeActionSync source.organizeImports')
 set completeopt=menu,menuone,noselect
 set tabstop=4 "how many spaces a tab is when vim reads a file
 set softtabstop=4 "how many spaces are inserted when you hit tab
@@ -60,6 +59,8 @@ nnoremap <silent> j gj
 nnoremap <silent> 0 g0
 nnoremap <silent> $ g$
 
+
+nnoremap <silent> <leader>bc :lua bigquery_check("production")<Enter>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
 nnoremap <leader>vr :source $MYVIMRC<Enter>
 nnoremap <leader>vf <cmd>lua require('telescope.builtin').find_files({cwd = '~/.config/nvim/'})<cr>

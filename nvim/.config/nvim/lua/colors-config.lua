@@ -44,4 +44,4 @@ vim.o.background = 'dark'
 vim.g.vscode_style = "dark"
 
 vim.cmd [[ set termguicolors ]]
-vim.cmd [[ colorscheme material ]]
+vim.cmd [[ colorscheme gruvbox ]]

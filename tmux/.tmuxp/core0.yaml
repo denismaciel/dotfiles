@@ -16,9 +16,12 @@ windows:
       panes:
         - shell_command: cd ~/work/core0/recap-app
         - shell_command: cd ~/work/core0/recap-app
+    - window_name: terraform
+      panes:
+        - shell_command: cd ~/work/core0/terraform
+        - shell_command: cd ~/work/core0/terraform
     - window_name: control-pane
       panes:
-        - shell_command: cd ~/work/core0/backend && make watch
-        - shell_command: cd ~/work/core0/recap-app && yarn start
-        - shell_command: cd ~/work/core0/recap-app && yarn start-ops
-
+        - shell_command: cd ~/work/core0/backend 
+        - shell_command: cd ~/work/core0/recap-app
+        - shell_command: cd ~/work/core0/recap-app

@@ -12,3 +12,4 @@ snaps
 tags
 playground
 _debug.py
+__pycache__

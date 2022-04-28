@@ -81,6 +81,7 @@ alias research='nvim -c "Research"'
 alias gp="git push origin HEAD"
 
 alias pdf='open-zathura "$(fd "pdf|epub" | fzf)"'
+alias clip='xclip -selection clipboard'
 
 setopt autocd               # .. is shortcut for cd .. 
 
@@ -180,3 +181,11 @@ export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 eval "$(direnv hook zsh)"
+
+# OCTAVIA CLI
+OCTAVIA_ENV_FILE=/home/denis/.octavia
+alias octavia="docker run -i --rm -v \$(pwd):/home/octavia-project --network host --env-file \${OCTAVIA_ENV_FILE} --user \$(id -u):\$(id -g) airbyte/octavia-cli:0.35.65-alpha"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/terraform terraform
+
