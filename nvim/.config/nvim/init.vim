@@ -64,6 +64,7 @@ nnoremap <silent> <leader>bc :lua bigquery_check("production")<Enter>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
 nnoremap <leader>vr :source $MYVIMRC<Enter>
 nnoremap <leader>vf <cmd>lua require('telescope.builtin').find_files({cwd = '~/.config/nvim/'})<cr>
+
 " copy whole file to clipboard
 nmap <leader>y :%y+<CR> 
 nnoremap <leader>fc :!echo -n % \| xclip -selection clipboard<CR>
@@ -94,6 +95,7 @@ lua require 'telescope-config'
 lua require 'cmp-config'
 lua require('nvim-autopairs').setup({})
 lua require 'colors-config'
+lua require 'mappings'
 
 
 " =================
@@ -137,8 +139,8 @@ nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
 " ===== Telescope =====
 " =====================
 ".config/nvim/lua/telescope-config.lua
-nmap <Leader>; <cmd>Telescope buffers<Enter>
-nnoremap tt <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<Enter>
+" nmap <Leader>; <cmd>Telescope buffers<Enter>
+nnoremap tt <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' , '-g', '!.snapshots/' }})<Enter>
 nnoremap td <cmd>lua require'telescope.builtin'.find_files({ find_command = {'git', 'diff', '--name-only', '--relative' }})<Enter>
 nnoremap tc <cmd>Telescope commands<Enter>
 nnoremap th <cmd>Telescope command_history<Enter>
@@ -149,7 +151,6 @@ nmap <Leader>/ <cmd>Telescope treesitter<Enter>
 " === Tree ===
 " ============
 nnoremap tre <cmd>NvimTreeToggle<Enter>
-
 
 " =======================
 " === Language Server ===
@@ -171,14 +172,15 @@ nnoremap <silent> gr        <cmd>Trouble lsp_references<cr>
 nnoremap <silent> grn       <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> g0        <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW        <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-nnoremap <silent> gtt       <cmd>Telescope tags theme=dropdown<CR>
+" nnoremap <silent> gtt       <cmd>Telescope tags theme=dropdown<CR>
+nnoremap <silent> gtt       <cmd>lua require('telescope.builtin').tags(require('telescope.themes').get_dropdown({width = function(_, _, max_lines) return math.min(max_lines * 0.5, 100) end}))<cr>
 nnoremap <silent> K         <cmd>lua vim.lsp.buf.hover()<CR>
 
 nmap <leader>dw             <cmd>lua require('diaglist').open_all_diagnostics()<cr>
 nmap <leader>d0             <cmd>lua require('diaglist').open_buffer_diagnostics()<cr>
 
-nnoremap <leader>ff         <cmd>lua vim.lsp.buf.formatting()<cr>
-nnoremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <leader>ff         <cmd>lua vim.lsp.buf.format({ async = true })<cr>
+nnoremap <leader>ca         <cmd>lua vim.lsp.buf.code_action()<CR>
 
 
 " =========================

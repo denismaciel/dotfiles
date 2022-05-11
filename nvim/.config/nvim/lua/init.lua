@@ -2,7 +2,7 @@ function bigquery_check(env)
     local i, t, popen = 0, {}, io.popen
 
     current_file = vim.fn.expand('%')
-    local command = 'bigquery check --env ' .. env .. ' --query ' .. current_file
+    local command = 'sqly type-check --env ' .. env .. ' --query ' .. current_file
     local pfile = popen(command)
 
     -- Put lines in a table
@@ -21,7 +21,28 @@ function bigquery_check(env)
     vim.api.nvim_win_set_buf(0, buffnr)
 end
 
+function complete_todos() 
+    local fname = vim.fn.expand('%')
+    local todo_bf = 2
+    local done_bf = 3
 
+    if not string.match(fname, "todo.md")  then
+        print("Invoke this function from todo.md")
+        return 1
+    end
+
+    local pattern = 'DONE'
+    local lines = vim.api.nvim_buf_get_lines(todo_bf, 0, -1, true)     
+    print("* Completed tasks: ")
+    for line_nr, value in pairs(lines) do
+        if string.sub(value, 1, string.len(pattern)) == pattern then
+            vim.api.nvim_buf_set_lines(done_bf, 0, 0, true, {value})
+            vim.api.nvim_buf_set_lines(todo_bf, line_nr-1, line_nr, true, {""})
+            print("  -> ", value)
+        end
+    end
+    vim.cmd [[ sort u]]
+end
 
 function scandir(directory)
     local i, t, popen = 0, {}, io.popen
@@ -93,3 +114,5 @@ end
 require('leap').setup {
   case_insensitive = true,
 }
+
+require('nvim-tree').setup()

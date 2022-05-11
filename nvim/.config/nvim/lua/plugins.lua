@@ -8,46 +8,38 @@ return require('packer').startup(function()
     use 'ggandor/leap.nvim'
     use 'pineapplegiant/spaceduck'
 
-
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
     use 'christoomey/vim-tmux-navigator'
     use 'nvim-lua/plenary.nvim'
     use { 'nvim-telescope/telescope.nvim', requires = { {'nvim-lua/plenary.nvim'} }}
-    use {
-      'lewis6991/gitsigns.nvim',
-      requires = {'nvim-lua/plenary.nvim'},
-      config = require('gitsigns-config'),
-    }
-
+    use { "nvim-telescope/telescope-file-browser.nvim" }
     use 'tpope/vim-commentary'
     use 'editorconfig/editorconfig-vim'
     use 'vimwiki/vimwiki'
-    -- Plug 'kyazdani42/nvim-web-devicons'
-    -- Plug 'kyazdani42/nvim-tree.lua'
     use 'mbbill/undotree'
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
     use 'nvim-treesitter/nvim-treesitter-textobjects'
-     use {
+    use 'windwp/nvim-autopairs'
+    use 'windwp/nvim-ts-autotag'
+    use 'APZelos/blamer.nvim'
+    use 'ludovicchabant/vim-gutentags'
+    use {
+        'kyazdani42/nvim-tree.lua',
+        requires = {
+          'kyazdani42/nvim-web-devicons',
+        },
+        tag = 'nightly'
+    }
+    -- == LSP ===
+    use 'neovim/nvim-lspconfig'
+    use {
       "folke/trouble.nvim",
       requires = "kyazdani42/nvim-web-devicons",
       config = function()
-        require("trouble").setup {
-          -- your configuration comes here
-          -- or leave it empty to use the default settings
-          -- refer to the configuration section below
-        }
+        require("trouble").setup({})
       end
     }
-    use 'ThePrimeagen/harpoon'
-    use 'windwp/nvim-autopairs'
-    use 'windwp/nvim-ts-autotag'
-    use 'ggandor/lightspeed.nvim'
-    use 'APZelos/blamer.nvim'
-    use 'ludovicchabant/vim-gutentags'
-    -- == LSP ===
-    use 'neovim/nvim-lspconfig'
-    use 'onsails/vimway-lsp-diag.nvim'
     -- === Completion ===
     use 'hrsh7th/vim-vsnip'
     use 'hrsh7th/vim-vsnip-integ'
@@ -61,10 +53,9 @@ return require('packer').startup(function()
     use 'mcchrish/zenbones.nvim'
     use 'morhetz/gruvbox'
     use 'savq/melange'
-    use 'marko-cerovac/material.nvim'
-    use 'Mofiqul/vscode.nvim'
     use 'rebelot/kanagawa.nvim'
-
+    use 'projekt0n/github-nvim-theme'
+    use 'kdheepak/monochrome.nvim'
 
     require('leap').setup {
       case_insensitive = true,

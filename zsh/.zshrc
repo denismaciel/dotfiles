@@ -8,7 +8,7 @@ zstyle ':vcs_info:git:*' formats '[%b]'
 
 
 function gb() {
-    branch=$(git branch -a | sed "s|remotes/origin/||" | tr -d "*+ " | fzf)
+    branch=$(git branch -a | sed "s|remotes/origin/||" | tr -d "*+ " | uniq | fzf)
     [ $status -eq 0 ] && git checkout $branch || echo "cancelling"
 }
 

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd /home/denis/Sync/books 
+book_name=$(fzf)
+
+if [  -z "$book_name" ]
+then
+    echo 'No book selected'
+else
+    zathura "$book_name"
+fi
