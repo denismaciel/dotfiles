@@ -60,5 +60,7 @@ return require('packer').startup(function()
     require('leap').setup {
       case_insensitive = true,
     }
+
+    require('nvim-tree').setup()
 end)
 

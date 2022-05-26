@@ -144,6 +144,7 @@ nnoremap tt <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg
 nnoremap td <cmd>lua require'telescope.builtin'.find_files({ find_command = {'git', 'diff', '--name-only', '--relative' }})<Enter>
 nnoremap tc <cmd>Telescope commands<Enter>
 nnoremap th <cmd>Telescope command_history<Enter>
+nnoremap tft <cmd>Telescope filetypes<Enter>
 nmap <Leader>rg <cmd>Telescope live_grep<Enter>
 nmap <Leader>/ <cmd>Telescope treesitter<Enter>
 
@@ -180,6 +181,8 @@ nmap <leader>dw             <cmd>lua require('diaglist').open_all_diagnostics()<
 nmap <leader>d0             <cmd>lua require('diaglist').open_buffer_diagnostics()<cr>
 
 nnoremap <leader>ff         <cmd>lua vim.lsp.buf.format({ async = true })<cr>
+nnoremap <leader>fj         <cmd>%! python -m json.tool<cr>
+
 nnoremap <leader>ca         <cmd>lua vim.lsp.buf.code_action()<CR>
 
 

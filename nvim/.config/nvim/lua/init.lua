@@ -76,8 +76,9 @@ function cycle_notes(direction)
             print('Unkown direction')
         end
 
-        vim.api.nvim_buf_delete(0, {force = false})
+        cbuf = vim.api.nvim_get_current_buf()
         vim.api.nvim_command('edit '..buf_dir..'/'..next_f)
+        vim.api.nvim_buf_delete(cbuf, {force = false})
     else
         print('Not inside notes directory, sucker. Current at '..buf_dir)
     end
@@ -111,8 +112,3 @@ function breakpoint()
     vim.cmd("let @+ = '"..file_with_line.."'")
 end
 
-require('leap').setup {
-  case_insensitive = true,
-}
-
-require('nvim-tree').setup()
