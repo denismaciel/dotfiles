@@ -148,6 +148,9 @@ nnoremap tft <cmd>Telescope filetypes<Enter>
 nmap <Leader>rg <cmd>Telescope live_grep<Enter>
 nmap <Leader>/ <cmd>Telescope treesitter<Enter>
 
+
+nnoremap <leader>rp :e playground/p.go<Enter>
+
 " ============
 " === Tree ===
 " ============

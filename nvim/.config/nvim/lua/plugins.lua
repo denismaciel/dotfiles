@@ -57,10 +57,11 @@ return require('packer').startup(function()
     use 'projekt0n/github-nvim-theme'
     use 'kdheepak/monochrome.nvim'
 
-    require('leap').setup {
-      case_insensitive = true,
-    }
+    use "rafamadriz/neon"
+    use 'alexanderjeurissen/lumiere.vim'
+    use 'rmehri01/onenord.nvim'
 
+    require('leap').set_default_keymaps()
     require('nvim-tree').setup()
 end)
 
