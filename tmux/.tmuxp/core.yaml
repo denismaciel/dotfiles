@@ -4,18 +4,14 @@ windows:
       panes:
         - shell_command: cd ~/work/core0
         - shell_command: cd ~/work/core0
-    - window_name: data-pipelines
-      panes:
-        - shell_command: cd ~/work/core0/data-pipelines
-        - shell_command: cd ~/work/core0/data-pipelines
     - window_name: risk-model
       panes:
         - shell_command: cd ~/work/core0/data-pipelines/risk_model
         - shell_command: cd ~/work/core0/data-pipelines/risk_model
-    - window_name: orc
+    - window_name: dwh
       panes:
-        - shell_command: cd ~/work/core0/data-pipelines/dwh/orc
-        - shell_command: cd ~/work/core0/data-pipelines/dwh/orc
+        - shell_command: cd ~/work/core0/data-pipelines/dwh
+        - shell_command: cd ~/work/core0/data-pipelines/dwh
     - window_name: backend
       panes:
         - shell_command: cd ~/work/core0/backend

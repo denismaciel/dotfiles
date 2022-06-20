@@ -188,6 +188,9 @@ nnoremap <leader>fj         <cmd>%! python -m json.tool<cr>
 
 nnoremap <leader>ca         <cmd>lua vim.lsp.buf.code_action()<CR>
 
+" BigQuery
+nnoremap <leader>bs         :!sqly snapshot --env development --file % --cte-name <cword> <CR>
+
 
 " =========================
 " === Utility Functions ===
@@ -205,3 +208,4 @@ map <leader>n :call RenameFile()<cr>
 
 set laststatus=3
 highlight WinSeparator guibg=None
+set winbar=%=%m\ %f
