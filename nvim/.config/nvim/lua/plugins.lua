@@ -6,7 +6,6 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function()
     -- Candidate packages
     use 'ggandor/leap.nvim'
-    use 'pineapplegiant/spaceduck'
 
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
@@ -48,18 +47,18 @@ return require('packer').startup(function()
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/nvim-cmp'
+    -- use '/home/denis/mine/dbt.nvim'
+
     -- === Colors ===
     use 'rktjmp/lush.nvim'
-    use 'mcchrish/zenbones.nvim'
+    use {
+        "mcchrish/zenbones.nvim",
+        requires = "rktjmp/lush.nvim"
+    }
     use 'morhetz/gruvbox'
     use 'savq/melange'
     use 'rebelot/kanagawa.nvim'
     use 'projekt0n/github-nvim-theme'
-    use 'kdheepak/monochrome.nvim'
-
-    use "rafamadriz/neon"
-    use 'alexanderjeurissen/lumiere.vim'
-    use 'rmehri01/onenord.nvim'
 
     require('leap').set_default_keymaps()
     require('nvim-tree').setup()

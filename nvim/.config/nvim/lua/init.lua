@@ -112,3 +112,16 @@ function breakpoint()
     vim.cmd("let @+ = '"..file_with_line.."'")
 end
 
+P = function(v)
+    print(vim.inspect(v))
+    return v
+end
+
+function open_snapdirectory()
+    fname = vim.fn.expand('%')
+    local result = io.popen("./venv/bin/sqly get-dbt-compiled-path --file "..fname)
+    for line in result:lines() do
+        vim.api.nvim_command('vsplit '..line)
+    end
+end
+
