@@ -57,3 +57,6 @@ require'lspconfig'.terraformls.setup{
     filetypes = { 'terraform', 'hcl' },
 }
 require'lspconfig'.sumneko_lua.setup{}
+require'lspconfig'.rnix.setup{
+    capabilities = capabilities
+}

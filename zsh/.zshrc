@@ -197,3 +197,4 @@ alias octavia="docker run -i --rm -v \$(pwd):/home/octavia-project --network hos
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/terraform terraform
 
+. $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
