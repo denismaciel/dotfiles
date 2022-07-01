@@ -69,6 +69,7 @@ export FZF_DEFAULT_OPTS="--height 100%"
 export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --ignore-file ~/.ripgrep_ignore"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
+export XDG_CONFIG_HOME=$HOME/.config
 
 alias act='source venv/bin/activate'
 alias l='ls -lah'
@@ -91,6 +92,7 @@ autoload -Uz compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
+source ~/somewhere/fzf-tab.plugin.zsh
 _comp_options+=(globdots)		# Include hidden files.
 # Fuzzy completion!!!
 zstyle ':completion:*' matcher-list '' \

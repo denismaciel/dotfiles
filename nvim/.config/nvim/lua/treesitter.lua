@@ -1,5 +1,5 @@
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"python", "go", "javascript", "typescript"},
+  ensure_installed = "all",
   highlight = {
       enable = true,
       additional_vim_regex_highlighting = false,
@@ -11,19 +11,19 @@ require'nvim-treesitter.configs'.setup {
      move = {
          enable = true,
          set_jumps = false, -- whether to set jumps in the jumplist
-         goto_next_start = {
-           ["<C-n>"] = "@function.outer",
-           ["]]"] = "@class.outer",
-           ["]a"] = "@parameter.inner",
-         },
+         -- goto_next_start = {
+         --   ["<C-n>"] = "@function.outer",
+         --   ["]]"] = "@class.outer",
+         --   ["]a"] = "@parameter.inner",
+         -- },
+         -- goto_previous_start = {
+         --     ["<C-p>"] = "@function.outer",
+         --     ["[["] = "@class.outer",
+         --     ["[a"] = "@parameter.inner",
+         -- },
          goto_next_end = {
            ["]M"] = "@function.outer",
            ["]["] = "@class.outer",
-         },
-         goto_previous_start = {
-           ["<C-p>"] = "@function.outer",
-           ["[["] = "@class.outer",
-           ["[a"] = "@parameter.inner",
          },
          goto_previous_end = {
            ["[M"] = "@function.outer",

@@ -1,4 +1,7 @@
 lua require 'init'
+lua require 'denis'
+
+nnoremap <leader>asdf :lua package.loaded['denis'] = nil<cr>:source $MYVIMRC<cr>
 
 let g:python3_host_prog = '~/venvs/neovim/bin/python'
 
@@ -46,6 +49,9 @@ au FileType markdown setlocal wrap
 command Bd bp | sp | bn | bd
 command Bdd bp! | sp! | bn! | bd!
 
+" https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
+xnoremap p pgvy
+
 map <Space> <Leader>
 nnoremap n nzzzv
 nnoremap N Nzzzv
@@ -60,7 +66,6 @@ nnoremap <silent> 0 g0
 nnoremap <silent> $ g$
 
 
-nnoremap <silent> <leader>bc :lua bigquery_check("production")<Enter>
 nnoremap <leader>ve :edit $MYVIMRC<Enter>
 nnoremap <leader>vr :source $MYVIMRC<Enter>
 nnoremap <leader>vf <cmd>lua require('telescope.builtin').find_files({cwd = '~/.config/nvim/'})<cr>
@@ -121,9 +126,9 @@ nmap <Leader>k <cmd> lua require("harpoon.ui").nav_file(2)<Enter>
 nmap <Leader>l <cmd> lua require("harpoon.ui").nav_file(3)<Enter>
 
 " Folding with treesitter
+set foldlevel=99
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
-set foldlevel=99
 " 'jpalardy/vim-slime'
     let g:slime_target = "tmux"
     let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
@@ -159,21 +164,19 @@ nnoremap tre <cmd>NvimTreeToggle<Enter>
 " =======================
 " === Language Server ===
 " =======================
-" Reserved
+" Reserved>{}
 "     gf
 "     gF
 "     gv
 "     gp
 
+
+" nnoremap <silent> <c-]>     <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gdd       <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> <c-]>     <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gD        <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> gs        <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> gtd       <cmd>lua vim.lsp.buf.type_definition()<CR>
 " nnoremap <silent> gr        <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> gr        <cmd>Trouble lsp_references<cr>
 " nnoremap <silent> gr       <cmd>Telescope lsp_references<CR>
-nnoremap <silent> grn       <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> g0        <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW        <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 " nnoremap <silent> gtt       <cmd>Telescope tags theme=dropdown<CR>
@@ -183,14 +186,16 @@ nnoremap <silent> K         <cmd>lua vim.lsp.buf.hover()<CR>
 nmap <leader>dw             <cmd>lua require('diaglist').open_all_diagnostics()<cr>
 nmap <leader>d0             <cmd>lua require('diaglist').open_buffer_diagnostics()<cr>
 
-nnoremap <leader>ff         <cmd>lua vim.lsp.buf.format({ async = true })<cr>
+nnoremap <leader>ff         <cmd>lua vim.lsp.buf.formatting({ async = true })<cr>
 nnoremap <leader>fj         <cmd>%! python -m json.tool<cr>
 
 nnoremap <leader>ca         <cmd>lua vim.lsp.buf.code_action()<CR>
 
 " BigQuery
 nnoremap <leader>bs         :!sqly snapshot --env development --file % --cte-name <cword> <CR>
-
+nnoremap <leader>bx         :lua dbt_open_compiled() <Enter>
+nnoremap <leader>bv         :lua dbt_open_snaps() <Enter>
+" nnoremap <silent> <leader>bc :lua bigquery_check("production")<Enter>
 
 " =========================
 " === Utility Functions ===
@@ -208,4 +213,4 @@ map <leader>n :call RenameFile()<cr>
 
 set laststatus=3
 highlight WinSeparator guibg=None
-set winbar=%=%m\ %f
+" set winbar=%=%m\ %f " only available in nvim 0.8

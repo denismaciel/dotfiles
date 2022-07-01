@@ -59,7 +59,6 @@ function cycle_notes(direction)
     local idx
     local buf_dir = vim.fn.expand('%:p:h')
     local f_name = vim.fn.expand('%:t')
-    -- if buf_dir == '/home/denis/Sync/Notes/Current' then
     if true then
         local files = scandir(buf_dir)
         for i, f in pairs(files) do
@@ -117,11 +116,19 @@ P = function(v)
     return v
 end
 
-function open_snapdirectory()
+function dbt_open_compiled()
     fname = vim.fn.expand('%')
     local result = io.popen("./venv/bin/sqly get-dbt-compiled-path --file "..fname)
     for line in result:lines() do
-        vim.api.nvim_command('vsplit '..line)
+        vim.api.nvim_command('vsplit')
+        vim.api.nvim_command('view '..line)
+        vim.api.nvim_command('setlocal syntax=OFF')
     end
 end
 
+function dbt_open_snaps()
+    root_folder = vim.fn.expand('%:h')
+    snap_folder_name = vim.fn.expand('%:t:r')
+    snap_folder_path = root_folder..'/snaps/'..snap_folder_name
+    vim.api.nvim_command('vsplit '..snap_folder_path)
+end
