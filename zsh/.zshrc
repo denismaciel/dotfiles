@@ -1,9 +1,3 @@
-# Load version control information
-autoload -Uz vcs_info
-autoload -U colors && colors
-precmd() { vcs_info }
-zstyle ':vcs_info:git:*' formats '[%b]'
-
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 80 && setxkbmap -layout us -option ctrl:nocaps
 
 
@@ -45,16 +39,6 @@ function open() {
 
 function open-zathura() {
     nohup zathura "$*" >> /dev/null & exit
-}
-
-function pydeps() {
-    pip install jedi-language-server ipdb ipython 
-}
-
-function clean-downloads() {
-    mv ~/downloads/*.pdf ~/downloads/docs
-    mv ~/downloads/*.epub ~/downloads/docs
-    mv ~/downloads/*.mobi ~/downloads/docs
 }
 
 function addin() {
@@ -189,12 +173,3 @@ export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 eval "$(direnv hook zsh)"
-
-# OCTAVIA CLI
-OCTAVIA_ENV_FILE=/home/denis/.octavia
-alias octavia="docker run -i --rm -v \$(pwd):/home/octavia-project --network host --env-file \${OCTAVIA_ENV_FILE} --user \$(id -u):\$(id -g) airbyte/octavia-cli:0.35.65-alpha"
-
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/bin/terraform terraform
-
-. $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
