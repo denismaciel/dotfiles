@@ -49,10 +49,8 @@
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
   ];
 
-
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
 
   programs.starship = {
     enable = true;
