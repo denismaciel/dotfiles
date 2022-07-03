@@ -46,7 +46,15 @@
     pkgs.slack
     pkgs.zsh-fzf-tab
     pkgs.zsh-syntax-highlighting
-    (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+    pkgs.gnumake
+    pkgs.universal-ctags
+    pkgs.newsboat
+    (pkgs.nerdfonts.override {
+      fonts = [
+        "FiraCode"
+        "DroidSansMono"
+      ];
+    })
   ];
 
   # Let Home Manager install and manage itself.
@@ -232,7 +240,7 @@
     userName = "Denis Maciel";
     userEmail = "denispmaciel@gmail.com";
     signing = {
-      signByDefault = true;
+      signByDefault = false;
       key = "B9E1A568A1128EC6";
     };
   };
