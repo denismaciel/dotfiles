@@ -30,6 +30,7 @@
     pkgs.newsboat
     pkgs.python310
     pkgs.python310Packages.pip
+    pkgs.nodejs
     pkgs.ripgrep
     pkgs.scmpuff
     pkgs.spotify-tui
@@ -49,6 +50,12 @@
     pkgs.gnumake
     pkgs.universal-ctags
     pkgs.newsboat
+    pkgs.google-chrome
+    pkgs.unzip
+    pkgs.rofi
+    pkgs.tmuxp
+    pkgs.notion-app-enhanced 
+    pkgs.dbmate
     (pkgs.nerdfonts.override {
       fonts = [
         "FiraCode"
