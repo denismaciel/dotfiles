@@ -2,30 +2,30 @@ session_name: core
 windows:
     - window_name: top
       panes:
-        - shell_command: cd ~/work/core0
-        - shell_command: cd ~/work/core0
+        - shell_command: cd ~/work/core
+        - shell_command: cd ~/work/core
     - window_name: risk-model
       panes:
-        - shell_command: cd ~/work/core0/data-pipelines/risk_model
-        - shell_command: cd ~/work/core0/data-pipelines/risk_model
+        - shell_command: cd ~/work/core/data-pipelines/risk_model
+        - shell_command: cd ~/work/core/data-pipelines/risk_model
     - window_name: dwh
       panes:
-        - shell_command: cd ~/work/core0/data-pipelines/dwh
-        - shell_command: cd ~/work/core0/data-pipelines/dwh
+        - shell_command: cd ~/work/core/data-pipelines/dwh
+        - shell_command: cd ~/work/core/data-pipelines/dwh
     - window_name: backend
       panes:
-        - shell_command: cd ~/work/core0/backend
-        - shell_command: cd ~/work/core0/backend
+        - shell_command: cd ~/work/core/backend
+        - shell_command: cd ~/work/core/backend
     - window_name: frontend
       panes:
-        - shell_command: cd ~/work/core0/recap-app
-        - shell_command: cd ~/work/core0/recap-app
+        - shell_command: cd ~/work/core/recap-app
+        - shell_command: cd ~/work/core/recap-app
     - window_name: terraform
       panes:
-        - shell_command: cd ~/work/core0/terraform
-        - shell_command: cd ~/work/core0/terraform
+        - shell_command: cd ~/work/core/terraform
+        - shell_command: cd ~/work/core/terraform
     - window_name: control-pane
       panes:
-        - shell_command: cd ~/work/core0/backend 
-        - shell_command: cd ~/work/core0/recap-app
-        - shell_command: cd ~/work/core0/recap-app
+        - shell_command: cd ~/work/core/backend 
+        - shell_command: cd ~/work/core/recap-app
+        - shell_command: cd ~/work/core/recap-app
