@@ -56,6 +56,8 @@
     pkgs.tmuxp
     pkgs.notion-app-enhanced 
     pkgs.dbmate
+    pkgs.fd
+    pkgs.lorri
     (pkgs.nerdfonts.override {
       fonts = [
         "FiraCode"
@@ -222,7 +224,7 @@
       export PATH="$HOME/go/bin/:$PATH"
       export PATH="$HOME/.cargo/bin:$PATH"
       export PATH="$HOME/node/bin:$PATH"
-      export PATH="$HOME/venvs/default/bin:$PATH"
+      # export PATH="$HOME/venvs/default/bin:$PATH"
       export GOPATH=$(go env GOPATH)
 
       eval "$(scmpuff init -s)"

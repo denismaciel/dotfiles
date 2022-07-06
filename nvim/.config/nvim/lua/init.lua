@@ -55,33 +55,33 @@ function scandir(directory)
     return t
 end
 
-function cycle_notes(direction)
-    local idx
-    local buf_dir = vim.fn.expand('%:p:h')
-    local f_name = vim.fn.expand('%:t')
-    if true then
-        local files = scandir(buf_dir)
-        for i, f in pairs(files) do
-           if f == f_name then
-               idx = i
-           end
-        end
+-- function cycle_notes(direction)
+--     local idx
+--     local buf_dir = vim.fn.expand('%:p:h')
+--     local f_name = vim.fn.expand('%:t')
+--     if true then
+--         local files = scandir(buf_dir)
+--         for i, f in pairs(files) do
+--            if f == f_name then
+--                idx = i
+--            end
+--         end
 
-        if direction == 'up' then
-            next_f = files[idx+1]
-        elseif direction == 'down' then
-            next_f = files[idx-1]
-        else
-            print('Unkown direction')
-        end
+--         if direction == 'up' then
+--             next_f = files[idx+1]
+--         elseif direction == 'down' then
+--             next_f = files[idx-1]
+--         else
+--             print('Unkown direction')
+--         end
 
-        cbuf = vim.api.nvim_get_current_buf()
-        vim.api.nvim_command('edit '..buf_dir..'/'..next_f)
-        vim.api.nvim_buf_delete(cbuf, {force = false})
-    else
-        print('Not inside notes directory, sucker. Current at '..buf_dir)
-    end
-end
+--         cbuf = vim.api.nvim_get_current_buf()
+--         vim.api.nvim_command('edit '..buf_dir..'/'..next_f)
+--         vim.api.nvim_buf_delete(cbuf, {force = false})
+--     else
+--         print('Not inside notes directory, sucker. Current at '..buf_dir)
+--     end
+-- end
 
 function get_current_commit_sha(directory)
     local i, t, popen = 0, {}, io.popen

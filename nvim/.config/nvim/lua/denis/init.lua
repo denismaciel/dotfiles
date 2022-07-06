@@ -25,7 +25,7 @@ function scandir(directory)
     local pfile = popen('ls -a "'..directory..'"')
     for filename in pfile:lines() do
         i = i + 1
-        t = filename
+        t[i] = filename
     end
     pfile:close()
     return t
@@ -36,7 +36,7 @@ function cycle_notes(direction)
     local buf_dir = vim.fn.expand('%:p:h')
     local f_name = vim.fn.expand('%:t')
     local files = scandir(buf_dir)
-    for i, f in pairs(files) do
+    for i, f in ipairs(files) do
        if f == f_name then
            idx = i
        end

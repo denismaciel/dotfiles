@@ -144,7 +144,8 @@ nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
 " ===== Telescope =====
 " =====================
 ".config/nvim/lua/telescope-config.lua
-" nmap <Leader>; <cmd>Telescope buffers<Enter>
+nmap <Leader>; <cmd>Telescope buffers<Enter>
+nmap <Leader>; <cmd>lua require'telescope.builtin'.buffers({ shorten_path = true }) <cr>
 nnoremap tt <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' , '-g', '!.snapshots/' }})<Enter>
 nnoremap td <cmd>lua require'telescope.builtin'.find_files({ find_command = {'git', 'diff', '--name-only', '--relative' }})<Enter>
 nnoremap tc <cmd>Telescope commands<Enter>
@@ -160,16 +161,6 @@ nnoremap <leader>rp :e playground/p.go<Enter>
 " === Tree ===
 " ============
 nnoremap tre <cmd>NvimTreeToggle<Enter>
-
-" =======================
-" === Language Server ===
-" =======================
-" Reserved>{}
-"     gf
-"     gF
-"     gv
-"     gp
-
 
 " nnoremap <silent> <c-]>     <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gdd       <cmd>lua vim.lsp.buf.declaration()<CR>
