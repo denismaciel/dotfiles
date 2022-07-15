@@ -60,3 +60,6 @@ require'lspconfig'.sumneko_lua.setup{}
 require'lspconfig'.rnix.setup{
     capabilities = capabilities
 }
+require'lspconfig'.yamlls.setup{
+    capabilities = capabilities
+}

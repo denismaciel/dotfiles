@@ -22,15 +22,15 @@ font:
     # family: SF Mono
     # family: Cascadia Code
     # family: CaskaydiaCove Nerd Font Mono
-    family: Operator Mono Medium
+    # family: Operator Mono Medium
     # family: IBM Plex Mono
     # family: Ubuntu Mono
-    family: mono
+    family: FiraCode Nerd Font
     style: Regular
   # bold:
   #   style: Bold
   italic:
-    family: Operator Mono Light
+    family: FiraCode Nerd Font
     style: Italic
   # bold_italic:
   #   style: Bold Italic
@@ -280,7 +280,7 @@ schemes:
         magenta: '#B3A1E6'
         cyan:    '#00B4E0'
         white:   '#B3B692'
-colors: *duckbones
+colors: *gruvboxdark
 
 # Visual Bell
 #

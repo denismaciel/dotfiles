@@ -1,10 +1,37 @@
-[[ "$(uname)" = "Linux" ]] && xset r rate 200 80 && setxkbmap -layout us -option ctrl:nocaps
+[[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
 
+export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
+source /home/denis/.nix-profile/etc/profile.d/nix.sh
+source /home/denis/.nix-profile/etc/profile.d/nix.sh
+
+
+# Copied from https://github.com/jordanlewis/config/blob/master/zshrc
+# {{{ GIT heart FZF
+function is_in_git_repo() {
+  git rev-parse HEAD > /dev/null 2>&1
+}
+
+function fzf-down() {
+  fzf --height 50% "$@" --border
+}
 
 function gb() {
-    branch=$(git branch -a | sed "s|remotes/origin/||" | tr -d "*+ " | uniq | fzf)
-    [ $status -eq 0 ] && git checkout $branch || echo "cancelling"
+  is_in_git_repo || return
+  git branch -a --color=always | grep -v '/HEAD\s' | sort |
+  fzf-down --ansi --multi --tac --preview-window right:70% \
+    --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
+  sed 's/^..//' | cut -d' ' -f1 |
+  sed 's#^remotes/##'
 }
+
+gf() {
+  is_in_git_repo || return
+  git -c color.status=always status --short |
+  fzf-down -m --ansi --nth 2..,.. \
+    --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
+  cut -c4- | sed 's/.* -> //'
+}
+# }}}
 
 function check_syncthing() {
     running=`ps ax | grep -v grep | grep syncthing | wc -l`
@@ -76,7 +103,7 @@ autoload -Uz compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
-source ~/somewhere/fzf-tab.plugin.zsh
+source ~/apps/fzf-tab/fzf-tab.plugin.zsh
 _comp_options+=(globdots)		# Include hidden files.
 # Fuzzy completion!!!
 zstyle ':completion:*' matcher-list '' \
@@ -161,9 +188,9 @@ eval "$(scmpuff init -s)"
 # eval "$(jump shell zsh)"
 
 export PYTHONBREAKPOINT=ipdb.set_trace
-[[ -d $HOME/applications/zsh-syntax-highlighting ]] && source $HOME/applications/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-if [ -e /home/denis/.nix-profile/etc/profile.d/nix.sh ]; then . /home/denis/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-if [ -e /home/denis/.recap.sh ]; then . /home/denis/.recap.sh; fi
+# if [ -e /home/denis/.nix-profile/etc/profile.d/nix.sh ]; then . /home/denis/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+source /home/denis/.nix-profile/etc/profile.d/nix.sh
+if [ -e /home/denis/credentials/recap.sh ]; then . /home/denis/credentials/recap.sh; fi
 
 # Fix annoying warning: 
 #     - https://nixos.wiki/wiki/Locales

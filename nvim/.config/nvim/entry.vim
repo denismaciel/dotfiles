@@ -35,7 +35,14 @@ set formatoptions+=cro
 set splitbelow splitright
 set number
 " set list lcs=trail:·,tab:»·
-"
+
+" Disable cmd line
+" set cmdheight=0
+
+" {{{ Disable status line
+" set laststatus=0
+" }}}
+
 au FileType go let b:EditorConfig_disable = 1 
 au FileType go setlocal noexpandtab
 au FileType markdown setlocal wrap
@@ -97,10 +104,12 @@ lua require 'lsp'
 lua require 'treesitter'
 lua require 'telescope-config'
 " lua require 'nvim-tree-config'
+lua require 'dap-config'
 lua require 'cmp-config'
 lua require('nvim-autopairs').setup({})
 lua require 'colors-config'
 lua require 'mappings'
+lua require 'nvim-formatter-config'
 
 
 " =================
@@ -111,7 +120,7 @@ let g:vimwiki_key_mappings = { 'all_maps': 0 }
 nmap <Leader>ww <Plug>VimwikiIndex
 nmap <Leader>wfn <cmd> lua require'telescope.builtin'.find_files({cwd = "~/Sync/Notes/Current/"})<Enter>
 nmap <Leader><Enter> <Plug>VimwikiFollowLink
-command! Research lua require'telescope.builtin'.find_files({cwd = "~/Sync/Notes/Current/Research"})
+command! SearchDotfiles lua require'telescope.builtin'.find_files({cwd = "~/dotfiles", hidden = true})
 command OpenAnki :e /home/denis/Sync/vault/anki.md
 nnoremap <C-P> <cmd> lua cycle_notes('up')<Enter>
 nnoremap <C-N> <cmd> lua cycle_notes('down')<Enter>
@@ -177,8 +186,9 @@ nnoremap <silent> K         <cmd>lua vim.lsp.buf.hover()<CR>
 nmap <leader>dw             <cmd>lua require('diaglist').open_all_diagnostics()<cr>
 nmap <leader>d0             <cmd>lua require('diaglist').open_buffer_diagnostics()<cr>
 
-nnoremap <leader>ff         <cmd>lua vim.lsp.buf.formatting({ async = true })<cr>
-nnoremap <leader>fj         <cmd>%! python -m json.tool<cr>
+" nnoremap <leader>ff         <cmd>lua vim.lsp.buf.format({ async = true })<cr>
+nnoremap <silent> <leader>ff :Format<CR>
+" nnoremap <leader>fj         <cmd>%! python -m json.tool<cr>
 
 nnoremap <leader>ca         <cmd>lua vim.lsp.buf.code_action()<CR>
 
@@ -204,4 +214,4 @@ map <leader>n :call RenameFile()<cr>
 
 set laststatus=3
 highlight WinSeparator guibg=None
-" set winbar=%=%m\ %f " only available in nvim 0.8
+set winbar=%=%m\ %f " only available in nvim 0.8

@@ -3,3 +3,8 @@ recap-cli
 nvim/.config/nvim/plugin/
 duckdb
 cache.db
+
+
+tools/.newsboat/cache.db.lock
+tools/.config/pgcli/history
+tools/.config/pgcli/log

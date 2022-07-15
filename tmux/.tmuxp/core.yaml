@@ -8,6 +8,10 @@ windows:
       panes:
         - shell_command: cd ~/work/core/data-pipelines/risk_model
         - shell_command: cd ~/work/core/data-pipelines/risk_model
+    - window_name: contract-selection
+      panes:
+        - shell_command: cd ~/work/core/data-pipelines/contract_selection
+        - shell_command: cd ~/work/core/data-pipelines/contract_selection
     - window_name: dwh
       panes:
         - shell_command: cd ~/work/core/data-pipelines/dwh

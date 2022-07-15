@@ -1,0 +1,10 @@
+session_name: scratch
+windows:
+    - window_name: dotfiles
+      panes:
+        - shell_command: cd ~/dotfiles
+        - shell_command: cd ~/dotfiles
+    - window_name: newsboat
+      panes:
+        - shell_command: cd 
+        - shell_command: cd
