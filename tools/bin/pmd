@@ -1,15 +1,16 @@
 #!/bin/bash
 
-DURATION=${1:-25}
+pomodoro status -f '%!r %c'
+# DURATION=${1:-25}
 
-echo "Starting Pomodoro $DURATION"
+# echo "Starting Pomodoro $DURATION"
 
-pomodoro $DURATION && osascript -e 'display alert "Time is over!" message "Log what you have done in the last 30 minutes"' || exit 1
+# pomodoro $DURATION && osascript -e 'display alert "Time is over!" message "Log what you have done in the last 30 minutes"' || exit 1
 
-NOW=$(date +'%Y-%m-%d %H:%M:%S')
+# NOW=$(date +'%Y-%m-%d %H:%M:%S')
 
-echo 'What have you done in this last pomodoro? 
+# echo 'What have you done in this last pomodoro? 
 
-'
-read ACTIVITY
-echo "\"$NOW\", $DURATION, \"$ACTIVITY\"" >> $HOME/pomodoro.csv
+# '
+# read ACTIVITY
+# echo "\"$NOW\", $DURATION, \"$ACTIVITY\"" >> $HOME/pomodoro.csv

@@ -3,6 +3,7 @@ recap-cli
 nvim/.config/nvim/plugin/
 duckdb
 cache.db
+tools/bin/ngrok
 
 
 tools/.newsboat/cache.db.lock

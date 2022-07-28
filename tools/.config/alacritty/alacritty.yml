@@ -27,10 +27,11 @@ font:
     # family: Ubuntu Mono
     family: FiraCode Nerd Font
     style: Regular
-  # bold:
-  #   style: Bold
-  italic:
+  bold:
     family: FiraCode Nerd Font
+    style: Regular
+  italic:
+    family: Ubuntu Mono
     style: Italic
   # bold_italic:
   #   style: Bold Italic
@@ -50,7 +51,37 @@ font:
   #  y: 0
 
 schemes:
-    solarized_light: &light
+    tokio-night: &tokio-night
+      primary:
+        background: '0x1a1b26'
+        foreground: '0xc0caf5'
+
+      # Normal colors
+      normal:
+        black:   '0x15161E'
+        red:     '0xf7768e'
+        green:   '0x9ece6a'
+        yellow:  '0xe0af68'
+        blue:    '0x7aa2f7'
+        magenta: '0xbb9af7'
+        cyan:    '0x7dcfff'
+        white:   '0xa9b1d6'
+
+      # Bright colors
+      bright:
+        black:   '0x414868'
+        red:     '0xf7768e'
+        green:   '0x9ece6a'
+        yellow:  '0xe0af68'
+        blue:    '0x7aa2f7'
+        magenta: '0xbb9af7'
+        cyan:    '0x7dcfff'
+        white:   '0xc0caf5'
+
+      indexed_colors:
+        - { index: 16, color: '0xff9e64' }
+        - { index: 17, color: '0xdb4b4b' }
+    solarized-light: &solarized-light
       primary:
         background: '#fdf6e3' # base3
         foreground: '#657b83' # base00
@@ -141,12 +172,9 @@ schemes:
         - { index: 16, color: '0xd18616' }
         - { index: 17, color: '0xffa198' }
     github-light: &github-light
-      # Default colors
       primary:
         background: '0xffffff'
         foreground: '0x0E1116'
-
-      # Normal colors
       normal:
         black:   '0x24292f'
         red:     '0xcf222e'
@@ -156,8 +184,6 @@ schemes:
         magenta: '0x8250df'
         cyan:    '0x1b7c83'
         white:   '0x6e7781'
-
-      # Bright colors
       bright:
         black:   '0x57606a'
         red:     '0xa40e26'
@@ -167,19 +193,13 @@ schemes:
         magenta: '0xa475f9'
         cyan:    '0x3192aa'
         white:   '0x8c959f'
-
       indexed_colors:
         - { index: 16, color: '0xd18616' }
         - { index: 17, color: '0xa40e26' }
-    gruvboxlight: &gruvboxlight
-        # Default colors
+    gruvbox-light: &gruvbox-light
         primary:
-          # hard contrast: background = '#f9f5d7'
           background: '#fbf1c7'
-          # soft contrast: background = '#f2e5bc'
           foreground: '#3c3836'
-
-        # Normal colors
         normal:
           black:   '#fbf1c7'
           red:     '#cc241d'
@@ -189,8 +209,6 @@ schemes:
           magenta: '#b16286'
           cyan:    '#689d6a'
           white:   '#7c6f64'
-
-        # Bright colors
         bright:
           black:   '#928374'
           red:     '#9d0006'
@@ -201,15 +219,10 @@ schemes:
           cyan:    '#427b58'
           white:   '#3c3836'
 
-    gruvboxdark: &gruvboxdark
-          # Default colors
+    gruvbox-dark: &gruvbox-dark
         primary:
-          # hard contrast: background = '#1d2021'
           background: '#282828'
-          # soft contrast: background = '#32302f'
           foreground: '#ebdbb2'
-
-        # Normal colors
         normal:
           black:   '#282828'
           red:     '#cc241d'
@@ -219,8 +232,6 @@ schemes:
           magenta: '#b16286'
           cyan:    '#689d6a'
           white:   '#a89984'
-
-        # Bright colors
         bright:
           black:   '#928374'
           red:     '#fb4934'
@@ -280,7 +291,7 @@ schemes:
         magenta: '#B3A1E6'
         cyan:    '#00B4E0'
         white:   '#B3B692'
-colors: *gruvboxdark
+colors: *tokio-night
 
 # Visual Bell
 #

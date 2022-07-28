@@ -17,7 +17,6 @@ syntax enable
 filetype plugin on
 set nocompatible
 set nobackup
-set background=dark
 set noswapfile
 set nowrap
 set undodir=~/.config/nvim/undodir
@@ -33,7 +32,7 @@ set cursorline
 set formatoptions+=cro
 " Open splits the _right way_
 set splitbelow splitright
-set number
+" set number
 " set list lcs=trail:·,tab:»·
 
 " Disable cmd line
@@ -186,9 +185,7 @@ nnoremap <silent> K         <cmd>lua vim.lsp.buf.hover()<CR>
 nmap <leader>dw             <cmd>lua require('diaglist').open_all_diagnostics()<cr>
 nmap <leader>d0             <cmd>lua require('diaglist').open_buffer_diagnostics()<cr>
 
-" nnoremap <leader>ff         <cmd>lua vim.lsp.buf.format({ async = true })<cr>
 nnoremap <silent> <leader>ff :Format<CR>
-" nnoremap <leader>fj         <cmd>%! python -m json.tool<cr>
 
 nnoremap <leader>ca         <cmd>lua vim.lsp.buf.code_action()<CR>
 

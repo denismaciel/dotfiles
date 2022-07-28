@@ -102,25 +102,24 @@
     userName = "Denis Maciel";
     userEmail = "denispmaciel@gmail.com";
     signing = {
-      signByDefault = false;
-      key = "B9E1A568A1128EC6";
+      signByDefault = true;
+      key = "0136C53C5F7ED3CB";
     };
     ignores = [
-        ".mypy_cache"
-        ".vim"
-        ".pytest_cache"
-        ".vscode"
-        "venv"
         ".DS_Store"
-        """"
-        "snaps"
         ".direnv"
         ".envrc"
+        ".mypy_cache"
+        ".pytest_cache"
         ".python-version"
-        "tags"
-        "playground"
-        "_debug.py"
+        ".vim"
+        ".vscode"
         "__pycache__"
+        "_debug.py"
+        "playground"
+        "snaps"
+        "tags"
+        "venv"
     ];
     aliases = {
       last = "for-each-ref --sort=-committerdate --count=20 --format='%(align:70,left)%(refname:short)%(end)%(committerdate:relative)' refs/heads/";

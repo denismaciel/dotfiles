@@ -1,0 +1,112 @@
+#! /bin/env python3
+
+from subprocess import run
+import sys
+import argparse
+
+TODO_FILE = "/home/denis/Sync/Notes/Current/todo.md"
+
+
+class EmptyTodoError(Exception):
+    ...
+
+
+class CompletedTodoException(Exception):
+    ...
+
+
+def write_to_file(todos: list[str]):
+    with open(TODO_FILE, "w") as f:
+        f.write("\n".join(todos))
+
+
+def select_todo(prompt):
+    cmd = f'echo $(cat {TODO_FILE} | grep -v "DONE" | rofi -dmenu -p "{prompt} > ")'
+    proc = run(cmd, shell=True, capture_output=True, text=True)
+    proc.check_returncode()
+
+    todo = proc.stdout.strip()
+
+    if todo == "":
+        raise EmptyTodoError
+
+    return todo
+
+
+def add_todo():
+    with open(TODO_FILE, "r") as f:
+        todos = [line.strip() for line in f]
+
+    input_todo = select_todo("TODO")
+
+    # If input_todo already exists, we want to toggle it as complete
+    if input_todo in todos:
+        i = todos.index(input_todo)
+        todos[i] = input_todo.replace("TODO", "DONE")
+        write_to_file(todos)
+        raise CompletedTodoException(input_todo)
+
+    todos = [f"TODO {input_todo}"] + todos
+    write_to_file(todos)
+
+
+def handle_add_todo():
+    try:
+        add_todo()
+    except EmptyTodoError:
+        ...
+    except CompletedTodoException as e:
+        run(["notify-send", f"Completed {str(e)}"])
+    except Exception as e:
+        run(["notify-send", f"Failed: {str(e)}"])
+    else:
+        run(["notify-send", "TODO added successfully"])
+
+
+def select_duration():
+    durations = [25, 20, 15, 10, 5, 1]
+    durations_str = r"\n".join(str(d) for d in durations)
+    cmd = f"echo '{durations_str}' | rofi -dmenu -p 'Pomdoro'"
+    proc = run(cmd, shell=True, check=True, capture_output=True, text=True)
+    return proc.stdout.strip()
+
+
+def start_pomodoro():
+    todo = select_todo('🍅')
+    duration = select_duration()
+    run(
+        ["/home/denis/go/bin//pomodoro", "start", "--duration", duration, todo],
+        check=True,
+        capture_output=True,
+    )
+
+
+def handle_start_pomodoro():
+    try:
+        start_pomodoro()
+    except EmptyTodoError:
+        ...
+    except Exception as e:
+        run(["notify-send", f"Failed: {str(e)}"])
+
+
+def main():
+    argv = sys.argv[1:]
+    parser = argparse.ArgumentParser(prog="todos")
+    subparsers = parser.add_subparsers(dest="command")
+    sp_add_todo = subparsers.add_parser("add-todo")
+    sp_start_pomodoro = subparsers.add_parser("start-pomodoro")
+
+    args = parser.parse_args(argv)
+
+    if args.command == "add-todo":
+        handle_add_todo()
+    elif args.command == "start-pomodoro":
+        start_pomodoro()
+    else:
+        run(["notify-send", f"Unknown command"])
+        raise NotImplementedError("unknown command")
+
+
+if __name__ == "__main__":
+    main()

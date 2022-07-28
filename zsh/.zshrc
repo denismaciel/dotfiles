@@ -15,13 +15,17 @@ function fzf-down() {
   fzf --height 50% "$@" --border
 }
 
-function gb() {
+function gbl() {
   is_in_git_repo || return
   git branch -a --color=always | grep -v '/HEAD\s' | sort |
   fzf-down --ansi --multi --tac --preview-window right:70% \
     --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
   sed 's/^..//' | cut -d' ' -f1 |
   sed 's#^remotes/##'
+}
+
+function gb() {
+    git checkout $(gbl)
 }
 
 gf() {
@@ -76,6 +80,7 @@ function addin() {
 export R_LIBS_USER="$HOME/r/x86_64-pc-linux-gnu-library/4.1" # Custom location for R packages
 export LC_ALL=en_US.UTF-8 # Fix problem when opening nvim
 export VISUAL=nvim
+export EDITOR=nvim
 export FZF_DEFAULT_OPTS="--height 100%"
 export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --ignore-file ~/.ripgrep_ignore"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -89,8 +94,8 @@ alias ll='ls -lh'
 alias lsa='ls -lah' 
 alias R='R --no-save'
 alias diary='nvim "$HOME/Sync/Notes/Current/Diary/$(date +'%Y-%m-%d').md"'
-alias research='nvim -c "Research"'
 alias gp="git push origin HEAD"
+alias rm=gomi
 
 alias pdf='open-zathura "$(fd "pdf|epub" | fzf)"'
 alias clip='xclip -selection clipboard'

@@ -88,6 +88,7 @@ return require("packer").startup(function()
 
 	-- === Colors ===
 	use("rktjmp/lush.nvim")
+    use('folke/tokyonight.nvim')
 	use({
 		"mcchrish/zenbones.nvim",
 		requires = "rktjmp/lush.nvim",
@@ -95,8 +96,7 @@ return require("packer").startup(function()
 	use("morhetz/gruvbox")
 	use("savq/melange")
 	use("rebelot/kanagawa.nvim")
-	use("projekt0n/github-nvim-theme")
-	use("ellisonleao/gruvbox.nvim")
+	use("shaunsingh/nord.nvim")
 
 	require("leap").set_default_keymaps()
 	require("nvim-tree").setup()

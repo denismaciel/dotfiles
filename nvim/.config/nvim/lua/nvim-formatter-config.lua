@@ -12,6 +12,9 @@ require("formatter").setup({
 		typescript = {
 			prettier,
 		},
+		typescriptreact = {
+			prettier,
+		},
 		css = {
 			prettier,
 		},
