@@ -73,6 +73,9 @@
       fonts = [
         "FiraCode"
         "DroidSansMono"
+        "JetBrainsMono"
+        "Monofur"
+        "SpaceMono"
       ];
     })
   ];
@@ -84,7 +87,6 @@
     enable = true;
     settings = {
       add_newline = true;
-
       character = {
         success_symbol = "[\\$](white)";
         error_symbol = "[\\$](red)";
