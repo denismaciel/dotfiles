@@ -28,7 +28,21 @@ require("formatter").setup({
 			require("formatter.filetypes.lua").stylua,
 		},
 		python = {
-			require("formatter.filetypes.python").black,
+			function()
+			    return {
+			        exe = "black",
+			        args = { "-q", "--skip-string-normalization", "-"},
+			        stdin = true,
+			    }
+			end,
+			function()
+				return {
+					exe = "reorder-python-imports",
+					args = { "-" },
+					stdin = true,
+                    ignore_exitcode = true,
+				}
+			end,
 		},
 		go = {
 			require("formatter.filetypes.go").gofumpt,
