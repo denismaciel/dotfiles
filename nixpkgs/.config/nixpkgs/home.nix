@@ -69,6 +69,8 @@
     /* pkgs.lorri */
     pkgs.yaml-language-server
     pkgs.stylua
+    pkgs.terraform-ls
+    pkgs.jsonnet-language-server
     (pkgs.nerdfonts.override {
       fonts = [
         "FiraCode"
@@ -92,9 +94,11 @@
         error_symbol = "[\\$](red)";
         vicmd_symbol = "[\\$](blue)";
       };
-
       aws = {
         disabled = true;
+      };
+      python = {
+        symbol = " ";
       };
     };
   };

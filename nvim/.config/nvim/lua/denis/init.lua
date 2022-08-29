@@ -2,6 +2,7 @@ vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition)
 vim.keymap.set("n", "gD", vim.lsp.buf.implementation)
 vim.keymap.set("n", "gtd", vim.lsp.buf.type_definition)
 vim.keymap.set("n", "grn", vim.lsp.buf.rename)
+vim.keymap.set("n", "<leader>fls", vim.lsp.buf.format)
 
 vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>Trouble<cr>", { silent = true, noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", { silent = true, noremap = true })

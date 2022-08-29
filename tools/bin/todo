@@ -3,6 +3,7 @@
 from subprocess import run
 import sys
 import argparse
+import re
 
 TODO_FILE = "/home/denis/Sync/Notes/Current/todo.md"
 
@@ -20,7 +21,7 @@ def write_to_file(todos: list[str]):
         f.write("\n".join(todos))
 
 
-def select_todo(prompt):
+def select_todo(prompt: str) -> str:
     cmd = f'echo $(cat {TODO_FILE} | grep -v "DONE" | rofi -dmenu -p "{prompt} > ")'
     proc = run(cmd, shell=True, capture_output=True, text=True)
     proc.check_returncode()
@@ -32,6 +33,17 @@ def select_todo(prompt):
 
     return todo
 
+
+def append_todo(todo):
+    with open(TODO_FILE, "r") as f:
+        todos = [line.strip() for line in f]
+
+    todo = todo.strip()
+    if todo in todos:
+        return
+    
+    todos = [f"TODO {todo}"] + todos
+    write_to_file(todos)
 
 def add_todo():
     with open(TODO_FILE, "r") as f:
@@ -46,6 +58,7 @@ def add_todo():
         write_to_file(todos)
         raise CompletedTodoException(input_todo)
 
+    # Refactor to use append todo
     todos = [f"TODO {input_todo}"] + todos
     write_to_file(todos)
 
@@ -72,13 +85,34 @@ def select_duration():
 
 
 def start_pomodoro():
-    todo = select_todo('🍅')
+    todo = select_todo("🍅")
     duration = select_duration()
+
+    if duration.strip() == "":
+        return
+
+    append_todo(todo)
     run(
         ["/home/denis/go/bin//pomodoro", "start", "--duration", duration, todo],
         check=True,
         capture_output=True,
     )
+
+
+def get_pomodoro_status():
+    proc = run(
+        ["/home/denis/go/bin//pomodoro", "status"],
+        capture_output=True,
+        check=True,
+        text=True,
+    )
+
+    result = proc.stdout.strip()
+
+    if result == "" or result.startswith('!'):
+        print('pomodoro is not running')
+
+    r'\d🍅'
 
 
 def handle_start_pomodoro():
@@ -96,6 +130,7 @@ def main():
     subparsers = parser.add_subparsers(dest="command")
     sp_add_todo = subparsers.add_parser("add-todo")
     sp_start_pomodoro = subparsers.add_parser("start-pomodoro")
+    sp_get_pomodoro_status = subparsers.add_parser("get-pomodoro-status")
 
     args = parser.parse_args(argv)
 
@@ -103,6 +138,8 @@ def main():
         handle_add_todo()
     elif args.command == "start-pomodoro":
         start_pomodoro()
+    elif args.command == "get-pomodoro-status":
+        get_pomodoro_status()
     else:
         run(["notify-send", f"Unknown command"])
         raise NotImplementedError("unknown command")

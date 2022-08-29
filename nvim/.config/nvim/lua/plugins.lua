@@ -45,6 +45,8 @@ return require("packer").startup(function()
 
 	--  Official packages
 	use("wbthomason/packer.nvim")
+	use("google/vim-jsonnet")
+	use("nvim-treesitter/nvim-treesitter-context")
 	use("christoomey/vim-tmux-navigator")
 	use("nvim-lua/plenary.nvim")
 	use({ "nvim-telescope/telescope.nvim", requires = { { "nvim-lua/plenary.nvim" } } })
@@ -88,7 +90,7 @@ return require("packer").startup(function()
 
 	-- === Colors ===
 	use("rktjmp/lush.nvim")
-    use('folke/tokyonight.nvim')
+	use("folke/tokyonight.nvim")
 	use({
 		"mcchrish/zenbones.nvim",
 		requires = "rktjmp/lush.nvim",

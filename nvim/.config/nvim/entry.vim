@@ -102,7 +102,7 @@ lua require 'vim-gutentags'
 lua require 'lsp'
 lua require 'treesitter'
 lua require 'telescope-config'
-" lua require 'nvim-tree-config'
+lua require 'nvim-tree-config'
 lua require 'dap-config'
 lua require 'cmp-config'
 lua require('nvim-autopairs').setup({})
@@ -190,7 +190,7 @@ nnoremap <silent> <leader>ff :Format<CR>
 nnoremap <leader>ca         <cmd>lua vim.lsp.buf.code_action()<CR>
 
 " BigQuery
-nnoremap <leader>bs         :!sqly snapshot --env development --file % --cte-name <cword> <CR>
+nnoremap <leader>bs         :!sqly snapshot --file % --cte-name <cword> <CR>
 nnoremap <leader>bx         :lua dbt_open_compiled() <Enter>
 nnoremap <leader>bv         :lua dbt_open_snaps() <Enter>
 " nnoremap <silent> <leader>bc :lua bigquery_check("production")<Enter>
