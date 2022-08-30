@@ -4,8 +4,10 @@ nvim/.config/nvim/plugin/
 duckdb
 cache.db
 tools/bin/ngrok
+tools/bin/greenclip
 
 
 tools/.newsboat/cache.db.lock
 tools/.config/pgcli/history
 tools/.config/pgcli/log
+
