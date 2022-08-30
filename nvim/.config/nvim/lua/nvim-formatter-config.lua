@@ -24,6 +24,9 @@ require("formatter").setup({
 		json = {
 			prettier,
 		},
+        yaml = {
+            prettier
+        },
 		lua = {
 			require("formatter.filetypes.lua").stylua,
 		},
