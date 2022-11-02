@@ -11,3 +11,6 @@ tools/.newsboat/cache.db.lock
 tools/.config/pgcli/history
 tools/.config/pgcli/log
 
+tools/.newsboat/history.cmdline
+tools/.newsboat/history.search
+tools/bin/gh
