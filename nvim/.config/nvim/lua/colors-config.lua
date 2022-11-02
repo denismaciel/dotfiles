@@ -1,9 +1,17 @@
--- require("github-theme").setup({ dark_float = true })
+require("colorizer").setup()
 
-vim.o.background = "dark"
-vim.cmd([[ set termguicolors ]])
+require("no-clown-fiesta").setup({ type = "bold,italic" })
+vim.cmd([[ colorscheme no-clown-fiesta ]])
 
-vim.g.neon_style = "light"
-vim.g.nord_disable_background = false
+-- For whatever reason, I couldn't get the `nvim_set_hl` calls to execute and
+-- "stay" at startup, so I needed to create an autocommand for it to be always
+-- executed.
+local group = vim.api.nvim_create_augroup("OverrideHighlight", { clear = true })
+vim.api.nvim_create_autocmd("BufEnter", {
+	callback = function()
+		-- vim.api.nvim_set_hl(0, "LeapLabelPrimary", { bg = "#eb9234", fg = "#000000" })
+		-- vim.api.nvim_set_hl(0, "LeapLabelSecondary", { bg = "#FFFFFF", fg = "#000000" })
+	end,
+	group = group,
+})
 
-vim.cmd([[ colorscheme tokyonight ]])

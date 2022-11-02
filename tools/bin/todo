@@ -1,11 +1,11 @@
 #! /bin/env python3
-
-from subprocess import run
-import sys
 import argparse
 import re
+import sys
+from subprocess import run
 
 TODO_FILE = "/home/denis/Sync/Notes/Current/todo.md"
+DONE_FILE = "/home/denis/Sync/Notes/Current/done.md"
 
 
 class EmptyTodoError(Exception):
@@ -39,11 +39,25 @@ def append_todo(todo):
         todos = [line.strip() for line in f]
 
     todo = todo.strip()
+
+    # If todo already exists, move it to the first position
     if todo in todos:
-        return
-    
-    todos = [f"TODO {todo}"] + todos
+        todos.remove(todo)
+        todos.insert(0, todo)
+    else:
+        todos = [f"TODO {todo}"] + todos
+
     write_to_file(todos)
+
+
+def prepend_done(todo):
+    import datetime
+
+    with open(DONE_FILE, 'r+') as f:
+        content = f.read()
+        f.seek(0)
+        f.write(datetime.datetime.now().isoformat() + ' ' + todo + '\n' + content)
+
 
 def add_todo():
     with open(TODO_FILE, "r") as f:
@@ -54,8 +68,10 @@ def add_todo():
     # If input_todo already exists, we want to toggle it as complete
     if input_todo in todos:
         i = todos.index(input_todo)
-        todos[i] = input_todo.replace("TODO", "DONE")
+        input_todo = todos.pop(i)
         write_to_file(todos)
+        input_todo = input_todo.replace("TODO", "DONE")
+        prepend_done(input_todo)
         raise CompletedTodoException(input_todo)
 
     # Refactor to use append todo
@@ -82,6 +98,13 @@ def select_duration():
     cmd = f"echo '{durations_str}' | rofi -dmenu -p 'Pomdoro'"
     proc = run(cmd, shell=True, check=True, capture_output=True, text=True)
     return proc.stdout.strip()
+
+
+def move_to_top(todo, todos):
+    """
+    Moves todo the top of the todo list
+    """
+    return todos
 
 
 def start_pomodoro():

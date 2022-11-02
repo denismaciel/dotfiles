@@ -10,6 +10,8 @@ vim.api.nvim_set_keymap("n", "<leader>xd", "<cmd>Trouble document_diagnostics<cr
 vim.api.nvim_set_keymap("n", "<leader>xl", "<cmd>Trouble loclist<cr>", { silent = true, noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", { silent = true, noremap = true })
 
+
+
 function scandir(directory)
 	local i, t, popen = 0, {}, io.popen
 	local pfile = popen('ls -a "' .. directory .. '"')
@@ -44,3 +46,14 @@ function cycle_notes(direction)
 	vim.api.nvim_command("edit " .. buf_dir .. "/" .. next_f)
 	vim.api.nvim_buf_delete(cbuf, { force = false })
 end
+
+
+require("auto-save").setup({
+	enabled = true,
+	execution_message = {
+		message = function() 
+            return ""
+		end,
+	},
+	trigger_events = { "InsertLeave", "TextChanged" }, -- vim events that trigger auto-save. See :h events
+})

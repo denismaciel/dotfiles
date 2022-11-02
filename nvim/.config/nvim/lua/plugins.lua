@@ -5,14 +5,6 @@ vim.cmd([[packadd packer.nvim]])
 
 return require("packer").startup(function()
 	-- Candidate packages
-	use("ggandor/leap.nvim")
-	use({
-		"folke/todo-comments.nvim",
-		requires = "nvim-lua/plenary.nvim",
-		config = function()
-			require("todo-comments").setup({})
-		end,
-	})
 	use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })
 	use("leoluz/nvim-dap-go")
 	use("mfussenegger/nvim-dap-python")
@@ -23,37 +15,41 @@ return require("packer").startup(function()
 		end,
 	})
 	use({
-		"xiyaowong/nvim-transparent",
+		"rlch/github-notifications.nvim",
+		-- config = [[require('config.github-notifications')]],
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
+	})
+	use({
+		"Pocco81/auto-save.nvim",
 		config = function()
-			require("transparent").setup({
-				enable = true, -- boolean: enable transparent
-				extra_groups = { -- table/string: additional groups that should be cleared
-					-- In particular, when you set it to 'all', that means all available groups
-
-					-- example of akinsho/nvim-bufferline.lua
-					"BufferLineTabClose",
-					"BufferlineBufferSelected",
-					"BufferLineFill",
-					"BufferLineBackground",
-					"BufferLineSeparator",
-					"BufferLineIndicatorSelected",
+			require("auto-save").setup({
+				enabled = true,
+				execution_message = {
+					message = function() -- message to print on save
+						return ": saved at "
+					end,
+					dim = 0.18, -- dim the color of `message`
+					cleaning_interval = 1250, -- (milliseconds) automatically clean MsgArea after displaying `message`. See :h MsgArea
 				},
-				exclude = {}, -- table: groups you don't want to clear
+				trigger_events = { "InsertLeave", "TextChanged" }, -- vim events that trigger auto-save. See :h events
+				-- your config goes here
+				-- or just leave it empty :)
 			})
 		end,
 	})
-
+	-- use("Olical/conjure")
 	--  Official packages
+	use("ggandor/leap.nvim")
 	use("wbthomason/packer.nvim")
-	use("google/vim-jsonnet")
 	use("nvim-treesitter/nvim-treesitter-context")
 	use("christoomey/vim-tmux-navigator")
 	use("nvim-lua/plenary.nvim")
 	use({ "nvim-telescope/telescope.nvim", requires = { { "nvim-lua/plenary.nvim" } } })
-	use({ "nvim-telescope/telescope-file-browser.nvim" })
 	use("tpope/vim-commentary")
 	use("editorconfig/editorconfig-vim")
-	use("vimwiki/vimwiki")
 	use("mbbill/undotree")
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 	use("nvim-treesitter/nvim-treesitter-textobjects")
@@ -61,6 +57,7 @@ return require("packer").startup(function()
 	use("windwp/nvim-ts-autotag")
 	use("APZelos/blamer.nvim")
 	use("ludovicchabant/vim-gutentags")
+	use("norcalli/nvim-colorizer.lua")
 	use({
 		"kyazdani42/nvim-tree.lua",
 		requires = {
@@ -68,13 +65,18 @@ return require("packer").startup(function()
 		},
 		tag = "nightly",
 	})
+	use({ "mhartington/formatter.nvim" })
 	-- == LSP ===
 	use("neovim/nvim-lspconfig")
 	use({
 		"folke/trouble.nvim",
 		requires = "kyazdani42/nvim-web-devicons",
 		config = function()
-			require("trouble").setup({})
+			require("trouble").setup({
+				colors = {
+					fg = "#666666",
+				},
+			})
 		end,
 	})
 	-- === Completion ===
@@ -85,21 +87,18 @@ return require("packer").startup(function()
 	use("hrsh7th/cmp-path")
 	use("hrsh7th/cmp-cmdline")
 	use("hrsh7th/nvim-cmp")
-	-- use '/home/denis/mine/dbt.nvim'
-	use({ "mhartington/formatter.nvim" })
 
 	-- === Colors ===
-	use("rktjmp/lush.nvim")
 	use("folke/tokyonight.nvim")
-	use({
-		"mcchrish/zenbones.nvim",
-		requires = "rktjmp/lush.nvim",
-	})
 	use("morhetz/gruvbox")
 	use("savq/melange")
 	use("rebelot/kanagawa.nvim")
 	use("shaunsingh/nord.nvim")
+	use("projekt0n/github-nvim-theme")
+	use("aktersnurra/no-clown-fiesta.nvim")
 
 	require("leap").set_default_keymaps()
 	require("nvim-tree").setup()
 end)
+
+

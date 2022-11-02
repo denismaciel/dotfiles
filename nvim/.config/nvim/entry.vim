@@ -32,7 +32,8 @@ set cursorline
 set formatoptions+=cro
 " Open splits the _right way_
 set splitbelow splitright
-" set number
+set number
+set termguicolors
 " set list lcs=trail:·,tab:»·
 
 " Disable cmd line
@@ -51,6 +52,7 @@ au FileType markdown setlocal wrap
 :cabbrev WQ wq
 :cabbrev bd Bd
 :cabbrev bd! Bdd
+:cabbrev Bd! Bdd
 
 command Bd bp | sp | bn | bd
 command Bdd bp! | sp! | bn! | bd!
@@ -119,8 +121,6 @@ let g:vimwiki_key_mappings = { 'all_maps': 0 }
 nmap <Leader>ww <Plug>VimwikiIndex
 nmap <Leader>wfn <cmd> lua require'telescope.builtin'.find_files({cwd = "~/Sync/Notes/Current/"})<Enter>
 nmap <Leader><Enter> <Plug>VimwikiFollowLink
-command! SearchDotfiles lua require'telescope.builtin'.find_files({cwd = "~/dotfiles", hidden = true})
-command OpenAnki :e /home/denis/Sync/vault/anki.md
 nnoremap <C-P> <cmd> lua cycle_notes('up')<Enter>
 nnoremap <C-N> <cmd> lua cycle_notes('down')<Enter>
 
@@ -212,3 +212,7 @@ map <leader>n :call RenameFile()<cr>
 set laststatus=3
 highlight WinSeparator guibg=None
 set winbar=%=%m\ %f " only available in nvim 0.8
+
+" Disable up and down to train leap.nvim
+" noremap j <Nop>
+" noremap k <Nop>

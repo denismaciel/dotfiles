@@ -46,6 +46,14 @@ require("formatter").setup({
                     ignore_exitcode = true,
 				}
 			end,
+			function()
+				return {
+					exe = "tidy-imports",
+					args = { "-" },
+					stdin = true,
+                    ignore_exitcode = true,
+				}
+			end,
 		},
 		go = {
 			require("formatter.filetypes.go").gofumpt,

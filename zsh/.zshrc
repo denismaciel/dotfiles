@@ -1,5 +1,4 @@
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
-
 export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
 source /home/denis/.nix-profile/etc/profile.d/nix.sh
 source /home/denis/.nix-profile/etc/profile.d/nix.sh
@@ -96,6 +95,8 @@ alias R='R --no-save'
 alias diary='nvim "$HOME/Sync/Notes/Current/Diary/$(date +'%Y-%m-%d').md"'
 alias gp="git push origin HEAD"
 alias rm=gomi
+
+alias gdd="GIT_EXTERNAL_DIFF='difft --syntax-highlight off' git diff"
 
 alias pdf='open-zathura "$(fd "pdf|epub" | fzf)"'
 alias clip='xclip -selection clipboard'
