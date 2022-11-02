@@ -70,7 +70,7 @@
     pkgs.yaml-language-server
     pkgs.stylua
     pkgs.terraform-ls
-    pkgs.jsonnet-language-server
+    pkgs.flameshot
     (pkgs.nerdfonts.override {
       fonts = [
         "FiraCode"
