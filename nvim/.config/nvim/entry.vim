@@ -103,6 +103,8 @@ nnoremap <C-N> <cmd> lua cycle_notes('down')<Enter>
 " Folding with treesitter
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
+set foldlevelstart=99
+set foldlevel=99
 " 'mbbill/undotree'
 nnoremap <leader>u :UndotreeShow<CR>
 

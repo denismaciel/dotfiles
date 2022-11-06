@@ -8,17 +8,6 @@ dapui.setup()
 dap_python.setup("~/venvs/debugpy/bin/python")
 dap_python.test_runner = "pytest"
 
-vim.keymap.set("n", "<F5>", dap.continue)
-vim.keymap.set("n", "<F6>", dap_go.debug_test)
-vim.keymap.set("n", "<F10>", dap.step_over)
-vim.keymap.set("n", "<F11>", dap.step_into)
-vim.keymap.set("n", "<F12>", dap.step_out)
-
-vim.keymap.set("n", "<Leader>b", dap.toggle_breakpoint)
-vim.keymap.set("n", "<Leader>B", function()
-	dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-end)
-
 dap.listeners.after.event_initialized["dapui_config"] = function()
   dapui.open()
 end

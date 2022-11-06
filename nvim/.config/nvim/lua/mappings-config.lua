@@ -1,6 +1,11 @@
-vim.keymap.set('n', '<leader>asdf', function() 
-    package.loaded['denis'] = nil
-    vim.api.nvim_command([[ source $MYVIMRC ]])
+local dap = require("dap")
+local dapui = require("dapui")
+local dap_go = require("dap-go")
+local dap_python = require("dap-python")
+
+vim.keymap.set("n", "<leader>asdf", function()
+	package.loaded["denis"] = nil
+	vim.api.nvim_command([[ source $MYVIMRC ]])
 end)
 vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition)
 vim.keymap.set("n", "gD", vim.lsp.buf.implementation)
@@ -8,11 +13,10 @@ vim.keymap.set("n", "gtd", vim.lsp.buf.type_definition)
 vim.keymap.set("n", "grn", vim.lsp.buf.rename)
 vim.keymap.set("n", "<leader>;", "<cmd>Telescope buffers<CR>")
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
-vim.keymap.set('n', "tre", "<cmd>NvimTreeToggle<CR>")
+vim.keymap.set("n", "tre", "<cmd>NvimTreeToggle<CR>")
 
 local wk = require("which-key")
 wk.setup({})
-
 wk.register({
 	f = {
 		name = "File",
@@ -22,9 +26,23 @@ wk.register({
 		n = { ":call RenameFile()<CR>", "Rename file" },
 	},
 	d = {
-		name = "Date stuff",
-		t = { [["=strftime('%Y-%m-%d %H:%M')<CR>p]], "Instert current datetime" },
+		name = "Date or DAP",
+		-- Date
+		s = { [["=strftime('%Y-%m-%d %H:%M')<CR>p]], "Instert current datetime" },
 		d = { [["=strftime('%Y-%m-%d')<CR>p]], "Insert current time" },
+		-- DAP
+		c = { dap.continue, "DAP Continue" },
+		b = { dap.toggle_breakpoint, "DAP Breakpoint Toggle" },
+		B = {
+			function()
+				dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+			end,
+			"DAP Breakpoint with Message",
+		},
+		t = { dap_go.debug_test, "DAP (Go) Debug Test" },
+		i = { dap.step_into, "DAP Step Into" },
+		o = { dap.step_out, "DAP Step Out" },
+		v = { dap.step_over, "DAP Step Over" },
 	},
 	x = {
 		name = "Trouble",
@@ -34,12 +52,12 @@ wk.register({
 		l = { "<cmd>TroubleToggle loclist<cr>", "Loclist" },
 		q = { "<cmd>TroubleToggle quickfix<cr>", "Quickfix" },
 	},
-    s = {
-        name = "SQL stuff",
-        s = {":!sqly snapshot --file % --cte-name <cword> <CR>", "Snapshot CTE"},
-        x = {dbt_open_compiled, "Open compiled query"},
-        v = {dbt_open_snaps, "Open snapshots"}
-    }
+	s = {
+		name = "SQL stuff",
+		s = { ":!sqly snapshot --file % --cte-name <cword> <CR>", "Snapshot CTE" },
+		x = { dbt_open_compiled, "Open compiled query" },
+		v = { dbt_open_snaps, "Open snapshots" },
+	},
 }, { prefix = "<leader>" })
 
 wk.register({
