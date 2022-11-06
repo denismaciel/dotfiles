@@ -23,6 +23,7 @@ cmd unarchive ${{
 }}
 
 # Basic Functions
+set hidden
 map . set hidden!
 map au unarchive
 map DD delete
