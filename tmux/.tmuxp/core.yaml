@@ -8,10 +8,6 @@ windows:
     panes:
       - shell_command: cd ~/work/core/data-pipelines/risk_model
       - shell_command: cd ~/work/core/data-pipelines/risk_model
-  - window_name: contract-selection
-    panes:
-      - shell_command: cd ~/work/core/data-pipelines/contract_selection
-      - shell_command: cd ~/work/core/data-pipelines/contract_selection
   - window_name: dwh
     panes:
       - shell_command: cd ~/work/core/data-pipelines/dwh
@@ -22,14 +18,5 @@ windows:
       - shell_command: cd ~/work/core/backend
   - window_name: frontend
     panes:
-      - shell_command: cd ~/work/core/recap-app
-      - shell_command: cd ~/work/core/recap-app
-  - window_name: terraform
-    panes:
-      - shell_command: cd ~/work/core/terraform
-      - shell_command: cd ~/work/core/terraform
-  - window_name: control-pane
-    panes:
-      - shell_command: cd ~/work/core/backend
       - shell_command: cd ~/work/core/recap-app
       - shell_command: cd ~/work/core/recap-app
