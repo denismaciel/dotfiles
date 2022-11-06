@@ -36,13 +36,6 @@ set number
 set termguicolors
 " set list lcs=trail:·,tab:»·
 
-" Disable cmd line
-" set cmdheight=0
-
-" {{{ Disable status line
-" set laststatus=0
-" }}}
-
 au FileType go let b:EditorConfig_disable = 1 
 au FileType go setlocal noexpandtab
 au FileType markdown setlocal wrap
@@ -73,22 +66,9 @@ nnoremap <silent> j gj
 nnoremap <silent> 0 g0
 nnoremap <silent> $ g$
 
-
-nnoremap <leader>ve :edit $MYVIMRC<Enter>
-nnoremap <leader>vr :source $MYVIMRC<Enter>
-nnoremap <leader>vf <cmd>lua require('telescope.builtin').find_files({cwd = '~/.config/nvim/'})<cr>
-
 " copy whole file to clipboard
 nmap <leader>y :%y+<CR> 
-nnoremap <leader>fc :!echo -n % \| xclip -selection clipboard<CR>
-" Insert dates
-nnoremap <leader>fdt "=strftime('%Y-%m-%d %H:%M')<CR>p
-nnoremap <leader>fdd "=strftime('%Y-%m-%d')<CR>p
-nnoremap <leader>fw "=strftime('%Y-%W')<CR>p
-nnoremap <leader>p :!pre-commit run --file %<CR> :e!<CR>
-" Format latex
-nnoremap <leader>fp {V}gq<C-O><C-O>
-" Search for selection
+
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 augroup highlight_yank
@@ -109,44 +89,22 @@ lua require 'dap-config'
 lua require 'cmp-config'
 lua require('nvim-autopairs').setup({})
 lua require 'colors-config'
-lua require 'mappings'
 lua require 'nvim-formatter-config'
+lua require 'mappings-config'
+lua require 'auto-save-config'
 
 
 " =================
 " ===== Notes =====
 " =================
-let g:vimwiki_list = [{'path': '~/Sync/vault', 'syntax': 'markdown', 'ext': '.md'}]
-let g:vimwiki_key_mappings = { 'all_maps': 0 }
-nmap <Leader>ww <Plug>VimwikiIndex
-nmap <Leader>wfn <cmd> lua require'telescope.builtin'.find_files({cwd = "~/Sync/Notes/Current/"})<Enter>
-nmap <Leader><Enter> <Plug>VimwikiFollowLink
 nnoremap <C-P> <cmd> lua cycle_notes('up')<Enter>
 nnoremap <C-N> <cmd> lua cycle_notes('down')<Enter>
 
-" ===============
-" === Harpoon === 
-" ===============
-nmap <Leader>hh <cmd> lua require("harpoon.ui").toggle_quick_menu()<Enter>
-nmap <Leader>ha <cmd> lua require("harpoon.mark").add_file()<Enter>
-nmap <Leader>j <cmd> lua require("harpoon.ui").nav_file(1)<Enter>
-nmap <Leader>k <cmd> lua require("harpoon.ui").nav_file(2)<Enter>
-nmap <Leader>l <cmd> lua require("harpoon.ui").nav_file(3)<Enter>
-
 " Folding with treesitter
-set foldlevel=99
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
-" 'jpalardy/vim-slime'
-    let g:slime_target = "tmux"
-    let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
-    let g:slime_python_ipython = 1
 " 'mbbill/undotree'
-    nnoremap <leader>u :UndotreeShow<CR>
-
-
-" ---- Slime ----
-nmap <c-c><c-c> :SlimeSendCurrentLine<Enter>
+nnoremap <leader>u :UndotreeShow<CR>
 
 " =====================
 " ===== Telescope =====
@@ -162,42 +120,12 @@ nnoremap tft <cmd>Telescope filetypes<Enter>
 nmap <Leader>rg <cmd>Telescope live_grep<Enter>
 nmap <Leader>/ <cmd>Telescope treesitter<Enter>
 
-
 nnoremap <leader>rp :e playground/p.go<Enter>
 
 " ============
 " === Tree ===
 " ============
-nnoremap tre <cmd>NvimTreeToggle<Enter>
 
-" nnoremap <silent> <c-]>     <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gdd       <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> gs        <cmd>lua vim.lsp.buf.signature_help()<CR>
-" nnoremap <silent> gr        <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> gr        <cmd>Trouble lsp_references<cr>
-" nnoremap <silent> gr       <cmd>Telescope lsp_references<CR>
-nnoremap <silent> g0        <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> gW        <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-" nnoremap <silent> gtt       <cmd>Telescope tags theme=dropdown<CR>
-nnoremap <silent> gtt       <cmd>lua require('telescope.builtin').tags(require('telescope.themes').get_dropdown({width = function(_, _, max_lines) return math.min(max_lines * 0.5, 100) end}))<cr>
-nnoremap <silent> K         <cmd>lua vim.lsp.buf.hover()<CR>
-
-nmap <leader>dw             <cmd>lua require('diaglist').open_all_diagnostics()<cr>
-nmap <leader>d0             <cmd>lua require('diaglist').open_buffer_diagnostics()<cr>
-
-nnoremap <silent> <leader>ff :Format<CR>
-
-nnoremap <leader>ca         <cmd>lua vim.lsp.buf.code_action()<CR>
-
-" BigQuery
-nnoremap <leader>bs         :!sqly snapshot --file % --cte-name <cword> <CR>
-nnoremap <leader>bx         :lua dbt_open_compiled() <Enter>
-nnoremap <leader>bv         :lua dbt_open_snaps() <Enter>
-" nnoremap <silent> <leader>bc :lua bigquery_check("production")<Enter>
-
-" =========================
-" === Utility Functions ===
-" =========================
 function! RenameFile()
     let old_name = expand('%')
     let new_name = input('New file name: ', expand('%'), 'file')
@@ -207,12 +135,7 @@ function! RenameFile()
         redraw!
     endif
 endfunction
-map <leader>n :call RenameFile()<cr>
 
 set laststatus=3
 highlight WinSeparator guibg=None
 set winbar=%=%m\ %f " only available in nvim 0.8
-
-" Disable up and down to train leap.nvim
-" noremap j <Nop>
-" noremap k <Nop>

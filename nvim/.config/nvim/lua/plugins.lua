@@ -23,6 +23,7 @@ return require("packer").startup(function()
 		},
 	})
 	use("Pocco81/auto-save.nvim")
+	use("folke/which-key.nvim")
 
 	--  Official packages
 	use("ggandor/leap.nvim")
