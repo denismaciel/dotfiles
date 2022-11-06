@@ -1,3 +1,0 @@
-#! /bin/bash
-
-scrot '%Y-%m-%d_$wx$h.png' -s -e 'mv $f ~/shots/ && xdg-open ~/shots/$f'

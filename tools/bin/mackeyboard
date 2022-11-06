@@ -1,9 +1,0 @@
-#!/usr/bin/sh 
-
-echo "Setting Layout for a Mac keyboard"
-
-setxkbmap -option # Reset
-setxkbmap -layout us -option ctrl:nocaps
-setxkbmap -option altwin:swap_alt_win
-
-xset r rate 200 80

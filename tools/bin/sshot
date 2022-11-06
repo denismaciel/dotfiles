@@ -1,3 +1,0 @@
-#! /usr/bin/sh
-
-scrot -s $HOME/screenshots/%Y-%m-%d-%H%M%S.png

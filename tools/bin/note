@@ -1,3 +1,0 @@
-#!/bin/bash
-
-nvim $HOME/Sync/Notes/Current/$1.md
