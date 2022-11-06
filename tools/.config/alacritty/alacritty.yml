@@ -144,7 +144,7 @@ schemes:
       magenta: "#d3869b"
       cyan: "#8ec07c"
       white: "#ebdbb2"
-colors: *github-dark
+colors: *gruvbox-dark
 
 # Visual Bell
 #

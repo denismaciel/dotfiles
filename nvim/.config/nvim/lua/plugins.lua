@@ -22,25 +22,8 @@ return require("packer").startup(function()
 			"nvim-telescope/telescope.nvim",
 		},
 	})
-	use({
-		"Pocco81/auto-save.nvim",
-		config = function()
-			require("auto-save").setup({
-				enabled = true,
-				execution_message = {
-					message = function() -- message to print on save
-						return ": saved at "
-					end,
-					dim = 0.18, -- dim the color of `message`
-					cleaning_interval = 1250, -- (milliseconds) automatically clean MsgArea after displaying `message`. See :h MsgArea
-				},
-				trigger_events = { "InsertLeave", "TextChanged" }, -- vim events that trigger auto-save. See :h events
-				-- your config goes here
-				-- or just leave it empty :)
-			})
-		end,
-	})
-	-- use("Olical/conjure")
+	use("Pocco81/auto-save.nvim")
+
 	--  Official packages
 	use("ggandor/leap.nvim")
 	use("wbthomason/packer.nvim")
@@ -100,5 +83,3 @@ return require("packer").startup(function()
 	require("leap").set_default_keymaps()
 	require("nvim-tree").setup()
 end)
-
-
