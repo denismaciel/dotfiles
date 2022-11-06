@@ -47,8 +47,9 @@
     pkgs.syncthing
     pkgs.tmux
     pkgs.xclip
-    pkgs.obs-studio
-    pkgs.cloudflare-warp
+    /* pkgs.obs-studio */
+    pkgs.obsidian
+    /* pkgs.cloudflare-warp */
     pkgs.rnix-lsp
     pkgs._1password-gui
     pkgs.slack
