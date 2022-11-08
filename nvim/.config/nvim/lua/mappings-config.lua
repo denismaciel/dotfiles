@@ -1,7 +1,7 @@
 local dap = require("dap")
 local dapui = require("dapui")
 local dap_go = require("dap-go")
-local dap_python = require("dap-python")
+local dappy = require("dap-python")
 
 vim.keymap.set("n", "<leader>asdf", function()
 	package.loaded["denis"] = nil
@@ -39,7 +39,19 @@ wk.register({
 			end,
 			"DAP Breakpoint with Message",
 		},
-		t = { dap_go.debug_test, "DAP (Go) Debug Test" },
+		t = {
+			function()
+				ft = vim.bo.filetype
+				if ft == "python" then
+					dappy.test_method()
+				elseif ft == "go" then
+					dap_go.debug_test()
+				else
+					print("unkown file type", ft)
+				end
+			end,
+			"DAP (Go) Debug Test",
+		},
 		i = { dap.step_into, "DAP Step Into" },
 		o = { dap.step_out, "DAP Step Out" },
 		v = { dap.step_over, "DAP Step Over" },
@@ -84,3 +96,41 @@ wk.register({
 		"!! References",
 	},
 }, { prefix = "g" })
+
+wk.register({
+    name = "Telescope",
+	t = {
+		function()
+			require("telescope.builtin").find_files({
+				find_command = { "rg", "--files", "--hidden", "-g", "!.git", "-g", "!.snapshots/" },
+			})
+		end,
+		"Find files",
+	},
+	d = {
+		function()
+			require("telescope.builtin").find_files({ find_command = { "git", "diff", "--name-only", "--relative" } })
+		end,
+		"Find diff files",
+	},
+	c = {
+		function()
+            vim.cmd("Telescope commands")
+		end,
+		"Vim Commands",
+	},
+	h = {
+		function()
+            vim.cmd("Telescope command_history")
+		end,
+		"Vim Comand History",
+	},
+	ft = {
+		function()
+            vim.cmd("Telescope filetypes")
+		end,
+		"FileTypes",
+	},
+}, { prefix = "t" })
+vim.keymap.set("n", "<leader>rg", function() vim.cmd("Telescope live_grep") end)
+vim.keymap.set("n", "<leader>/", function() vim.cmd("Telescope treesitter") end)

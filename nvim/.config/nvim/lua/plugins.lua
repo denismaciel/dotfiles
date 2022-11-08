@@ -8,6 +8,8 @@ return require("packer").startup(function()
 	use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })
 	use("leoluz/nvim-dap-go")
 	use("mfussenegger/nvim-dap-python")
+	use("nvim-telescope/telescope-dap.nvim")
+
 	use({
 		"klen/nvim-test",
 		config = function()

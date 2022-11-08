@@ -1,10 +1,5 @@
-lua require 'init'
-lua require 'denis'
-
-nnoremap <leader>asdf :lua package.loaded['denis'] = nil<cr>:source $MYVIMRC<cr>
 
 let g:python3_host_prog = '~/venvs/neovim/bin/python'
-
 set completeopt=menu,menuone,noselect
 set tabstop=4 "how many spaces a tab is when vim reads a file
 set softtabstop=4 "how many spaces are inserted when you hit tab
@@ -76,24 +71,6 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=300}
 augroup END
 
-" ==========================
-" ===== Plugins Config =====
-" ==========================
-lua require 'plugins'
-lua require 'vim-gutentags'
-lua require 'lsp'
-lua require 'treesitter'
-lua require 'telescope-config'
-lua require 'nvim-tree-config'
-lua require 'dap-config'
-lua require 'cmp-config'
-lua require('nvim-autopairs').setup({})
-lua require 'colors-config'
-lua require 'nvim-formatter-config'
-lua require 'mappings-config'
-lua require 'auto-save-config'
-
-
 " =================
 " ===== Notes =====
 " =================
@@ -105,28 +82,9 @@ set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 set foldlevelstart=99
 set foldlevel=99
-" 'mbbill/undotree'
+
 nnoremap <leader>u :UndotreeShow<CR>
-
-" =====================
-" ===== Telescope =====
-" =====================
-".config/nvim/lua/telescope-config.lua
-nmap <Leader>; <cmd>Telescope buffers<Enter>
-nmap <Leader>; <cmd>lua require'telescope.builtin'.buffers({ shorten_path = true }) <cr>
-nnoremap tt <cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' , '-g', '!.snapshots/' }})<Enter>
-nnoremap td <cmd>lua require'telescope.builtin'.find_files({ find_command = {'git', 'diff', '--name-only', '--relative' }})<Enter>
-nnoremap tc <cmd>Telescope commands<Enter>
-nnoremap th <cmd>Telescope command_history<Enter>
-nnoremap tft <cmd>Telescope filetypes<Enter>
-nmap <Leader>rg <cmd>Telescope live_grep<Enter>
-nmap <Leader>/ <cmd>Telescope treesitter<Enter>
-
 nnoremap <leader>rp :e playground/p.go<Enter>
-
-" ============
-" === Tree ===
-" ============
 
 function! RenameFile()
     let old_name = expand('%')
@@ -141,3 +99,6 @@ endfunction
 set laststatus=3
 highlight WinSeparator guibg=None
 set winbar=%=%m\ %f " only available in nvim 0.8
+
+nnoremap <leader>asdf :lua package.loaded['me'] = nil<cr>:source $MYVIMRC<cr>
+lua require 'init'

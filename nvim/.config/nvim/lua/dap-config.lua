@@ -17,6 +17,8 @@ end
 dap.listeners.before.event_exited["dapui_config"] = function()
   dapui.close()
 end
+
+require('telescope').load_extension('dap')
 -- nnoremap <silent> <Leader>B <Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
 -- nnoremap <silent> <Leader>lp <Cmd>lua
 -- nnoremap <silent> <Leader>dr <Cmd>lua require'dap'.repl.open()<CR>

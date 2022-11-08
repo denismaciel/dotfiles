@@ -1,0 +1,15 @@
+require 'me'
+
+require 'plugins'
+require 'vim-gutentags'
+require 'lsp'
+require 'treesitter'
+require 'telescope-config'
+require 'nvim-tree-config'
+require 'dap-config'
+require 'cmp-config'
+require('nvim-autopairs').setup({})
+require 'colors-config'
+require 'nvim-formatter-config'
+require 'mappings-config'
+require 'auto-save-config'
