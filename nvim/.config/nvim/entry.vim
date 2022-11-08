@@ -1,34 +1,31 @@
 
 let g:python3_host_prog = '~/venvs/neovim/bin/python'
-set completeopt=menu,menuone,noselect
 set tabstop=4 "how many spaces a tab is when vim reads a file
 set softtabstop=4 "how many spaces are inserted when you hit tab
-set expandtab "tab inserts spaces
 set shiftwidth=4
 set autoindent
-set hidden " switch buffers without saving
+
 set mouse=a
 syntax enable 
 filetype plugin on
 set nocompatible
-set nobackup
-set noswapfile
-set nowrap
-set undodir=~/.config/nvim/undodir
-set undofile
+" set nobackup
+" set noswapfile
+" set nowrap
+" set undodir=~/.config/nvim/undodir
+" set undofile
 set showcmd "show command in bottom bar
 set showmatch "highlight matching parenthesis
 set backspace=2 "make backspace work like most other programs
-set incsearch "search as characters are entered
-set hlsearch  "highlight matches
-set ignorecase smartcase
+" set incsearch "search as characters are entered
+" set hlsearch  "highlight matches
+" set ignorecase smartcase
 set clipboard+=unnamedplus
-set cursorline
+" set cursorline
 set formatoptions+=cro
 " Open splits the _right way_
 set splitbelow splitright
-set number
-set termguicolors
+" set number
 " set list lcs=trail:·,tab:»·
 
 au FileType go let b:EditorConfig_disable = 1 
