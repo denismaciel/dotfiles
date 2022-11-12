@@ -181,6 +181,7 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording en
 setopt HIST_VERIFY               # Dont execute immediately upon history expansion.
 setopt INTERACTIVE_COMMENTS       # Allow for comments
 export PATH=$HOME/bin:$PATH
+export PATH=$HOME/scripts:$PATH
 export PATH=$PATH:/usr/local/go/bin
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/scripts:$PATH"

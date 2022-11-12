@@ -18,12 +18,18 @@ stow nixpkgs
 
 stow python tmux tools nvim node zsh
 
+# remove stow
+nix-env -e stow
+
+home-manager switch
+
+sudo apt remove nvim
 
 # Run it ~3 times
 nvim -c 'PackerSync'
 
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # Enter tmux and run Ctrl + b and Shift+I
-
 sudo chsh --shell $(which zsh) $USER
 
 # Python
@@ -40,9 +46,9 @@ sudo apt-get install -y curl &&
 sudo add-apt-repository -y ppa:mmstick76/alacritty &&
     sudo apt-get install -y alacritty
  
- # Docker   
- sudo apt-get update
- sudo apt-get install \
+# Docker   
+sudo apt-get update
+sudo apt-get install \
     ca-certificates \
     curl \
     gnupg \
@@ -57,15 +63,26 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 sudo groupadd docker
 sudo usermod -aG docker $USER
 
-
-# === Alacritty ===
-sudo add-apt-repository ppa:aslatter/ppa
-sudo apt update
-sudo apt install alacritty
-
 # pgadmin4
 sudo curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
 sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
 sudo apt install pgadmin4-desktop
 
 
+# Copy .ssh folder
+# cp -r /media/denis/Extreme\ SSD/recap-backup-2022-11-12/.ssh ~/
+
+cd .ssh
+chmod 600 id_rsa
+
+
+cd ~/dotfiles
+git remote set-url origin git@github.com:denismaciel/dotfiles.git
+
+mkdir apps
+cd apps
+git clone git@github.com:Aloxaf/fzf-tab.git
+
+
+# Go CLIs
+go install github.com/carlmjohnson/pomodoro@latest

@@ -124,7 +124,8 @@ schemes:
       white: "#3c3836"
   gruvbox-dark: &gruvbox-dark
     primary:
-      background: "#282828"
+      # background: "#282828"
+      background: "#151515"  # no-clown-fiesta background
       foreground: "#ebdbb2"
     normal:
       black: "#282828"

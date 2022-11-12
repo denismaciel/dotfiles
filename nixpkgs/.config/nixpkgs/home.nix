@@ -26,52 +26,56 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs._1password-gui
+    pkgs.difftastic
+    pkgs.alacritty
+    pkgs.dbmate
     pkgs.direnv
+    pkgs.docker
     pkgs.element-desktop
+    pkgs.fd
+    pkgs.flameshot
     pkgs.fzf
     pkgs.gcc
+    pkgs.gnumake
     pkgs.go_1_18
+    pkgs.gomi
+    pkgs.google-chrome
     pkgs.htop
+    pkgs.jq
     pkgs.keepassxc
     pkgs.mpv
-    pkgs.vlc
     pkgs.newsboat
     pkgs.nodejs
+    pkgs.notion-app-enhanced
+    pkgs.obs-studio
+    pkgs.obsidian
+    pkgs.pgcli
+    pkgs.qutebrowser
     pkgs.ripgrep
+    pkgs.rnix-lsp
+    pkgs.rofi
     pkgs.scmpuff
+    pkgs.slack
     pkgs.spotify-tui
-    pkgs.spotifyd
     pkgs.spotify-unwrapped
+    pkgs.spotifyd
     pkgs.starship
     pkgs.stow
+    pkgs.stylua
     pkgs.syncthing
+    pkgs.terraform
+    pkgs.terraform-ls
     pkgs.tmux
+    pkgs.tmuxp
+    pkgs.universal-ctags
+    pkgs.unzip
+    pkgs.vlc
     pkgs.xclip
-    /* pkgs.obs-studio */
-    pkgs.obsidian
-    /* pkgs.cloudflare-warp */
-    pkgs.rnix-lsp
-    pkgs._1password-gui
-    pkgs.slack
+    pkgs.yaml-language-server
+    pkgs.zsh
     pkgs.zsh-fzf-tab
     pkgs.zsh-syntax-highlighting
-    pkgs.gnumake
-    pkgs.universal-ctags
-    pkgs.newsboat
-    /* pkgs.google-chrome */
-    pkgs.unzip
-    pkgs.rofi
-    pkgs.tmuxp
-    pkgs.notion-app-enhanced
-    pkgs.dbmate
-    pkgs.fd
-    pkgs.terraform
-    pkgs.jq
-    /* pkgs.lorri */
-    pkgs.yaml-language-server
-    pkgs.stylua
-    pkgs.terraform-ls
-    pkgs.flameshot
     (pkgs.nerdfonts.override {
       fonts = [
         "FiraCode"
@@ -95,11 +99,33 @@
         error_symbol = "[\\$](red)";
         vicmd_symbol = "[\\$](blue)";
       };
+      directory = {
+        style = "white";
+      };
       aws = {
         disabled = true;
       };
+      git_branch = {
+        style = "white";
+        format = "[$symbol$branch(:$remote_branch)]($style) ";
+      };
+      git_status = {
+        style = "white";
+        disabled = true;
+      };
+      cmd_duration = {
+        style = "white";
+        format = "[$duration]($style) ";
+      };
       python = {
         symbol = " ";
+        format = "[\${symbol}\${pyenv_prefix}(\${version} )(\($virtualenv\) )]($style)";
+        style  = "white";
+      };
+      golang = {
+        disabled = true;
+        symbol = "";
+        format = "[$symbol($version )]($style)";
       };
     };
   };
@@ -110,7 +136,7 @@
     userEmail = "denispmaciel@gmail.com";
     signing = {
       signByDefault = true;
-      key = "0136C53C5F7ED3CB";
+      key = "188DE24A651E34AA";
     };
     ignores = [
         ".DS_Store"
