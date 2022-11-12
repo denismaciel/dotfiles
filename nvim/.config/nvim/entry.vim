@@ -1,30 +1,13 @@
-
-let g:python3_host_prog = '~/venvs/neovim/bin/python'
-set tabstop=4 "how many spaces a tab is when vim reads a file
-set softtabstop=4 "how many spaces are inserted when you hit tab
-set shiftwidth=4
-set autoindent
+lua require 'init'
+lua require 'me'
 
 set mouse=a
 syntax enable 
 filetype plugin on
 set nocompatible
-" set nobackup
-" set noswapfile
-" set nowrap
-" set undodir=~/.config/nvim/undodir
-" set undofile
-set showcmd "show command in bottom bar
-set showmatch "highlight matching parenthesis
-set backspace=2 "make backspace work like most other programs
-" set incsearch "search as characters are entered
-" set hlsearch  "highlight matches
-" set ignorecase smartcase
 set clipboard+=unnamedplus
-" set cursorline
 set formatoptions+=cro
 " Open splits the _right way_
-set splitbelow splitright
 " set number
 " set list lcs=trail:·,tab:»·
 
@@ -65,7 +48,7 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 augroup highlight_yank
     autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=300}
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=200}
 augroup END
 
 " =================
@@ -98,4 +81,3 @@ highlight WinSeparator guibg=None
 set winbar=%=%m\ %f " only available in nvim 0.8
 
 nnoremap <leader>asdf :lua package.loaded['me'] = nil<cr>:source $MYVIMRC<cr>
-lua require 'init'

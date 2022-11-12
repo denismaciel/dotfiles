@@ -3,7 +3,6 @@ sudo apt install curl neovim git
 curl -L https://nixos.org/nix/install | sh && 
   source /home/denis/.nix-profile/etc/profile.d/nix.sh
 
-
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 nix-channel --update
 export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
@@ -68,3 +67,5 @@ sudo apt install alacritty
 sudo curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
 sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
 sudo apt install pgadmin4-desktop
+
+

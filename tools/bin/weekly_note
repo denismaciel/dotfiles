@@ -11,4 +11,4 @@ else
     echo "doesn't exist"
     echo '#' "$(date +'%Y-%W.md')" > "$FILE_PATH"
 fi
-nvim $FILE_PATH
+nvim -c 'normal Gzz' $FILE_PATH
