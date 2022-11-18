@@ -17,6 +17,5 @@ vim.api.nvim_create_autocmd("BufEnter", {
 		vim.api.nvim_set_hl(0, "IncSearch", { bg = "#eb9234", fg = "#000000" }) 
 	end,
 	group = group,
-
 })
 

@@ -1,11 +1,8 @@
-#!/bin/env python
-
-# pomodoro status -f '%d %!r %c'
-
-import sys
-import subprocess
-import re
+#!/bin/env python3
 import datetime
+import re
+import subprocess
+import sys
 
 RE_DURATION = re.compile(r"duration=\d+")
 
@@ -48,7 +45,7 @@ def moons(minutes_today: int) -> str:
 
 hour_minutes = "{:02d}:{:02d}".format(*divmod(minutes_today, 60))
 
-current_pomodoro = subprocess.run(
+current_duration = subprocess.run(
     "pomodoro status -f '%!r'",
     shell=True,
     check=True,
@@ -65,25 +62,39 @@ description = subprocess.run(
 ).stdout.strip()
 
 
-is_running = len(current_pomodoro) > 3
+IS_RUNNING = len(current_duration) > 3
 
-if is_running:
-    current_pomodoro = ">>" + current_pomodoro + "<<"
+if IS_RUNNING:
+    current_duration = current_duration
 else:
-    current_pomodoro = ""
+    current_duration = ""
 
-red = "#[bg=colour196,fg=colour255]"
-white = "#[fg=colour255]"
 
-color = white if is_running else red
+red = "%{B#A54242}%{F#C5C8C6}"
+
+
+def color():
+    if IS_RUNNING:
+        return ""
+
+    if datetime.datetime.now().second % 2 == 0:
+        return red
+
+    return ""
+
 
 sys.stdout.write(
-    color
-    + description
+    color()
     + " "
     + moons(minutes_today)
-    + " "
+    + " •"
     + hour_minutes
+    + "• "
+    + description.replace("TODO", "").strip()
     + " "
-    + current_pomodoro
+    + "%{F#1EE86F}"
+    + "•"
+    + current_duration
+    + "•"
+    + " "
 )

@@ -9,6 +9,12 @@ function scandir(directory)
 	return t
 end
 
+function center_and_change_colorscheme()
+    vim.api.nvim_command("normal Gzz")
+    vim.api.nvim_command("colorscheme tokyonight")
+end
+
+
 function cycle_notes(direction)
 	local idx
 	local buf_dir = vim.fn.expand("%:p:h")

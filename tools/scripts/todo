@@ -6,6 +6,9 @@ from subprocess import run
 
 TODO_FILE = "/home/denis/Sync/Notes/Current/todo.md"
 DONE_FILE = "/home/denis/Sync/Notes/Current/done.md"
+POMODORO_HISTORY_FILE = "/home/denis/.pomodoro/history"
+RE_DURATION = re.compile(r"duration=\d+")
+RE_DESCRIPTION = re.compile(r'description=".+"')
 
 
 class EmptyTodoError(Exception):
@@ -100,13 +103,6 @@ def select_duration():
     return proc.stdout.strip()
 
 
-def move_to_top(todo, todos):
-    """
-    Moves todo the top of the todo list
-    """
-    return todos
-
-
 def start_pomodoro():
     todo = select_todo("🍅")
     duration = select_duration()
@@ -115,16 +111,26 @@ def start_pomodoro():
         return
 
     append_todo(todo)
-    run(
-        ["/home/denis/go/bin//pomodoro", "start", "--duration", duration, todo],
+    proc = run(
+        [
+            "/home/denis/bin/pomodoro",
+            "start",
+            "--wait",
+            "--duration",
+            duration,
+            todo,
+        ],
         check=True,
         capture_output=True,
     )
 
+    if proc.returncode == 0:
+        run(['mpv', '/home/denis/scripts/assets/win95.ogg'])
+
 
 def get_pomodoro_status():
     proc = run(
-        ["/home/denis/go/bin//pomodoro", "status"],
+        ["/home/denis/go/bin/pomodoro", "status"],
         capture_output=True,
         check=True,
         text=True,
@@ -134,8 +140,6 @@ def get_pomodoro_status():
 
     if result == "" or result.startswith('!'):
         print('pomodoro is not running')
-
-    r'\d🍅'
 
 
 def handle_start_pomodoro():
@@ -154,6 +158,7 @@ def main():
     sp_add_todo = subparsers.add_parser("add-todo")
     sp_start_pomodoro = subparsers.add_parser("start-pomodoro")
     sp_get_pomodoro_status = subparsers.add_parser("get-pomodoro-status")
+    sp_report = subparsers.add_parser("report")
 
     args = parser.parse_args(argv)
 
@@ -163,9 +168,56 @@ def main():
         start_pomodoro()
     elif args.command == "get-pomodoro-status":
         get_pomodoro_status()
+    elif args.command == "report":
+        report()
     else:
         run(["notify-send", f"Unknown command"])
         raise NotImplementedError("unknown command")
+
+
+def report():
+    import datetime
+    from collections import defaultdict
+
+    def year_week(d: datetime.date) -> str:
+        return format(d, "%Y-%W")
+
+    def human_readable(minutes):
+        hs, mins = divmod(minutes, 60)
+        return f"{hs}h {mins}m"
+
+    today = datetime.date.today()
+    minutes_week = defaultdict(int)
+
+
+    print(f"-----------------------------")
+    print(f"--- Time tracking {year_week(today)} ---")
+    print(f"-----------------------------")
+
+    with open(POMODORO_HISTORY_FILE) as f:
+        for i, line in enumerate(f):
+            ts_raw, *_ = line.split()
+            ts = datetime.datetime.fromisoformat(ts_raw)
+
+            try:
+                if year_week(ts) == year_week(today):
+                    (dur_raw,) = RE_DURATION.findall(line)
+                    duration = int(dur_raw.replace("duration=", ""))
+
+                    (description,) = RE_DESCRIPTION.findall(line)
+                    description = description.replace("description=", "")
+                    description = description.replace("TODO", "").strip()
+                    description = description.replace('"', '').strip()
+                    minutes_week[description] += duration
+            except Exception as e:
+
+                print("An error ocurred with log line:", i+1, '\n', e)
+                raise SystemExit(1)
+
+
+    for desc, dur in sorted(minutes_week.items(), key=lambda x: -x[1]):
+        if dur > 30:
+            print(human_readable(dur), desc)
 
 
 if __name__ == "__main__":

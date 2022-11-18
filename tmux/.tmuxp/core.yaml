@@ -20,3 +20,10 @@ windows:
     panes:
       - shell_command: cd ~/work/core/recap-app
       - shell_command: cd ~/work/core/recap-app
+  - window_name: dotfiles
+    panes:
+      - shell_command: cd ~/dotfiles
+      - shell_command: cd ~/dotfiles
+  - window_name: newsboat
+    panes:
+      - shell_command: cd 

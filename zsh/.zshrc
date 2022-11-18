@@ -1,3 +1,13 @@
+
+export PATH=$HOME/bin:$PATH
+export PATH=$HOME/scripts:$PATH
+export PATH=$PATH:/usr/local/go/bin
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/scripts:$PATH"
+export PATH="$HOME/go/bin/:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/node/bin:$PATH"
+export PATH="$HOME/venvs/default/bin:$PATH"
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
 export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
 source /home/denis/.nix-profile/etc/profile.d/nix.sh
@@ -48,6 +58,7 @@ function check_syncthing() {
 # ----------------------------------
 git -C $HOME/dotfiles diff --exit-code > /dev/null || echo " === Commit the changes to your dotfiles, my man! ==="
 check_syncthing
+todo report
 
 eval "$(starship init zsh)"
 
@@ -95,6 +106,7 @@ alias R='R --no-save'
 alias diary='nvim "$HOME/Sync/Notes/Current/Diary/$(date +'%Y-%m-%d').md"'
 alias gp="git push origin HEAD"
 alias rm=gomi
+alias vi=nvim
 
 alias gdd="GIT_EXTERNAL_DIFF='difft --syntax-highlight off' git diff"
 
@@ -180,15 +192,6 @@ setopt HIST_SAVE_NO_DUPS         # Dont write duplicate entries in the history f
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Dont execute immediately upon history expansion.
 setopt INTERACTIVE_COMMENTS       # Allow for comments
-export PATH=$HOME/bin:$PATH
-export PATH=$HOME/scripts:$PATH
-export PATH=$PATH:/usr/local/go/bin
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/scripts:$PATH"
-export PATH="$HOME/go/bin/:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/node/bin:$PATH"
-export PATH="$HOME/venvs/default/bin:$PATH"
 export GOPATH=$(go env GOPATH)
 
 eval "$(scmpuff init -s)"
@@ -207,3 +210,7 @@ export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 eval "$(direnv hook zsh)"
+eval "$(zoxide init zsh)"
+# GoLang
+export GOROOT=/home/denis/.go
+export PATH=$GOROOT/bin:$PATH

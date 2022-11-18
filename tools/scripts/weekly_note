@@ -5,10 +5,8 @@ FILE_PATH="$OBSIDIAN_FOLDER/Weekly/$(date +'%Y-%W.md')"
 
 cd "$OBSIDIAN_FOLDER"
 if [ -f  "$FILE_PATH" ]; then
-    echo "exists"
     echo "$FILE_PATH"
 else
-    echo "doesn't exist"
     echo '#' "$(date +'%Y-%W.md')" > "$FILE_PATH"
 fi
-nvim -c 'normal Gzz' $FILE_PATH
+nvim -c 'lua center_and_change_colorscheme()' $FILE_PATH

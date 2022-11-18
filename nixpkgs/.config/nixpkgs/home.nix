@@ -26,6 +26,23 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.arandr
+    # Aws Session Manager for executing commands on Fargate tasks
+    pkgs.ssm-session-manager-plugin 
+    /* pkgs.leftwm */
+    pkgs.awesome
+    pkgs.visidata
+    pkgs.polybar
+    pkgs.lf
+    pkgs.zoxide
+    pkgs.gofumpt
+    pkgs.gcc
+    pkgs.postgresql
+    pkgs.wmctrl
+    pkgs.gopls
+    pkgs.sumneko-lua-language-server
+    pkgs.rstudio
+    pkgs.R
     pkgs._1password-gui
     pkgs.difftastic
     pkgs.alacritty
@@ -83,6 +100,7 @@
         "JetBrainsMono"
         "Monofur"
         "SpaceMono"
+        "Iosevka"
       ];
     })
   ];
