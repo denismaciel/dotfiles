@@ -381,7 +381,18 @@ globalkeys = gears.table.join(
 	-- Menubar
 	awful.key({ modkey }, "p", function()
 		menubar.show()
-	end, { description = "show the menubar", group = "launcher" })
+	end, { description = "show the menubar", group = "launcher" }),
+
+    -- Add sound
+	awful.key({}, "XF86AudioRaiseVolume", function()
+		awful.util.spawn("amixer -D pulse sset Master 2%+", false)
+	end),
+	awful.key({}, "XF86AudioLowerVolume", function()
+		awful.util.spawn("amixer -D pulse sset Master 2%-", false)
+	end),
+	awful.key({}, "XF86AudioMute", function()
+		awful.util.spawn("amixer -D pulse sset Master toggle", false)
+	end)
 )
 
 clientkeys = gears.table.join(
