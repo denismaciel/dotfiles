@@ -1,5 +1,3 @@
-# Configuration for Alacritty, the GPU enhanced terminal emulator.
-
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
@@ -13,13 +11,13 @@
 #TERM: alacritty
 
 window:
-  opacity: 1
+  opacity: 0.9
   decorations: None
 font:
   normal:
     # family: FiraCode Nerd Font
     family: JetBrainsMono Nerd Font
-    # family: Monofur Nerd Font
+    family: Monofur Nerd Font
     # family: SpaceMono Nerd Font
     # style: Light
   # bold:
@@ -31,8 +29,7 @@ font:
   # bold_italic:
   #   style: Bold Italic
 
-  size: 12
-
+  size: 10
   # offset:
   # x: 0
   # y: 0
@@ -147,46 +144,8 @@ schemes:
       white: "#ebdbb2"
 colors: *gruvbox-dark
 
-# Visual Bell
-#
-# Any time the BEL code is received, Alacritty "rings" the visual bell. Once
-# rung, the terminal background will be set to white and transition back to the
-# default background color. You can control the rate of this transition by
-# setting the `duration` property (represented in milliseconds). You can also
-# configure the transition function by setting the `animation` property.
-#
-# Values for `animation`:
-#   - Ease
-#   - EaseOut
-#   - EaseOutSine
-#   - EaseOutQuad
-#   - EaseOutCubic
-#   - EaseOutQuart
-#   - EaseOutQuint
-#   - EaseOutExpo
-#   - EaseOutCirc
-#   - Linear
-#
-# Specifying a `duration` of `0` will disable the visual bell.
-#visual_bell:
-#  animation: EaseOutExpo
-#  duration: 0
-#  color: '#ffffff'
-
-# Background opacity
-#
-# Window opacity as a floating point number from `0.0` to `1.0`.
-# The value `0.0` is completely transparent and `1.0` is opaque.
-
 selection:
-  #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
-
-  # When set to `true`, selected text will be copied to the primary clipboard.
   save_to_clipboard: false
-
-# Allow terminal applications to change Alacritty's window title.
-# dynamic_title: true
-
 cursor:
   # Cursor style
   #

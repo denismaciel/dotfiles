@@ -65,7 +65,8 @@ description = subprocess.run(
 IS_RUNNING = len(current_duration) > 3
 
 if IS_RUNNING:
-    current_duration = current_duration
+    
+    current_duration = "•" + current_duration + "•"
 else:
     current_duration = ""
 
@@ -93,8 +94,6 @@ sys.stdout.write(
     + description.replace("TODO", "").strip()
     + " "
     + "%{F#1EE86F}"
-    + "•"
     + current_duration
-    + "•"
     + " "
 )

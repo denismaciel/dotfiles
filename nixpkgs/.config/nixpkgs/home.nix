@@ -26,11 +26,17 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.papirus-icon-theme
+    pkgs.haskellPackages.greenclip
+    pkgs.xorg.xbacklight
+    pkgs.go-swagger
+    pkgs.dolphin
+    pkgs.compton
     pkgs.arandr
-    # Aws Session Manager for executing commands on Fargate tasks
-    pkgs.ssm-session-manager-plugin 
-    /* pkgs.leftwm */
+    pkgs.ssm-session-manager-plugin  # Aws Session Manager for executing commands on Fargate tasks
+    pkgs.zathura
     pkgs.awesome
+    pkgs.lua
     pkgs.visidata
     pkgs.polybar
     pkgs.lf
@@ -71,7 +77,9 @@
     pkgs.qutebrowser
     pkgs.ripgrep
     pkgs.rnix-lsp
-    pkgs.rofi
+    (pkgs.rofi.override {
+        plugins = [pkgs.rofi-emoji pkgs.rofi-calc];
+    })
     pkgs.scmpuff
     pkgs.slack
     pkgs.spotify-tui
