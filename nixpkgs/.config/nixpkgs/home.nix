@@ -26,68 +26,61 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
-    pkgs.papirus-icon-theme
-    pkgs.haskellPackages.greenclip
-    pkgs.xorg.xbacklight
-    pkgs.go-swagger
-    pkgs.dolphin
-    pkgs.compton
-    pkgs.arandr
-    pkgs.ssm-session-manager-plugin  # Aws Session Manager for executing commands on Fargate tasks
-    pkgs.zathura
-    pkgs.awesome
-    pkgs.lua
-    pkgs.visidata
-    pkgs.polybar
-    pkgs.lf
-    pkgs.zoxide
-    pkgs.gofumpt
-    pkgs.gcc
-    pkgs.postgresql
-    pkgs.wmctrl
-    pkgs.gopls
-    pkgs.sumneko-lua-language-server
-    pkgs.rstudio
+    pkgs.jsonnet
     pkgs.R
+    pkgs.hugo
     pkgs._1password-gui
-    pkgs.difftastic
     pkgs.alacritty
+    pkgs.arandr
+    pkgs.awesome
+    pkgs.compton
     pkgs.dbmate
+    pkgs.difftastic
     pkgs.direnv
     pkgs.docker
+    pkgs.dolphin
     pkgs.element-desktop
     pkgs.fd
     pkgs.flameshot
     pkgs.fzf
     pkgs.gcc
     pkgs.gnumake
+    pkgs.go-swagger
     pkgs.go_1_18
+    pkgs.gofumpt
     pkgs.gomi
     pkgs.google-chrome
+    pkgs.gopls
+    pkgs.haskellPackages.greenclip
     pkgs.htop
     pkgs.jq
     pkgs.keepassxc
+    pkgs.lf
+    pkgs.lua
     pkgs.mpv
     pkgs.newsboat
     pkgs.nodejs
     pkgs.notion-app-enhanced
     pkgs.obs-studio
     pkgs.obsidian
+    pkgs.papirus-icon-theme
     pkgs.pgcli
+    pkgs.polybar
+    pkgs.postgresql
     pkgs.qutebrowser
     pkgs.ripgrep
     pkgs.rnix-lsp
-    (pkgs.rofi.override {
-        plugins = [pkgs.rofi-emoji pkgs.rofi-calc];
-    })
+    pkgs.rstudio
     pkgs.scmpuff
     pkgs.slack
     pkgs.spotify-tui
     pkgs.spotify-unwrapped
     pkgs.spotifyd
+    pkgs.ssm-session-manager-plugin  # Aws Session Manager for executing commands on Fargate tasks
     pkgs.starship
     pkgs.stow
     pkgs.stylua
+    pkgs.sumneko-lua-language-server
     pkgs.syncthing
     pkgs.terraform
     pkgs.terraform-ls
@@ -95,12 +88,19 @@
     pkgs.tmuxp
     pkgs.universal-ctags
     pkgs.unzip
+    pkgs.visidata
     pkgs.vlc
+    /* pkgs.wmctrl */
     pkgs.xclip
+    pkgs.xdotool
+    pkgs.xorg.xbacklight
     pkgs.yaml-language-server
+    pkgs.zathura
+    pkgs.zoxide
     pkgs.zsh
     pkgs.zsh-fzf-tab
     pkgs.zsh-syntax-highlighting
+    (pkgs.rofi.override { plugins = [pkgs.rofi-emoji pkgs.rofi-calc]; })
     (pkgs.nerdfonts.override {
       fonts = [
         "FiraCode"

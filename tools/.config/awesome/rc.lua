@@ -9,7 +9,7 @@ local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
 -- Widget and layout library
-local wibox = require("wibox")
+-- local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
 -- Notification library
@@ -23,6 +23,8 @@ require("awful.hotkeys_popup.keys")
 -- Load Debian menu entries
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
+
+beautiful.wallpaper = "~/Downloads/wallpaper.jpg"
 
 function debug_log(obj)
 	local f = io.open("/tmp/awesome-debug.log", "w")
@@ -250,7 +252,7 @@ globalkeys = gears.table.join(
 	end, { description = "restore minimized", group = "client" }),
 
 	awful.key({ modkey }, "d", function()
-		utils.focus_or_spawn("Notebook", "nixGL alacritty --class Notebook -e /home/denis/scripts/weekly_note")
+		utils.focus_or_spawn("Notebook", [[ nixGL alacritty --class Notebook -e /home/denis/scripts/weekly_note 2>&1 /tmp/notbook.log ]])
 	end, { description = "Notebook", group = "launcher" }),
 
 	awful.key({ modkey }, "f", function()
@@ -266,7 +268,11 @@ globalkeys = gears.table.join(
 	end, { description = "Add TODO", group = "launcher" }),
 
 	awful.key({ modkey }, "c", function()
-		debug_log("runs")
+        awful.util.spawn([[rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}']])
+	end, { description = "debug log", group = "launcher" }),
+
+	awful.key({ modkey }, "e", function()
+        awful.util.spawn([[ rofi -show emoji -modi emoji ]])
 	end, { description = "debug log", group = "launcher" }),
 
 	awful.key({ modkey }, "r", function()
@@ -538,3 +544,5 @@ awful.spawn.with_shell("syncthing")
 awful.spawn.with_shell("/home/denis/.screenlayout/laptop-dell-vertical.sh")
 awful.spawn.with_shell("/home/denis/.config/polybar/launch.sh")
 awful.spawn.with_shell("/home/denis/.config/awesome/autorun.sh")
+awful.spawn.with_shell("feh --bg-fill ~/Downloads/wallpaper.jpg")
+

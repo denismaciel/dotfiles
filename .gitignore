@@ -14,3 +14,7 @@ tools/.config/pgcli/log
 tools/.newsboat/history.cmdline
 tools/.newsboat/history.search
 tools/bin/gh
+
+
+nvim/.config/nvim/init-home-manager.vim
+nvim/.config/nvim/init.lua

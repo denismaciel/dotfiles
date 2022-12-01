@@ -18,7 +18,7 @@ M.focus_or_spawn = function(klass, spawn_command)
         client.focus = found
         found:raise()
     else
-        awful.util.spawn()
+        awful.util.spawn(spawn_command)
     end
 end
 

@@ -9,6 +9,9 @@ return require("packer").startup(function()
 	use("leoluz/nvim-dap-go")
 	use("mfussenegger/nvim-dap-python")
 	use("nvim-telescope/telescope-dap.nvim")
+	use({
+		"benfowler/telescope-luasnip.nvim",
+	})
 
 	use({
 		"klen/nvim-test",
@@ -66,6 +69,7 @@ return require("packer").startup(function()
 			})
 		end,
 	})
+	use("simrat39/inlay-hints.nvim")
 	-- === Completion ===
 	use("hrsh7th/vim-vsnip")
 	use("hrsh7th/vim-vsnip-integ")
@@ -74,6 +78,11 @@ return require("packer").startup(function()
 	use("hrsh7th/cmp-path")
 	use("hrsh7th/cmp-cmdline")
 	use("hrsh7th/nvim-cmp")
+	use("hrsh7th/cmp-nvim-lsp-signature-help")
+	use("L3MON4D3/LuaSnip")
+	use("saadparwaiz1/cmp_luasnip")
+	use("rafamadriz/friendly-snippets")
+	use("onsails/lspkind.nvim")
 
 	-- === Colors ===
 	use("folke/tokyonight.nvim")
@@ -84,6 +93,4 @@ return require("packer").startup(function()
 	use("projekt0n/github-nvim-theme")
 	use("aktersnurra/no-clown-fiesta.nvim")
 
-	require("leap").set_default_keymaps()
-	require("nvim-tree").setup()
 end)

@@ -1,3 +1,5 @@
+require("inlay-hints").setup()
+local ih = require("inlay-hints")
 local configs = require("lspconfig/configs")
 local util = require("lspconfig/util")
 
@@ -49,6 +51,22 @@ require("lspconfig").pyright.setup({
 })
 require("lspconfig").gopls.setup({
 	capabilities = capabilities,
+	-- on_attach = function(c, b)
+	-- 	ih.on_attach(c, b)
+	-- end,
+	-- settings = {
+	-- 	gopls = {
+	-- 		hints = {
+	-- 			assignVariableTypes = true,
+	-- 			compositeLiteralFields = true,
+	-- 			compositeLiteralTypes = true,
+	-- 			constantValues = true,
+	-- 			functionTypeParameters = true,
+	-- 			parameterNames = true,
+	-- 			rangeVariableTypes = true,
+	-- 		},
+	-- 	},
+	-- },
 })
 require("lspconfig").rust_analyzer.setup({
 	capabilities = capabilities,

@@ -83,11 +83,14 @@ wk.register({
 	},
 	tt = {
 		function()
-			require("telescope.builtin").tags(require("telescope.themes").get_dropdown({
-				width = function(_, _, max_lines)
-					return math.min(max_lines * 0.5, 100)
-				end,
-			}))
+			-- require("telescope.builtin").tags(require("telescope.themes").get_dropdown({
+			-- 	width = function(_, _, max_lines)
+			-- 		return math.min(max_lines * 0.5, 100)
+			-- 	end,
+                -- height = .8
+			-- }))
+
+			require("telescope.builtin").tags({shorten_path = true})
 		end,
 		"!! Tags",
 	},

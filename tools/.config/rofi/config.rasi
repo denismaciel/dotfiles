@@ -4,7 +4,7 @@ configuration {
     show-icons: true;
     icon-theme: "Papirus";
     font: "JetBrainsMono Nerd Font Medium 13";
-    modi: "window,run,drun,calc";
+    modi: "window,run,drun,calc,emoji";
 }
 
 
@@ -27,6 +27,7 @@ configuration {
 
 window {
   width: 60%;
+  height: 40%;
 }
 
 element {
@@ -44,7 +45,7 @@ element-text {
 }
 
 element-icon {
-  size: 14;
+  size: 30;
   padding: 0 10 0 0;
 }
 
