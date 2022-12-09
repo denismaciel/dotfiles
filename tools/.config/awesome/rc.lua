@@ -259,6 +259,14 @@ globalkeys = gears.table.join(
 		utils.focus_or_spawn("Code", "nixGL alacritty --class Code")
 	end, { description = "Code", group = "launcher" }),
 
+	awful.key({ modkey }, "g", function()
+		utils.focus_or_spawn("Google-chrome", "google-chrome-stable")
+	end, { description = "Chrome", group = "launcher" }),
+
+	awful.key({ modkey }, "b", function()
+		utils.focus_or_spawn("firefox", "firefox")
+	end, { description = "Firefox", group = "launcher" }),
+
 	awful.key({ modkey }, "y", function()
 		awful.spawn.with_shell("rofi -combi-modi window,run -show combi")
 	end, { description = "rofi", group = "launcher" }),
@@ -269,27 +277,22 @@ globalkeys = gears.table.join(
 
 	awful.key({ modkey }, "c", function()
         awful.util.spawn([[rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}']])
-	end, { description = "debug log", group = "launcher" }),
+	end, { description = "Clipboad", group = "launcher" }),
 
 	awful.key({ modkey }, "e", function()
         awful.util.spawn([[ rofi -show emoji -modi emoji ]])
-	end, { description = "debug log", group = "launcher" }),
+	end, { description = "Emoji", group = "launcher" }),
 
 	awful.key({ modkey }, "r", function()
 		awful.spawn.with_shell("/home/denis/scripts/todo start-pomodoro")
 	end, { description = "Start Pomodoro", group = "launcher" }),
 
-	-- Menubar
-	awful.key({ modkey }, "p", function()
-		menubar.show()
-	end, { description = "show the menubar", group = "launcher" }),
-
 	-- Volume
 	awful.key({}, "XF86AudioRaiseVolume", function()
-		awful.util.spawn("amixer -D pulse sset Master 2%+", false)
+		awful.util.spawn("amixer -D pulse sset Master 5%+", false)
 	end),
 	awful.key({}, "XF86AudioLowerVolume", function()
-		awful.util.spawn("amixer -D pulse sset Master 2%-", false)
+		awful.util.spawn("amixer -D pulse sset Master 5%-", false)
 	end),
 	awful.key({}, "XF86AudioMute", function()
 		awful.util.spawn("amixer -D pulse sset Master toggle", false)
@@ -545,4 +548,3 @@ awful.spawn.with_shell("/home/denis/.screenlayout/laptop-dell-vertical.sh")
 awful.spawn.with_shell("/home/denis/.config/polybar/launch.sh")
 awful.spawn.with_shell("/home/denis/.config/awesome/autorun.sh")
 awful.spawn.with_shell("feh --bg-fill ~/Downloads/wallpaper.jpg")
-

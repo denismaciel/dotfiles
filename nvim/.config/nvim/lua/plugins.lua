@@ -5,6 +5,15 @@ vim.cmd([[packadd packer.nvim]])
 
 return require("packer").startup(function()
 	-- Candidate packages
+	use({
+		"zbirenbaum/copilot.lua",
+		event = "InsertEnter",
+		config = function()
+			vim.schedule(function()
+				require("copilot").setup()
+			end)
+		end,
+	})
 	use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })
 	use("leoluz/nvim-dap-go")
 	use("mfussenegger/nvim-dap-python")
@@ -92,5 +101,4 @@ return require("packer").startup(function()
 	use("shaunsingh/nord.nvim")
 	use("projekt0n/github-nvim-theme")
 	use("aktersnurra/no-clown-fiesta.nvim")
-
 end)

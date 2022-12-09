@@ -9,4 +9,4 @@ if [ -f  "$FILE_PATH" ]; then
 else
     echo '#' "$(date +'%Y-%W.md')" > "$FILE_PATH"
 fi
-nvim -c 'lua center_and_change_colorscheme()' $FILE_PATH
+nvim -c 'lua require("me").center_and_change_colorscheme()' $FILE_PATH

@@ -26,6 +26,11 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.imwheel
+    pkgs.anki
+    pkgs.tor-browser-bundle-bin
+    pkgs.lazygit
+    pkgs.delve
     pkgs.jsonnet
     pkgs.R
     pkgs.hugo

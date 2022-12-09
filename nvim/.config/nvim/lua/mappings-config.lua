@@ -1,7 +1,11 @@
 local dap = require("dap")
-local dapui = require("dapui")
+-- local dapui = require("dapui")
 local dap_go = require("dap-go")
 local dappy = require("dap-python")
+local wk = require("which-key")
+
+local me = require("me")
+local sql = require("me.sql")
 
 vim.keymap.set("n", "<leader>asdf", function()
 	package.loaded["denis"] = nil
@@ -15,7 +19,6 @@ vim.keymap.set("n", "<leader>;", "<cmd>Telescope buffers<CR>")
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
 vim.keymap.set("n", "tre", "<cmd>NvimTreeToggle<CR>")
 
-local wk = require("which-key")
 wk.setup({})
 wk.register({
 	f = {
@@ -41,7 +44,7 @@ wk.register({
 		},
 		t = {
 			function()
-				ft = vim.bo.filetype
+				local ft = vim.bo.filetype
 				if ft == "python" then
 					dappy.test_method()
 				elseif ft == "go" then
@@ -63,12 +66,17 @@ wk.register({
 		d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics" },
 		l = { "<cmd>TroubleToggle loclist<cr>", "Loclist" },
 		q = { "<cmd>TroubleToggle quickfix<cr>", "Quickfix" },
+		k = { vim.diagnostic.open_float, "Floating Diagnostics" },
 	},
 	s = {
-		name = "SQL stuff",
+		name = "SQL",
 		s = { ":!sqly snapshot --file % --cte-name <cword> <CR>", "Snapshot CTE" },
-		x = { dbt_open_compiled, "Open compiled query" },
-		v = { dbt_open_snaps, "Open snapshots" },
+		x = { sql.dbt_open_compiled, "Open compiled query" },
+		v = { sql.dbt_open_snaps, "Open snapshots" },
+	},
+	z = {
+		name = "Zettelkasten",
+		n = { me.create_new_note, "New note" },
 	},
 }, { prefix = "<leader>" })
 
@@ -87,10 +95,10 @@ wk.register({
 			-- 	width = function(_, _, max_lines)
 			-- 		return math.min(max_lines * 0.5, 100)
 			-- 	end,
-                -- height = .8
+			-- height = .8
 			-- }))
 
-			require("telescope.builtin").tags({shorten_path = true})
+			require("telescope.builtin").tags({ shorten_path = true })
 		end,
 		"!! Tags",
 	},
@@ -101,7 +109,7 @@ wk.register({
 }, { prefix = "g" })
 
 wk.register({
-    name = "Telescope",
+	name = "Telescope",
 	t = {
 		function()
 			require("telescope.builtin").find_files({
@@ -118,22 +126,27 @@ wk.register({
 	},
 	c = {
 		function()
-            vim.cmd("Telescope commands")
+			vim.cmd("Telescope commands")
 		end,
 		"Vim Commands",
 	},
 	h = {
 		function()
-            vim.cmd("Telescope command_history")
+			vim.cmd("Telescope command_history")
 		end,
 		"Vim Comand History",
 	},
 	ft = {
 		function()
-            vim.cmd("Telescope filetypes")
+			vim.cmd("Telescope filetypes")
 		end,
 		"FileTypes",
 	},
 }, { prefix = "t" })
-vim.keymap.set("n", "<leader>rg", function() vim.cmd("Telescope live_grep") end)
-vim.keymap.set("n", "<leader>/", function() vim.cmd("Telescope treesitter") end)
+
+vim.keymap.set("n", "<leader>rg", function()
+	vim.cmd("Telescope live_grep")
+end)
+vim.keymap.set("n", "<leader>/", function()
+	vim.cmd("Telescope treesitter")
+end)
