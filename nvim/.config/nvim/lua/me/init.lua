@@ -3,6 +3,7 @@ local M = {}
 local function scandir(directory)
 	local i, t, popen = 0, {}, io.popen
 	local pfile = popen('ls -a "' .. directory .. '"')
+
 	for filename in pfile:lines() do
 		i = i + 1
 		t[i] = filename
@@ -26,7 +27,7 @@ M.cycle_notes = function(direction)
 			idx = i
 		end
 	end
-
+    local next_f
 	if direction == "up" then
 		next_f = files[idx + 1]
 	elseif direction == "down" then
@@ -40,8 +41,6 @@ M.cycle_notes = function(direction)
 	vim.api.nvim_buf_delete(cbuf, { force = false })
 end
 
-
-
 function scandir(directory)
 	local i, t, popen = 0, {}, io.popen
 	local pfile = popen('ls -a "' .. directory .. '"')
@@ -53,9 +52,12 @@ function scandir(directory)
 	return t
 end
 
-function get_current_commit_sha(directory)
-	local i, t, popen = 0, {}, io.popen
+local function get_current_commit_sha(directory)
+	local popen = io.popen
 	local result = popen('git -C "' .. directory .. '" ' .. "rev-parse HEAD")
+	if result == nil then
+		return
+	end
 	for line in result:lines() do
 		return line
 	end
@@ -77,13 +79,6 @@ end
 P = function(v)
 	print(vim.inspect(v))
 	return v
-end
-
-
-M.create_new_note = function()
-	local note_name = vim.fn.input("New note > ")
-	local full_path = "/home/denis/Sync/Notes/Current/" .. note_name .. ".md"
-    vim.cmd("e " .. full_path)
 end
 
 return M

@@ -4,11 +4,11 @@ local dap_go = require("dap-go")
 local dappy = require("dap-python")
 local wk = require("which-key")
 
-local me = require("me")
 local sql = require("me.sql")
+local zettel = require("me.zettel")
 
 vim.keymap.set("n", "<leader>asdf", function()
-	package.loaded["denis"] = nil
+	package.loaded["me"] = nil
 	vim.api.nvim_command([[ source $MYVIMRC ]])
 end)
 vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition)
@@ -76,7 +76,8 @@ wk.register({
 	},
 	z = {
 		name = "Zettelkasten",
-		n = { me.create_new_note, "New note" },
+		n = { zettel.create_new_note, "New note" },
+        a = { zettel.open_anki_note, "Anki note"}
 	},
 }, { prefix = "<leader>" })
 
