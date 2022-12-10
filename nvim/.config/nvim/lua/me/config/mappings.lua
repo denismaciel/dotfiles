@@ -104,7 +104,7 @@ wk.register({
 		"!! Tags",
 	},
 	r = {
-		"<cmd>Trouble lsp_references<cr>",
+        require("telescope.builtin").lsp_references,
 		"!! References",
 	},
 }, { prefix = "g" })
@@ -143,5 +143,3 @@ vim.keymap.set("n", "<leader>rg", require("telescope.builtin").live_grep)
 vim.keymap.set("n", "<leader>/", function()
 	vim.cmd("Telescope treesitter")
 end)
-
-vim.keymap.set("n", "<C-N>", "<C-N>zz")
