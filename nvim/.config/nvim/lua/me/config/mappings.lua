@@ -126,28 +126,22 @@ wk.register({
 		"Find diff files",
 	},
 	c = {
-		function()
-			vim.cmd("Telescope commands")
-		end,
+        require("telescope.builtin").comands,
 		"Vim Commands",
 	},
 	h = {
-		function()
-			vim.cmd("Telescope command_history")
-		end,
+        require("telescope.builtin").command_history,
 		"Vim Comand History",
 	},
 	ft = {
-		function()
-			vim.cmd("Telescope filetypes")
-		end,
+        require("telescope.builtin").filetypes,
 		"FileTypes",
 	},
 }, { prefix = "t" })
 
-vim.keymap.set("n", "<leader>rg", function()
-	vim.cmd("Telescope live_grep")
-end)
+vim.keymap.set("n", "<leader>rg", require("telescope.builtin").live_grep)
 vim.keymap.set("n", "<leader>/", function()
 	vim.cmd("Telescope treesitter")
 end)
+
+vim.keymap.set("n", "<C-N>", "<C-N>zz")
