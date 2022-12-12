@@ -64,20 +64,10 @@ set foldlevelstart=99
 set foldlevel=99
 
 nnoremap <leader>u :UndotreeShow<CR>
-nnoremap <leader>rp :e playground/p.go<Enter>
 
-function! RenameFile()
-    let old_name = expand('%')
-    let new_name = input('New file name: ', expand('%'), 'file')
-    if new_name != '' && new_name != old_name
-        exec ':saveas ' . new_name
-        exec ':silent !rm ' . old_name
-        redraw!
-    endif
-endfunction
 
 set laststatus=3
 highlight WinSeparator guibg=None
-set winbar=%=%m\ %f " only available in nvim 0.8
+set winbar=%=%m\ %f
 
 nnoremap <leader>asdf :lua package.loaded['me'] = nil<cr>:source $MYVIMRC<cr>

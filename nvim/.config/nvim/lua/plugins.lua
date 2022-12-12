@@ -5,14 +5,13 @@ vim.cmd([[packadd packer.nvim]])
 
 return require("packer").startup(function()
 	-- Candidate packages
+	use("lewis6991/gitsigns.nvim")
+	use("TimUntersberger/neogit")
+	use("simrat39/symbols-outline.nvim")
 	use({
 		"zbirenbaum/copilot.lua",
 		event = "InsertEnter",
-		config = function()
-			vim.schedule(function()
-				require("copilot").setup()
-			end)
-		end,
+		config = function() end,
 	})
 	use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })
 	use("leoluz/nvim-dap-go")
@@ -56,7 +55,7 @@ return require("packer").startup(function()
 	use("windwp/nvim-ts-autotag")
 	use("APZelos/blamer.nvim")
 	use("ludovicchabant/vim-gutentags")
-	use("norcalli/nvim-colorizer.lua")
+	use("NvChad/nvim-colorizer.lua")
 	use({
 		"kyazdani42/nvim-tree.lua",
 		requires = {
@@ -101,4 +100,5 @@ return require("packer").startup(function()
 	use("shaunsingh/nord.nvim")
 	use("projekt0n/github-nvim-theme")
 	use("aktersnurra/no-clown-fiesta.nvim")
+	use("nyoom-engineering/oxocarbon.nvim")
 end)

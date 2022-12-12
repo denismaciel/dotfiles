@@ -13,6 +13,13 @@ vim.api.nvim_create_autocmd("BufEnter", {
 		-- vim.api.nvim_set_hl(0, "LeapLabelSecondary", { bg = "#FFFFFF", fg = "#000000" })
 		-- vim.api.nvim_set_hl(0, "StatusLine", { bg = "#0d1117" })
 		-- Colors to flash when yanking text
+		vim.api.nvim_set_hl(0, "Sneak", {
+			bg = "#bb9af7",
+			fg = "#292e42",
+		})
+		vim.api.nvim_set_hl(0, "SneakScope", {
+			bg = "#99a7df",
+		})
 		vim.api.nvim_set_hl(0, "IncSearch", { bg = "#eb9234", fg = "#000000" })
 	end,
 	group = group,
