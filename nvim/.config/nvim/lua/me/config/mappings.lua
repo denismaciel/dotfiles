@@ -77,7 +77,7 @@ wk.register({
 	z = {
 		name = "Zettelkasten",
 		n = { zettel.create_new_note, "New note" },
-        a = { zettel.open_anki_note, "Anki note"}
+		a = { zettel.open_anki_note, "Anki note" },
 	},
 }, { prefix = "<leader>" })
 
@@ -104,7 +104,10 @@ wk.register({
 		"!! Tags",
 	},
 	r = {
-        require("telescope.builtin").lsp_references,
+		function()
+			require("telescope.builtin").lsp_references(require('telescope.themes').get_dropdown({}))
+		end,
+
 		"!! References",
 	},
 }, { prefix = "g" })
@@ -126,15 +129,15 @@ wk.register({
 		"Find diff files",
 	},
 	c = {
-        require("telescope.builtin").comands,
+		require("telescope.builtin").comands,
 		"Vim Commands",
 	},
 	h = {
-        require("telescope.builtin").command_history,
+		require("telescope.builtin").command_history,
 		"Vim Comand History",
 	},
 	ft = {
-        require("telescope.builtin").filetypes,
+		require("telescope.builtin").filetypes,
 		"FileTypes",
 	},
 }, { prefix = "t" })

@@ -24,7 +24,7 @@ require("awful.hotkeys_popup.keys")
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
 
-beautiful.wallpaper = "~/Downloads/wallpaper.jpg"
+beautiful.wallpaper = "/user/denis/Downloads/wallpaper.jpg"
 
 function debug_log(obj)
 	local f = io.open("/tmp/awesome-debug.log", "w")
@@ -160,9 +160,7 @@ end
 screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
-	awful.tag({
-		"1",
-	}, s, awful.layout.layouts[1])
+	awful.tag({ "1" }, s, awful.layout.layouts[1])
 end)
 -- }}}
 
@@ -178,7 +176,7 @@ root.buttons(gears.table.join(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
-	awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
+	-- awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
 	awful.key({ modkey }, "Left", awful.tag.viewprev, { description = "view previous", group = "tag" }),
 	awful.key({ modkey }, "Right", awful.tag.viewnext, { description = "view next", group = "tag" }),
 	awful.key({ modkey }, "Escape", awful.tag.history.restore, { description = "go back", group = "tag" }),
@@ -252,7 +250,10 @@ globalkeys = gears.table.join(
 	end, { description = "restore minimized", group = "client" }),
 
 	awful.key({ modkey }, "d", function()
-		utils.focus_or_spawn("Notebook", [[ nixGL alacritty --class Notebook -e /home/denis/scripts/weekly_note 2>&1 /tmp/notbook.log ]])
+		utils.focus_or_spawn(
+			"Notebook",
+			[[ nixGL alacritty --class Notebook -e /home/denis/scripts/weekly_note 2>&1 /tmp/notbook.log ]]
+		)
 	end, { description = "Notebook", group = "launcher" }),
 
 	awful.key({ modkey }, "f", function()
@@ -261,6 +262,10 @@ globalkeys = gears.table.join(
 
 	awful.key({ modkey }, "g", function()
 		utils.focus_or_spawn("Google-chrome", "google-chrome-stable")
+	end, { description = "Chrome", group = "launcher" }),
+
+	awful.key({ modkey }, "s", function()
+		utils.focus_or_spawn("Slack", "slack")
 	end, { description = "Chrome", group = "launcher" }),
 
 	awful.key({ modkey }, "b", function()
@@ -276,11 +281,11 @@ globalkeys = gears.table.join(
 	end, { description = "Add TODO", group = "launcher" }),
 
 	awful.key({ modkey }, "c", function()
-        awful.util.spawn([[rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}']])
+		awful.util.spawn([[rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}']])
 	end, { description = "Clipboad", group = "launcher" }),
 
 	awful.key({ modkey }, "e", function()
-        awful.util.spawn([[ rofi -show emoji -modi emoji ]])
+		awful.util.spawn([[ rofi -show emoji -modi emoji ]])
 	end, { description = "Emoji", group = "launcher" }),
 
 	awful.key({ modkey }, "r", function()
@@ -547,4 +552,3 @@ awful.spawn.with_shell("syncthing")
 awful.spawn.with_shell("/home/denis/.screenlayout/laptop-dell-vertical.sh")
 awful.spawn.with_shell("/home/denis/.config/polybar/launch.sh")
 awful.spawn.with_shell("/home/denis/.config/awesome/autorun.sh")
-awful.spawn.with_shell("feh --bg-fill ~/Downloads/wallpaper.jpg")

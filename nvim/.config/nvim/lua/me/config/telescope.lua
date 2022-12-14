@@ -18,15 +18,23 @@ require("telescope").setup({
 			"%.woff",
 			"%.woff2",
 		},
+		layout_config = {
+			width = function(_, max_columns)
+				local percentage = 0.95
+				return math.floor(percentage * max_columns)
+			end,
+			height = function(_, _, max_lines)
+				local percentage = 0.9
+				local min = 70
+				return math.max(math.floor(percentage * max_lines), min)
+			end,
+		},
 	},
 	pickers = {
 		buffers = {
 			mappings = {
 				n = {
 					["dd"] = actions.delete_buffer,
-				},
-				i = {
-					-- ["<C-D>"] = actions.delete_buffer,
 				},
 			},
 		},
