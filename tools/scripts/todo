@@ -114,7 +114,7 @@ def start_pomodoro():
     append_todo(todo)
     proc = run(
         [
-            "/home/denis/bin/pomodoro",
+            POMODORO_BIN,
             "start",
             "--wait",
             "--duration",
@@ -129,7 +129,6 @@ def start_pomodoro():
         run(['mpv', '/home/denis/scripts/assets/win95.ogg'])
 
 
-
 def handle_start_pomodoro():
     try:
         start_pomodoro()
@@ -137,27 +136,6 @@ def handle_start_pomodoro():
         ...
     except Exception as e:
         run(["notify-send", f"Failed: {str(e)}"])
-
-
-def main():
-    argv = sys.argv[1:]
-    parser = argparse.ArgumentParser(prog="todos")
-    subparsers = parser.add_subparsers(dest="command")
-    sp_add_todo = subparsers.add_parser("add-todo")
-    sp_start_pomodoro = subparsers.add_parser("start-pomodoro")
-    sp_report = subparsers.add_parser("report")
-
-    args = parser.parse_args(argv)
-
-    if args.command == "add-todo":
-        handle_add_todo()
-    elif args.command == "start-pomodoro":
-        start_pomodoro()
-    elif args.command == "report":
-        report()
-    else:
-        run(["notify-send", f"Unknown command"])
-        raise NotImplementedError("unknown command")
 
 
 def report():
@@ -173,7 +151,6 @@ def report():
 
     today = datetime.date.today()
     minutes_week = defaultdict(int)
-
 
     print(f"-----------------------------")
     print(f"--- Time tracking {year_week(today)} ---")
@@ -196,14 +173,129 @@ def report():
                     minutes_week[description] += duration
             except Exception as e:
 
-                print("An error ocurred with log line:", i+1, '\n', e)
+                print("An error ocurred with log line:", i + 1, '\n', e)
                 raise SystemExit(1)
-
 
     for desc, dur in sorted(minutes_week.items(), key=lambda x: -x[1]):
         if dur > 30:
             print(human_readable(dur), desc)
 
 
+def today_status():
+    import datetime
+    import subprocess
+    import sys
+
+    TARGET_MOONS = 4
+    FULL_MOON = ""
+    HALF_MOON = ""
+    EMPTY_MOON = ""
+    RED = "%{B#A54242}%{F#C5C8C6}"
+    # part_char = [" ", "▏", "▎", "▍", "▌", "▋", "▊", "▉"]
+
+    def progress(minutes_today: int) -> str:
+        n50, n50_remainder = divmod(minutes_today, 50)
+        n25, _ = divmod(n50_remainder, 25)
+
+        if n25 > 1:
+            return 'error'
+
+        remaining = TARGET_MOONS - n50 - bool(n50_remainder)
+        return " ".join(
+            [
+                *(EMPTY_MOON * remaining),
+                bool(n50_remainder) * HALF_MOON,
+                *(n50 * FULL_MOON),
+            ]
+        )
+
+    def color(is_running: bool) -> str:
+        if is_running:
+            return ""
+
+        if datetime.datetime.now().second % 2 == 0:
+            return RED
+
+        return ""
+
+    def compute_minutes_today() -> int:
+        minutes_today = 0
+        with open("/home/denis/.pomodoro/history") as f:
+            for _, line in enumerate(f):
+                ts_raw, *_ = line.split()
+
+                ts = datetime.datetime.fromisoformat(ts_raw)
+
+                if ts.date() == datetime.date.today():
+                    (dur_raw,) = RE_DURATION.findall(line)
+                    duration = int(dur_raw.replace("duration=", ""))
+                    minutes_today += duration
+        return minutes_today
+
+    minutes_today = compute_minutes_today()
+    hour_minutes = "{:02d}:{:02d}".format(*divmod(minutes_today, 60))
+
+    current_pomo_duration = subprocess.run(
+        "pomodoro status -f '%!r'",
+        shell=True,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+
+    description = subprocess.run(
+        "pomodoro status -f '%d'",
+        shell=True,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+
+    is_running = len(current_pomo_duration) > 3
+
+    if is_running:
+        current_pomo_duration = "•" + current_pomo_duration + "•"
+    else:
+        current_pomo_duration = ""
+
+    sys.stdout.write(
+        color(is_running)
+        + " "
+        + progress(minutes_today)
+        + " •"
+        + hour_minutes
+        + "• "
+        + description.replace("TODO", "").strip()
+        + " "
+        + "%{F#1EE86F}"
+        + current_pomo_duration
+    )
+
+
+def main():
+    argv = sys.argv[1:]
+    parser = argparse.ArgumentParser(prog="todos")
+    subparsers = parser.add_subparsers(dest="command")
+    sp_add_todo = subparsers.add_parser("add-todo")
+    sp_start_pomodoro = subparsers.add_parser("start-pomodoro")
+    sp_report = subparsers.add_parser("report")
+    sp_today_status = subparsers.add_parser("today-status")
+
+    args = parser.parse_args(argv)
+
+    if args.command == "add-todo":
+        handle_add_todo()
+    elif args.command == "start-pomodoro":
+        start_pomodoro()
+    elif args.command == "report":
+        report()
+    elif args.command == 'today-status':
+        today_status()
+    else:
+        run(["notify-send", f"Unknown command"])
+        raise NotImplementedError("unknown command")
+    return 0
+
+
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
