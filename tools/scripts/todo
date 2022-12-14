@@ -7,6 +7,7 @@ from subprocess import run
 TODO_FILE = "/home/denis/Sync/Notes/Current/todo.md"
 DONE_FILE = "/home/denis/Sync/Notes/Current/done.md"
 POMODORO_HISTORY_FILE = "/home/denis/.pomodoro/history"
+POMODORO_BIN = '/home/denis/bin/pomodoro'
 RE_DURATION = re.compile(r"duration=\d+")
 RE_DESCRIPTION = re.compile(r'description=".+"')
 
@@ -128,19 +129,6 @@ def start_pomodoro():
         run(['mpv', '/home/denis/scripts/assets/win95.ogg'])
 
 
-def get_pomodoro_status():
-    proc = run(
-        ["/home/denis/go/bin/pomodoro", "status"],
-        capture_output=True,
-        check=True,
-        text=True,
-    )
-
-    result = proc.stdout.strip()
-
-    if result == "" or result.startswith('!'):
-        print('pomodoro is not running')
-
 
 def handle_start_pomodoro():
     try:
@@ -157,7 +145,6 @@ def main():
     subparsers = parser.add_subparsers(dest="command")
     sp_add_todo = subparsers.add_parser("add-todo")
     sp_start_pomodoro = subparsers.add_parser("start-pomodoro")
-    sp_get_pomodoro_status = subparsers.add_parser("get-pomodoro-status")
     sp_report = subparsers.add_parser("report")
 
     args = parser.parse_args(argv)
@@ -166,8 +153,6 @@ def main():
         handle_add_todo()
     elif args.command == "start-pomodoro":
         start_pomodoro()
-    elif args.command == "get-pomodoro-status":
-        get_pomodoro_status()
     elif args.command == "report":
         report()
     else:
