@@ -1,0 +1,45 @@
+#! /bin/env python
+
+slow_moving = {
+    "dm@ryanckulp.com",
+    "drmaciver@substack.com",
+    "eugenewei@substack.com",
+    "gonz@seedtable.com",
+    "gwern@substack.com",
+    "kortina@substack.com",
+    "nateliason",
+    "robqheaton",
+    "sarharibhakti@substack.com",
+    "@hillelwayne.com",
+    "notboring",
+    "tomtunguz",
+    "mtcookingclub",
+}
+
+fast_moving = {
+    "analyticsengineeringroundup",
+    "admin@pycoders.com",
+    "list@ben-evans.com",
+    "@finanz-szene.de",
+    "@financeforward.de",
+    "@financefwd.com",
+    "@glassnode.com",
+}
+
+
+def to_filter(senders: set) -> str:
+    return ' OR '.join("from:" + s for s in senders)
+
+
+print("==> Go to: https://mail.google.com/mail/u/0/#settings/filters")
+print()
+
+print("--> Slow moving")
+print()
+print(to_filter(slow_moving))
+print()
+
+
+print("--> Fast moving")
+print()
+print(to_filter(fast_moving))
