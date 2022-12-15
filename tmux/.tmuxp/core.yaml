@@ -27,3 +27,7 @@ windows:
   - window_name: newsboat
     panes:
       - shell_command: cd 
+  - window_name: next.js
+    panes:
+      - shell_command: cd ~/mine/learn-next/
+      - shell_command: cd ~/mine/learn-next/
