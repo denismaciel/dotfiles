@@ -1,74 +1,53 @@
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 
 -- Only required if you have packer configured as `opt`
-vim.cmd([[packadd packer.nvim]])
+require("lazy").setup({
+	"folke/which-key.nvim",
+	{ "folke/neoconf.nvim", cmd = "Neoconf" },
+	"folke/neodev.nvim",
 
-return require("packer").startup(function()
-	-- Candidate packages
-	use("lewis6991/gitsigns.nvim")
-	use("TimUntersberger/neogit")
-	use("simrat39/symbols-outline.nvim")
-	use({
-		"zbirenbaum/copilot.lua",
-		event = "InsertEnter",
-		config = function() end,
-	})
-	use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })
-	use("leoluz/nvim-dap-go")
-	use("mfussenegger/nvim-dap-python")
-	use("nvim-telescope/telescope-dap.nvim")
-	use({
-		"benfowler/telescope-luasnip.nvim",
-	})
+	"lewis6991/gitsigns.nvim",
+	"TimUntersberger/neogit",
+	"simrat39/symbols-outline.nvim",
+	"windwp/nvim-autopairs",
 
-	use({
-		"klen/nvim-test",
-		config = function()
-			require("nvim-test").setup()
-		end,
-	})
-	use({
-		"rlch/github-notifications.nvim",
-		-- config = [[require('config.github-notifications')]],
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
-		},
-	})
-	use("Pocco81/auto-save.nvim")
-	use("folke/which-key.nvim")
+	{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } },
+	"leoluz/nvim-dap-go",
+	"mfussenegger/nvim-dap-python",
+	"nvim-telescope/telescope-dap.nvim",
+	"benfowler/telescope-luasnip.nvim",
+	"NvChad/nvim-colorizer.lua",
+	"klen/nvim-test",
 
-	--  Official packages
-	use("ggandor/leap.nvim")
-	use("wbthomason/packer.nvim")
-	use("nvim-treesitter/nvim-treesitter-context")
-	use("christoomey/vim-tmux-navigator")
-	use("nvim-lua/plenary.nvim")
-	use({ "nvim-telescope/telescope.nvim", requires = { { "nvim-lua/plenary.nvim" } } })
-	use("tpope/vim-commentary")
-	use("editorconfig/editorconfig-vim")
-	use("mbbill/undotree")
-	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-	use("nvim-treesitter/playground")
-	use("nvim-treesitter/nvim-treesitter-textobjects")
-	use("windwp/nvim-autopairs")
-	use("windwp/nvim-ts-autotag")
-	use("APZelos/blamer.nvim")
-	use("ludovicchabant/vim-gutentags")
-	use("NvChad/nvim-colorizer.lua")
-	use({
+	"ggandor/leap.nvim",
+	"wbthomason/packer.nvim",
+	"nvim-treesitter/nvim-treesitter-context",
+	"christoomey/vim-tmux-navigator",
+	"nvim-lua/plenary.nvim",
+	{ "nvim-telescope/telescope.nvim", dependencies = { { "nvim-lua/plenary.nvim" } } },
+	"tpope/vim-commentary",
+	"editorconfig/editorconfig-vim",
+	"mbbill/undotree",
+	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+	"nvim-treesitter/playground",
+	"nvim-treesitter/nvim-treesitter-textobjects",
+	"windwp/nvim-autopairs",
+	"windwp/nvim-ts-autotag",
+	"APZelos/blamer.nvim",
+	"ludovicchabant/vim-gutentags",
+	{
 		"kyazdani42/nvim-tree.lua",
-		requires = {
+		dependencies = {
 			"kyazdani42/nvim-web-devicons",
 		},
-		tag = "nightly",
-	})
-	use({ "mhartington/formatter.nvim" })
+		version = "nightly",
+	},
+	"mhartington/formatter.nvim",
 	-- == LSP ===
-	use("neovim/nvim-lspconfig")
-	use({
+	"neovim/nvim-lspconfig",
+	{
 		"folke/trouble.nvim",
-		requires = "kyazdani42/nvim-web-devicons",
+		dependencies = "kyazdani42/nvim-web-devicons",
 		config = function()
 			require("trouble").setup({
 				colors = {
@@ -76,29 +55,28 @@ return require("packer").startup(function()
 				},
 			})
 		end,
-	})
-	use("simrat39/inlay-hints.nvim")
+	},
+	"simrat39/inlay-hints.nvim",
 	-- === Completion ===
-	use("hrsh7th/vim-vsnip")
-	use("hrsh7th/vim-vsnip-integ")
-	use("hrsh7th/cmp-nvim-lsp")
-	use("hrsh7th/cmp-buffer")
-	use("hrsh7th/cmp-path")
-	use("hrsh7th/cmp-cmdline")
-	use("hrsh7th/nvim-cmp")
-	use("hrsh7th/cmp-nvim-lsp-signature-help")
-	use("L3MON4D3/LuaSnip")
-	use("saadparwaiz1/cmp_luasnip")
-	use("rafamadriz/friendly-snippets")
-	use("onsails/lspkind.nvim")
-
+	"hrsh7th/vim-vsnip",
+	"hrsh7th/vim-vsnip-integ",
+	"hrsh7th/cmp-nvim-lsp",
+	"hrsh7th/cmp-buffer",
+	"hrsh7th/cmp-path",
+	"hrsh7th/cmp-cmdline",
+	"hrsh7th/nvim-cmp",
+	"hrsh7th/cmp-nvim-lsp-signature-help",
+	"L3MON4D3/LuaSnip",
+	"saadparwaiz1/cmp_luasnip",
+	"rafamadriz/friendly-snippets",
+	"onsails/lspkind.nvim",
 	-- === Colors ===
-	use("folke/tokyonight.nvim")
-	use("morhetz/gruvbox")
-	use("savq/melange")
-	use("rebelot/kanagawa.nvim")
-	use("shaunsingh/nord.nvim")
-	use("projekt0n/github-nvim-theme")
-	use("aktersnurra/no-clown-fiesta.nvim")
-	use("nyoom-engineering/oxocarbon.nvim")
-end)
+	"folke/tokyonight.nvim",
+	"morhetz/gruvbox",
+	"savq/melange",
+	"rebelot/kanagawa.nvim",
+	"shaunsingh/nord.nvim",
+	"projekt0n/github-nvim-theme",
+	"aktersnurra/no-clown-fiesta.nvim",
+	"nyoom-engineering/oxocarbon.nvim",
+})

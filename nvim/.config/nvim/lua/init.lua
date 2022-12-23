@@ -38,6 +38,7 @@ o.completeopt = { "menu", "menuone", "noselect" }
 
 o.termguicolors = true
 
+-- Bootstrap lazy.nvim
 vim.cmd([[
 function! RenameFile()
     let old_name = expand('%')
@@ -50,6 +51,20 @@ function! RenameFile()
 endfunction
 ]])
 
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--single-branch",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
+  })
+end
+
+vim.opt.runtimepath:prepend(lazypath)
+
 require("plugins")
 
 require("nvim-autopairs").setup({})
@@ -57,9 +72,10 @@ require("colorizer").setup({})
 require("neogit").setup()
 require("gitsigns").setup()
 
-require("me.config.auto-save")
+-- require("me.config.auto-save")
 require("me.config.cmp")
 require("me.config.colors")
+-- require("me.config.copilot")
 require("me.config.dap")
 require("me.config.leap")
 require("me.config.lsp")

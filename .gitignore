@@ -18,3 +18,4 @@ tools/bin/gh
 
 nvim/.config/nvim/init-home-manager.vim
 nvim/.config/nvim/init.lua
+lazy-lock.json
