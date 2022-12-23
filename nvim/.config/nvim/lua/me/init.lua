@@ -22,12 +22,13 @@ M.cycle_notes = function(direction)
 	local buf_dir = vim.fn.expand("%:p:h")
 	local f_name = vim.fn.expand("%:t")
 	local files = scandir(buf_dir)
+
 	for i, f in ipairs(files) do
 		if f == f_name then
 			idx = i
 		end
 	end
-    local next_f
+	local next_f
 	if direction == "up" then
 		next_f = files[idx + 1]
 	elseif direction == "down" then
@@ -36,20 +37,12 @@ M.cycle_notes = function(direction)
 		print("Unkown direction")
 	end
 
+    if next_f == nil then
+        error("could not find file")
+    end
 	local cbuf = vim.api.nvim_get_current_buf()
 	vim.api.nvim_command("edit " .. buf_dir .. "/" .. next_f)
 	vim.api.nvim_buf_delete(cbuf, { force = false })
-end
-
-function scandir(directory)
-	local i, t, popen = 0, {}, io.popen
-	local pfile = popen('ls -a "' .. directory .. '"')
-	for filename in pfile:lines() do
-		i = i + 1
-		t[i] = filename
-	end
-	pfile:close()
-	return t
 end
 
 local function get_current_commit_sha(directory)
@@ -63,7 +56,7 @@ local function get_current_commit_sha(directory)
 	end
 end
 
-function get_github_permalink()
+M.get_github_permalink = function()
 	local sha = get_current_commit_sha(vim.fn.getcwd())
 	local linenr = vim.api.nvim_win_get_cursor(0)[1]
 	local file = vim.fn.expand("%:p")

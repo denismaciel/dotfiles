@@ -1,33 +1,36 @@
 session_name: core
 windows:
   - window_name: top
+    start_directory: "~/work/core"
     panes:
-      - shell_command: cd ~/work/core
-      - shell_command: cd ~/work/core
+      -
+      -
   - window_name: risk-model
+    start_directory: "~/work/core/data-pipelines/risk_model"
     panes:
-      - shell_command: cd ~/work/core/data-pipelines/risk_model
-      - shell_command: cd ~/work/core/data-pipelines/risk_model
+      -
+      -
   - window_name: dwh
+    start_directory: "~/work/core/data-pipelines/dwh"
     panes:
-      - shell_command: cd ~/work/core/data-pipelines/dwh
-      - shell_command: cd ~/work/core/data-pipelines/dwh
+      -
+      -
   - window_name: backend
+    start_directory: "~/work/core/backend"
     panes:
-      - shell_command: cd ~/work/core/backend
-      - shell_command: cd ~/work/core/backend
+      -
+      -
   - window_name: frontend
+    start_directory: "~/work/core/recap-app"
     panes:
-      - shell_command: cd ~/work/core/recap-app
-      - shell_command: cd ~/work/core/recap-app
+      -
+      -
   - window_name: dotfiles
+    start_directory: "~/dotfiles"
     panes:
-      - shell_command: cd ~/dotfiles
-      - shell_command: cd ~/dotfiles
+      -
+      -
   - window_name: newsboat
+    start_directory: "~/dotfiles"
     panes:
-      - shell_command: cd 
-  - window_name: next.js
-    panes:
-      - shell_command: cd ~/mine/learn-next/
-      - shell_command: cd ~/mine/learn-next/
+      - newsboat

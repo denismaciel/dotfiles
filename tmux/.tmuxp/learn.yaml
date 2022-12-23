@@ -1,7 +1,0 @@
-session_name: learn
-windows:
-    - window_name: terraform
-      start_directory: "/home/denis/mine/terraform-up-and-running"
-      panes:
-        - 
-        -

@@ -168,7 +168,7 @@ def report():
 
                     (description,) = RE_DESCRIPTION.findall(line)
                     description = description.replace("description=", "")
-                    description = description.replace("TODO", "").strip()
+                    description = clean_description(description, patterns=('TODO', 'HABIT'))
                     description = description.replace('"', '').strip()
                     minutes_week[description] += duration
             except Exception as e:
@@ -265,11 +265,17 @@ def today_status():
         + " •"
         + hour_minutes
         + "• "
-        + description.replace("TODO", "").strip()
+        + clean_description(description, patterns=('TODO', 'HABIT'))
         + " "
         + "%{F#1EE86F}"
         + current_pomo_duration
     )
+
+
+def clean_description(name: str, patterns: tuple[str, ...]) -> str:
+    for p in patterns:
+        name = name.replace(p, "")
+    return name.strip()
 
 
 def main():

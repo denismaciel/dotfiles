@@ -26,6 +26,10 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.pasystray
+    pkgs.okular
+    pkgs.sqlite
+    pkgs.sioyek
     pkgs.redshift
     pkgs.imwheel
     pkgs.anki
@@ -65,7 +69,8 @@
     pkgs.lua
     pkgs.mpv
     pkgs.newsboat
-    pkgs.nodejs
+    /* pkgs.nodejs */
+    pkgs.nodejs-16_x
     pkgs.notion-app-enhanced
     pkgs.obs-studio
     pkgs.obsidian

@@ -105,7 +105,7 @@ wk.register({
 	},
 	r = {
 		function()
-			require("telescope.builtin").lsp_references(require('telescope.themes').get_dropdown({}))
+			require("telescope.builtin").lsp_references(require("telescope.themes").get_dropdown({}))
 		end,
 
 		"!! References",
@@ -118,7 +118,13 @@ wk.register({
 		function()
 			require("telescope.builtin").find_files({
 				find_command = { "rg", "--files", "--hidden", "-g", "!.git", "-g", "!.snapshots/" },
+				shorten_path = true,
 			})
+
+			-- require("telescope").extensions.frecency.frecency({
+			-- 	find_command = { "rg", "--files", "--hidden", "-g", "!.git", "-g", "!.snapshots/" },
+			-- 	workspace = "CWD",
+			-- })
 		end,
 		"Find files",
 	},

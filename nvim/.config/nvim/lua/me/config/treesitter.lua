@@ -12,12 +12,12 @@ require("nvim-treesitter.configs").setup({
 			enable = true,
 			set_jumps = false, -- whether to set jumps in the jumplist
 			goto_next_start = {
-				["<C-n>"] = "@function.outer",
+				-- ["<C-n>"] = "@function.outer",
 				["]]"] = "@class.outer",
 				["]a"] = "@parameter.inner",
 			},
 			goto_previous_start = {
-				["<C-p>"] = "@function.outer",
+				-- ["<C-p>"] = "@function.outer",
 				["[["] = "@class.outer",
 				["[a"] = "@parameter.inner",
 			},

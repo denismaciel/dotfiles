@@ -54,8 +54,8 @@ augroup END
 " =================
 " ===== Notes =====
 " =================
-nnoremap <C-P> <cmd> lua cycle_notes('up')<Enter>
-nnoremap <C-N> <cmd> lua cycle_notes('up')<Enter>
+nnoremap <C-P> <cmd> lua require("me").cycle_notes('down')<Enter>
+nnoremap <C-N> <cmd> lua require("me").cycle_notes('up')<Enter>
 
 " Folding with treesitter
 set foldmethod=expr
