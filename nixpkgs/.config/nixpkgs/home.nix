@@ -26,6 +26,8 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.kubernetes-helm
+    pkgs.kubectl
     pkgs.pasystray
     pkgs.okular
     pkgs.sqlite
