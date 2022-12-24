@@ -37,6 +37,8 @@ function gb() {
     git checkout $(gbl)
 }
 
+function gc { git commit -a -m "$*"; }
+
 gf() {
   is_in_git_repo || return
   git -c color.status=always status --short |
@@ -56,9 +58,9 @@ function check_syncthing() {
 # ----------------------------------
 # --------- Warnings ---------------
 # ----------------------------------
-git -C $HOME/dotfiles diff --exit-code > /dev/null || echo " === Commit the changes to your dotfiles, my man! ==="
+# git -C $HOME/dotfiles diff --exit-code > /dev/null || echo " === Commit the changes to your dotfiles, my man! ==="
 check_syncthing
-todo report
+# todo report
 
 eval "$(starship init zsh)"
 
