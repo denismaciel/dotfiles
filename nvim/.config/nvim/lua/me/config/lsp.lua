@@ -1,7 +1,34 @@
-require("inlay-hints").setup()
-local ih = require("inlay-hints")
+local lspc = require("lspconfig")
 local configs = require("lspconfig/configs")
 local util = require("lspconfig/util")
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local null_ls = require("null-ls")
+
+require("mason-lspconfig").setup({
+	ensure_installed = {
+		"sumneko_lua",
+		"rust_analyzer",
+		"gopls",
+		"golangci_lint_ls",
+		"tsserver",
+		"prismals",
+		"pyright",
+		"tailwindcss",
+	},
+})
+
+null_ls.setup({
+	sources = {
+        -- Python
+		null_ls.builtins.formatting.reorder_python_imports,
+		null_ls.builtins.formatting.black.with({ args = { "--stdin-filename", "$FILENAME", "--skip-string-normalization",  "--quiet", "-" } }),
+		null_ls.builtins.formatting.ruff,
+        -- Lua
+		null_ls.builtins.formatting.stylua,
+        -- Javascript
+		null_ls.builtins.formatting.prettier,
+	},
+})
 
 function OrgImports()
 	local params = vim.lsp.util.make_range_params()
@@ -39,65 +66,21 @@ Google's lsp server for golang.
 	},
 }
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-require("lspconfig").cssls.setup({capabilities = capabilities})
-require("lspconfig").tsserver.setup({
-	capabilities = capabilities,
-})
-require("lspconfig").jedi_language_server.setup({
-	capabilities = capabilities,
-})
-require("lspconfig").pyright.setup({
-	capabilities = capabilities,
-})
-require("lspconfig").gopls.setup({
-	capabilities = capabilities,
-	-- on_attach = function(c, b)
-	-- 	ih.on_attach(c, b)
-	-- end,
-	-- settings = {
-	-- 	gopls = {
-	-- 		hints = {
-	-- 			assignVariableTypes = true,
-	-- 			compositeLiteralFields = true,
-	-- 			compositeLiteralTypes = true,
-	-- 			constantValues = true,
-	-- 			functionTypeParameters = true,
-	-- 			parameterNames = true,
-	-- 			rangeVariableTypes = true,
-	-- 		},
-	-- 	},
-	-- },
-})
-require("lspconfig").rust_analyzer.setup({
-	capabilities = capabilities,
-})
-require("lspconfig").terraformls.setup({
+lspc.terraformls.setup({
 	capabilities = capabilities,
 	filetypes = { "terraform", "hcl" },
 })
-require("lspconfig").sumneko_lua.setup({
+lspc.sumneko_lua.setup({
 	capabilities = capabilities,
 	settings = {
 		Lua = {
-			diagnostics = {
-				globals = { "vim", "use" },
+			completion = {
+				callSnippet = "Replace",
 			},
-		},
-		workspace = {
-			-- Make the server aware of Neovim runtime files
-			library = vim.api.nvim_get_runtime_file("", true),
 		},
 	},
 })
-require("lspconfig").rnix.setup({
-	capabilities = capabilities,
-})
-require("lspconfig").yamlls.setup({
-	capabilities = capabilities,
-})
-
-require("lspconfig").jsonnet_ls.setup({
+lspc.jsonnet_ls.setup({
 	capabilities = capabilities,
 	ext_vars = {
 		foo = "bar",
@@ -118,3 +101,13 @@ require("lspconfig").jsonnet_ls.setup({
 		StripAllButComments = false,
 	},
 })
+lspc.cssls.setup({ capabilities = capabilities })
+lspc.gopls.setup({ capabilities = capabilities })
+lspc.golangci_lint_ls.setup({ capabilities = capabilities })
+lspc.jedi_language_server.setup({ capabilities = capabilities })
+lspc.pyright.setup({ capabilities = capabilities })
+lspc.rnix.setup({ capabilities = capabilities })
+lspc.rust_analyzer.setup({ capabilities = capabilities })
+lspc.tailwindcss.setup({ capabilities = capabilities })
+lspc.tsserver.setup({ capabilities = capabilities })
+lspc.yamlls.setup({ capabilities = capabilities })

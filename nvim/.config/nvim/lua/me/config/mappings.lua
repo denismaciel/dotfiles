@@ -24,7 +24,7 @@ wk.register({
 	f = {
 		name = "File",
 		c = { ":!echo -n % | xclip -selection clipboard<CR>", "Copy file path to clipboard" },
-		f = { ":Format<CR>", "Format current buffer" },
+		f = { vim.lsp.buf.format, "Format current buffer" },
 		ls = { vim.lsp.buf.format, "Format with LSP" },
 		n = { ":call RenameFile()<CR>", "Rename file" },
 	},

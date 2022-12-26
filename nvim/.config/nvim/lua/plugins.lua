@@ -1,24 +1,25 @@
--- This file can be loaded by calling `lua require('plugins')` from your init.vim
-
--- Only required if you have packer configured as `opt`
 require("lazy").setup({
 	"folke/which-key.nvim",
-	{ "folke/neoconf.nvim", cmd = "Neoconf" },
 	"folke/neodev.nvim",
+
+    "jose-elias-alvarez/null-ls.nvim",
 
 	"lewis6991/gitsigns.nvim",
 	"TimUntersberger/neogit",
 	"simrat39/symbols-outline.nvim",
 	"windwp/nvim-autopairs",
 
-	{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } },
+    -- === DAP ===
+    "mfussenegger/nvim-dap",
+	"rcarriga/nvim-dap-ui",
 	"leoluz/nvim-dap-go",
 	"mfussenegger/nvim-dap-python",
 	"nvim-telescope/telescope-dap.nvim",
+    -- ===========
+
 	"benfowler/telescope-luasnip.nvim",
 	"NvChad/nvim-colorizer.lua",
 	"klen/nvim-test",
-
 	"ggandor/leap.nvim",
 	"wbthomason/packer.nvim",
 	"nvim-treesitter/nvim-treesitter-context",
@@ -43,6 +44,7 @@ require("lazy").setup({
 		version = "nightly",
 	},
 	"mhartington/formatter.nvim",
+
 	-- == LSP ===
 	"neovim/nvim-lspconfig",
 	{
@@ -57,6 +59,10 @@ require("lazy").setup({
 		end,
 	},
 	"simrat39/inlay-hints.nvim",
+    "williamboman/mason.nvim",
+    "jayp0521/mason-nvim-dap.nvim",
+    'williamboman/mason-lspconfig.nvim',
+
 	-- === Completion ===
 	"hrsh7th/vim-vsnip",
 	"hrsh7th/vim-vsnip-integ",
@@ -70,6 +76,7 @@ require("lazy").setup({
 	"saadparwaiz1/cmp_luasnip",
 	"rafamadriz/friendly-snippets",
 	"onsails/lspkind.nvim",
+
 	-- === Colors ===
 	"folke/tokyonight.nvim",
 	"morhetz/gruvbox",

@@ -73,6 +73,8 @@ end
 
 require("plugins")
 
+require("neodev").setup() -- Needs to be called before lsp stuff
+require("mason").setup()
 require("nvim-autopairs").setup({})
 require("colorizer").setup({})
 require("neogit").setup()
@@ -86,7 +88,6 @@ require("me.config.dap")
 require("me.config.leap")
 require("me.config.lsp")
 require("me.config.mappings")
-require("me.config.nvim-formatter")
 require("me.config.nvim-tree")
 require("me.config.symbols-outline")
 require("me.config.telescope")
