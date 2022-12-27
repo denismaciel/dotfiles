@@ -1,10 +1,12 @@
 require("mason-nvim-dap").setup()
 
+
 local dap = require("dap")
 local dapui = require("dapui")
 local dap_go = require("dap-go")
 local dap_python = require("dap-python")
 
+require('dap').set_log_level('TRACE')
 dap_go.setup()
 dapui.setup()
 dap_python.setup("~/venvs/debugpy/bin/python")

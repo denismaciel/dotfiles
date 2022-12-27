@@ -44,8 +44,10 @@ def append_todo(todo):
 
     todo = todo.strip()
 
-    # If todo already exists, move it to the first position
-    if todo in todos:
+    # If todo already exists and is not a habit, move it to the first position.
+    if 'HABIT' in todo:
+        ...
+    elif todo in todos:
         todos.remove(todo)
         todos.insert(0, todo)
     else:

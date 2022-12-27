@@ -26,6 +26,7 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.pandoc
     pkgs.kubernetes-helm
     pkgs.kubectl
     pkgs.pasystray

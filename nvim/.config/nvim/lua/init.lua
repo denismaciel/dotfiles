@@ -62,7 +62,6 @@ if not vim.loop.fs_stat(lazypath) then
 		lazypath,
 	})
 end
-
 vim.opt.runtimepath:prepend(lazypath)
 
 local signs = { Error = "", Warn = "", Hint = "", Info = "" }
@@ -70,6 +69,9 @@ for type, icon in pairs(signs) do
 	local hl = "DiagnosticSign" .. type
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
+
+vim.fn.sign_define('DapBreakpoint', {text='•', linehl='', numhl=''})
+
 
 require("plugins")
 
@@ -79,6 +81,11 @@ require("nvim-autopairs").setup({})
 require("colorizer").setup({})
 require("neogit").setup()
 require("gitsigns").setup()
+require("nvim-test").setup({})
+require("nvim-test.runners.pytest"):setup({
+	command = { (vim.env.VIRTUAL_ENV or "venv") .. "/bin/pytest", "pytest" },
+	args = { "--pdb" },
+})
 
 -- require("me.config.auto-save")
 require("me.config.cmp")

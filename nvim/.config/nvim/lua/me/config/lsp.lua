@@ -77,6 +77,9 @@ lspc.sumneko_lua.setup({
 			completion = {
 				callSnippet = "Replace",
 			},
+            diagnostics = {
+                globals = { 'vim', 'require' }
+            }
 		},
 	},
 })
