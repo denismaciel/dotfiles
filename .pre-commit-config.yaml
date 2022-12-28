@@ -1,6 +1,6 @@
 repos:
-  - repo: git://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
     hooks:
       - id: check-json
       - id: check-merge-conflict
@@ -14,7 +14,7 @@ repos:
       - id: black
         args: [--skip-string-normalization]
 
-  - repo: https://gitlab.com/pycqa/flake8
+  - repo: https://github.com/pycqa/flake8
     rev: "3.9.2"
     hooks:
       - id: flake8
@@ -22,3 +22,7 @@ repos:
     rev: v2.6.0
     hooks:
       - id: reorder-python-imports
+  - repo: https://github.com/JohnnyMorganz/StyLua
+    rev: v0.15.3
+    hooks:
+    - id: stylua-system

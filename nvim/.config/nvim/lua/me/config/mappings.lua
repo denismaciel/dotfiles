@@ -26,39 +26,7 @@ wk.register({
 		name = "File",
 		c = { ":!echo -n % | xclip -selection clipboard<CR>", "Copy file path to clipboard" },
 		f = { vim.lsp.buf.format, "Format current buffer" },
-		ls = { vim.lsp.buf.format, "Format with LSP" },
 		n = { ":call RenameFile()<CR>", "Rename file" },
-	},
-	d = {
-		name = "Date or DAP",
-		-- Date
-		s = { [["=strftime('%Y-%m-%d %H:%M')<CR>p]], "Instert current datetime" },
-		d = { [["=strftime('%Y-%m-%d')<CR>p]], "Insert current time" },
-		-- DAP
-		c = { dap.continue, "DAP Continue" },
-		b = { dap.toggle_breakpoint, "DAP Breakpoint Toggle" },
-		B = {
-			function()
-				dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-			end,
-			"DAP Breakpoint with Message",
-		},
-		t = {
-			function()
-				local ft = vim.bo.filetype
-				if ft == "python" then
-					dappy.test_method()
-				elseif ft == "go" then
-					dap_go.debug_test()
-				else
-					print("unkown file type", ft)
-				end
-			end,
-			"DAP (Go) Debug Test",
-		},
-		i = { dap.step_into, "DAP Step Into" },
-		o = { dap.step_out, "DAP Step Out" },
-		v = { dap.step_over, "DAP Step Over" },
 	},
 	x = {
 		name = "Trouble",
@@ -79,6 +47,12 @@ wk.register({
 		name = "Zettelkasten",
 		n = { zettel.create_new_note, "New note" },
 		a = { zettel.open_anki_note, "Anki note" },
+	},
+
+	t = {
+		name = "Date",
+		ss = { [["=strftime('%Y-%m-%d %H:%M')<CR>p]], "Instert current datetime" },
+		sd = { [["=strftime('%Y-%m-%d')<CR>p]], "Insert current time" },
 	},
 }, { prefix = "<leader>" })
 
