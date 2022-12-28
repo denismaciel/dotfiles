@@ -12,14 +12,14 @@ M.find_client_by_class = function(klass)
 end
 
 M.focus_or_spawn = function(klass, spawn_command)
-    local found = M.find_client_by_class(klass)
+	local found = M.find_client_by_class(klass)
 
-    if found ~= nil then
-        client.focus = found
-        found:raise()
-    else
-        awful.util.spawn(spawn_command)
-    end
+	if found ~= nil then
+		client.focus = found
+		found:raise()
+	else
+		awful.util.spawn(spawn_command)
+	end
 end
 
 return M

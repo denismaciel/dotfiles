@@ -2,20 +2,20 @@ require("lazy").setup({
 	"folke/which-key.nvim",
 	"folke/neodev.nvim",
 
-    "jose-elias-alvarez/null-ls.nvim",
+	"jose-elias-alvarez/null-ls.nvim",
 
 	"lewis6991/gitsigns.nvim",
 	"TimUntersberger/neogit",
 	"simrat39/symbols-outline.nvim",
 	"windwp/nvim-autopairs",
 
-    -- === DAP ===
-    "mfussenegger/nvim-dap",
+	-- === DAP ===
+	"mfussenegger/nvim-dap",
 	"rcarriga/nvim-dap-ui",
 	"leoluz/nvim-dap-go",
 	"mfussenegger/nvim-dap-python",
 	"nvim-telescope/telescope-dap.nvim",
-    -- ===========
+	-- ===========
 
 	"benfowler/telescope-luasnip.nvim",
 	"NvChad/nvim-colorizer.lua",
@@ -59,9 +59,9 @@ require("lazy").setup({
 		end,
 	},
 	"simrat39/inlay-hints.nvim",
-    "williamboman/mason.nvim",
-    "jayp0521/mason-nvim-dap.nvim",
-    'williamboman/mason-lspconfig.nvim',
+	"williamboman/mason.nvim",
+	"jayp0521/mason-nvim-dap.nvim",
+	"williamboman/mason-lspconfig.nvim",
 
 	-- === Completion ===
 	"hrsh7th/vim-vsnip",

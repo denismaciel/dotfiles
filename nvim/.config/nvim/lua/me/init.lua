@@ -37,9 +37,9 @@ M.cycle_notes = function(direction)
 		print("Unkown direction")
 	end
 
-    if next_f == nil then
-        error("could not find file")
-    end
+	if next_f == nil then
+		error("could not find file")
+	end
 	local cbuf = vim.api.nvim_get_current_buf()
 	vim.api.nvim_command("edit " .. buf_dir .. "/" .. next_f)
 	vim.api.nvim_buf_delete(cbuf, { force = false })

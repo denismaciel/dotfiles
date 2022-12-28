@@ -19,13 +19,15 @@ require("mason-lspconfig").setup({
 
 null_ls.setup({
 	sources = {
-        -- Python
+		-- Python
 		null_ls.builtins.formatting.reorder_python_imports,
-		null_ls.builtins.formatting.black.with({ args = { "--stdin-filename", "$FILENAME", "--skip-string-normalization",  "--quiet", "-" } }),
+		null_ls.builtins.formatting.black.with({
+			args = { "--stdin-filename", "$FILENAME", "--skip-string-normalization", "--quiet", "-" },
+		}),
 		null_ls.builtins.formatting.ruff,
-        -- Lua
+		-- Lua
 		null_ls.builtins.formatting.stylua,
-        -- Javascript
+		-- Javascript
 		null_ls.builtins.formatting.prettier,
 	},
 })
@@ -77,9 +79,9 @@ lspc.sumneko_lua.setup({
 			completion = {
 				callSnippet = "Replace",
 			},
-            diagnostics = {
-                globals = { 'vim', 'require' }
-            }
+			diagnostics = {
+				globals = { "vim", "require" },
+			},
 		},
 	},
 })

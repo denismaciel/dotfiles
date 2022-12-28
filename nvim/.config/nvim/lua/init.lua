@@ -70,8 +70,7 @@ for type, icon in pairs(signs) do
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
-vim.fn.sign_define('DapBreakpoint', {text='•', linehl='', numhl=''})
-
+vim.fn.sign_define("DapBreakpoint", { text = "•", linehl = "", numhl = "" })
 
 require("plugins")
 

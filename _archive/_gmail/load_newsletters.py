@@ -1,4 +1,5 @@
 import pathlib
+
 import yaml
 
 def fmt(email):
@@ -13,5 +14,5 @@ def main():
     filter_ = ' OR '.join(fmt(email) for email in current_newsletters)
     print(filter_)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     raise SystemExit(main())
