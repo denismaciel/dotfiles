@@ -5,7 +5,6 @@ How to call this:
     python snapshot query_file.sql subquery_name
     python check_syntax query_file.sql
 """
-import datetime
 import json
 import os
 import re
@@ -13,7 +12,6 @@ import sys
 from datetime import date
 from datetime import timedelta
 from pathlib import Path
-from typing import Tuple
 from typing import Union
 
 import pandas as pd
@@ -23,9 +21,7 @@ from aymario.auth import get_bq_client
 from aymario.devtools import mock_flowspec
 from aymario.gbq_interact import format_query
 from aymario.sql import extract_runnable_cte
-from aymario.sql import SQLFile
 from google.cloud import bigquery
-from google.oauth2 import service_account
 
 
 def get_client():
@@ -88,7 +84,6 @@ def cmd_snapshot(file, args, configs, **kwargs):
     cte = args[0]
 
     path_dir = file.parent
-    file_name = file.name
 
     with open(file, 'r') as f:
         query = format_query(f.read(), configs)
