@@ -1,13 +1,17 @@
-
 export PATH=$HOME/bin:$PATH
 export PATH=$HOME/scripts:$PATH
 export PATH=$PATH:/usr/local/go/bin
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/scripts:$PATH"
 export PATH="$HOME/go/bin/:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/node/bin:$PATH"
 export PATH="$HOME/venvs/default/bin:$PATH"
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+export GOPATH=$(go env GOPATH)
+export GOROOT=$HOME/.go
+export PATH=$GOROOT/bin:$PATH
+
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
 export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
 source /home/denis/.nix-profile/etc/profile.d/nix.sh
@@ -99,23 +103,23 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 export XDG_CONFIG_HOME=$HOME/.config
 
+alias core='tmuxp load core -y'
 alias act='source venv/bin/activate'
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'
 alias lsa='ls -lah' 
+alias ls='ls -G --color=auto'
 alias R='R --no-save'
 alias diary='nvim "$HOME/Sync/Notes/Current/Diary/$(date +'%Y-%m-%d').md"'
 alias gp="git push origin HEAD"
 alias rm=gomi
 alias vi=nvim
-
 alias gdd="GIT_EXTERNAL_DIFF='difft --syntax-highlight off' git diff"
-
 alias pdf='open-zathura "$(fd "pdf|epub" | fzf)"'
 alias clip='xclip -selection clipboard'
 
-setopt autocd               # .. is shortcut for cd .. 
+setopt autocd # .. is shortcut for cd .. 
 
 # Basic auto/tab complete:
 autoload bashcompinit && bashcompinit
@@ -123,13 +127,13 @@ autoload -Uz compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
-source ~/apps/fzf-tab/fzf-tab.plugin.zsh
+# source ~/apps/fzf-tab/fzf-tab.plugin.zsh
 _comp_options+=(globdots)		# Include hidden files.
-# Fuzzy completion!!!
-zstyle ':completion:*' matcher-list '' \
-  'm:{a-z\-}={A-Z\_}' \
-  'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
-  'r:|?=** m:{a-z\-}={A-Z\_}'
+# # Fuzzy completion!!!
+# zstyle ':completion:*' matcher-list '' \
+#   'm:{a-z\-}={A-Z\_}' \
+#   'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
+#   'r:|?=** m:{a-z\-}={A-Z\_}'
 
 complete -C '$HOME/.local/bin/aws_completer' aws
 
@@ -154,30 +158,13 @@ zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
 
-case `uname` in 
-    Darwin)
-        export HOMEBREW_AUTO_UPDATE_SECS=604800 # Autoupdate on weekly basis
-        alias tss="date +'%Y-%m-%d %H:%M:%S' | pbcopy; pbpaste"
-        alias tsd="date +'%Y-%m-%d' | pbcopy; pbpaste"
-        alias tsw="date +'Work_%Y-%W' | pbcopy; pbpaste"
-        alias ls='ls -G'
-    ;;
-    Linux)
-        alias tss="date +'%Y-%m-%d %H:%M:%S' | xclip -selection clipboard && xclip -selection clipboard -o"
-        alias tsd="date +'%Y-%m-%d' | xclip -selection clipboard && xclip -selection clipboard -o"
-        alias tsw="date +'Work_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o"
-        alias ls='ls -G --color=auto'
-    ;;
-esac
+alias tss="date +'%Y-%m-%d %H:%M:%S' | xclip -selection clipboard && xclip -selection clipboard -o"
+alias tsd="date +'%Y-%m-%d' | xclip -selection clipboard && xclip -selection clipboard -o"
+alias tsw="date +'Work_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/key-bindings.zsh ] && source ~/key-bindings.zsh
 
-# nixOS
-if [ -n "${commands[fzf-share]}" ]; then
-  source "$(fzf-share)/key-bindings.zsh"
-  source "$(fzf-share)/completion.zsh"
-fi
 
 fpath=($HOME/.zsh/zsh-completions/src $fpath)
 
@@ -194,10 +181,8 @@ setopt HIST_SAVE_NO_DUPS         # Dont write duplicate entries in the history f
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Dont execute immediately upon history expansion.
 setopt INTERACTIVE_COMMENTS       # Allow for comments
-export GOPATH=$(go env GOPATH)
 
 eval "$(scmpuff init -s)"
-# eval "$(jump shell zsh)"
 
 export PYTHONBREAKPOINT=ipdb.set_trace
 # if [ -e /home/denis/.nix-profile/etc/profile.d/nix.sh ]; then . /home/denis/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
@@ -209,10 +194,30 @@ if [ -e /home/denis/credentials/recap.sh ]; then . /home/denis/credentials/recap
 #     - https://www.reddit.com/r/NixOS/comments/oj4kmd/every_time_i_run_a_program_installed_with_nix_i/
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 eval "$(direnv hook zsh)"
 eval "$(zoxide init zsh)"
 # GoLang
-export GOROOT=/home/denis/.go
-export PATH=$GOROOT/bin:$PATH
+
+# zim (https://github.com/zimfw/zimfw
+zstyle ':zim:zmodule' use 'degit'
+ZIM_HOME=~/.config/zim
+# Download zimfw plugin manager if missing.
+if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+  curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+      https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+fi
+# Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
+  source ${ZIM_HOME}/zimfw.zsh init -q
+fi
+# Initialize modules.
+source ${ZIM_HOME}/init.zsh
+
+# nixOS
+if [ -n "${commands[fzf-share]}" ]; then
+  source "$(fzf-share)/key-bindings.zsh"
+  source "$(fzf-share)/completion.zsh"
+fi
+
+source "$(fzf-share)/key-bindings.zsh"

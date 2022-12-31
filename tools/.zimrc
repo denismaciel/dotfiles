@@ -1,1 +1,2 @@
 zmodule zdharma-continuum/fast-syntax-highlighting
+zmodule Aloxaf/fzf-tab
