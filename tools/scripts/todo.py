@@ -1,15 +1,87 @@
+from __future__ import annotations
+
 import argparse
+import datetime as dt
+import enum
+import json
 import re
 import sys
 import tempfile
 from subprocess import run
+from typing import Callable
+from typing import Iterable
+from typing import Literal
+from typing import Optional
 
+from pydantic import BaseModel
+from pydantic import Field
+
+TODO_FILE_JSONL = '/home/denis/Sync/Notes/Current/todo.jsonlines'
+DONE_FILE_JSONL = '/home/denis/Sync/Notes/Current/done.jsonlines'
 TODO_FILE = '/home/denis/Sync/Notes/Current/todo.md'
 DONE_FILE = '/home/denis/Sync/Notes/Current/done.md'
 POMODORO_HISTORY_FILE = '/home/denis/.pomodoro/history'
 POMODORO_BIN = '/home/denis/bin/pomodoro'
 RE_DURATION = re.compile(r'duration=\d+')
 RE_DESCRIPTION = re.compile(r'description=".+"')
+
+RE_TAG = re.compile(r'#[\w,-]+')
+
+
+def find_tags(s: str) -> list[str]:
+    return [tag.replace("#", "") for tag in RE_TAG.findall(s)]
+
+
+class TodoStatus(str, enum.Enum):
+    ACTIVE = 'active'
+    DONE = 'done'
+
+
+class TodoType(str, enum.Enum):
+    TODO = 'todo'
+    HABIT = 'habit'
+
+
+class Todo(BaseModel):
+    name: str
+    status: TodoStatus = TodoStatus.ACTIVE
+    type: TodoType = TodoType.TODO
+    tags: Optional[list[str]] = None
+    created_at: dt.datetime = Field(default_factory=dt.datetime.now)
+    completed_at: Optional[dt.datetime] = None
+
+    @classmethod
+    def from_jsonl(cls, line: str) -> Todo:
+        return Todo(**json.loads(line))
+
+    @classmethod
+    def from_text_prompt(cls, prompt: str) -> Todo:
+
+        if prompt.strip() == "":
+            return Todo(name='')
+
+        tags = find_tags(prompt)
+
+        words = prompt.split()
+        # filter tags from words
+        name = ' '.join(w.strip() for w in words if not w.startswith('#'))
+
+        return Todo(
+            name=name,
+            tags=tags,
+            type=TodoType.TODO,
+            status=TodoStatus.ACTIVE,
+        )
+
+    def __str__(self):
+        tags_str = ''
+        if self.tags is not None:
+            tags_str = ' '.join(f"#{tag}" for tag in self.tags)
+        return ' '.join([self.type.value.upper(), self.name, tags_str]).strip()
+
+    @property
+    def is_empty(self) -> bool:
+        return self.name.strip() == ''
 
 
 class EmptyTodoError(Exception):
@@ -20,114 +92,116 @@ class CompletedTodoException(Exception):
     ...
 
 
-def save_todos(todos: list[str], file):
+def save_todos2(todos: list[Todo], file):
     with open(file, 'w') as f:
-        f.write('\n'.join(todos))
+        for todo in todos:
+            f.write(todo.json())
+            f.write("\n")
 
 
-def select_todo(prompt: str, todos: list[str]) -> str:
+def select_with_rofi(
+    prompt: str,
+    items: list[str],
+    multi_select: bool = False,
+) -> tuple[int, str]:
+
+    if multi_select is True:
+        raise NotImplementedError("multi-select is not implemented")
+
+    mutli_select_opt = '-multi-select' if multi_select else ''
     with tempfile.NamedTemporaryFile('w+') as f:
-        f.write('\n'.join(todos))
+        f.write('\n'.join(items))
         f.flush()
-        cmd = f'rofi -dmenu -p "{prompt} > " -input {f.name}'
+        cmd = f'rofi -dmenu -p "{prompt} > " {mutli_select_opt} -format "i|s" -input {f.name}'
         proc = run(cmd, shell=True, capture_output=True, text=True)
 
     proc.check_returncode()
-    todo = proc.stdout.strip()
-    return todo
+    out = parse_rofi(proc.stdout)
+    return out
 
 
-def load_todos(file):
+def load_todos2(file: str) -> list[Todo]:
     with open(file, 'r') as f:
-        todos = [line.strip() for line in f]
-
+        todos = [Todo.from_jsonl(line) for line in f]
     return todos
 
 
-def position_todo(todo: str, todos: list[str]) -> list[str]:
-    if 'HABIT' in todo:
-        return todos
+def write_todo_to_done_file(todo: Todo):
+    todo.completed_at = dt.datetime.now()
+    with open(DONE_FILE_JSONL, 'a') as f:
+        f.write(todo.json())
+        f.write('\n')
 
-    # If todo already exists, move it to the first position.
+
+def complete_todo(
+    todo: Todo,
+    todos: Iterable[Todo],
+    callback: Callable[[Todo], None],
+) -> list[Todo]:
+    todos = [t for t in todos if t.name != todo.name]
+    callback(todo)
+    return todos
+
+
+def determine_action(todo: Todo, todos: list[Todo]) -> Literal['add', 'complete']:
     if todo in todos:
-        todos.remove(todo)
-        todos.insert(0, todo)
-    else:
-        todos = [f'TODO {todo}'] + todos
-
-    return todos
+        return 'complete'
+    return 'add'
 
 
-def test_position_todo():
-    assert False
-
-
-def prepend_done(todo):
-    import datetime
-
-    with open(DONE_FILE, 'r+') as f:
-        content = f.read()
-        f.seek(0)
-        f.write(datetime.datetime.now().isoformat() + ' ' + todo + '\n' + content)
+def parse_rofi(out: str) -> tuple[int, str]:
+    idx, text = out.split("|")
+    return int(idx), text.strip()
 
 
 def add_or_toggle():
-    todos = load_todos(TODO_FILE)
-    todo = select_todo('🚀', todos)
+    todos = load_todos2(TODO_FILE_JSONL)
+    i, prompt = select_with_rofi('🚀', [str(todo) for todo in todos])
 
-    if todo == '':
-        raise EmptyTodoError
-
-    # If input_todo already exists, we want to toggle it as complete
-    if todo in todos:
-        i = todos.index(todo)
-        todo = todos.pop(i)
-        save_todos(todos, TODO_FILE)
-        todo = todo.replace('TODO', 'DONE')
-        prepend_done(todo)
-        raise CompletedTodoException(todo)
-
-    # Refactor to use append todo
-    todos = [f'TODO {todo}'] + todos
-    save_todos(todos, TODO_FILE)
-
-
-def handle_add_todo():
-    try:
-        add_or_toggle()
-    except EmptyTodoError:
-        ...
-    except CompletedTodoException as e:
-        run(['notify-send', f'Completed {str(e)}'])
-    except Exception as e:
-        run(['notify-send', f'Failed: {str(e)}'])
+    if i == -1:
+        todo = Todo.from_text_prompt(prompt)
     else:
-        run(['notify-send', 'TODO added successfully'])
+        todo = todos[i]
+
+    # When Esc is pressend in rofi prompt
+    if todo.is_empty:
+        return
+
+    action = determine_action(todo, todos)
+    if action == 'add':
+        todos = [todo] + todos
+    elif action == 'complete':
+        todos = complete_todo(todo, todos, write_todo_to_done_file)
+    else:
+        raise AssertionError("unknown action")
+
+    save_todos2(todos, TODO_FILE_JSONL)
 
 
-def select_duration():
-    durations = [25, 20, 15, 10, 5, 1]
-    durations_str = r'\n'.join(str(d) for d in durations)
-    cmd = f"echo '{durations_str}' | rofi -dmenu -p 'Pomdoro'"
-    proc = run(cmd, shell=True, check=True, capture_output=True, text=True)
-    return proc.stdout.strip()
+def move_to_top(todo, todos):
+    return [todo] + [t for t in todos if t.name != todo.name]
 
 
-def start_pomodoro():
-    todos = load_todos(TODO_FILE)
-    todo = select_todo('🍅', todos)
+def start_pomodoro(select: Callable[[list[Todo]], tuple[int, str]]):
+    todos = load_todos2(TODO_FILE_JSONL)
+    i, prompt = select(todos)
 
-    if todo == '':
-        raise EmptyTodoError
+    if i == -1:
+        todo = Todo.from_text_prompt(prompt)
+    else:
+        todo = todos[i]
 
-    duration = select_duration()
+    if todo.is_empty:
+        return
 
+    i, duration = select_with_rofi("", [str(d) for d in [25, 20, 15, 10, 5, 1]])
     if duration.strip() == '':
         return
 
-    todos = load_todos(TODO_FILE)
-    todos = position_todo(todo, todos)
-    save_todos(todos, TODO_FILE)
+    if todo.type == TodoType.TODO:
+        todos = move_to_top(todo, todos)
+
+    save_todos2(todos, TODO_FILE_JSONL)
     proc = run(
         [
             POMODORO_BIN,
@@ -135,7 +209,7 @@ def start_pomodoro():
             '--wait',
             '--duration',
             duration,
-            todo,
+            todo.name,
         ],
         check=True,
         capture_output=True,
@@ -143,16 +217,6 @@ def start_pomodoro():
 
     if proc.returncode == 0:
         run(['mpv', '/home/denis/scripts/assets/win95.ogg'])
-
-
-def handle_start_pomodoro():
-    try:
-        start_pomodoro()
-    except EmptyTodoError:
-        ...
-    except Exception as e:
-        run(['notify-send', f'Failed: {str(e)}'])
-
 
 def report():
     import datetime
@@ -308,9 +372,11 @@ def main():
     args = parser.parse_args(argv)
 
     if args.command == 'add-todo':
-        handle_add_todo()
+        add_or_toggle()
     elif args.command == 'start-pomodoro':
-        start_pomodoro()
+        start_pomodoro(
+            select=lambda todos: select_with_rofi('🍅', [str(t) for t in todos])
+        )
     elif args.command == 'report':
         report()
     elif args.command == 'today-status':
@@ -319,3 +385,7 @@ def main():
         run(['notify-send', 'Unknown command'])
         raise NotImplementedError('unknown command')
     return 0
+
+
+if __name__ == "__main__":
+    print(load_todos2(TODO_FILE_JSONL))
