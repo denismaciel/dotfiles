@@ -85,6 +85,7 @@ require("nvim-test.runners.pytest"):setup({
 	command = { (vim.env.VIRTUAL_ENV or "venv") .. "/bin/pytest", "pytest" },
 	args = { "--pdb" },
 })
+require("nvim-surround").setup({})
 
 -- require("me.config.auto-save")
 require("me.config.cmp")

@@ -2,6 +2,7 @@ require("lazy").setup({
 	"folke/which-key.nvim",
 	"folke/neodev.nvim",
 
+	"kylechui/nvim-surround",
 	"jose-elias-alvarez/null-ls.nvim",
 
 	"lewis6991/gitsigns.nvim",
