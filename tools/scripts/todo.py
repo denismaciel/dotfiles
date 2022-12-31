@@ -29,7 +29,7 @@ RE_TAG = re.compile(r'#[\w,-]+')
 
 
 def find_tags(s: str) -> list[str]:
-    return [tag.replace("#", "") for tag in RE_TAG.findall(s)]
+    return [tag.replace('#', '') for tag in RE_TAG.findall(s)]
 
 
 class TodoStatus(str, enum.Enum):
@@ -57,7 +57,7 @@ class Todo(BaseModel):
     @classmethod
     def from_text_prompt(cls, prompt: str) -> Todo:
 
-        if prompt.strip() == "":
+        if prompt.strip() == '':
             return Todo(name='')
 
         tags = find_tags(prompt)
@@ -76,7 +76,7 @@ class Todo(BaseModel):
     def __str__(self):
         tags_str = ''
         if self.tags is not None:
-            tags_str = ' '.join(f"#{tag}" for tag in self.tags)
+            tags_str = ' '.join(f'#{tag}' for tag in self.tags)
         return ' '.join([self.type.value.upper(), self.name, tags_str]).strip()
 
     @property
@@ -96,7 +96,7 @@ def save_todos2(todos: list[Todo], file):
     with open(file, 'w') as f:
         for todo in todos:
             f.write(todo.json())
-            f.write("\n")
+            f.write('\n')
 
 
 def select_with_rofi(
@@ -106,7 +106,7 @@ def select_with_rofi(
 ) -> tuple[int, str]:
 
     if multi_select is True:
-        raise NotImplementedError("multi-select is not implemented")
+        raise NotImplementedError('multi-select is not implemented')
 
     mutli_select_opt = '-multi-select' if multi_select else ''
     with tempfile.NamedTemporaryFile('w+') as f:
@@ -150,7 +150,7 @@ def determine_action(todo: Todo, todos: list[Todo]) -> Literal['add', 'complete'
 
 
 def parse_rofi(out: str) -> tuple[int, str]:
-    idx, text = out.split("|")
+    idx, text = out.split('|')
     return int(idx), text.strip()
 
 
@@ -173,7 +173,7 @@ def add_or_toggle():
     elif action == 'complete':
         todos = complete_todo(todo, todos, write_todo_to_done_file)
     else:
-        raise AssertionError("unknown action")
+        raise AssertionError('unknown action')
 
     save_todos2(todos, TODO_FILE_JSONL)
 
@@ -194,7 +194,7 @@ def start_pomodoro(select: Callable[[list[Todo]], tuple[int, str]]):
     if todo.is_empty:
         return
 
-    i, duration = select_with_rofi("", [str(d) for d in [25, 20, 15, 10, 5, 1]])
+    i, duration = select_with_rofi('', [str(d) for d in [25, 20, 15, 10, 5, 1]])
     if duration.strip() == '':
         return
 
@@ -217,6 +217,7 @@ def start_pomodoro(select: Callable[[list[Todo]], tuple[int, str]]):
 
     if proc.returncode == 0:
         run(['mpv', '/home/denis/scripts/assets/win95.ogg'])
+
 
 def report():
     import datetime
@@ -387,5 +388,5 @@ def main():
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print(load_todos2(TODO_FILE_JSONL))

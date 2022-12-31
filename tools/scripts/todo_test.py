@@ -7,13 +7,6 @@ from todo import Todo
 from todo import TodoType
 
 
-
-
-# def test_load_todos2(tmp_path):
-#     file = tmp_path / 'file.txt'
-#     load_todos2(file)
-
-
 def test_Todo_from_jsonline():
     todo = Todo.from_jsonl('{"name": "do something"}')
     assert todo.name == 'do something'
@@ -40,20 +33,20 @@ def test_Todo_string_representation():
 
 
 def test_find_tags():
-    assert find_tags("no tags in here") == []
-    assert find_tags("#atag lorem ipsum #another-tag") == ['atag', 'another-tag']
+    assert find_tags('no tags in here') == []
+    assert find_tags('#atag lorem ipsum #another-tag') == ['atag', 'another-tag']
 
 
 def test_Todo_from_text_prompt():
     todo = Todo.from_text_prompt(
-        "do something #tag-in-middle trailing    text #tag-in-end"
+        'do something #tag-in-middle trailing    text #tag-in-end'
     )
 
     assert todo.name == 'do something trailing text'
     assert todo.type == TodoType.TODO
     assert todo.tags == ['tag-in-middle', 'tag-in-end']
 
-    todo = Todo.from_text_prompt("      ")
+    todo = Todo.from_text_prompt('      ')
     assert todo.is_empty
 
 
@@ -69,7 +62,7 @@ def test_determine_action():
 
 
 def test_parse_rofi():
-    assert parse_rofi("-1|text") == (-1, "text")
+    assert parse_rofi('-1|text') == (-1, 'text')
 
 
 def test_created_at_changes():
