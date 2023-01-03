@@ -7,5 +7,5 @@ if [  -z "$book_name" ]
 then
     echo 'No book selected'
 else
-    zathura "$book_name"
+    sioyek "$book_name"
 fi

@@ -1,5 +1,4 @@
 lua require 'init'
-lua require 'me'
 
 set mouse=a
 syntax enable 
@@ -10,17 +9,6 @@ set formatoptions+=cro
 " Open splits the _right way_
 " set number
 " set list lcs=trail:·,tab:»·
-
-au FileType go let b:EditorConfig_disable = 1 
-au FileType go setlocal noexpandtab
-au FileType markdown setlocal wrap
-
-:cabbrev W w
-:cabbrev Wq wq
-:cabbrev WQ wq
-:cabbrev bd Bd
-:cabbrev bd! Bdd
-:cabbrev Bd! Bdd
 
 command Bd bp | sp | bn | bd
 command Bdd bp! | sp! | bn! | bd!
@@ -41,9 +29,6 @@ nnoremap <silent> j gj
 nnoremap <silent> 0 g0
 nnoremap <silent> $ g$
 
-" copy whole file to clipboard
-nmap <leader>y :%y+<CR> 
-
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 augroup highlight_yank
@@ -56,12 +41,6 @@ augroup END
 " =================
 nnoremap <C-P> <cmd> lua require("me").cycle_notes('down')<Enter>
 nnoremap <C-N> <cmd> lua require("me").cycle_notes('up')<Enter>
-
-" Folding with treesitter
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
-set foldlevelstart=99
-set foldlevel=99
 
 nnoremap <leader>u :UndotreeShow<CR>
 

@@ -19,3 +19,7 @@ tools/bin/gh
 nvim/.config/nvim/init-home-manager.vim
 nvim/.config/nvim/init.lua
 lazy-lock.json
+
+# Files automatically created by home-manager
+nvim/.config/nvim/init.lua
+nvim/.config/nvim/init-home-manager.vim

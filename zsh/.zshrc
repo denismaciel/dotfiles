@@ -9,7 +9,7 @@ export PATH="$HOME/venvs/default/bin:$PATH"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 export GOPATH=$(go env GOPATH)
-export GOROOT=$HOME/.go
+# export GOROOT=$HOME/.go
 export PATH=$GOROOT/bin:$PATH
 
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
