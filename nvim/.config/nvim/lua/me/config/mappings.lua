@@ -1,6 +1,7 @@
 local wk = require("which-key")
 local sql = require("me.sql")
 local zettel = require("me.zettel")
+local themes = require("telescope.themes")
 
 vim.keymap.set("n", "<leader>asdf", function()
 	package.loaded["me"] = nil
@@ -88,14 +89,20 @@ wk.register({
 	},
 	tt = {
 		function()
-			-- require("telescope.builtin").tags(require("telescope.themes").get_dropdown({
-			-- 	width = function(_, _, max_lines)
-			-- 		return math.min(max_lines * 0.5, 100)
-			-- 	end,
-			-- height = .8
-			-- }))
-
-			require("telescope.builtin").tags({ shorten_path = true })
+			require("telescope.builtin").tags(themes.get_dropdown({
+				shorten_path = true,
+				layout_config = {
+					width = function(_, max_columns)
+						local percentage = 0.95
+						return math.floor(percentage * max_columns)
+					end,
+					height = function(_, _, max_lines)
+						local percentage = 0.9
+						local min = 0
+						return math.max(math.floor(percentage * max_lines), min)
+					end,
+				},
+			}))
 		end,
 		"!! Tags",
 	},

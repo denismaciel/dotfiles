@@ -38,6 +38,13 @@ require("telescope").setup({
 				},
 			},
 		},
+		tags = {
+			mappings = {
+				n = {
+					["df"] = actions.send_selected_to_qflist + actions.open_qflist,
+				},
+			},
+		},
 	},
 })
 
