@@ -1,6 +1,5 @@
 lua require 'init'
 
-filetype plugin on
 set clipboard+=unnamedplus
 set formatoptions+=cro
 
