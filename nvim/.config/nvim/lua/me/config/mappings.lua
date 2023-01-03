@@ -1,15 +1,10 @@
-local dap = require("dap")
--- local dapui = require("dapui")
-local dap_go = require("dap-go")
-local dappy = require("dap-python")
 local wk = require("which-key")
-
 local sql = require("me.sql")
 local zettel = require("me.zettel")
 
 vim.keymap.set("n", "<leader>asdf", function()
-    package.loaded["me"] = nil
-    vim.api.nvim_command([[ source $MYVIMRC ]])
+	package.loaded["me"] = nil
+	vim.api.nvim_command([[ source $MYVIMRC ]])
 end)
 vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition)
 vim.keymap.set("n", "gD", vim.lsp.buf.implementation)
@@ -31,7 +26,6 @@ vim.keymap.set("n", "gp", "`[v`]")
 -- https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
 vim.keymap.set("x", "p", "pgvy")
 
-
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -44,113 +38,113 @@ vim.cmd("command Bdd bp! | sp! | bn! | bd!")
 
 wk.setup({})
 wk.register({
-    f = {
-        name = "File",
-        c = { ":!echo -n % | xclip -selection clipboard<CR>", "Copy file path to clipboard" },
-        f = { vim.lsp.buf.format, "Format current buffer" },
-        n = { ":call RenameFile()<CR>", "Rename file" },
-    },
-    x = {
-        name = "Trouble",
-        x = { "<cmd>TroubleToggle<cr>", "Toggle" },
-        w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics" },
-        d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics" },
-        l = { "<cmd>TroubleToggle loclist<cr>", "Loclist" },
-        q = { "<cmd>TroubleToggle quickfix<cr>", "Quickfix" },
-        k = { vim.diagnostic.open_float, "Floating Diagnostics" },
-    },
-    s = {
-        name = "SQL",
-        s = { ":!sqly snapshot --file % --cte-name <cword> <CR>", "Snapshot CTE" },
-        x = { sql.dbt_open_compiled, "Open compiled query" },
-        v = { sql.dbt_open_snaps, "Open snapshots" },
-    },
-    z = {
-        name = "Zettelkasten",
-        n = { zettel.create_new_note, "New note" },
-        a = { zettel.open_anki_note, "Anki note" },
-    },
-    t = {
-        name = "Date",
-        ss = { [["=strftime('%Y-%m-%d %H:%M')<CR>p]], "Instert current datetime" },
-        sd = { [["=strftime('%Y-%m-%d')<CR>p]], "Insert current time" },
-    },
-    u = {
-        function()
-            vim.cmd("UndotreeShow")
-        end,
-        "Undotree",
-    },
+	f = {
+		name = "File",
+		c = { ":!echo -n % | xclip -selection clipboard<CR>", "Copy file path to clipboard" },
+		f = { vim.lsp.buf.format, "Format current buffer" },
+		n = { ":call RenameFile()<CR>", "Rename file" },
+	},
+	x = {
+		name = "Trouble",
+		x = { "<cmd>TroubleToggle<cr>", "Toggle" },
+		w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics" },
+		d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics" },
+		l = { "<cmd>TroubleToggle loclist<cr>", "Loclist" },
+		q = { "<cmd>TroubleToggle quickfix<cr>", "Quickfix" },
+		k = { vim.diagnostic.open_float, "Floating Diagnostics" },
+	},
+	s = {
+		name = "SQL",
+		s = { ":!sqly snapshot --file % --cte-name <cword> <CR>", "Snapshot CTE" },
+		x = { sql.dbt_open_compiled, "Open compiled query" },
+		v = { sql.dbt_open_snaps, "Open snapshots" },
+	},
+	z = {
+		name = "Zettelkasten",
+		n = { zettel.create_new_note, "New note" },
+		a = { zettel.open_anki_note, "Anki note" },
+	},
+	t = {
+		name = "Date",
+		ss = { [["=strftime('%Y-%m-%d %H:%M')<CR>p]], "Instert current datetime" },
+		sd = { [["=strftime('%Y-%m-%d')<CR>p]], "Insert current time" },
+	},
+	u = {
+		function()
+			vim.cmd("UndotreeShow")
+		end,
+		"Undotree",
+	},
 }, { prefix = "<leader>" })
 
 wk.register({
-    dd = {
-        vim.lsp.buf.declaration,
-        "!! Declaration",
-    },
-    a = {
-        vim.lsp.buf.code_action,
-        "Code action",
-    },
-    tt = {
-        function()
-            -- require("telescope.builtin").tags(require("telescope.themes").get_dropdown({
-            -- 	width = function(_, _, max_lines)
-            -- 		return math.min(max_lines * 0.5, 100)
-            -- 	end,
-            -- height = .8
-            -- }))
+	dd = {
+		vim.lsp.buf.declaration,
+		"!! Declaration",
+	},
+	a = {
+		vim.lsp.buf.code_action,
+		"Code action",
+	},
+	tt = {
+		function()
+			-- require("telescope.builtin").tags(require("telescope.themes").get_dropdown({
+			-- 	width = function(_, _, max_lines)
+			-- 		return math.min(max_lines * 0.5, 100)
+			-- 	end,
+			-- height = .8
+			-- }))
 
-            require("telescope.builtin").tags({ shorten_path = true })
-        end,
-        "!! Tags",
-    },
-    r = {
-        function()
-            require("telescope.builtin").lsp_references(require("telescope.themes").get_dropdown({}))
-        end,
+			require("telescope.builtin").tags({ shorten_path = true })
+		end,
+		"!! Tags",
+	},
+	r = {
+		function()
+			require("telescope.builtin").lsp_references(require("telescope.themes").get_dropdown({}))
+		end,
 
-        "!! References",
-    },
+		"!! References",
+	},
 }, { prefix = "g" })
 
 wk.register({
-    name = "Telescope",
-    t = {
-        function()
-            require("telescope.builtin").find_files({
-                find_command = { "rg", "--files", "--hidden", "-g", "!.git", "-g", "!.snapshots/" },
-                shorten_path = true,
-            })
+	name = "Telescope",
+	t = {
+		function()
+			require("telescope.builtin").find_files({
+				find_command = { "rg", "--files", "--hidden", "-g", "!.git", "-g", "!.snapshots/" },
+				shorten_path = true,
+			})
 
-            -- require("telescope").extensions.frecency.frecency({
-            -- 	find_command = { "rg", "--files", "--hidden", "-g", "!.git", "-g", "!.snapshots/" },
-            -- 	workspace = "CWD",
-            -- })
-        end,
-        "Find files",
-    },
-    d = {
-        function()
-            require("telescope.builtin").find_files({ find_command = { "git", "diff", "--name-only", "--relative" } })
-        end,
-        "Find diff files",
-    },
-    c = {
-        require("telescope.builtin").comands,
-        "Vim Commands",
-    },
-    h = {
-        require("telescope.builtin").command_history,
-        "Vim Comand History",
-    },
-    ft = {
-        require("telescope.builtin").filetypes,
-        "FileTypes",
-    },
+			-- require("telescope").extensions.frecency.frecency({
+			-- 	find_command = { "rg", "--files", "--hidden", "-g", "!.git", "-g", "!.snapshots/" },
+			-- 	workspace = "CWD",
+			-- })
+		end,
+		"Find files",
+	},
+	d = {
+		function()
+			require("telescope.builtin").find_files({ find_command = { "git", "diff", "--name-only", "--relative" } })
+		end,
+		"Find diff files",
+	},
+	c = {
+		require("telescope.builtin").comands,
+		"Vim Commands",
+	},
+	h = {
+		require("telescope.builtin").command_history,
+		"Vim Comand History",
+	},
+	ft = {
+		require("telescope.builtin").filetypes,
+		"FileTypes",
+	},
 }, { prefix = "t" })
 
 vim.keymap.set("n", "<leader>rg", require("telescope.builtin").live_grep)
 vim.keymap.set("n", "<leader>/", function()
-    vim.cmd("Telescope treesitter")
+	vim.cmd("Telescope treesitter")
 end)
