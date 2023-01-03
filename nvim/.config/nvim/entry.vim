@@ -38,9 +38,4 @@ augroup END
 nnoremap <C-P> <cmd> lua require("me").cycle_notes('down')<Enter>
 nnoremap <C-N> <cmd> lua require("me").cycle_notes('up')<Enter>
 
-
-set laststatus=3
-highlight WinSeparator guibg=None
-set winbar=%=%m\ %f
-
 nnoremap <leader>asdf :lua package.loaded['me'] = nil<cr>:source $MYVIMRC<cr>
