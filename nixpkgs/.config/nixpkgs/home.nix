@@ -210,7 +210,7 @@
     enable = true;
     package = pkgs.neovim-nightly;
     extraConfig = "
-      source <sfile>:h/entry.vim
+      lua require 'init'
     ";
   };
 

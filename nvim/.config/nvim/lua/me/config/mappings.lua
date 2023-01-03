@@ -20,7 +20,6 @@ vim.keymap.set("n", "K", vim.lsp.buf.hover)
 vim.keymap.set("n", "tre", "<cmd>NvimTreeToggle<CR>")
 vim.keymap.set("v", "m", ":!pandoc --to html | xclip -t text/html -selection clipboard<cr>u")
 
-
 vim.keymap.set("n", "$", "g$")
 vim.keymap.set("n", "0", "g0")
 vim.keymap.set("n", "j", "gj")
@@ -31,6 +30,17 @@ vim.keymap.set("n", "gp", "`[v`]")
 
 -- https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
 vim.keymap.set("x", "p", "pgvy")
+
+
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
+vim.keymap.set("v", "//", [[ y/\V<C-R>=escape(@",'/\')<CR><CR> ]]) --- Search currenlty selected text
+
+vim.cmd("command Bd bp | sp | bn | bd")
+vim.cmd("command Bdd bp! | sp! | bn! | bd!")
 
 wk.setup({})
 wk.register({

@@ -1,7 +1,10 @@
 vim.g.python3_host_prog = os.getenv("HOME") .. "/venvs/neovim/bin/python"
+vim.g.mapleader = ' '
 
 o = vim.opt
 
+o.clipboard = o.clipboard +'unnamedplus'
+o.formatoptions = o.formatoptions + 'cro'
 o.mouse = 'a'
 o.tabstop = 4 -- how many spaces a tab is when vim reads a file
 o.softtabstop = 4 --how many spaces are inserted when you hit tab
@@ -50,7 +53,14 @@ vim.cmd("cabbrev bd Bd")
 vim.cmd("cabbrev bd! Bdd")
 vim.cmd("cabbrev Bd! Bdd")
 
--- Bootstrap lazy.nvim
+vim.cmd([[
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=200}
+augroup END
+]])
+
+
 vim.cmd([[
 function! RenameFile()
     let old_name = expand('%')
@@ -63,6 +73,7 @@ function! RenameFile()
 endfunction
 ]])
 
+-- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
