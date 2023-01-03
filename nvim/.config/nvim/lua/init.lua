@@ -1,6 +1,8 @@
 vim.g.python3_host_prog = os.getenv("HOME") .. "/venvs/neovim/bin/python"
 
 o = vim.opt
+
+o.mouse = 'a'
 o.tabstop = 4 -- how many spaces a tab is when vim reads a file
 o.softtabstop = 4 --how many spaces are inserted when you hit tab
 o.shiftwidth = 4

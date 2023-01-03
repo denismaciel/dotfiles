@@ -1,7 +1,5 @@
 lua require 'init'
 
-set mouse=a
-syntax enable 
 filetype plugin on
 set clipboard+=unnamedplus
 set formatoptions+=cro
@@ -13,18 +11,19 @@ command Bdd bp! | sp! | bn! | bd!
 xnoremap p pgvy
 
 map <Space> <Leader>
-nnoremap n nzzzv
+
+nnoremap <silent> $ g$
+nnoremap <silent> 0 g0
+nnoremap <silent> j gj
+nnoremap <silent> k gk
 nnoremap N Nzzzv
-vnoremap < <gv
-vnoremap > >gv
 nnoremap gp `[v`]
+nnoremap n nzzzv
+
+vnoremap < <gv
 vnoremap <silent> J :m '>+1<CR>gv=gv
 vnoremap <silent> K :m '<-2<CR>gv=gv
-nnoremap <silent> k gk
-nnoremap <silent> j gj
-nnoremap <silent> 0 g0
-nnoremap <silent> $ g$
-
+vnoremap > >gv
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 augroup highlight_yank
