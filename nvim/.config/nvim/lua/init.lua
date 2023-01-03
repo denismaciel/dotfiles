@@ -1,6 +1,6 @@
 vim.g.python3_host_prog = os.getenv("HOME") .. "/venvs/neovim/bin/python"
 
-local o = vim.opt
+o = vim.opt
 o.tabstop = 4 -- how many spaces a tab is when vim reads a file
 o.softtabstop = 4 --how many spaces are inserted when you hit tab
 o.shiftwidth = 4
@@ -35,8 +35,18 @@ o.splitbelow = true
 o.splitright = true
 
 o.completeopt = { "menu", "menuone", "noselect" }
-
 o.termguicolors = true
+
+o.laststatus = 3
+vim.api.nvim_set_hl(0, "Sneak", {bg = nil})
+o.winbar = '%=%m\\ %f'
+
+vim.cmd("cabbrev W w")
+vim.cmd("cabbrev Wq wq")
+vim.cmd("cabbrev WQ wq")
+vim.cmd("cabbrev bd Bd")
+vim.cmd("cabbrev bd! Bdd")
+vim.cmd("cabbrev Bd! Bdd")
 
 -- Bootstrap lazy.nvim
 vim.cmd([[
@@ -87,7 +97,6 @@ require("nvim-test.runners.pytest"):setup({
 })
 require("nvim-surround").setup({})
 
--- require("me.config.auto-save")
 require("me.config.cmp")
 require("me.config.colors")
 -- require("me.config.copilot")
@@ -101,3 +110,11 @@ require("me.config.telescope")
 require("me.config.treesitter")
 require("me.config.vim-gutentags")
 require("me.config.luasnip")
+
+
+-- It seems these options need to be set *after* treesitter has been configured.
+-- Otherwise, it will download all the parsers every time on startup.
+o.foldmethod = "expr"
+o.foldexpr = "nvim_treesitter#foldexpr()"
+o.foldlevelstart = 99
+o.foldlevel = 99
