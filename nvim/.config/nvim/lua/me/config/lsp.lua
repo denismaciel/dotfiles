@@ -9,7 +9,6 @@ require("mason-lspconfig").setup({
 		"sumneko_lua",
 		"rust_analyzer",
 		"gopls",
-		"golangci_lint_ls",
 		"tsserver",
 		"prismals",
 		"pyright",
@@ -108,7 +107,6 @@ lspc.jsonnet_ls.setup({
 })
 lspc.cssls.setup({ capabilities = capabilities })
 lspc.gopls.setup({ capabilities = capabilities })
-lspc.golangci_lint_ls.setup({ capabilities = capabilities })
 lspc.jedi_language_server.setup({ capabilities = capabilities })
 lspc.pyright.setup({ capabilities = capabilities })
 lspc.rnix.setup({ capabilities = capabilities })
