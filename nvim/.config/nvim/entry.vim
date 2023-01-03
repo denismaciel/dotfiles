@@ -3,12 +3,8 @@ lua require 'init'
 set mouse=a
 syntax enable 
 filetype plugin on
-set nocompatible
 set clipboard+=unnamedplus
 set formatoptions+=cro
-" Open splits the _right way_
-" set number
-" set list lcs=trail:·,tab:»·
 
 command Bd bp | sp | bn | bd
 command Bdd bp! | sp! | bn! | bd!
@@ -41,8 +37,6 @@ augroup END
 " =================
 nnoremap <C-P> <cmd> lua require("me").cycle_notes('down')<Enter>
 nnoremap <C-N> <cmd> lua require("me").cycle_notes('up')<Enter>
-
-nnoremap <leader>u :UndotreeShow<CR>
 
 
 set laststatus=3
