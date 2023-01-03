@@ -11,14 +11,6 @@ xnoremap p pgvy
 
 map <Space> <Leader>
 
-nnoremap <silent> $ g$
-nnoremap <silent> 0 g0
-nnoremap <silent> j gj
-nnoremap <silent> k gk
-nnoremap N Nzzzv
-nnoremap gp `[v`]
-nnoremap n nzzzv
-
 vnoremap < <gv
 vnoremap <silent> J :m '>+1<CR>gv=gv
 vnoremap <silent> K :m '<-2<CR>gv=gv

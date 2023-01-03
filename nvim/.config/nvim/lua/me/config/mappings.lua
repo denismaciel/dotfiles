@@ -20,6 +20,15 @@ vim.keymap.set("n", "K", vim.lsp.buf.hover)
 vim.keymap.set("n", "tre", "<cmd>NvimTreeToggle<CR>")
 vim.keymap.set("v", "m", ":!pandoc --to html | xclip -t text/html -selection clipboard<cr>u")
 
+
+vim.keymap.set("n", "$", "g$")
+vim.keymap.set("n", "0", "g0")
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
+vim.keymap.set("n", "N", "Nzzzv")
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "gp", "`[v`]")
+
 wk.setup({})
 wk.register({
     f = {
