@@ -6,9 +6,6 @@ set formatoptions+=cro
 command Bd bp | sp | bn | bd
 command Bdd bp! | sp! | bn! | bd!
 
-" https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
-xnoremap p pgvy
-
 map <Space> <Leader>
 
 vnoremap < <gv

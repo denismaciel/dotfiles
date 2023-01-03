@@ -29,6 +29,9 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "gp", "`[v`]")
 
+-- https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
+vim.keymap.set("x", "p", "pgvy")
+
 wk.setup({})
 wk.register({
     f = {
