@@ -1,11 +1,11 @@
 vim.g.python3_host_prog = os.getenv("HOME") .. "/venvs/neovim/bin/python"
-vim.g.mapleader = ' '
+vim.g.mapleader = " "
 
 o = vim.opt
 
-o.clipboard = o.clipboard +'unnamedplus'
-o.formatoptions = o.formatoptions + 'cro'
-o.mouse = 'a'
+o.clipboard = o.clipboard + "unnamedplus"
+o.formatoptions = o.formatoptions + "cro"
+o.mouse = "a"
 o.tabstop = 4 -- how many spaces a tab is when vim reads a file
 o.softtabstop = 4 --how many spaces are inserted when you hit tab
 o.shiftwidth = 4
@@ -43,8 +43,8 @@ o.completeopt = { "menu", "menuone", "noselect" }
 o.termguicolors = true
 
 o.laststatus = 3
-vim.api.nvim_set_hl(0, "Sneak", {bg = nil})
-o.winbar = '%=%m\\ %f'
+vim.api.nvim_set_hl(0, "Sneak", { bg = nil })
+o.winbar = "%=%m\\ %f"
 
 vim.cmd("cabbrev W w")
 vim.cmd("cabbrev Wq wq")
@@ -59,7 +59,6 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=200}
 augroup END
 ]])
-
 
 vim.cmd([[
 function! RenameFile()
@@ -123,7 +122,6 @@ require("me.config.telescope")
 require("me.config.treesitter")
 require("me.config.vim-gutentags")
 require("me.config.luasnip")
-
 
 -- It seems these options need to be set *after* treesitter has been configured.
 -- Otherwise, it will download all the parsers every time on startup.

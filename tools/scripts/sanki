@@ -42,6 +42,7 @@ class Note(NamedTuple):
         first_line = front.split('<br>')[0]
         return Note(note_id=id, title=first_line, front=front, back=back)
 
+
 def main():
 
     fzf = FzfPrompt()
@@ -69,6 +70,7 @@ def main():
         sep='\n\n',
     )
     return 0
+
 
 if __name__ == '__main__':
     raise SystemExit(main())

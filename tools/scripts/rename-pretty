@@ -6,6 +6,7 @@ import sys
 
 REMOVE_PATTERS = [' (z-lib.org)']
 
+
 def main():
 
     path = pathlib.Path()
@@ -22,7 +23,7 @@ def main():
         return 1
 
     new_name = file.stem
-    
+
     for pattern in REMOVE_PATTERS:
         new_name = new_name.replace(pattern, '')
 
@@ -40,6 +41,7 @@ def main():
     # print(new_name + file.suffix)
     file.rename(new_name + file.suffix)
     return 0
+
 
 if __name__ == '__main__':
     raise SystemExit(main())
