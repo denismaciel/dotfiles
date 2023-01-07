@@ -5,6 +5,7 @@ require("lazy").setup({
 	"kylechui/nvim-surround",
 	"jose-elias-alvarez/null-ls.nvim",
 
+	"m-demare/hlargs.nvim",
 	"lewis6991/gitsigns.nvim",
 	"TimUntersberger/neogit",
 	"simrat39/symbols-outline.nvim",
@@ -28,7 +29,7 @@ require("lazy").setup({
 	"nvim-lua/plenary.nvim",
 	{ "nvim-telescope/telescope.nvim", dependencies = { { "nvim-lua/plenary.nvim" } } },
 	"tpope/vim-commentary",
-	"editorconfig/editorconfig-vim",
+	"gpanders/editorconfig.nvim",
 	"mbbill/undotree",
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 	"nvim-treesitter/playground",

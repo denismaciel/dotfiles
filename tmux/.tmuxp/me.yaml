@@ -1,5 +1,10 @@
 session_name: me
 windows:
+  - window_name: feedback-bot-new
+    start_directory: ~/mine/sam-python-crud-sample
+    panes:
+      - 
+      -
   - window_name: airbyte-k8s
     start_directory: "~/mine/airbyte-k8s"
     panes:

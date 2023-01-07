@@ -26,6 +26,9 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.awscli2
+    pkgs.aws-sam-cli
+    pkgs.ngrok
     pkgs.google-cloud-sdk
     pkgs.pandoc
     pkgs.kubernetes-helm

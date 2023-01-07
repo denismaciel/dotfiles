@@ -44,7 +44,7 @@ o.termguicolors = true
 
 o.laststatus = 3
 vim.api.nvim_set_hl(0, "Sneak", { bg = nil })
-o.winbar = "%=%m\\ %f"
+o.winbar = "%=%m %f"
 
 vim.cmd("cabbrev W w")
 vim.cmd("cabbrev Wq wq")
@@ -108,6 +108,7 @@ require("nvim-test.runners.pytest"):setup({
 	args = { "--pdb" },
 })
 require("nvim-surround").setup({})
+require("hlargs").setup()
 
 require("me.config.cmp")
 require("me.config.colors")
