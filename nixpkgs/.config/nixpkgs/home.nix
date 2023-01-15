@@ -26,6 +26,7 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.delta
     pkgs.awscli2
     pkgs.aws-sam-cli
     pkgs.ngrok
@@ -203,15 +204,15 @@
     };
   };
 
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-    }))
-  ];
+  /* nixpkgs.overlays = [ */
+  /*   (import (builtins.fetchTarball { */
+  /*     url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz; */
+  /*   })) */
+  /* ]; */
 
   programs.neovim = {
     enable = true;
-    package = pkgs.neovim-nightly;
+    /* package = pkgs.neovim-nightly; */
     extraConfig = "
       lua require 'init'
     ";
