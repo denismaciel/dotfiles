@@ -1,7 +1,12 @@
 session_name: me
 windows:
-  - window_name: feedback-bot-new
-    start_directory: ~/mine/sam-python-crud-sample
+  - window_name: praise-penguin
+    start_directory: ~/mine/praise-penguin/
+    panes:
+      - 
+      -
+  - window_name: feedback-bot-old
+    start_directory: ~/mine/feedback-bot
     panes:
       - 
       -

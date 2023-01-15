@@ -17,6 +17,9 @@ export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/
 source /home/denis/.nix-profile/etc/profile.d/nix.sh
 source /home/denis/.nix-profile/etc/profile.d/nix.sh
 
+function pdread () {
+    ipython -i -c 'import types, pandas as pd; df = pd.read_csv("'$(realpath $1)'"); c = types.SimpleNamespace(); [setattr(c, col.replace(" ", "").replace(")", "").replace("(", ""), col) for col in df.columns]; print(df)'
+}
 
 # Copied from https://github.com/jordanlewis/config/blob/master/zshrc
 # {{{ GIT heart FZF
