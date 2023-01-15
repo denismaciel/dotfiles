@@ -26,6 +26,7 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.yq-go
     pkgs.delta
     pkgs.awscli2
     pkgs.aws-sam-cli
@@ -119,6 +120,7 @@
     pkgs.zsh
     pkgs.zsh-fzf-tab
     pkgs.zsh-syntax-highlighting
+    pkgs.comic-mono
     (pkgs.rofi.override { plugins = [pkgs.rofi-emoji pkgs.rofi-calc]; })
     (pkgs.nerdfonts.override {
       fonts = [
@@ -128,6 +130,8 @@
         "Monofur"
         "SpaceMono"
         "Iosevka"
+        "ShareTechMono"
+        "Terminus"
       ];
     })
   ];
