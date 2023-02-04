@@ -26,6 +26,8 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.pgadmin
+    pkgs.gimp
     pkgs.yq-go
     pkgs.delta
     pkgs.awscli2
@@ -105,7 +107,7 @@
     pkgs.terraform
     pkgs.terraform-ls
     pkgs.tmux
-    pkgs.tmuxp
+    /* pkgs.tmuxp */ # Currently broken
     pkgs.universal-ctags
     pkgs.unzip
     pkgs.visidata

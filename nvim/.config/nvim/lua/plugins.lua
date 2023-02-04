@@ -1,4 +1,54 @@
 require("lazy").setup({
+
+	{
+		"zbirenbaum/copilot.lua",
+		config = function()
+			-- require("copilot").setup()
+			require("copilot").setup({
+				panel = {
+					enabled = true,
+					auto_refresh = true,
+					keymap = {
+						jump_prev = "[[",
+						jump_next = "]]",
+						accept = "<CR>",
+						refresh = "gr",
+						open = "<M-CR>",
+					},
+				},
+				suggestion = {
+					enabled = true,
+					auto_trigger = true,
+					debounce = 75,
+					keymap = {
+						accept = "<Tab>",
+						next = "<M-N>",
+						prev = "<M-P>",
+						dismiss = "<C-]>",
+					},
+				},
+				filetypes = {
+					yaml = false,
+					markdown = false,
+					help = false,
+					gitcommit = false,
+					gitrebase = false,
+					hgcommit = false,
+					svn = false,
+					cvs = false,
+					["."] = false,
+				},
+				copilot_node_command = "node", -- Node.js version must be > 16.x
+				server_opts_overrides = {},
+			})
+		end,
+	},
+	{
+		"zbirenbaum/copilot-cmp",
+		config = function()
+			require("copilot_cmp").setup()
+		end,
+	},
 	"folke/which-key.nvim",
 	"folke/neodev.nvim",
 
@@ -29,7 +79,7 @@ require("lazy").setup({
 	"nvim-lua/plenary.nvim",
 	{ "nvim-telescope/telescope.nvim", dependencies = { { "nvim-lua/plenary.nvim" } } },
 	"tpope/vim-commentary",
-	"gpanders/editorconfig.nvim",
+	"editorconfig/editorconfig-vim",
 	"mbbill/undotree",
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 	"nvim-treesitter/playground",

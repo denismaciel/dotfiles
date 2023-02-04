@@ -11,13 +11,15 @@
 #TERM: alacritty
 
 window:
-  opacity: 0.7
+  opacity: 1
   decorations: none
 font:
   normal:
     # family: FiraCode Nerd Font
-    # family: JetBrainsMono Nerd Font
-    family: Monofur Nerd Font
+    family: JetBrainsMono Nerd Font
+    # family: Monofur Nerd Font
+    # family: TerminessTTF Nerd Font
+    # style: Bold
     # family: SpaceMono Nerd Font
     # style: Light
   # bold:
