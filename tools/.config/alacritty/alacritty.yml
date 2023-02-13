@@ -15,8 +15,8 @@ window:
   decorations: none
 font:
   normal:
-    # family: FiraCode Nerd Font
-    family: JetBrainsMono Nerd Font
+    family: FiraCode Nerd Font
+    # family: JetBrainsMono Nerd Font
     # family: Monofur Nerd Font
     # family: TerminessTTF Nerd Font
     # style: Bold

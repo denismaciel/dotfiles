@@ -5,11 +5,6 @@ windows:
     panes:
       - 
       -
-  - window_name: feedback-bot-old
-    start_directory: ~/mine/feedback-bot
-    panes:
-      - 
-      -
   - window_name: airbyte-k8s
     start_directory: "~/mine/airbyte-k8s"
     panes:

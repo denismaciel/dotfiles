@@ -26,6 +26,10 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.texlive.combined.scheme-medium
+    pkgs.python310Packages.cfn-lint
+    pkgs.libreoffice
+    pkgs.brave
     pkgs.pgadmin
     pkgs.gimp
     pkgs.yq-go

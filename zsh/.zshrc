@@ -119,6 +119,8 @@ alias gp="git push origin HEAD"
 alias rm=gomi
 alias vi=nvim
 alias gdd="GIT_EXTERNAL_DIFF='difft --syntax-highlight off' git diff"
+alias gdds="GIT_EXTERNAL_DIFF='difft --syntax-highlight off' git diff --staged"
+alias gds="git diff --staged"
 alias pdf='open-zathura "$(fd "pdf|epub" | fzf)"'
 alias clip='xclip -selection clipboard'
 

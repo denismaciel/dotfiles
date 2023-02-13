@@ -6,7 +6,7 @@ local null_ls = require("null-ls")
 
 require("mason-lspconfig").setup({
 	ensure_installed = {
-		"sumneko_lua",
+		"lua_ls",
 		"rust_analyzer",
 		"gopls",
 		"tsserver",
@@ -28,6 +28,8 @@ null_ls.setup({
 		null_ls.builtins.formatting.stylua,
 		-- Javascript
 		null_ls.builtins.formatting.prettier,
+		-- Cloudformation
+		null_ls.builtins.diagnostics.cfn_lint,
 	},
 })
 
@@ -71,7 +73,7 @@ lspc.terraformls.setup({
 	capabilities = capabilities,
 	filetypes = { "terraform", "hcl" },
 })
-lspc.sumneko_lua.setup({
+lspc.lua_ls.setup({
 	capabilities = capabilities,
 	settings = {
 		Lua = {
