@@ -26,16 +26,19 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.ffmpeg
+    pkgs.vscode
     pkgs.texlive.combined.scheme-medium
     pkgs.python310Packages.cfn-lint
     pkgs.libreoffice
     pkgs.brave
     pkgs.pgadmin
+    pkgs.litecli
     pkgs.gimp
     pkgs.yq-go
     pkgs.delta
     pkgs.awscli2
-    pkgs.aws-sam-cli
+    /* pkgs.aws-sam-cli */
     pkgs.ngrok
     pkgs.google-cloud-sdk
     pkgs.pandoc
@@ -127,6 +130,7 @@
     pkgs.zsh-fzf-tab
     pkgs.zsh-syntax-highlighting
     pkgs.comic-mono
+    pkgs.zotero
     (pkgs.rofi.override { plugins = [pkgs.rofi-emoji pkgs.rofi-calc]; })
     (pkgs.nerdfonts.override {
       fonts = [
@@ -138,6 +142,8 @@
         "Iosevka"
         "ShareTechMono"
         "Terminus"
+        "AnonymousPro"
+        "IBMPlexMono"
       ];
     })
   ];
@@ -214,15 +220,15 @@
     };
   };
 
-  /* nixpkgs.overlays = [ */
-  /*   (import (builtins.fetchTarball { */
-  /*     url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz; */
-  /*   })) */
-  /* ]; */
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+    }))
+  ];
 
   programs.neovim = {
     enable = true;
-    /* package = pkgs.neovim-nightly; */
+    package = pkgs.neovim-nightly;
     extraConfig = "
       lua require 'init'
     ";

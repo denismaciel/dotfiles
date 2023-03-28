@@ -114,7 +114,28 @@ lspc.pyright.setup({ capabilities = capabilities })
 lspc.rnix.setup({ capabilities = capabilities })
 lspc.rust_analyzer.setup({ capabilities = capabilities })
 lspc.tailwindcss.setup({ capabilities = capabilities })
-lspc.tsserver.setup({ capabilities = capabilities })
-lspc.yamlls.setup({ capabilities = capabilities })
+-- lspc.tsserver.setup({ capabilities = capabilities })
+require("typescript").setup({
+	disable_commands = false, -- prevent the plugin from creating Vim commands
+	debug = false, -- enable debug logging for commands
+	go_to_source_definition = {
+		fallback = true, -- fall back to standard LSP definition on failure
+	},
+	server = { -- pass options to lspconfig's setup method
+		capabilities = capabilities,
+	},
+})
+lspc.yamlls.setup({
+	capabilities = capabilities,
+	settings = {
+		yaml = {
+			schemaStore = {
+				enable = true,
+				url = "https://www.schemastore.org/api/json/catalog.json",
+			},
+			keyOrdering = false,
+		},
+	},
+})
 lspc.dockerls.setup({ capabilities = capabilities })
 lspc.cmake.setup({ capabilities = capabilities })

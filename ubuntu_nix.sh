@@ -35,7 +35,7 @@ sudo chsh --shell $(which zsh) $USER
 # Python
 sudo add-apt-repository -y ppa:deadsnakes/ppa && \
     sudo apt-get update && \
-    sudo apt-get install -y python3.9-dev python3.9-distutils python3.9-venv
+    sudo apt-get install -y python3.11-dev python3.11-distutils python3.11-venv
     
     ## Bootstrap virtualenv
 sudo apt-get install -y curl &&

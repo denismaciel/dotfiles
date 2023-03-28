@@ -1,5 +1,4 @@
 require("lazy").setup({
-
 	{
 		"zbirenbaum/copilot.lua",
 		config = function()
@@ -51,6 +50,25 @@ require("lazy").setup({
 	},
 	"folke/which-key.nvim",
 	"folke/neodev.nvim",
+	{
+		"folke/zen-mode.nvim",
+		config = function()
+			require("zen-mode").setup({
+				context = 0,
+				expand = {
+					"paragraph",
+					"fenced_code_block",
+					"list",
+				},
+			})
+		end,
+	},
+	{
+		"folke/twilight.nvim",
+		config = function()
+			require("twilight").setup({})
+		end,
+	},
 
 	"kylechui/nvim-surround",
 	"jose-elias-alvarez/null-ls.nvim",
@@ -73,7 +91,6 @@ require("lazy").setup({
 	"NvChad/nvim-colorizer.lua",
 	"klen/nvim-test",
 	"ggandor/leap.nvim",
-	"wbthomason/packer.nvim",
 	"nvim-treesitter/nvim-treesitter-context",
 	"christoomey/vim-tmux-navigator",
 	"nvim-lua/plenary.nvim",
@@ -114,7 +131,7 @@ require("lazy").setup({
 	"williamboman/mason.nvim",
 	"jayp0521/mason-nvim-dap.nvim",
 	"williamboman/mason-lspconfig.nvim",
-
+	"jose-elias-alvarez/typescript.nvim",
 	-- === Completion ===
 	"hrsh7th/vim-vsnip",
 	"hrsh7th/vim-vsnip-integ",

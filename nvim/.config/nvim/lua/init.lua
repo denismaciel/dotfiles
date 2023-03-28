@@ -103,16 +103,15 @@ require("colorizer").setup({})
 require("neogit").setup()
 require("gitsigns").setup()
 require("nvim-test").setup({})
-require("nvim-test.runners.pytest"):setup({
-	command = { (vim.env.VIRTUAL_ENV or "venv") .. "/bin/pytest", "pytest" },
-	args = { "--pdb" },
-})
+-- require("nvim-test.runners.pytest"):setup({
+-- 	command = { (vim.env.VIRTUAL_ENV or "venv") .. "/bin/pytest", "pytest" },
+-- 	args = { "--pdb" },
+-- })
 require("nvim-surround").setup({})
 require("hlargs").setup()
 
 require("me.config.cmp")
 require("me.config.colors")
--- require("me.config.copilot")
 require("me.config.dap")
 require("me.config.leap")
 require("me.config.lsp")

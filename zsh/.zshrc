@@ -44,7 +44,7 @@ function gb() {
     git checkout $(gbl)
 }
 
-function gc { git commit -a -m "$*"; }
+function gc { git commit -m "$*"; }
 
 gf() {
   is_in_git_repo || return
@@ -226,3 +226,6 @@ if [ -n "${commands[fzf-share]}" ]; then
 fi
 
 source "$(fzf-share)/key-bindings.zsh"
+
+# Created by `pipx` on 2023-03-22 02:29:00
+export PATH="$PATH:/home/denis/.local/bin"

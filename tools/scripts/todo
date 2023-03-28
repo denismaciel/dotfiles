@@ -251,7 +251,7 @@ def report():
                 raise SystemExit(1)
 
     for desc, dur in sorted(minutes_week.items(), key=lambda x: -x[1]):
-        if dur > 30:
+        if dur > 20:
             print(human_readable(dur), desc)
 
 
