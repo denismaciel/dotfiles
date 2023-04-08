@@ -26,6 +26,7 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.kde
     pkgs.ffmpeg
     pkgs.vscode
     pkgs.texlive.combined.scheme-medium

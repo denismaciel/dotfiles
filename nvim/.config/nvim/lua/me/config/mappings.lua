@@ -15,6 +15,13 @@ vim.keymap.set("n", "<leader>;", "<cmd>Telescope buffers<CR>")
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
 vim.keymap.set("n", "tre", "<cmd>NvimTreeToggle<CR>")
 vim.keymap.set("v", "<leader>tm", ":!pandoc --to html | xclip -t text/html -selection clipboard<cr>u")
+vim.keymap.set("n", "gf", function()
+	if require("obsidian").util.cursor_on_markdown_link() then
+		return "<cmd>ObsidianFollowLink<CR>"
+	else
+		return "gf"
+	end
+end, { noremap = false, expr = true })
 
 vim.keymap.set("n", "$", "g$")
 vim.keymap.set("n", "0", "g0")
