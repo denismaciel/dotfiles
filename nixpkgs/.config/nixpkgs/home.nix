@@ -26,7 +26,6 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
-    pkgs.kde
     pkgs.ffmpeg
     pkgs.vscode
     pkgs.texlive.combined.scheme-medium
@@ -106,7 +105,7 @@
     pkgs.spotify-tui
     pkgs.spotify-unwrapped
     pkgs.spotifyd
-    pkgs.ssm-session-manager-plugin  # Aws Session Manager for executing commands on Fargate tasks
+    pkgs.ssm-session-manager-plugin # Aws Session Manager for executing commands on Fargate tasks
     pkgs.starship
     pkgs.stow
     pkgs.stylua
@@ -132,7 +131,7 @@
     pkgs.zsh-syntax-highlighting
     pkgs.comic-mono
     pkgs.zotero
-    (pkgs.rofi.override { plugins = [pkgs.rofi-emoji pkgs.rofi-calc]; })
+    (pkgs.rofi.override { plugins = [ pkgs.rofi-emoji pkgs.rofi-calc ]; })
     (pkgs.nerdfonts.override {
       fonts = [
         "FiraCode"
@@ -182,7 +181,7 @@
       python = {
         symbol = " ";
         format = "[\${symbol}\${pyenv_prefix}(\${version} )(\($virtualenv\) )]($style)";
-        style  = "white";
+        style = "white";
       };
       golang = {
         disabled = true;
@@ -201,23 +200,30 @@
       key = "188DE24A651E34AA";
     };
     ignores = [
-        ".DS_Store"
-        ".direnv"
-        ".envrc"
-        ".mypy_cache"
-        ".pytest_cache"
-        ".python-version"
-        ".vim"
-        ".vscode"
-        "__pycache__"
-        "_debug.py"
-        "playground"
-        "snaps"
-        "tags"
-        "venv"
+      ".DS_Store"
+      ".direnv"
+      ".envrc"
+      ".mypy_cache"
+      ".pytest_cache"
+      ".python-version"
+      ".vim"
+      ".vscode"
+      "__pycache__"
+      "_debug.py"
+      "playground"
+      "snaps"
+      "tags"
+      "venv"
     ];
     aliases = {
       last = "for-each-ref --sort=-committerdate --count=20 --format='%(align:70,left)%(refname:short)%(end)%(committerdate:relative)' refs/heads/";
+      run = ''
+        !f() { \
+                watch_gha_runs $@ \
+                    \"$(git remote get-url origin)\" \
+                    \"$(git rev-parse --abbrev-ref HEAD)\"; \
+            }; f
+      '';
     };
   };
 

@@ -31,6 +31,10 @@ function fzf-down() {
   fzf --height 50% "$@" --border
 }
 
+function gitwatch () {
+    watch_gha_runs $@ "$(git remote get-url origin)" "$(git rev-parse --abbrev-ref HEAD)"
+}
+
 function gbl() {
   is_in_git_repo || return
   git branch -a --color=always | grep -v '/HEAD\s' | sort |
@@ -229,3 +233,20 @@ source "$(fzf-share)/key-bindings.zsh"
 
 # Created by `pipx` on 2023-03-22 02:29:00
 export PATH="$PATH:/home/denis/.local/bin"
+
+mv_last() {
+    local source_folder="$1"
+    local destination_folder="$2"
+
+    # Find the last downloaded file
+    last_downloaded_file=$(ls -t1 "$source_folder" | head -n 1)
+
+    # Check if a file was found
+    if [ -n "$last_downloaded_file" ]; then
+        # Move the file to the destination folder
+        mv "$source_folder/$last_downloaded_file" "$destination_folder/$last_downloaded_file"
+        echo "Moved the last downloaded file ($last_downloaded_file) to the destination folder."
+    else
+        echo "No files found in the source folder."
+    fi
+}

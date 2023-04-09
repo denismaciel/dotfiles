@@ -78,32 +78,12 @@ require("lazy").setup({
 	},
 	"folke/which-key.nvim",
 	"folke/neodev.nvim",
-	{
-		"folke/zen-mode.nvim",
-		config = function()
-			require("zen-mode").setup({
-				context = 0,
-				expand = {
-					"paragraph",
-					"fenced_code_block",
-					"list",
-				},
-			})
-		end,
-	},
-	{
-		"folke/twilight.nvim",
-		config = function()
-			require("twilight").setup({})
-		end,
-	},
 
 	"kylechui/nvim-surround",
 	"jose-elias-alvarez/null-ls.nvim",
 
 	"m-demare/hlargs.nvim",
 	"lewis6991/gitsigns.nvim",
-	"TimUntersberger/neogit",
 	"simrat39/symbols-outline.nvim",
 	"windwp/nvim-autopairs",
 

@@ -78,10 +78,13 @@ wk.register({
 		sd = { [["=strftime('%Y-%m-%d')<CR>p]], "Insert current time" },
 	},
 	u = {
-		function()
-			vim.cmd("UndotreeShow")
-		end,
+		"<cmd>UndotreeToggle<CR>",
 		"Undotree",
+	},
+	o = {
+		n = { "<cmd>ObsidianNew<CR>", "New note" },
+		f = { "<cmd>ObsidianQuickSwitch<CR>", "Find note" },
+		"Obsidian",
 	},
 }, { prefix = "<leader>" })
 
@@ -130,11 +133,6 @@ wk.register({
 				find_command = { "rg", "--files", "--hidden", "-g", "!.git", "-g", "!.snapshots/" },
 				shorten_path = true,
 			})
-
-			-- require("telescope").extensions.frecency.frecency({
-			-- 	find_command = { "rg", "--files", "--hidden", "-g", "!.git", "-g", "!.snapshots/" },
-			-- 	workspace = "CWD",
-			-- })
 		end,
 		"Find files",
 	},
@@ -145,7 +143,7 @@ wk.register({
 		"Find diff files",
 	},
 	c = {
-		require("telescope.builtin").comands,
+		require("telescope.builtin").commands,
 		"Vim Commands",
 	},
 	h = {

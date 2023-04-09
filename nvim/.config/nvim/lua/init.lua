@@ -100,7 +100,6 @@ require("neodev").setup() -- Needs to be called before lsp stuff
 require("mason").setup()
 require("nvim-autopairs").setup({})
 require("colorizer").setup({})
-require("neogit").setup()
 require("gitsigns").setup()
 require("nvim-test").setup({})
 -- require("nvim-test.runners.pytest"):setup({
