@@ -6,6 +6,11 @@ x-scheme-handler/about=google-chrome.desktop
 x-scheme-handler/unknown=google-chrome.desktop
 x-scheme-handler/notion=notion-app-enhanced.desktop
 application/zip=org.gnome.FileRoller.desktop
+x-scheme-handler/element=element-desktop.desktop
 
 [Added Associations]
 application/pdf=okularApplication_pdf.desktop;
+application/json=org.gnome.gedit.desktop;
+text/csv=nvim.desktop;
+text/plain=sioyek.desktop;
+application/epub+zip=org.pwmt.zathura-pdf-mupdf.desktop;

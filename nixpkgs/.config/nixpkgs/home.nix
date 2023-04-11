@@ -117,7 +117,7 @@
     /* pkgs.tmuxp */ # Currently broken
     pkgs.universal-ctags
     pkgs.unzip
-    pkgs.visidata
+    /* pkgs.visidata */ # Currently broken because of pyarrow failing
     pkgs.vlc
     /* pkgs.wmctrl */
     pkgs.xclip

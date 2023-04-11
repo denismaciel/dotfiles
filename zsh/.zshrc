@@ -48,6 +48,12 @@ function gb() {
     git checkout $(gbl)
 }
 
+# Untracked files
+function gu() {
+    git -C "$(git rev-parse --show-toplevel)" status --porcelain --untracked-files=all | grep "^??" | awk '/^??/ {print $2}'
+}
+
+
 function gc { git commit -m "$*"; }
 
 gf() {
