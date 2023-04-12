@@ -154,9 +154,11 @@ wk.register({
 		require("telescope.builtin").filetypes,
 		"FileTypes",
 	},
+	m = {
+		require("telescope.builtin").marks,
+		"Marks",
+	},
 }, { prefix = "t" })
 
 vim.keymap.set("n", "<leader>rg", require("telescope.builtin").live_grep)
-vim.keymap.set("n", "<leader>/", function()
-	vim.cmd("Telescope treesitter")
-end)
+vim.keymap.set("n", "<leader>/", require("telescope.builtin").treesitter)

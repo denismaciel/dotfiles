@@ -224,6 +224,7 @@
                     \"$(git rev-parse --abbrev-ref HEAD)\"; \
             }; f
       '';
+      lastco = "!git last | fzf | awk '{print $1}' | xargs git checkout";
     };
   };
 
