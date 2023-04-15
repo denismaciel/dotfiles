@@ -1,8 +1,8 @@
-local lspc = require("lspconfig")
-local configs = require("lspconfig/configs")
-local util = require("lspconfig/util")
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local configs = require("lspconfig/configs")
+local lspc = require("lspconfig")
 local null_ls = require("null-ls")
+local util = require("lspconfig/util")
 
 require("mason-lspconfig").setup({
 	ensure_installed = {
@@ -13,6 +13,7 @@ require("mason-lspconfig").setup({
 		"prismals",
 		"pyright",
 		"tailwindcss",
+		"bashls",
 	},
 })
 
@@ -33,7 +34,7 @@ null_ls.setup({
 	},
 })
 
-function OrgImports()
+local function org_imports()
 	local params = vim.lsp.util.make_range_params()
 	params.context = { only = { "source.organizeImports" } }
 	local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, nil)
@@ -48,7 +49,7 @@ function OrgImports()
 	end
 end
 
-vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.go" }, callback = OrgImports })
+vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.go" }, callback = org_imports })
 
 configs.gopls = {
 	default_config = {
@@ -113,7 +114,7 @@ lspc.jedi_language_server.setup({ capabilities = capabilities })
 lspc.pyright.setup({ capabilities = capabilities })
 lspc.rnix.setup({ capabilities = capabilities })
 lspc.rust_analyzer.setup({ capabilities = capabilities })
-lspc.tailwindcss.setup({ capabilities = capabilities })
+lspc.bashls.setup({ capabilities = capabilities })
 -- lspc.tsserver.setup({ capabilities = capabilities })
 require("typescript").setup({
 	disable_commands = false, -- prevent the plugin from creating Vim commands
