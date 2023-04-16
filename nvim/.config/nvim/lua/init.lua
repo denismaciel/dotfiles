@@ -43,7 +43,6 @@ o.completeopt = { "menu", "menuone", "noselect" }
 o.termguicolors = true
 
 o.laststatus = 3
-vim.api.nvim_set_hl(0, "Sneak", { bg = nil })
 o.winbar = "%=%m %f"
 
 vim.cmd("cabbrev W w")
@@ -108,6 +107,7 @@ require("nvim-test").setup({})
 -- })
 require("nvim-surround").setup({})
 require("hlargs").setup()
+require("barbecue").setup()
 
 require("me.config.cmp")
 require("me.config.colors")

@@ -116,6 +116,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 export XDG_CONFIG_HOME=$HOME/.config
 
+alias apy=~/venvs/apy/bin/apy
 alias core='tmuxp load core -y'
 alias act='source venv/bin/activate'
 alias l='ls -lah'

@@ -50,7 +50,7 @@
     pkgs.sioyek
     pkgs.redshift
     pkgs.imwheel
-    pkgs.anki
+    pkgs.anki-bin
     pkgs.tor-browser-bundle-bin
     pkgs.lazygit
     pkgs.delve

@@ -86,3 +86,11 @@ git clone git@github.com:Aloxaf/fzf-tab.git
 
 # Go CLIs
 go install github.com/carlmjohnson/pomodoro@latest
+
+## Anki stuff
+
+python3.11 -m venv ~/venvs/apy
+~/venvs/apy/bin/pip install aqt==2.1.53
+~/venvs/apy/bin/pip install git+https://github.com/lervag/apy.git#egg=apy
+~/venvs/apy/bin/pip install pyqt5
+~/venvs/apy/bin/pip install PyQtWebEngine

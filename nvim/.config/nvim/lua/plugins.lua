@@ -103,7 +103,16 @@ require("lazy").setup({
 	"NvChad/nvim-colorizer.lua",
 	"klen/nvim-test",
 	"ggandor/leap.nvim",
-	"nvim-treesitter/nvim-treesitter-context",
+	{
+		"utilyre/barbecue.nvim",
+		name = "barbecue",
+		version = "*",
+		dependencies = {
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons",
+		},
+		-- opts = {},
+	},
 	"christoomey/vim-tmux-navigator",
 	"nvim-lua/plenary.nvim",
 	{ "nvim-telescope/telescope.nvim", dependencies = { { "nvim-lua/plenary.nvim" } } },
@@ -118,9 +127,9 @@ require("lazy").setup({
 	"APZelos/blamer.nvim",
 	"ludovicchabant/vim-gutentags",
 	{
-		"kyazdani42/nvim-tree.lua",
+		"nvim-tree/nvim-tree.lua",
 		dependencies = {
-			"kyazdani42/nvim-web-devicons",
+			"nvim-tree/nvim-web-devicons",
 		},
 		version = "nightly",
 	},
@@ -130,7 +139,7 @@ require("lazy").setup({
 	"neovim/nvim-lspconfig",
 	{
 		"folke/trouble.nvim",
-		dependencies = "kyazdani42/nvim-web-devicons",
+		dependencies = "nvim-tree/nvim-web-devicons",
 		config = function()
 			require("trouble").setup({
 				colors = {
@@ -165,6 +174,9 @@ require("lazy").setup({
 	"rebelot/kanagawa.nvim",
 	"shaunsingh/nord.nvim",
 	"projekt0n/github-nvim-theme",
-	"aktersnurra/no-clown-fiesta.nvim",
+	-- "aktersnurra/no-clown-fiesta.nvim",
+	{
+		dir = "~/mine/no-clown-fiesta.nvim",
+	},
 	"nyoom-engineering/oxocarbon.nvim",
 })

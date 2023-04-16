@@ -150,11 +150,10 @@ colors: *gruvbox-dark
 selection:
   save_to_clipboard: false
 cursor:
-  # Cursor style
-  #
-  # Values for `style`:
-  #   - ▇ Block
-  #   - _ Underline
-  #   - | Beam
-  style: Underline
+  style:
+    # Values for `shape`:
+    #   - ▇ Block
+    #   - _ Underline
+    #   - | Beam
+    shape: Underline
 live_config_reload: true
