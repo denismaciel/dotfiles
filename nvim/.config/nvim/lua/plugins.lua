@@ -82,6 +82,16 @@ require("lazy").setup({
 	},
 	"folke/which-key.nvim",
 	"folke/neodev.nvim",
+	{
+		"folke/zen-mode.nvim",
+		config = function()
+			require("zen-mode").setup({
+				window = {
+					width = 80,
+				},
+			})
+		end,
+	},
 
 	"kylechui/nvim-surround",
 	"jose-elias-alvarez/null-ls.nvim",

@@ -5,6 +5,11 @@ windows:
     panes:
       -
       -
+  - window_name: gh-actions
+    start_directory: "~/work/core/.github"
+    panes:
+      -
+      -
   - window_name: risk-model
     start_directory: "~/work/core/data-pipelines/risk_model"
     panes:

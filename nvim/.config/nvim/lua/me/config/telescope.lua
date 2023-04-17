@@ -1,4 +1,5 @@
 local actions = require("telescope.actions")
+local actions_layout = require("telescope.actions.layout")
 
 require("telescope").setup({
 	defaults = {
@@ -31,6 +32,13 @@ require("telescope").setup({
 		},
 	},
 	pickers = {
+		find_files = {
+			mappings = {
+				n = {
+					["h"] = actions_layout.toggle_preview,
+				},
+			},
+		},
 		buffers = {
 			mappings = {
 				n = {
