@@ -1,8 +1,8 @@
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-local configs = require("lspconfig/configs")
+local configs = require("lspconfig.configs")
 local lspc = require("lspconfig")
 local null_ls = require("null-ls")
-local util = require("lspconfig/util")
+local util = require("lspconfig.util")
 
 require("mason-lspconfig").setup({
 	ensure_installed = {
@@ -60,10 +60,6 @@ configs.gopls = {
 		end,
 	},
 	docs = {
-		description = [[
-https://github.com/golang/tools/tree/master/gopls
-Google's lsp server for golang.
-]],
 		default_config = {
 			root_dir = [[root_pattern("go.mod", ".git")]],
 		},
@@ -110,7 +106,7 @@ lspc.jsonnet_ls.setup({
 })
 lspc.cssls.setup({ capabilities = capabilities })
 lspc.gopls.setup({ capabilities = capabilities })
-lspc.jedi_language_server.setup({ capabilities = capabilities })
+-- lspc.jedi_language_server.setup({ capabilities = capabilities })
 lspc.pyright.setup({ capabilities = capabilities })
 lspc.rnix.setup({ capabilities = capabilities })
 lspc.rust_analyzer.setup({ capabilities = capabilities })

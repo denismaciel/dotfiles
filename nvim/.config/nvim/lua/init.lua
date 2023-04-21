@@ -1,7 +1,7 @@
 vim.g.python3_host_prog = os.getenv("HOME") .. "/venvs/neovim/bin/python"
 vim.g.mapleader = " "
 
-o = vim.opt
+local o = vim.opt
 
 o.clipboard = o.clipboard + "unnamedplus"
 o.formatoptions = o.formatoptions + "cro"
@@ -93,38 +93,19 @@ end
 
 vim.fn.sign_define("DapBreakpoint", { text = "•", linehl = "", numhl = "" })
 
-require("plugins")
-
-require("neodev").setup() -- Needs to be called before lsp stuff
-require("mason").setup()
-require("nvim-autopairs").setup({})
-require("colorizer").setup({})
-require("gitsigns").setup()
-require("nvim-test").setup({})
--- require("nvim-test.runners.pytest"):setup({
--- 	command = { (vim.env.VIRTUAL_ENV or "venv") .. "/bin/pytest", "pytest" },
--- 	args = { "--pdb" },
--- })
-require("nvim-surround").setup({})
-require("hlargs").setup()
-require("barbecue").setup()
+require("lazy").setup("plugins")
 
 require("me.config.cmp")
-require("me.config.colors")
 require("me.config.dap")
-require("me.config.leap")
 require("me.config.lsp")
 require("me.config.mappings")
-require("me.config.nvim-tree")
-require("me.config.symbols-outline")
 require("me.config.telescope")
-require("me.config.treesitter")
-require("me.config.vim-gutentags")
-require("me.config.luasnip")
-
--- It seems these options need to be set *after* treesitter has been configured.
--- Otherwise, it will download all the parsers every time on startup.
+-- It seems these options need to be set *after* treesitter has been
+-- configured. Otherwise, it will download all the parsers every time on
+-- startup.
 o.foldmethod = "expr"
 o.foldexpr = "nvim_treesitter#foldexpr()"
 o.foldlevelstart = 99
 o.foldlevel = 99
+
+vim.cmd([[ colorscheme no-clown-fiesta ]])

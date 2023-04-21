@@ -13,8 +13,9 @@ local function scandir(directory)
 end
 
 M.center_and_change_colorscheme = function()
-	vim.api.nvim_command("normal Gzz")
-	vim.api.nvim_command("colorscheme tokyonight")
+	vim.api.nvim_command([[ normal Gzz ]])
+	vim.api.nvim_command([[ colorscheme kanagawa ]])
+	vim.api.nvim_command([[ ZenMode ]])
 end
 
 M.cycle_notes = function(direction)

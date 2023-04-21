@@ -26,9 +26,6 @@ require("telescope").load_extension("dap")
 -- nnoremap <silent> <Leader>lp <Cmd>lua
 -- nnoremap <silent> <Leader>dr <Cmd>lua require'dap'.repl.open()<CR>
 -- nnoremap <silent> <Leader>dl <Cmd>lua require'dap'.run_last()<CR>
---
---
---
 wk.register({
 	d = {
 		name = "DAP",

@@ -1,7 +1,3 @@
-require("no-clown-fiesta").setup({ styles = { type = { bold = true }, comments = { italic = true } } })
-
-vim.cmd([[ colorscheme no-clown-fiesta ]])
-
 -- For whatever reason, I couldn't get the `nvim_set_hl` calls to execute and
 -- "stay" at startup, so I needed to create an autocommand for it to be always
 -- executed.
@@ -16,3 +12,19 @@ vim.api.nvim_create_autocmd("BufEnter", {
 	end,
 	group = group,
 })
+
+return {
+	-- === Colors ===
+	"folke/tokyonight.nvim",
+	"morhetz/gruvbox",
+	"savq/melange",
+	"rebelot/kanagawa.nvim",
+	"shaunsingh/nord.nvim",
+	"projekt0n/github-nvim-theme",
+	{
+		-- "aktersnurra/no-clown-fiesta.nvim",
+		dir = "~/mine/no-clown-fiesta.nvim",
+		opts = { styles = { type = { bold = true }, comments = { italic = true } } },
+	},
+	"nyoom-engineering/oxocarbon.nvim",
+}

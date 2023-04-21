@@ -2,7 +2,13 @@ local actions = require("telescope.actions")
 local actions_layout = require("telescope.actions.layout")
 
 require("telescope").setup({
+	extensions = {
+		["ui-select"] = {
+			require("telescope.themes").get_dropdown(),
+		},
+	},
 	defaults = {
+		path_display = { "smart" },
 		vimgrep_arguments = {
 			"rg",
 			"--hidden",
@@ -43,6 +49,7 @@ require("telescope").setup({
 			mappings = {
 				n = {
 					["dd"] = actions.delete_buffer,
+					["h"] = actions_layout.toggle_preview,
 				},
 			},
 		},
@@ -57,3 +64,4 @@ require("telescope").setup({
 })
 
 require("telescope").load_extension("luasnip")
+require("telescope").load_extension("ui-select")
