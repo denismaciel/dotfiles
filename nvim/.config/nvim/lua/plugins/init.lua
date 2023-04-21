@@ -22,7 +22,12 @@ return {
 
 	{ "kylechui/nvim-surround", config = {} },
 	"jose-elias-alvarez/null-ls.nvim",
-
+	{
+		"rcarriga/nvim-notify",
+		config = function()
+			vim.notify = require("notify")
+		end,
+	},
 	{ "m-demare/hlargs.nvim", config = {} },
 	{ "lewis6991/gitsigns.nvim", config = {} },
 	{ "windwp/nvim-autopairs", config = {} },
