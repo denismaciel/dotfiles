@@ -34,16 +34,7 @@ null_ls.setup {
         },
         null_ls.builtins.formatting.ruff,
         -- Lua
-        null_ls.builtins.formatting.stylua.with {
-            extra_args = {
-                '--indent-type',
-                'Spaces',
-                '--indent-width',
-                '4',
-                '--quote-style',
-                'ForceSingle',
-            },
-        },
+        null_ls.builtins.formatting.stylua,
         -- Javascript
         null_ls.builtins.formatting.prettier,
         -- Cloudformation
