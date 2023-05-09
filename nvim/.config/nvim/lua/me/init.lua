@@ -77,9 +77,30 @@ M.get_github_permalink = function()
     vim.cmd('let @+ = \'' .. permalink .. '\'')
 end
 
-P = function(v)
-    print(vim.inspect(v))
-    return v
+M.dump_todos = function()
+    local file_path = '/home/denis/Sync/Notes/Current/todo.jsonlines'
+    local file = io.open(file_path, 'r')
+
+    if not file then
+        print('Error: could not open file ' .. file_path)
+        return
+    end
+
+    for line in file:lines() do
+        local todo = vim.json.decode(line)
+        if todo then
+            local pos = vim.api.nvim_win_get_cursor(0)
+            vim.api.nvim_buf_set_lines(
+                0,
+                pos[1],
+                pos[1],
+                false,
+                { '- [ ] ' .. todo.name }
+            )
+        end
+    end
+
+    file:close()
 end
 
 return M

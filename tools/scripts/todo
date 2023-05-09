@@ -55,7 +55,6 @@ class Todo(BaseModel):
 
     @classmethod
     def from_text_prompt(cls, prompt: str) -> Todo:
-
         if prompt.strip() == '':
             return Todo(name='')
 
@@ -95,7 +94,6 @@ def select_with_rofi(
     items: list[str],
     multi_select: bool = False,
 ) -> tuple[int, str]:
-
     if multi_select is True:
         raise NotImplementedError('multi-select is not implemented')
 
@@ -179,14 +177,24 @@ def start_pomodoro(select: Callable[[list[Todo]], tuple[int, str]]):
 
     if i == -1:
         todo = Todo.from_text_prompt(prompt)
+        save_todos([todo] + todos, TODO_FILE_JSONL)
     else:
         todo = todos[i]
 
     if todo.is_empty:
         return
 
-    i, duration = select_with_rofi('', [str(d) for d in [25, 20, 15, 10, 5, 1]])
+    i, duration = select_with_rofi('', [str(d) for d in [25, 20, 15, 10, 5, 1, 'done']])
     if duration.strip() == '':
+        return
+
+    if duration == 'done':
+        todos = complete_todo(
+            todo,
+            todos,
+            write_todo_to_done_file,
+        )
+        save_todos(todos, TODO_FILE_JSONL)
         return
 
     if todo.type == TodoType.TODO:
@@ -246,7 +254,6 @@ def report():
                     description = description.replace('"', '').strip()
                     minutes_week[description] += duration
             except Exception as e:
-
                 print('An error ocurred with log line:', i + 1, '\n', e)
                 raise SystemExit(1)
 

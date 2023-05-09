@@ -43,4 +43,13 @@ M.dbt_open_snaps = function()
     vim.api.nvim_command('vsplit ' .. snap_folder_path)
 end
 
+M.dbt_model_name = function()
+    local snap_folder_name = vim.fn.expand '%:t:r'
+    vim.print 'here'
+    local command = [[ !echo ]]
+        .. snap_folder_name
+        .. [[ | xclip -selection clipboard ]]
+    vim.cmd.execute(command)
+end
+
 return M

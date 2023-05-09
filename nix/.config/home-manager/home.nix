@@ -38,7 +38,7 @@
     pkgs.yq-go
     pkgs.delta
     pkgs.awscli2
-    /* pkgs.aws-sam-cli */
+    pkgs.aws-sam-cli
     pkgs.ngrok
     pkgs.google-cloud-sdk
     pkgs.pandoc
@@ -50,7 +50,8 @@
     pkgs.sioyek
     pkgs.redshift
     pkgs.imwheel
-    pkgs.anki-bin
+    # pkgs.anki-bin
+    pkgs.anki
     pkgs.tor-browser-bundle-bin
     pkgs.lazygit
     pkgs.delve
@@ -87,7 +88,6 @@
     pkgs.lua
     pkgs.mpv
     pkgs.newsboat
-    /* pkgs.nodejs */
     pkgs.nodejs-16_x
     pkgs.notion-app-enhanced
     pkgs.obs-studio
@@ -114,10 +114,10 @@
     pkgs.terraform
     pkgs.terraform-ls
     pkgs.tmux
-    /* pkgs.tmuxp */ # Currently broken
+    pkgs.tmuxp
     pkgs.universal-ctags
     pkgs.unzip
-    /* pkgs.visidata */ # Currently broken because of pyarrow failing
+    pkgs.visidata
     pkgs.vlc
     /* pkgs.wmctrl */
     pkgs.xclip
@@ -160,10 +160,22 @@
         error_symbol = "[\\$](red)";
         vicmd_symbol = "[\\$](blue)";
       };
+      env_var = {
+        variable = "ENV";
+        format="[$env_value]($style) ";
+        symbol = " ";
+        style = "white";
+      };
       directory = {
         style = "white";
       };
       aws = {
+        disabled = true;
+      };
+      gcloud = {
+        disabled = true;
+      };
+      package = {
         disabled = true;
       };
       git_branch = {
@@ -229,9 +241,17 @@
   };
 
   nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-    }))
+    (
+      import (
+        let
+          # rev = "master";
+          rev = "c57746e2b9e3b42c0be9d9fd1d765f245c3827b7";
+        in
+        builtins.fetchTarball {
+          url = "https://github.com/nix-community/neovim-nightly-overlay/archive/${rev}.tar.gz";
+        }
+      )
+    )
   ];
 
   programs.neovim = {

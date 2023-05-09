@@ -23,10 +23,7 @@ nix-env -e stow
 
 home-manager switch
 
-sudo apt remove nvim
-
-# Run it ~3 times
-nvim -c 'PackerSync'
+sudo apt remove neovim
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # Enter tmux and run Ctrl + b and Shift+I

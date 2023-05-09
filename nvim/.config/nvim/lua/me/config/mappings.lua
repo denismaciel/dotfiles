@@ -3,6 +3,13 @@ local sql = require 'me.sql'
 local zettel = require 'me.zettel'
 local themes = require 'telescope.themes'
 
+vim.keymap.set('n', '<leader>tt', function()
+    package.loaded['me'] = nil
+    package.loaded['me.sql'] = nil
+    vim.api.nvim_command [[ source $MYVIMRC ]]
+    require('me.sql').dbt_model_name()
+end)
+
 vim.keymap.set('n', '<leader>asdf', function()
     package.loaded['me'] = nil
     vim.api.nvim_command [[ source $MYVIMRC ]]
@@ -82,6 +89,10 @@ wk.register({
         },
         x = { sql.dbt_open_compiled, 'Open compiled query' },
         v = { sql.dbt_open_snaps, 'Open snapshots' },
+        n = {
+            ':!echo -n %:t:r | xclip -selection clipboard<CR>',
+            'Copy model name to clipboard',
+        },
     },
     z = {
         name = 'Zettelkasten',
@@ -95,6 +106,7 @@ wk.register({
             'Instert current datetime',
         },
         sd = { [["=strftime('%Y-%m-%d')<CR>p]], 'Insert current time' },
+        d = { require('me').dump_todos, 'Dump TODOs' },
     },
     u = {
         '<cmd>UndotreeToggle<CR>',
@@ -160,7 +172,6 @@ wk.register({
                     '-g',
                     '!.snapshots/',
                 },
-                shorten_path = true,
             }
         end,
         'Find files',
@@ -188,6 +199,10 @@ wk.register({
     m = {
         require('telescope.builtin').marks,
         'Marks',
+    },
+    b = {
+        require('telescope.builtin').current_buffer_fuzzy_find,
+        'Buffers',
     },
 }, { prefix = 't' })
 

@@ -8,7 +8,7 @@ require('telescope').setup {
         },
     },
     defaults = {
-        path_display = { 'smart' },
+        path_display = { 'truncate' },
         vimgrep_arguments = {
             'rg',
             '--hidden',
@@ -66,3 +66,4 @@ require('telescope').setup {
 
 require('telescope').load_extension 'luasnip'
 require('telescope').load_extension 'ui-select'
+require('telescope').load_extension 'luasnip'

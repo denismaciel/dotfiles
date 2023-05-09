@@ -17,18 +17,66 @@ export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/
 source /home/denis/.nix-profile/etc/profile.d/nix.sh
 source /home/denis/.nix-profile/etc/profile.d/nix.sh
 
-function pdread () {
+function rename-tmux-window() {
+    local current_dir="$(basename "$(pwd)")"
+    tmux rename-window "$current_dir"
+}
+
+function pdread() {
     ipython -i -c 'import types, pandas as pd; df = pd.read_csv("'$(realpath $1)'"); c = types.SimpleNamespace(); [setattr(c, col.replace(" ", "").replace(")", "").replace("(", ""), col) for col in df.columns]; print(df)'
+}
+
+function add-anki() {
+~/venvs/apy/bin/apy add -d default
+}
+
+
+function zip-folder() {
+if [ $# -eq 0 ]; then
+    echo "Usage: zip-folder foldername"
+    return 1
+fi
+
+foldername=$1
+zipname="${foldername}.zip"
+
+if [ -d "$foldername" ]; then
+    # The folder exists, so create a ZIP archive of it
+    zip -r "$zipname" "$foldername"
+    echo "Created ZIP archive $zipname"
+else
+    echo "Error: Folder '$foldername' does not exist"
+    return 1
+fi
+}
+function git-clone-custom() {
+git_url="$1"
+username=$(echo "$git_url" | sed -E 's/.*github.com:([^/]+)\/.*/\1/')
+repo_name=$(echo "$git_url" | sed -E 's/.*\/([^/]+)\.git/\1/')
+
+target_dir="$HOME/github.com/$username/$repo_name"
+
+mkdir -p "$target_dir"
+git clone "$git_url" "$target_dir"
+}
+
+function list-clone-custom() {
+base_dir="$HOME/github.com"
+find "$base_dir" -mindepth 2 -maxdepth 2 -type d -printf '%P\n' | sort
+}
+
+function cd-gh() {
+cd $HOME/github.com/$(list-clone-custom | fzf)
 }
 
 # Copied from https://github.com/jordanlewis/config/blob/master/zshrc
 # {{{ GIT heart FZF
 function is_in_git_repo() {
-  git rev-parse HEAD > /dev/null 2>&1
+    git rev-parse HEAD > /dev/null 2>&1
 }
 
 function fzf-down() {
-  fzf --height 50% "$@" --border
+fzf --height 50% "$@" --border
 }
 
 function gitwatch () {
@@ -36,16 +84,17 @@ function gitwatch () {
 }
 
 function gbl() {
-  is_in_git_repo || return
-  git branch -a --color=always | grep -v '/HEAD\s' | sort |
-  fzf-down --ansi --multi --tac --preview-window right:70% \
-    --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
-  sed 's/^..//' | cut -d' ' -f1 |
-  sed 's#^remotes/##'
+    is_in_git_repo || return
+    git branch -a --color=always | grep -v '/HEAD\s' | sort |
+        fzf-down --ansi --multi --tac --preview-window right:70% \
+        --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
+        sed 's/^..//' | cut -d' ' -f1 |
+        sed 's#^remotes/origin/##'
 }
 
 function gb() {
-    git checkout $(gbl)
+        
+    git checkout $(echo $(gbl) | sed 's#^remotes/##')
 }
 
 # Untracked files
@@ -56,21 +105,21 @@ function gu() {
 
 function gc { git commit -m "$*"; }
 
-gf() {
-  is_in_git_repo || return
-  git -c color.status=always status --short |
-  fzf-down -m --ansi --nth 2..,.. \
-    --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
-  cut -c4- | sed 's/.* -> //'
-}
-# }}}
+function gf() {
+    is_in_git_repo || return
+    git -c color.status=always status --short |
+        fzf-down -m --ansi --nth 2..,.. \
+        --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
+        cut -c4- | sed 's/.* -> //'
+    }
+    # }}}
 
-function check_syncthing() {
-    running=`ps ax | grep -v grep | grep syncthing | wc -l`
-    if [ $running -le 1 ]; then
-        echo "🚨 syncthing is not running 🚨"
-    fi
-}
+    function check_syncthing() {
+        running=`ps ax | grep -v grep | grep syncthing | wc -l`
+        if [ $running -le 1 ]; then
+            echo "🚨 syncthing is not running 🚨"
+        fi
+    }
 
 # ----------------------------------
 # --------- Warnings ---------------
@@ -98,7 +147,7 @@ function open() {
 }
 
 function open-zathura() {
-    nohup zathura "$*" >> /dev/null & exit
+nohup zathura "$*" >> /dev/null & exit
 }
 
 function addin() {
@@ -220,20 +269,20 @@ zstyle ':zim:zmodule' use 'degit'
 ZIM_HOME=~/.config/zim
 # Download zimfw plugin manager if missing.
 if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
-  curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
-      https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
 fi
 # Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
 if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
-  source ${ZIM_HOME}/zimfw.zsh init -q
+    source ${ZIM_HOME}/zimfw.zsh init -q
 fi
 # Initialize modules.
 source ${ZIM_HOME}/init.zsh
 
 # nixOS
 if [ -n "${commands[fzf-share]}" ]; then
-  source "$(fzf-share)/key-bindings.zsh"
-  source "$(fzf-share)/completion.zsh"
+    source "$(fzf-share)/key-bindings.zsh"
+    source "$(fzf-share)/completion.zsh"
 fi
 
 source "$(fzf-share)/key-bindings.zsh"

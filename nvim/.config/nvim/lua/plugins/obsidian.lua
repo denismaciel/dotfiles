@@ -20,7 +20,7 @@ return {
                         suffix = suffix .. string.char(math.random(65, 90))
                     end
                 end
-                local prefix = os.date('%Y-%m-%dT%H:%M', os.time())
+                local prefix = os.date('%Y-%m-%d', os.time())
                 return prefix .. '-' .. suffix
             end,
         }

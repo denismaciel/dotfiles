@@ -1,15 +1,28 @@
 return {
     {
+        'utilyre/sentiment.nvim',
+        version = '*',
+        opts = {},
+    },
+    {
         'img-paste-devs/img-paste.vim',
     },
     {
         'jackMort/ChatGPT.nvim',
         event = 'VeryLazy',
-        config = {
-            keymaps = {
-                submit = '<C-s>',
-            },
-        },
+        config = function()
+            local config = {
+                keymaps = {
+                    submit = '<C-s>',
+                },
+            }
+
+            if not vim.env.OPENAI_API_KEY then
+                return
+            end
+
+            require('chatgpt').setup(config)
+        end,
         dependencies = {
             'MunifTanjim/nui.nvim',
             'nvim-lua/plenary.nvim',
@@ -29,7 +42,7 @@ return {
         config = function()
             require('zen-mode').setup {
                 window = {
-                    width = 80,
+                    width = 120,
                 },
             }
         end,
@@ -55,7 +68,6 @@ return {
     'mfussenegger/nvim-dap-python',
     'nvim-telescope/telescope-dap.nvim',
 
-    'benfowler/telescope-luasnip.nvim',
     { 'NvChad/nvim-colorizer.lua', config = {} },
     { 'klen/nvim-test', config = {} },
     {
@@ -66,7 +78,12 @@ return {
     },
     {
         'utilyre/barbecue.nvim',
-        config = {},
+        config = {
+            theme = {
+
+                dirname = { fg = '#737aa2' },
+            },
+        },
         name = 'barbecue',
         version = '*',
         dependencies = {
@@ -100,7 +117,7 @@ return {
         dependencies = 'nvim-tree/nvim-web-devicons',
         config = {
             colors = {
-                fg = '#666666',
+                fg = '#ffffff',
             },
         },
     },
@@ -128,6 +145,11 @@ return {
                 end
             end, { silent = true })
         end,
+    },
+
+    {
+        'benfowler/telescope-luasnip.nvim',
+        module = 'telescope._extension.luasnip', -- for lazy loading
     },
     'saadparwaiz1/cmp_luasnip',
     'rafamadriz/friendly-snippets',
