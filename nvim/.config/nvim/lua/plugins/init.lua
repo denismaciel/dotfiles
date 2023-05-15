@@ -95,7 +95,7 @@ return {
     'christoomey/vim-tmux-navigator',
     'nvim-lua/plenary.nvim',
     'tpope/vim-commentary',
-    'editorconfig/editorconfig-vim',
+    -- 'editorconfig/editorconfig-vim',
     'mbbill/undotree',
     'windwp/nvim-autopairs',
     'windwp/nvim-ts-autotag',

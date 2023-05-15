@@ -157,7 +157,7 @@
       add_newline = true;
       character = {
         success_symbol = "[\\$](white)";
-        error_symbol = "[\\$](red)";
+        error_symbol = "[☠](red)";
         vicmd_symbol = "[\\$](blue)";
       };
       env_var = {

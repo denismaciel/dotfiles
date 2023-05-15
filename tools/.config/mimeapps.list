@@ -14,3 +14,4 @@ application/json=org.gnome.gedit.desktop;
 text/csv=nvim.desktop;
 text/plain=sioyek.desktop;
 application/epub+zip=org.pwmt.zathura-pdf-mupdf.desktop;
+inode/directory=org.gnome.Nautilus.desktop;

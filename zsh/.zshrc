@@ -22,6 +22,10 @@ function rename-tmux-window() {
     tmux rename-window "$current_dir"
 }
 
+function list-branches() {
+    git branch | grep -vE "^\*|main"
+}
+
 function pdread() {
     ipython -i -c 'import types, pandas as pd; df = pd.read_csv("'$(realpath $1)'"); c = types.SimpleNamespace(); [setattr(c, col.replace(" ", "").replace(")", "").replace("(", ""), col) for col in df.columns]; print(df)'
 }
