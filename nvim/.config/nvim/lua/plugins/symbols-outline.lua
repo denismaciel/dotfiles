@@ -1,6 +1,6 @@
 return {
     'simrat39/symbols-outline.nvim',
-    config = {
+    opts = {
         highlight_hovered_item = true,
         show_guides = true,
         auto_preview = false,

@@ -190,30 +190,29 @@ alias clip='xclip -selection clipboard'
 
 setopt autocd # .. is shortcut for cd .. 
 
-# Basic auto/tab complete:
-autoload bashcompinit && bashcompinit
-autoload -Uz compinit 
-zstyle ':completion:*' menu select
-zmodload zsh/complist
-compinit
-# source ~/apps/fzf-tab/fzf-tab.plugin.zsh
-_comp_options+=(globdots)		# Include hidden files.
-# # Fuzzy completion!!!
-# zstyle ':completion:*' matcher-list '' \
-#   'm:{a-z\-}={A-Z\_}' \
-#   'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
-#   'r:|?=** m:{a-z\-}={A-Z\_}'
+# autoload bashcompinit && bashcompinit
+# autoload -Uz compinit 
+# zstyle ':completion:*' menu select
+# zmodload zsh/complist
+# compinit
+# # source ~/apps/fzf-tab/fzf-tab.plugin.zsh
+# _comp_options+=(globdots)		# Include hidden files.
+# # # Fuzzy completion!!!
+# # zstyle ':completion:*' matcher-list '' \
+# #   'm:{a-z\-}={A-Z\_}' \
+# #   'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
+# #   'r:|?=** m:{a-z\-}={A-Z\_}'
 
-complete -C '$HOME/.local/bin/aws_completer' aws
+# complete -C '$HOME/.local/bin/aws_completer' aws
 
 # vi mode
 bindkey -v
 export KEYTIMEOUT=1
 # Use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
+# bindkey -M menuselect 'h' vi-backward-char
+# bindkey -M menuselect 'k' vi-up-line-or-history
+# bindkey -M menuselect 'l' vi-forward-char
+# bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
 # bindkey -e #Emacs keybinding
 bindkey "^E" backward-word

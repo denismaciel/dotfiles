@@ -26,6 +26,9 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.kmymoney # terminal previewer
+    pkgs.pistol # terminal previewer
+    pkgs.wezterm
     pkgs.ffmpeg
     pkgs.vscode
     pkgs.texlive.combined.scheme-medium

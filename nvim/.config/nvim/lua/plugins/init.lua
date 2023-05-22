@@ -10,7 +10,7 @@ return {
     {
         'jackMort/ChatGPT.nvim',
         event = 'VeryLazy',
-        config = function()
+        opts = function()
             local config = {
                 keymaps = {
                     submit = '<C-s>',
@@ -36,10 +36,10 @@ return {
     'nvim-telescope/telescope-ui-select.nvim',
     -- ======================
     'folke/which-key.nvim',
-    { 'folke/neodev.nvim', config = {} },
+    { 'folke/neodev.nvim', opts = {} },
     {
         'folke/zen-mode.nvim',
-        config = function()
+        opts = function()
             require('zen-mode').setup {
                 window = {
                     width = 120,
@@ -48,18 +48,18 @@ return {
         end,
     },
 
-    { 'kylechui/nvim-surround', config = {} },
+    { 'kylechui/nvim-surround', opts = {} },
     'jose-elias-alvarez/null-ls.nvim',
     {
         'rcarriga/nvim-notify',
-        config = function()
+        opts = function()
             vim.notify = require 'notify'
         end,
     },
-    { 'j-hui/fidget.nvim', config = {} },
-    { 'm-demare/hlargs.nvim', config = {} },
-    { 'lewis6991/gitsigns.nvim', config = {} },
-    { 'windwp/nvim-autopairs', config = {} },
+    { 'j-hui/fidget.nvim', opts = {} },
+    { 'm-demare/hlargs.nvim', opts = {} },
+    { 'lewis6991/gitsigns.nvim', opts = {} },
+    { 'windwp/nvim-autopairs', opts = {} },
 
     -- === DAP ===
     'mfussenegger/nvim-dap',
@@ -68,17 +68,17 @@ return {
     'mfussenegger/nvim-dap-python',
     'nvim-telescope/telescope-dap.nvim',
 
-    { 'NvChad/nvim-colorizer.lua', config = {} },
-    { 'klen/nvim-test', config = {} },
+    { 'NvChad/nvim-colorizer.lua', opts = {} },
+    { 'klen/nvim-test', opts = {} },
     {
         'ggandor/leap.nvim',
-        config = function()
+        opts = function()
             require('leap').set_default_keymaps()
         end,
     },
     {
         'utilyre/barbecue.nvim',
-        config = {
+        opts = {
             theme = {
 
                 dirname = { fg = '#737aa2' },
@@ -102,7 +102,7 @@ return {
     'APZelos/blamer.nvim',
     {
         'nvim-tree/nvim-tree.lua',
-        config = {},
+        opts = {},
         dependencies = {
             'nvim-tree/nvim-web-devicons',
         },
@@ -115,14 +115,14 @@ return {
     {
         'folke/trouble.nvim',
         dependencies = 'nvim-tree/nvim-web-devicons',
-        config = {
+        opts = {
             colors = {
                 fg = '#ffffff',
             },
         },
     },
     'simrat39/inlay-hints.nvim',
-    { 'williamboman/mason.nvim', config = {} },
+    { 'williamboman/mason.nvim', opts = {} },
     'jayp0521/mason-nvim-dap.nvim',
     'williamboman/mason-lspconfig.nvim',
     'jose-elias-alvarez/typescript.nvim',
@@ -137,7 +137,7 @@ return {
     'hrsh7th/cmp-nvim-lsp-signature-help',
     {
         'L3MON4D3/LuaSnip',
-        config = function()
+        opts = function()
             local luasnip = require 'luasnip'
             vim.keymap.set({ 'i', 's' }, '<C-S>', function()
                 if luasnip.expand_or_jumpable() then
