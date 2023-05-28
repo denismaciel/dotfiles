@@ -36,41 +36,42 @@ function add-anki() {
 
 
 function zip-folder() {
-if [ $# -eq 0 ]; then
-    echo "Usage: zip-folder foldername"
-    return 1
-fi
+    if [ $# -eq 0 ]; then
+        echo "Usage: zip-folder foldername"
+        return 1
+    fi
 
-foldername=$1
-zipname="${foldername}.zip"
+    foldername=$1
+    zipname="${foldername}.zip"
 
-if [ -d "$foldername" ]; then
-    # The folder exists, so create a ZIP archive of it
-    zip -r "$zipname" "$foldername"
-    echo "Created ZIP archive $zipname"
-else
-    echo "Error: Folder '$foldername' does not exist"
-    return 1
-fi
-}
-function git-clone-custom() {
-git_url="$1"
-username=$(echo "$git_url" | sed -E 's/.*github.com:([^/]+)\/.*/\1/')
-repo_name=$(echo "$git_url" | sed -E 's/.*\/([^/]+)\.git/\1/')
-
-target_dir="$HOME/github.com/$username/$repo_name"
-
-mkdir -p "$target_dir"
-git clone "$git_url" "$target_dir"
+    if [ -d "$foldername" ]; then
+        # The folder exists, so create a ZIP archive of it
+        zip -r "$zipname" "$foldername"
+        echo "Created ZIP archive $zipname"
+    else
+        echo "Error: Folder '$foldername' does not exist"
+        return 1
+    fi
 }
 
-function list-clone-custom() {
-base_dir="$HOME/github.com"
-find "$base_dir" -mindepth 2 -maxdepth 2 -type d -printf '%P\n' | sort
+function gh-clone() {
+    git_url="$1"
+    username=$(echo "$git_url" | sed -E 's/.*github.com:([^/]+)\/.*/\1/')
+    repo_name=$(echo "$git_url" | sed -E 's/.*\/([^/]+)\.git/\1/')
+
+    target_dir="$HOME/github.com/$username/$repo_name"
+
+    mkdir -p "$target_dir"
+    git clone "$git_url" "$target_dir"
 }
 
-function cd-gh() {
-cd $HOME/github.com/$(list-clone-custom | fzf)
+function gh-list() {
+    base_dir="$HOME/github.com"
+    find "$base_dir" -mindepth 2 -maxdepth 2 -type d -printf '%P\n' | sort
+}
+
+function gh-cd() {
+    cd $HOME/github.com/$(gh-list | fzf)
 }
 
 # Copied from https://github.com/jordanlewis/config/blob/master/zshrc
@@ -226,9 +227,9 @@ zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
 
-alias tss="date +'%Y-%m-%d %H:%M:%S' | xclip -selection clipboard && xclip -selection clipboard -o"
-alias tsd="date +'%Y-%m-%d' | xclip -selection clipboard && xclip -selection clipboard -o"
-alias tsw="date +'Work_%Y-%W' | xclip -selection clipboard && xclip -selection clipboard -o"
+alias tss="date +'%Y-%m-%d %H:%M:%S' | tr -d '\n' | xclip -selection clipboard && xclip -selection clipboard -o"
+alias tsd="date +'%Y-%m-%d' | tr -d '\n' | xclip -selection clipboard && xclip -selection clipboard -o"
+alias tsw="date +'%Y-%W' | tr -d '\n' | xclip -selection clipboard && xclip -selection clipboard -o"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/key-bindings.zsh ] && source ~/key-bindings.zsh

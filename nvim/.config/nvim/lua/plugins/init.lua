@@ -10,7 +10,7 @@ return {
     {
         'jackMort/ChatGPT.nvim',
         event = 'VeryLazy',
-        opts = function()
+        config = function()
             local config = {
                 keymaps = {
                     submit = '<C-s>',

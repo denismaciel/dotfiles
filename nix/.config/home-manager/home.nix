@@ -243,6 +243,8 @@
     };
   };
 
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [ "nodejs-16.20.0" ];
   nixpkgs.overlays = [
     (
       import (
