@@ -21,10 +21,26 @@ M.highlight_markdown_titles = function()
 end
 
 M.center_and_change_colorscheme = function()
-    vim.api.nvim_command [[ normal Gzz ]]
-    vim.api.nvim_command [[ colorscheme tokyonight ]]
-    vim.api.nvim_command [[ ZenMode ]]
+    vim.cmd [[ normal Gzz ]]
+    vim.cmd [[ colorscheme tokyonight ]]
+    vim.cmd [[ ZenMode ]]
     M.highlight_markdown_titles()
+end
+
+M.is_shorts_mode = function()
+    local is_shorts = vim.fn.getenv 'ME_SHORTS'
+    if is_shorts == 'true' then
+        return true
+    else
+        return false
+    end
+end
+
+M.maybe_toggle_shorts_mode = function()
+    if M.is_shorts_mode() then
+        vim.cmd [[ LspStop ]]
+        require('cmp').setup.buffer { enabled = false }
+    end
 end
 
 M.cycle_notes = function(direction)

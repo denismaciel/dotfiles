@@ -1,3 +1,9 @@
+local me = require 'me'
+
+if me.is_shorts_mode() then
+    return
+end
+
 local capabilities = require('cmp_nvim_lsp').default_capabilities(
     vim.lsp.protocol.make_client_capabilities()
 )
@@ -149,3 +155,4 @@ lspc.yamlls.setup {
 }
 lspc.dockerls.setup { capabilities = capabilities }
 lspc.cmake.setup { capabilities = capabilities }
+lspc.bashls.setup { capabilities = capabilities }

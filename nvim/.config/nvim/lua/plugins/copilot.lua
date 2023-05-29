@@ -1,3 +1,9 @@
+local me = require 'me'
+
+if me.is_shorts_mode() then
+    return {}
+end
+
 return {
     {
         'zbirenbaum/copilot.lua',

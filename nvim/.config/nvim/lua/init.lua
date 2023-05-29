@@ -3,6 +3,8 @@ vim.g.mapleader = ' '
 
 local o = vim.opt
 
+vim.cmd 'set shortmess+=I'
+
 o.clipboard = o.clipboard + 'unnamedplus'
 o.formatoptions = o.formatoptions + 'cro'
 o.mouse = 'a'
@@ -109,3 +111,6 @@ o.foldlevelstart = 99
 o.foldlevel = 99
 
 vim.cmd [[ colorscheme no-clown-fiesta ]]
+
+local me = require 'me'
+me.maybe_toggle_shorts_mode()
