@@ -26,8 +26,9 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
-    pkgs.kmymoney # terminal previewer
+    pkgs.gh
     pkgs.pistol # terminal previewer
+    pkgs.firefox
     pkgs.wezterm
     pkgs.ffmpeg
     pkgs.vscode
@@ -70,7 +71,6 @@
     pkgs.difftastic
     pkgs.direnv
     pkgs.docker
-    pkgs.dolphin
     pkgs.element-desktop
     pkgs.fd
     pkgs.flameshot
@@ -91,6 +91,8 @@
     pkgs.lua
     pkgs.mpv
     pkgs.newsboat
+    pkgs.gnome.nautilus
+    # pkgs.libsForQt5.dolphin
     pkgs.nodejs-16_x
     pkgs.notion-app-enhanced
     pkgs.obs-studio

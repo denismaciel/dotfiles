@@ -1,3 +1,9 @@
+local pickers = require 'telescope.pickers'
+local finders = require 'telescope.finders'
+local conf = require('telescope.config').values
+local actions = require 'telescope.actions'
+local action_state = require 'telescope.actions.state'
+
 local M = {}
 
 local function scandir(directory)
@@ -126,6 +132,83 @@ M.dump_todos = function()
     end
 
     file:close()
+end
+
+local function parse_anki_note_id(str)
+    local pattern = '%d%d%d%d%d%d%d%d%d%d%d%d%d'
+    local number = string.match(str, pattern)
+
+    if number then
+        return tonumber(number)
+    else
+        return nil
+    end
+end
+
+M.edit_anki_note_command = function()
+    local filename = vim.fn.expand '%:t'
+    local number = parse_anki_note_id(filename)
+    if number then
+        local bash_cmd = 'apy review nid:' .. number
+        local nvim_cmd = 'echo -n "'
+            .. bash_cmd
+            .. '" | xclip -selection clipboard'
+        os.execute(nvim_cmd)
+    else
+        print 'No 13-digit number found.'
+    end
+end
+
+local function load_json_file(path)
+    local file = io.open(path, 'r')
+    if not file then
+        print('Error opening file at', path)
+        return nil
+    end
+    local content = file:read '*all'
+    local json = vim.json.decode(content)
+    file:close()
+    return json
+end
+
+M.find_anki_notes = function(opts)
+    opts = opts or {}
+    pickers
+        .new(opts, {
+            prompt_title = 'Anki Notes',
+            finder = finders.new_table {
+                results = (function()
+                    local notes_index =
+                        load_json_file '/home/denis/Sync/Notes/Current/Anki/index.json'
+                    local notes = {}
+                    for _, note in ipairs(notes_index.notes) do
+                        if not note.is_code_only then
+                            table.insert(notes, note)
+                        end
+                    end
+                    return notes
+                end)(),
+                entry_maker = function(entry)
+                    return {
+                        value = entry,
+                        display = entry.title,
+                        ordinal = entry.title,
+                        filename = entry.file_name,
+                    }
+                end,
+            },
+            previewer = conf.file_previewer(opts),
+            sorter = conf.generic_sorter(opts),
+            attach_mappings = function(prompt_bufnr, map)
+                actions.select_default:replace(function()
+                    actions.close(prompt_bufnr)
+                    local selection = action_state.get_selected_entry()
+                    vim.cmd('e ' .. selection.value.file_name)
+                end)
+                return true
+            end,
+        })
+        :find()
 end
 
 return M

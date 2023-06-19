@@ -1,5 +1,6 @@
 local wk = require 'which-key'
 local sql = require 'me.sql'
+local me = require 'me'
 local zettel = require 'me.zettel'
 local themes = require 'telescope.themes'
 
@@ -116,6 +117,12 @@ wk.register({
         n = { '<cmd>ObsidianNew<CR>', 'New note' },
         f = { '<cmd>ObsidianQuickSwitch<CR>', 'Find note' },
         'Obsidian',
+        a = {
+            function()
+                me.find_anki_notes(require('telescope.themes').get_dropdown {})
+            end,
+            'Find Anki note',
+        },
     },
 }, { prefix = '<leader>' })
 
@@ -130,20 +137,20 @@ wk.register({
     },
     tt = {
         function()
-            require('telescope.builtin').tags(themes.get_dropdown {
-                shorten_path = true,
-                layout_config = {
-                    width = function(_, max_columns)
-                        local percentage = 0.95
-                        return math.floor(percentage * max_columns)
-                    end,
-                    height = function(_, _, max_lines)
-                        local percentage = 0.9
-                        local min = 0
-                        return math.max(math.floor(percentage * max_lines), min)
-                    end,
+            local opts = themes.get_dropdown {}
+            local layout_config = {
+                width = 0.9,
+                height = 0.6,
+                horizontal = {
+                    width = { padding = 0.15 },
                 },
-            })
+                vertical = {
+                    preview_height = 0.75,
+                },
+            }
+            opts.layout_config = layout_config
+            opts.fname_width = 70
+            require('telescope.builtin').tags(opts)
         end,
         '!! Tags',
     },

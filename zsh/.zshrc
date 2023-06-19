@@ -31,7 +31,7 @@ function pdread() {
 }
 
 function add-anki() {
-~/venvs/apy/bin/apy add -d default
+    ~/venvs/apy/bin/apy add -d default
 }
 
 
@@ -81,26 +81,13 @@ function is_in_git_repo() {
 }
 
 function fzf-down() {
-fzf --height 50% "$@" --border
+    fzf --height 50% "$@" --border
 }
 
 function gitwatch () {
     watch_gha_runs $@ "$(git remote get-url origin)" "$(git rev-parse --abbrev-ref HEAD)"
 }
 
-function gbl() {
-    is_in_git_repo || return
-    git branch -a --color=always | grep -v '/HEAD\s' | sort |
-        fzf-down --ansi --multi --tac --preview-window right:70% \
-        --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
-        sed 's/^..//' | cut -d' ' -f1 |
-        sed 's#^remotes/origin/##'
-}
-
-function gb() {
-        
-    git checkout $(echo $(gbl) | sed 's#^remotes/##')
-}
 
 # Untracked files
 function gu() {
@@ -165,8 +152,15 @@ export LC_ALL=en_US.UTF-8 # Fix problem when opening nvim
 export VISUAL=nvim
 export EDITOR=nvim
 export FZF_DEFAULT_OPTS="--height 100%"
-export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --ignore-file ~/.ripgrep_ignore"
+export FZF_DEFAULT_COMmAND="rg --files --no-ignore-vcs --ignore-file ~/.ripgrep_ignore"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+function _fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" --exclude "venv" . "$1"
+}
+function  _fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" --exclude "venv" . "$1"
+}
+
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 export XDG_CONFIG_HOME=$HOME/.config
 
@@ -310,3 +304,22 @@ mv_last() {
         echo "No files found in the source folder."
     fi
 }
+
+
+function gbl {
+    is_in_git_repo || return
+    git branch -a --color=always | grep -v '/HEAD\s' | sort |
+        fzf-down --ansi --multi --tac --preview-window right:70% \
+        --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
+        sed 's/^..//' | cut -d' ' -f1 |
+        sed 's#^remotes/origin/##'
+}
+
+function gb {
+    git checkout $(echo $(gbl) | sed 's#^remotes/##')
+}
+
+# OCTAVIA CLI 0.44.4
+OCTAVIA_ENV_FILE=/home/denis/.octavia
+export OCTAVIA_ENABLE_TELEMETRY=False
+alias octavia="docker run -i --rm -v \$(pwd):/home/octavia-project --network host --env-file \${OCTAVIA_ENV_FILE} --user \$(id -u):\$(id -g) airbyte/octavia-cli:0.44.4"

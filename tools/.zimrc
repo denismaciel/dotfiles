@@ -4,8 +4,3 @@ zmodule greymd/docker-zsh-completion
 zmodule completion
 zmodule Aloxaf/fzf-tab
 zmodule zdharma-continuum/fast-syntax-highlighting
-
-
-# modules that need to use compdef or something and so have to come after completion
-zmodule ohmyzsh/ohmyzsh --root plugins/git
-zmodule ohmyzsh/ohmyzsh --root plugins/python

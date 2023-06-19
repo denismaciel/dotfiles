@@ -54,9 +54,12 @@ return {
         'rcarriga/nvim-notify',
         opts = function()
             vim.notify = require 'notify'
+            require('notify').setup {
+                background_colour = '#000000',
+            }
         end,
     },
-    { 'j-hui/fidget.nvim', opts = {} },
+    { 'j-hui/fidget.nvim', opts = {}, tag = 'legacy' },
     { 'm-demare/hlargs.nvim', opts = {} },
     { 'lewis6991/gitsigns.nvim', opts = {} },
     { 'windwp/nvim-autopairs', opts = {} },
