@@ -27,6 +27,13 @@ cmd fzf_select ${{
 	lf -remote "send $id select \"$list\""
 }}
 
+cmd open ${{
+    case $(file --mime-type -Lb $f) in
+        text/*) nvim $fx;;
+        *) for f in $fx; do xdg-open $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
 # Basic Functions
 set hidden true
 set ignorecase true

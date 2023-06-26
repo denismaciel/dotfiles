@@ -19,11 +19,11 @@ local function scandir(directory)
 end
 
 M.highlight_markdown_titles = function()
-    vim.api.nvim_set_hl(0, '@text.title.1', { fg = '#50fa7b' })
-    vim.api.nvim_set_hl(0, '@text.title.2', { fg = '#ff79c6' })
-    vim.api.nvim_set_hl(0, '@text.title.3', { fg = '#ffb86c' })
-    vim.api.nvim_set_hl(0, '@text.title.4', { fg = '#8be9fd' })
-    vim.api.nvim_set_hl(0, '@text.title.5', { fg = '#f1fa8c' })
+    -- vim.api.nvim_set_hl(0, '@text.title.1', { fg = '#50fa7b' })
+    -- vim.api.nvim_set_hl(0, '@text.title.2', { fg = '#ff79c6' })
+    -- vim.api.nvim_set_hl(0, '@text.title.3', { fg = '#ffb86c' })
+    -- vim.api.nvim_set_hl(0, '@text.title.4', { fg = '#8be9fd' })
+    -- vim.api.nvim_set_hl(0, '@text.title.5', { fg = '#f1fa8c' })
 end
 
 M.center_and_change_colorscheme = function()

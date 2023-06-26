@@ -12,11 +12,12 @@ vim.api.nvim_create_autocmd('BufEnter', {
 return {
     -- === Colors ===
     'folke/tokyonight.nvim',
+    -- 'gbprod/nord.nvim',
+    'shaunsingh/nord.nvim',
     { 'catppuccin/nvim', name = 'catppuccin' },
     'morhetz/gruvbox',
     'savq/melange',
     'rebelot/kanagawa.nvim',
-    'shaunsingh/nord.nvim',
     {
         'aktersnurra/no-clown-fiesta.nvim',
         opts = {

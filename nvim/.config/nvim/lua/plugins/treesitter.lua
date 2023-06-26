@@ -1,12 +1,23 @@
 return {
     {
         'nvim-treesitter/nvim-treesitter',
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter-refactor',
+            'nvim-treesitter/nvim-treesitter-textobjects',
+            'JoosepAlviste/nvim-ts-context-commentstring',
+        },
         build = ':TSUpdate',
         config = function()
             require('nvim-treesitter.configs').setup {
                 ensure_installed = 'all',
                 indent = {
                     enable = true,
+                },
+                refactor = {
+                    highlight_definitions = {
+                        enable = true,
+                        clear_on_cursor_move = true,
+                    },
                 },
                 highlight = {
                     enable = true,
@@ -23,6 +34,10 @@ return {
                         ['h5'] = 'h5',
                         ['_h5'] = '_h5',
                     },
+                },
+                context_commentstring = {
+                    enable = true,
+                    enable_autocmd = false,
                 },
                 autotag = {
                     enable = true,
@@ -68,6 +83,4 @@ return {
             }
         end,
     },
-    'nvim-treesitter/playground',
-    'nvim-treesitter/nvim-treesitter-textobjects',
 }

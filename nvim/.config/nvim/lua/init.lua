@@ -42,7 +42,6 @@ o.splitbelow = true
 o.splitright = true
 
 o.completeopt = { 'menu', 'menuone', 'noselect' }
-o.termguicolors = true
 
 o.laststatus = 3
 o.winbar = '%=%m %f'
@@ -110,7 +109,7 @@ o.foldexpr = 'nvim_treesitter#foldexpr()'
 o.foldlevelstart = 99
 o.foldlevel = 99
 
-vim.cmd [[ colorscheme no-clown-fiesta ]]
+vim.cmd [[ colorscheme nord ]]
 
 local me = require 'me'
 me.maybe_toggle_shorts_mode()

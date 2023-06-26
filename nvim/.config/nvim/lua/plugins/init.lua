@@ -34,6 +34,27 @@ return {
         dependencies = { { 'nvim-lua/plenary.nvim' } },
     },
     'nvim-telescope/telescope-ui-select.nvim',
+
+    {
+        'lukas-reineke/headlines.nvim',
+        opts = {
+            markdown = {
+                headline_highlights = {
+                    'Headline1',
+                    'Headline2',
+                    'Headline3',
+                    'Headline4',
+                    'Headline5',
+                    'Headline6',
+                },
+                codeblock_highlight = 'CodeBlock',
+                dash_highlight = 'Dash',
+                quote_highlight = 'Quote',
+            },
+        },
+        dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    },
+
     -- ======================
     'folke/which-key.nvim',
     { 'folke/neodev.nvim', opts = {} },
@@ -60,7 +81,7 @@ return {
         end,
     },
     { 'j-hui/fidget.nvim', opts = {}, tag = 'legacy' },
-    { 'm-demare/hlargs.nvim', opts = {} },
+    -- { 'm-demare/hlargs.nvim',    opts = {} },
     { 'lewis6991/gitsigns.nvim', opts = {} },
     { 'windwp/nvim-autopairs', opts = {} },
 
@@ -71,7 +92,7 @@ return {
     'mfussenegger/nvim-dap-python',
     'nvim-telescope/telescope-dap.nvim',
 
-    { 'NvChad/nvim-colorizer.lua', opts = {} },
+    -- { 'NvChad/nvim-colorizer.lua', opts = {} },
     { 'klen/nvim-test', opts = {} },
     {
         'ggandor/leap.nvim',
@@ -83,7 +104,6 @@ return {
         'utilyre/barbecue.nvim',
         opts = {
             theme = {
-
                 dirname = { fg = '#737aa2' },
             },
         },
@@ -94,10 +114,17 @@ return {
             'nvim-tree/nvim-web-devicons',
         },
     },
-
     'christoomey/vim-tmux-navigator',
     'nvim-lua/plenary.nvim',
-    'tpope/vim-commentary',
+    -- 'tpope/vim-commentary',
+    {
+        'numToStr/Comment.nvim',
+        opts = {
+            pre_hook = function()
+                require('ts_context_commentstring.internal').update_commentstring()
+            end,
+        },
+    },
     -- 'editorconfig/editorconfig-vim',
     'mbbill/undotree',
     'windwp/nvim-autopairs',
