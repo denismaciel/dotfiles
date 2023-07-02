@@ -109,7 +109,7 @@ o.foldexpr = 'nvim_treesitter#foldexpr()'
 o.foldlevelstart = 99
 o.foldlevel = 99
 
-vim.cmd [[ colorscheme nord ]]
+vim.cmd [[ colorscheme no-clown-fiesta ]]
 
 local me = require 'me'
 me.maybe_toggle_shorts_mode()

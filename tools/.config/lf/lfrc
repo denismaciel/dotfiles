@@ -34,6 +34,14 @@ cmd open ${{
     esac
 }}
 
+cmd pager ${{
+	if [[ $f = *.md  ]]; then
+		glow -p $fx
+	else
+		bat $fx
+	fi
+}}
+
 # Basic Functions
 set hidden true
 set ignorecase true

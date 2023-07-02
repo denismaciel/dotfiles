@@ -45,155 +45,164 @@ font:
   #  y: 0
 
 schemes:
- nord: &nord
-  primary:
-    background: "#2e3440"
-    foreground: "#d8dee9"
-    dim_foreground: "#a5abb6"
-  cursor:
-    text: "#2e3440"
-    cursor: "#d8dee9"
-  vi_mode_cursor:
-    text: "#2e3440"
-    cursor: "#d8dee9"
-  selection:
-    text: CellForeground
-    background: "#4c566a"
-  search:
-    matches:
-      foreground: CellBackground
-      background: "#88c0d0"
-    foot_bar:
-      background: "#434c5e"
+  nord: &nord
+    primary:
+      # background: "#2e3440"
+      background: "#151515"
       foreground: "#d8dee9"
-  normal:
-    black: "#3b4252"
-    red: "#bf616a"
-    green: "#a3be8c"
-    yellow: "#ebcb8b"
-    blue: "#81a1c1"
-    magenta: "#b48ead"
-    cyan: "#88c0d0"
-    white: "#e5e9f0"
-  bright:
-    black: "#4c566a"
-    red: "#bf616a"
-    green: "#a3be8c"
-    yellow: "#ebcb8b"
-    blue: "#81a1c1"
-    magenta: "#b48ead"
-    cyan: "#8fbcbb"
-    white: "#eceff4"
-  dim:
-    black: "#373e4d"
-    red: "#94545d"
-    green: "#809575"
-    yellow: "#b29e75"
-    blue: "#68809a"
-    magenta: "#8c738c"
-    cyan: "#6d96a5"
-    white: "#aeb3bb"
-
-  github-dark-colorblind: &github-dark
-    primary:
-      background: "0x0d1117"
-      foreground: "0xb3b1ad"
-
-    # Normal colors
+      dim_foreground: "#a5abb6"
+    cursor:
+      text: "#2e3440"
+      cursor: "#d8dee9"
+    vi_mode_cursor:
+      text: "#2e3440"
+      cursor: "#d8dee9"
+    selection:
+      text: CellForeground
+      background: "#4c566a"
+    search:
+      matches:
+        foreground: CellBackground
+        background: "#88c0d0"
+      foot_bar:
+        background: "#434c5e"
+        foreground: "#d8dee9"
     normal:
-      black: "0x484f58"
-      red: "0xff7b72"
-      green: "0x3fb950"
-      yellow: "0xd29922"
-      blue: "0x58a6ff"
-      magenta: "0xbc8cff"
-      cyan: "0x39c5cf"
-      white: "0xb1bac4"
+      black: "#3b4252"
+      red: "#bf616a"
+      green: "#a3be8c"
+      yellow: "#ebcb8b"
+      blue: "#81a1c1"
+      magenta: "#b48ead"
+      cyan: "#88c0d0"
+      white: "#e5e9f0"
+    bright:
+      black: "#4c566a"
+      red: "#bf616a"
+      green: "#a3be8c"
+      yellow: "#ebcb8b"
+      blue: "#81a1c1"
+      magenta: "#b48ead"
+      cyan: "#8fbcbb"
+      white: "#eceff4"
+    dim:
+      black: "#373e4d"
+      red: "#94545d"
+      green: "#809575"
+      yellow: "#b29e75"
+      blue: "#68809a"
+      magenta: "#8c738c"
+      cyan: "#6d96a5"
+      white: "#aeb3bb"
 
-    # Bright colors
-    bright:
-      black: "0x6e7681"
-      red: "0xffa198"
-      green: "0x56d364"
-      yellow: "0xe3b341"
-      blue: "0x79c0ff"
-      magenta: "0xd2a8ff"
-      cyan: "0x56d4dd"
-      white: "0xf0f6fc"
+    github-dark-colorblind: &github-dark-colorblind
+      primary:
+        background: "0x0d1117"
+        foreground: "0xb3b1ad"
 
-    indexed_colors:
-      - { index: 16, color: "0xd18616" }
-      - { index: 17, color: "0xffa198" }
-  github-light: &github-light
-    primary:
-      background: "0xffffff"
-      foreground: "0x0E1116"
-    normal:
-      black: "0x24292f"
-      red: "0xcf222e"
-      green: "0x116329"
-      yellow: "0x4d2d00"
-      blue: "0x0969da"
-      magenta: "0x8250df"
-      cyan: "0x1b7c83"
-      white: "0x6e7781"
-    bright:
-      black: "0x57606a"
-      red: "0xa40e26"
-      green: "0x1a7f37"
-      yellow: "0x633c01"
-      blue: "0x218bff"
-      magenta: "0xa475f9"
-      cyan: "0x3192aa"
-      white: "0x8c959f"
-    indexed_colors:
-      - { index: 16, color: "0xd18616" }
-      - { index: 17, color: "0xa40e26" }
-  gruvbox-light: &gruvbox-light
-    primary:
-      background: "#fbf1c7"
-      foreground: "#3c3836"
-    normal:
-      black: "#fbf1c7"
-      red: "#cc241d"
-      green: "#98971a"
-      yellow: "#d79921"
-      blue: "#458588"
-      magenta: "#b16286"
-      cyan: "#689d6a"
-      white: "#7c6f64"
-    bright:
-      black: "#928374"
-      red: "#9d0006"
-      green: "#79740e"
-      yellow: "#b57614"
-      blue: "#076678"
-      magenta: "#8f3f71"
-      cyan: "#427b58"
-      white: "#3c3836"
-  gruvbox-dark: &gruvbox-dark
-    primary:
-      # background: "#282828"
-      background: "#151515"  # no-clown-fiesta background
-      foreground: "#ebdbb2"
-    normal:
-      black: "#282828"
-      red: "#cc241d"
-      green: "#98971a"
-      yellow: "#d79921"
-      blue: "#458588"
-      magenta: "#b16286"
-      cyan: "#689d6a"
-      white: "#a89984"
-    bright:
-      black: "#928374"
-      red: "#fb4934"
-      green: "#b8bb26"
-      yellow: "#fabd2f"
-      blue: "#83a598"
-      magenta: "#d3869b"
-      cyan: "#8ec07c"
-      white: "#ebdbb2"
+      # Normal colors
+      normal:
+        black: "0x484f58"
+        red: "0xff7b72"
+        green: "0x3fb950"
+        yellow: "0xd29922"
+        blue: "0x58a6ff"
+        magenta: "0xbc8cff"
+        cyan: "0x39c5cf"
+        white: "0xb1bac4"
+
+      # Bright colors
+      bright:
+        black: "0x6e7681"
+        red: "0xffa198"
+        green: "0x56d364"
+        yellow: "0xe3b341"
+        blue: "0x79c0ff"
+        magenta: "0xd2a8ff"
+        cyan: "0x56d4dd"
+        white: "0xf0f6fc"
+
+      indexed_colors:
+        - { index: 16, color: "0xd18616" }
+        - { index: 17, color: "0xffa198" }
+    github-light: &github-light
+      primary:
+        background: "0xffffff"
+        foreground: "0x0E1116"
+      normal:
+        black: "0x24292f"
+        red: "0xcf222e"
+        green: "0x116329"
+        yellow: "0x4d2d00"
+        blue: "0x0969da"
+        magenta: "0x8250df"
+        cyan: "0x1b7c83"
+        white: "0x6e7781"
+      bright:
+        black: "0x57606a"
+        red: "0xa40e26"
+        green: "0x1a7f37"
+        yellow: "0x633c01"
+        blue: "0x218bff"
+        magenta: "0xa475f9"
+        cyan: "0x3192aa"
+        white: "0x8c959f"
+      indexed_colors:
+        - { index: 16, color: "0xd18616" }
+        - { index: 17, color: "0xa40e26" }
+    gruvbox-light: &gruvbox-light
+      primary:
+        background: "#fbf1c7"
+        foreground: "#3c3836"
+      normal:
+        black: "#fbf1c7"
+        red: "#cc241d"
+        green: "#98971a"
+        yellow: "#d79921"
+        blue: "#458588"
+        magenta: "#b16286"
+        cyan: "#689d6a"
+        white: "#7c6f64"
+      bright:
+        black: "#928374"
+        red: "#9d0006"
+        green: "#79740e"
+        yellow: "#b57614"
+        blue: "#076678"
+        magenta: "#8f3f71"
+        cyan: "#427b58"
+        white: "#3c3836"
+    gruvbox-dark: &gruvbox-dark
+      primary:
+        # background: "#282828"
+        background: "#151515" # no-clown-fiesta background
+        foreground: "#ebdbb2"
+      normal:
+        black: "#282828"
+        red: "#cc241d"
+        green: "#98971a"
+        yellow: "#d79921"
+        blue: "#458588"
+        magenta: "#b16286"
+        cyan: "#689d6a"
+        white: "#a89984"
+      bright:
+        black: "#928374"
+        red: "#fb4934"
+        green: "#b8bb26"
+        yellow: "#fabd2f"
+        blue: "#83a598"
+        magenta: "#d3869b"
+        cyan: "#8ec07c"
+        white: "#ebdbb2"
+
+import:
+  - ~/.config/alacritty/catppuccin/catppuccin-mocha.yml
+  # - ~/.config/alacritty/catppuccin/catppuccin-macchiato.yml
+  # - ~/.config/alacritty/catppuccin/catppuccin-frappe.yml
+#  - ~/.config/alacritty/catppuccin/catppuccin-latte.yml
+#
+#
 colors: *nord
 
 selection:
@@ -207,5 +216,5 @@ cursor:
     shape: Underline
 live_config_reload: true
 key_bindings:
-- { key: Return,   mods: Shift,   chars: "\x1b[13;2u" }
-- { key: Return,   mods: Control, chars: "\x1b[13;5u" }
+  - { key: Return, mods: Shift, chars: "\x1b[13;2u" }
+  - { key: Return, mods: Control, chars: "\x1b[13;5u" }

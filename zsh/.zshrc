@@ -8,8 +8,9 @@ export PATH="$HOME/node/bin:$PATH"
 export PATH="$HOME/venvs/default/bin:$PATH"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
+export ZK_NOTEBOOK_DIR="$HOME/Sync/Notes/Current"
+
 export GOPATH=$(go env GOPATH)
-# export GOROOT=$HOME/.go
 export PATH=$GOROOT/bin:$PATH
 
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
@@ -138,10 +139,6 @@ function open() {
     nohup xdg-open "$*" >> /dev/null &
 }
 
-function open-zathura() {
-nohup zathura "$*" >> /dev/null & exit
-}
-
 function addin() {
     printf "Addressed in $(git rev-parse HEAD)" | xclip -selection clipboard 
     git push origin HEAD
@@ -180,7 +177,6 @@ alias vi=nvim
 alias gdd="GIT_EXTERNAL_DIFF='difft --syntax-highlight off' git diff"
 alias gdds="GIT_EXTERNAL_DIFF='difft --syntax-highlight off' git diff --staged"
 alias gds="git diff --staged"
-alias pdf='open-zathura "$(fd "pdf|epub" | fzf)"'
 alias clip='xclip -selection clipboard'
 
 setopt autocd # .. is shortcut for cd .. 
@@ -257,10 +253,8 @@ if [ -e /home/denis/credentials/recap.sh ]; then . /home/denis/credentials/recap
 #     - https://www.reddit.com/r/NixOS/comments/oj4kmd/every_time_i_run_a_program_installed_with_nix_i/
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
-
 eval "$(direnv hook zsh)"
 eval "$(zoxide init zsh)"
-# GoLang
 
 # zim (https://github.com/zimfw/zimfw
 zstyle ':zim:zmodule' use 'degit'

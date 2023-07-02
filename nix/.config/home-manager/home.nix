@@ -27,6 +27,7 @@
   fonts.fontconfig.enable = true;
   home.packages = [
     pkgs.zk
+    pkgs.glow
     pkgs.gh
     pkgs.pistol # terminal previewer
     pkgs.firefox
@@ -94,7 +95,7 @@
     pkgs.newsboat
     pkgs.gnome.nautilus
     # pkgs.libsForQt5.dolphin
-    pkgs.nodejs-16_x
+    pkgs.nodejs-18_x
     pkgs.notion-app-enhanced
     pkgs.obs-studio
     pkgs.obsidian
@@ -253,7 +254,7 @@
       import (
         let
           rev = "master";
-          # rev = "c57746e2b9e3b42c0be9d9fd1d765f245c3827b7";
+          # rev = "d55d7646c129a9afe1da3a61813bb365d178c421";
         in
         builtins.fetchTarball {
           url = "https://github.com/nix-community/neovim-nightly-overlay/archive/${rev}.tar.gz";

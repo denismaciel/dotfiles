@@ -27,13 +27,6 @@ vim.keymap.set(
     '<leader>tm',
     ':!pandoc --to html | xclip -t text/html -selection clipboard<cr>u'
 )
-vim.keymap.set('n', 'gf', function()
-    if require('obsidian').util.cursor_on_markdown_link() then
-        return '<cmd>ObsidianFollowLink<CR>'
-    else
-        return 'gf'
-    end
-end, { noremap = false, expr = true })
 
 vim.keymap.set('n', '$', 'g$')
 vim.keymap.set('n', '0', 'g0')
@@ -116,7 +109,6 @@ wk.register({
     o = {
         n = { '<cmd>ObsidianNew<CR>', 'New note' },
         f = { '<cmd>ObsidianQuickSwitch<CR>', 'Find note' },
-        'Obsidian',
         a = {
             function()
                 me.find_anki_notes(require('telescope.themes').get_dropdown {})

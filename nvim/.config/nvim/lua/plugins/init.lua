@@ -1,5 +1,13 @@
 return {
     {
+        'mickael-menu/zk-nvim',
+        config = function()
+            require('zk').setup {
+                picker = 'telescope',
+            }
+        end,
+    },
+    {
         'utilyre/sentiment.nvim',
         version = '*',
         opts = {},
@@ -31,6 +39,7 @@ return {
     },
     {
         'nvim-telescope/telescope.nvim',
+        tag = '0.1.1',
         dependencies = { { 'nvim-lua/plenary.nvim' } },
     },
     'nvim-telescope/telescope-ui-select.nvim',
