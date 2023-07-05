@@ -59,6 +59,7 @@ return {
                 codeblock_highlight = 'CodeBlock',
                 dash_highlight = 'Dash',
                 quote_highlight = 'Quote',
+                fat_headlines = false,
             },
         },
         dependencies = { 'nvim-treesitter/nvim-treesitter' },

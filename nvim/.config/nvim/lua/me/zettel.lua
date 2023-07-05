@@ -10,10 +10,10 @@ local function make_edit_fn(defaults, picker_options)
     end
 end
 
-commands.add(
-    'ZkOrphans',
-    make_edit_fn({ orphan = true }, { title = 'Zk Orphans' })
-)
+-- commands.add(
+--     'ZkOrphans',
+--     make_edit_fn({ orphan = true }, { title = 'Zk Orphans' })
+-- )
 commands.add(
     'ZkRecents',
     make_edit_fn(
