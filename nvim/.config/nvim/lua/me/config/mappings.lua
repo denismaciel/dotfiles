@@ -73,32 +73,28 @@ wk.register {
     ['<leader>xq'] = { '<cmd>TroubleToggle quickfix<cr>', 'Quickfix' },
     ['<leader>xk'] = { vim.diagnostic.open_float, 'Floating Diagnostics' },
 
-    ['<leader>s'] = {
-        name = 'SQL',
-        ['<leader>ss'] = {
-            ':!sqly snapshot --file % --cte-name <cword> <CR>',
-            'Snapshot CTE',
-        },
-        ['<leader>sx'] = { sql.dbt_open_compiled, 'Open compiled query' },
-        ['<leader>sv'] = { sql.dbt_open_snaps, 'Open snapshots' },
-        ['<leader>sn'] = {
-            ':!echo -n %:t:r | xclip -selection clipboard<CR>',
-            'Copy model name to clipboard',
-        },
+    -- SQL
+    ['<leader>s'] = { name = 'SQL' },
+    ['<leader>ss'] = {
+        ':!sqly snapshot --file % --cte-name <cword> <CR>',
+        'Snapshot CTE',
     },
-    ['<leader>z'] = {
-        name = 'Zettelkasten',
-        ['<leader>zn'] = { zettel.create_new_note, 'New note' },
-        ['<leader>za'] = { zettel.open_anki_note, 'Anki note' },
+    ['<leader>sx'] = { sql.dbt_open_compiled, 'Open compiled query' },
+    ['<leader>sv'] = { sql.dbt_open_snaps, 'Open snapshots' },
+    ['<leader>sn'] = {
+        ':!echo -n %:t:r | xclip -selection clipboard<CR>',
+        'Copy model name to clipboard',
     },
+
+    -- Date
     ['<leader>t'] = { name = 'Date' },
     ['<leader>tss'] = {
         [["=strftime('%Y-%m-%d %H:%M')<CR>p]],
-        'Insert current datetime',
+        'Insert current timestamp',
     },
 
     ['<leader>tsd'] = {
-        [["=strftime('%Y-%m-%d')<CR>p]],
+        [["=strftime('%Y-%m-%d (%a)')<CR>p]],
         'Insert current time',
     },
 
