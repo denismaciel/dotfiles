@@ -50,84 +50,75 @@ vim.cmd 'command Bd bp | sp | bn | bd'
 vim.cmd 'command Bdd bp! | sp! | bn! | bd!'
 
 wk.setup {}
-wk.register({
-    f = {
-        name = 'File',
-        c = {
-            ':!echo -n % | xclip -selection clipboard<CR>',
-            'Copy file path to clipboard',
-        },
-        f = { vim.lsp.buf.format, 'Format current buffer' },
-        n = { ':call RenameFile()<CR>', 'Rename file' },
+wk.register {
+    ['<leader>f'] = { name = 'File' },
+    ['<leader>fc'] = {
+        ':!echo -n % | xclip -selection clipboard<CR>',
+        'Copy file path to clipboard',
     },
-    x = {
-        name = 'Trouble',
-        x = { '<cmd>TroubleToggle<cr>', 'Toggle' },
-        w = {
-            '<cmd>TroubleToggle workspace_diagnostics<cr>',
-            'Workspace Diagnostics',
-        },
-        d = {
-            '<cmd>TroubleToggle document_diagnostics<cr>',
-            'Document Diagnostics',
-        },
-        l = { '<cmd>TroubleToggle loclist<cr>', 'Loclist' },
-        q = { '<cmd>TroubleToggle quickfix<cr>', 'Quickfix' },
-        k = { vim.diagnostic.open_float, 'Floating Diagnostics' },
+    ['<leader>ff'] = { vim.lsp.buf.format, 'Format current buffer' },
+    ['<leader>fn'] = { ':call RenameFile()<CR>', 'Rename file' },
+
+    ['<leader>x'] = { name = 'Trouble' },
+    ['<leader>xx'] = { '<cmd>TroubleToggle<cr>', 'Toggle' },
+    ['<leader>xw'] = {
+        '<cmd>TroubleToggle workspace_diagnostics<cr>',
+        'Workspace Diagnostics',
     },
-    s = {
+    ['<leader>xd'] = {
+        '<cmd>TroubleToggle document_diagnostics<cr>',
+        'Document Diagnostics',
+    },
+    ['<leader>xl'] = { '<cmd>TroubleToggle loclist<cr>', 'Loclist' },
+    ['<leader>xq'] = { '<cmd>TroubleToggle quickfix<cr>', 'Quickfix' },
+    ['<leader>xk'] = { vim.diagnostic.open_float, 'Floating Diagnostics' },
+
+    ['<leader>s'] = {
         name = 'SQL',
-        s = {
+        ['<leader>ss'] = {
             ':!sqly snapshot --file % --cte-name <cword> <CR>',
             'Snapshot CTE',
         },
-        x = { sql.dbt_open_compiled, 'Open compiled query' },
-        v = { sql.dbt_open_snaps, 'Open snapshots' },
-        n = {
+        ['<leader>sx'] = { sql.dbt_open_compiled, 'Open compiled query' },
+        ['<leader>sv'] = { sql.dbt_open_snaps, 'Open snapshots' },
+        ['<leader>sn'] = {
             ':!echo -n %:t:r | xclip -selection clipboard<CR>',
             'Copy model name to clipboard',
         },
     },
-    z = {
+    ['<leader>z'] = {
         name = 'Zettelkasten',
-        n = { zettel.create_new_note, 'New note' },
-        a = { zettel.open_anki_note, 'Anki note' },
+        ['<leader>zn'] = { zettel.create_new_note, 'New note' },
+        ['<leader>za'] = { zettel.open_anki_note, 'Anki note' },
     },
-    t = {
-        name = 'Date',
-        ss = {
-            [["=strftime('%Y-%m-%d %H:%M')<CR>p]],
-            'Instert current datetime',
-        },
-        sd = { [["=strftime('%Y-%m-%d')<CR>p]], 'Insert current time' },
-        d = { require('me').dump_todos, 'Dump TODOs' },
+    ['<leader>t'] = { name = 'Date' },
+    ['<leader>tss'] = {
+        [["=strftime('%Y-%m-%d %H:%M')<CR>p]],
+        'Insert current datetime',
     },
-    u = {
-        '<cmd>UndotreeToggle<CR>',
-        'Undotree',
-    },
-    o = {
-        n = { '<cmd>ObsidianNew<CR>', 'New note' },
-        f = { '<cmd>ObsidianQuickSwitch<CR>', 'Find note' },
-        a = {
-            function()
-                me.find_anki_notes(require('telescope.themes').get_dropdown {})
-            end,
-            'Find Anki note',
-        },
-    },
-}, { prefix = '<leader>' })
 
-wk.register({
-    dd = {
-        vim.lsp.buf.declaration,
-        '!! Declaration',
+    ['<leader>tsd'] = {
+        [["=strftime('%Y-%m-%d')<CR>p]],
+        'Insert current time',
     },
-    a = {
-        vim.lsp.buf.code_action,
-        'Code action',
+
+    ['<leader>td'] = { require('me').dump_todos, 'Dump TODOs' },
+
+    ['<leader>u'] = { '<cmd>UndotreeToggle<CR>', 'Undotree' },
+
+    ['<leader>o'] = { name = 'Obsidian' },
+    ['<leader>oa'] = {
+        function()
+            me.find_anki_notes(require('telescope.themes').get_dropdown {})
+        end,
+        'Find Anki note',
     },
-    tt = {
+}
+
+wk.register {
+    ['gdd'] = { vim.lsp.buf.declaration, '!! Declaration' },
+    ['ga'] = { vim.lsp.buf.code_action, 'Code action' },
+    ['gtt'] = {
         function()
             local opts = themes.get_dropdown {}
             local layout_config = {
@@ -146,20 +137,19 @@ wk.register({
         end,
         '!! Tags',
     },
-    r = {
+    ['gr'] = {
         function()
             require('telescope.builtin').lsp_references(
                 require('telescope.themes').get_dropdown {}
             )
         end,
-
         '!! References',
     },
-}, { prefix = 'g' })
+}
 
-wk.register({
-    name = 'Telescope',
-    t = {
+wk.register {
+    ['t'] = { name = 'Telescope' },
+    ['tt'] = {
         function()
             require('telescope.builtin').find_files {
                 find_command = {
@@ -175,7 +165,7 @@ wk.register({
         end,
         'Find files',
     },
-    d = {
+    ['td'] = {
         function()
             require('telescope.builtin').find_files {
                 find_command = { 'git', 'diff', '--name-only', '--relative' },
@@ -183,27 +173,27 @@ wk.register({
         end,
         'Find diff files',
     },
-    c = {
+    ['tc'] = {
         require('telescope.builtin').commands,
         'Vim Commands',
     },
-    h = {
+    ['th'] = {
         require('telescope.builtin').command_history,
-        'Vim Comand History',
+        'Vim Command History',
     },
-    ft = {
+    ['tft'] = {
         require('telescope.builtin').filetypes,
         'FileTypes',
     },
-    m = {
+    ['tm'] = {
         require('telescope.builtin').marks,
         'Marks',
     },
-    b = {
+    ['tb'] = {
         require('telescope.builtin').current_buffer_fuzzy_find,
         'Buffers',
     },
-}, { prefix = 't' })
+}
 
 vim.keymap.set('n', '<leader>rg', require('telescope.builtin').live_grep)
 vim.keymap.set('n', '<leader>/', require('telescope.builtin').treesitter)
