@@ -30,9 +30,10 @@ M.dbt_open_compiled = function()
     local result =
         io.popen('./venv/bin/sqly get-dbt-compiled-path --file ' .. fname)
     for line in result:lines() do
-        vim.api.nvim_command 'vsplit'
+        vim.api.nvim_command 'split'
         vim.api.nvim_command('view ' .. line)
-        vim.api.nvim_command 'setlocal syntax=OFF'
+        vim.api.nvim_command 'syntax off'
+        vim.treesitter.stop()
     end
 end
 

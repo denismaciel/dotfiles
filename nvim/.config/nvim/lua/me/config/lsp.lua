@@ -38,7 +38,6 @@ null_ls.setup {
                 '-',
             },
         },
-        null_ls.builtins.formatting.ruff,
         -- Lua
         null_ls.builtins.formatting.stylua,
         -- Javascript
