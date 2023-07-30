@@ -161,6 +161,7 @@ screen.connect_signal('property::geometry', set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
     awful.tag({ '1' }, s, awful.layout.layouts[1])
+    -- awful.tag({ '2' }, s, awful.layout.layouts[1])
 end)
 -- }}}
 

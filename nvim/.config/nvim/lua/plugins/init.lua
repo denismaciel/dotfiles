@@ -126,7 +126,6 @@ return {
     },
     'christoomey/vim-tmux-navigator',
     'nvim-lua/plenary.nvim',
-    -- 'tpope/vim-commentary',
     {
         'numToStr/Comment.nvim',
         opts = {
@@ -135,7 +134,6 @@ return {
             end,
         },
     },
-    -- 'editorconfig/editorconfig-vim',
     'mbbill/undotree',
     'windwp/nvim-autopairs',
     'windwp/nvim-ts-autotag',

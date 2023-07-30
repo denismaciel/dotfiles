@@ -16,7 +16,6 @@ window:
 font:
   normal:
     # family: FiraCode Nerd Font
-    # family: ShareTechMono Nerd Font
     family: JetBrainsMono Nerd Font
     # family: Monofur Nerd Font
     # family: TerminessTTF Nerd Font

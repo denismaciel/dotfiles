@@ -35,19 +35,18 @@ function add-anki() {
     ~/venvs/apy/bin/apy add -d default
 }
 
-
 function zip-folder() {
     if [ $# -eq 0 ]; then
         echo "Usage: zip-folder foldername"
         return 1
     fi
-
     foldername=$1
     zipname="${foldername}.zip"
-
     if [ -d "$foldername" ]; then
-        # The folder exists, so create a ZIP archive of it
-        zip -r "$zipname" "$foldername"
+        # The folder exists, so create a ZIP archive of its contents
+        cd "$foldername"
+        zip -r "../$zipname" .
+        cd ..
         echo "Created ZIP archive $zipname"
     else
         echo "Error: Folder '$foldername' does not exist"

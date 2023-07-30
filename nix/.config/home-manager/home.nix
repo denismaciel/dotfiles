@@ -26,6 +26,7 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.calibre
     pkgs.zk
     pkgs.glow
     pkgs.gh
@@ -80,7 +81,8 @@
     pkgs.gcc
     pkgs.gnumake
     pkgs.go-swagger
-    pkgs.go_1_18
+    # pkgs.go_1_18
+    pkgs.go_1_20
     pkgs.gofumpt
     pkgs.gomi
     pkgs.google-chrome
