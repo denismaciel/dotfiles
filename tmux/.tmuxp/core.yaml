@@ -10,8 +10,8 @@ windows:
     panes:
       -
       -
-  - window_name: risk-model
-    start_directory: "~/work/core/data-pipelines/risk_model"
+  - window_name: pycap
+    start_directory: "~/work/core/pycap"
     panes:
       -
       -
@@ -42,6 +42,12 @@ windows:
 
   - window_name: anki
     start_directory: "~/mine/anki"
-    panges:
+    panes:
+      -
+      -
+
+  - window_name: blog
+    start_directory: "~/github.com/denismaciel/denismaciel.com"
+    panes:
       -
       -
