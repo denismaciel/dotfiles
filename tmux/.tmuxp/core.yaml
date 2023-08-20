@@ -16,7 +16,7 @@ windows:
       -
       -
   - window_name: dwh
-    start_directory: "~/work/core/data-pipelines/dwh"
+    start_directory: "~/work/core/dwh"
     panes:
       -
       -

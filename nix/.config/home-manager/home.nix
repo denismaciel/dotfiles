@@ -26,6 +26,9 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    # pkgs.k3d
+    pkgs.just
+    pkgs.golden-cheetah
     pkgs.calibre
     pkgs.zk
     pkgs.glow
@@ -126,7 +129,7 @@
     pkgs.tmuxp
     pkgs.universal-ctags
     pkgs.unzip
-    pkgs.visidata
+    # pkgs.visidata
     pkgs.vlc
     /* pkgs.wmctrl */
     pkgs.xclip
