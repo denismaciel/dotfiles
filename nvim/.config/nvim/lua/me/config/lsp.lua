@@ -22,6 +22,7 @@ require('mason-lspconfig').setup {
         'pyright',
         'tailwindcss',
         'bashls',
+        'cssls',
     },
 }
 
@@ -73,7 +74,7 @@ configs.gopls = {
         cmd = { 'gopls' },
         filetypes = { 'go', 'gomod' },
         root_dir = function(fname)
-            return util.root_pattern 'go.work'(fname)
+            return util.root_pattern 'go.work' (fname)
                 or util.root_pattern('go.mod', '.git')(fname)
         end,
     },
@@ -123,6 +124,7 @@ lspc.jsonnet_ls.setup {
     },
 }
 lspc.cssls.setup { capabilities = capabilities }
+lspc.eslint.setup { capabilities = capabilities }
 lspc.gopls.setup { capabilities = capabilities }
 -- lspc.jedi_language_server.setup({ capabilities = capabilities })
 lspc.pyright.setup { capabilities = capabilities }
@@ -132,11 +134,11 @@ lspc.bashls.setup { capabilities = capabilities }
 -- lspc.tsserver.setup({ capabilities = capabilities })
 require('typescript').setup {
     disable_commands = false, -- prevent the plugin from creating Vim commands
-    debug = false, -- enable debug logging for commands
+    debug = false,            -- enable debug logging for commands
     go_to_source_definition = {
-        fallback = true, -- fall back to standard LSP definition on failure
+        fallback = true,      -- fall back to standard LSP definition on failure
     },
-    server = { -- pass options to lspconfig's setup method
+    server = {                -- pass options to lspconfig's setup method
         capabilities = capabilities,
     },
 }
@@ -155,3 +157,4 @@ lspc.yamlls.setup {
 lspc.dockerls.setup { capabilities = capabilities }
 lspc.cmake.setup { capabilities = capabilities }
 lspc.bashls.setup { capabilities = capabilities }
+lspc.tailwindcss.setup { capabilities = capabilities }

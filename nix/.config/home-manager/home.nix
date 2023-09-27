@@ -26,7 +26,7 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
-    # pkgs.k3d
+    pkgs.brightnessctl
     pkgs.just
     pkgs.golden-cheetah
     pkgs.calibre
@@ -60,7 +60,6 @@
     pkgs.sioyek
     pkgs.redshift
     pkgs.imwheel
-    # pkgs.anki-bin
     pkgs.anki
     pkgs.tor-browser-bundle-bin
     pkgs.lazygit
@@ -72,7 +71,7 @@
     pkgs.alacritty
     pkgs.arandr
     pkgs.awesome
-    pkgs.compton
+    pkgs.picom
     pkgs.dbmate
     pkgs.difftastic
     pkgs.direnv
@@ -83,13 +82,14 @@
     pkgs.fzf
     pkgs.gcc
     pkgs.gnumake
+    pkgs.golangci-lint
     pkgs.go-swagger
-    # pkgs.go_1_18
     pkgs.go_1_20
     pkgs.gofumpt
     pkgs.gomi
     pkgs.google-chrome
     pkgs.gopls
+    pkgs.gotools # for goimports
     pkgs.haskellPackages.greenclip
     pkgs.htop
     pkgs.jq
@@ -99,7 +99,6 @@
     pkgs.mpv
     pkgs.newsboat
     pkgs.gnome.nautilus
-    # pkgs.libsForQt5.dolphin
     pkgs.nodejs-18_x
     pkgs.notion-app-enhanced
     pkgs.obs-studio
@@ -129,9 +128,7 @@
     pkgs.tmuxp
     pkgs.universal-ctags
     pkgs.unzip
-    # pkgs.visidata
     pkgs.vlc
-    /* pkgs.wmctrl */
     pkgs.xclip
     pkgs.xdotool
     pkgs.xorg.xbacklight
@@ -219,10 +216,9 @@
     enable = true;
     userName = "Denis Maciel";
     userEmail = "denispmaciel@gmail.com";
-    signing = {
-      signByDefault = true;
-      key = "188DE24A651E34AA";
-    };
+    # signing = { signByDefault = true;
+    #   key = "188DE24A651E34AA";
+    # };
     ignores = [
       ".DS_Store"
       ".direnv"

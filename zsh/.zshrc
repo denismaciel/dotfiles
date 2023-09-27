@@ -13,6 +13,8 @@ export ZK_NOTEBOOK_DIR="$HOME/Sync/Notes/Current"
 export GOPATH=$(go env GOPATH)
 export PATH=$GOROOT/bin:$PATH
 
+export COLORSCHEME=dark
+
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
 export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
 source /home/denis/.nix-profile/etc/profile.d/nix.sh
@@ -32,7 +34,7 @@ function pdread() {
 }
 
 function add-anki() {
-    ~/venvs/apy/bin/apy add -d default
+    apy add -d default
 }
 
 function zip-folder() {
@@ -160,7 +162,6 @@ function  _fzf_compgen_path() {
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 export XDG_CONFIG_HOME=$HOME/.config
 
-alias apy=~/venvs/apy/bin/apy
 alias core='tmuxp load core -y'
 alias act='source venv/bin/activate'
 alias l='ls -lah'

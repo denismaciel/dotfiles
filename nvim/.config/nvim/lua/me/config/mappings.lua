@@ -4,6 +4,7 @@ local me = require 'me'
 local zettel = require 'me.zettel'
 local themes = require 'telescope.themes'
 
+vim.keymap.set('n', '<leader>c', '<cmd>ChatGPT<CR>')
 vim.keymap.set('n', '<leader>tt', function()
     package.loaded['me'] = nil
     package.loaded['me.sql'] = nil

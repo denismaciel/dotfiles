@@ -13,6 +13,7 @@ return {
     -- === Colors ===
     'folke/tokyonight.nvim',
     -- 'gbprod/nord.nvim',
+    'morhetz/gruvbox',
     'shaunsingh/nord.nvim',
     { 'catppuccin/nvim', name = 'catppuccin' },
     'morhetz/gruvbox',
@@ -25,4 +26,13 @@ return {
         },
     },
     'nyoom-engineering/oxocarbon.nvim',
+
+    {
+        'projekt0n/github-nvim-theme',
+        -- lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+        priority = 1000, -- make sure to load this before all the other start plugins
+        config = function()
+            require('github-theme').setup {}
+        end,
+    },
 }

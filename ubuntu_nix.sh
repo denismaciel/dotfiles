@@ -34,19 +34,22 @@ sudo add-apt-repository -y ppa:deadsnakes/ppa && \
     sudo apt-get update && \
     sudo apt-get install -y python3.11-dev python3.11-distutils python3.11-venv
     
-    ## Bootstrap virtualenv
+## Bootstrap virtualenv
 sudo apt-get install -y curl &&
-    curl --location --output virtualenv.pyz https://bootstrap.pypa.io/virtualenv/3.9/virtualenv.pyz && \
-    python3.9 virtualenv.pyz ~/venvs/default
+    curl --location --output virtualenv.pyz https://bootstrap.pypa.io/virtualenv/3.11/virtualenv.pyz && \
+    python3.11 virtualenv.pyz ~/venvs/default
+
+python3.11 -m pip install pipx
+pipx install git+https://github.com/lervag/apy
+pipx install black
+pipx install reorder-python-imports
+pipx install ruff
     
-    # Alacritty
-sudo add-apt-repository -y ppa:mmstick76/alacritty &&
-    sudo apt-get install -y alacritty
+nix-channel --add https://github.com/guibou/nixGL/archive/main.tar.gz nixgl && nix-channel --update
+nix-env -iA nixgl.auto.nixGLDefault   # or replace `nixGLDefault` with your desired wrapper
  
 # Docker   
-sudo apt-get update
-sudo apt-get install \
-    ca-certificates \
+sudo apt-get update sudo apt-get install \ ca-certificates \
     curl \
     gnupg \
     lsb-release
@@ -65,29 +68,12 @@ sudo curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key
 sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
 sudo apt install pgadmin4-desktop
 
-
 # Copy .ssh folder
 # cp -r /media/denis/Extreme\ SSD/recap-backup-2022-11-12/.ssh ~/
-
 cd .ssh
 chmod 600 id_rsa
 
-
-cd ~/dotfiles
-git remote set-url origin git@github.com:denismaciel/dotfiles.git
-
-mkdir apps
-cd apps
-git clone git@github.com:Aloxaf/fzf-tab.git
-
+cd ~/dotfiles git remote set-url origin git@github.com:denismaciel/dotfiles.git
 
 # Go CLIs
-go install github.com/carlmjohnson/pomodoro@latest
-
-## Anki stuff
-
-python3.11 -m venv ~/venvs/apy
-~/venvs/apy/bin/pip install aqt==2.1.53
-~/venvs/apy/bin/pip install git+https://github.com/lervag/apy.git#egg=apy
-~/venvs/apy/bin/pip install pyqt5
-~/venvs/apy/bin/pip install PyQtWebEngine
+go get -u github.com/open-pomodoro/openpomodoro-cli/cmd/pomodoro
