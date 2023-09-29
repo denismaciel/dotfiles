@@ -8,7 +8,7 @@ vim.cmd 'set shortmess+=I'
 o.clipboard = o.clipboard + 'unnamedplus'
 o.formatoptions = o.formatoptions + 'cro'
 o.mouse = 'a'
-o.tabstop = 4     -- how many spaces a tab is when vim reads a file
+o.tabstop = 4 -- how many spaces a tab is when vim reads a file
 o.softtabstop = 4 --how many spaces are inserted when you hit tab
 o.shiftwidth = 4
 o.autoindent = true
@@ -18,7 +18,7 @@ o.wrap = false
 o.number = true
 o.termguicolors = true
 o.backspace = { 'indent', 'eol', 'start' }
-o.showcmd = true   -- show command in bottom bar
+o.showcmd = true -- show command in bottom bar
 o.showmatch = true -- highlight matching parenthesis
 
 o.backup = false
@@ -27,7 +27,7 @@ o.wrap = false
 
 -- Search
 o.incsearch = true -- search as characters are entered
-o.hlsearch = true  -- highlight matches
+o.hlsearch = true -- highlight matches
 o.ignorecase = true
 o.smartcase = true
 
