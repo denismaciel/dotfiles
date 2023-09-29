@@ -1,7 +1,7 @@
 session_name: mine
 windows:
   - window_name: saas-invent
-    start_directory: "~/mine/biz-roaster"
+    start_directory: "~/mine/saas-invent"
     panes:
       -
       -
