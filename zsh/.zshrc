@@ -163,6 +163,7 @@ export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 export XDG_CONFIG_HOME=$HOME/.config
 
 alias core='tmuxp load core -y'
+alias mine='tmuxp load mine -y'
 alias act='source venv/bin/activate'
 alias l='ls -lah'
 alias la='ls -lAh'

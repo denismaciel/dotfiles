@@ -40,12 +40,6 @@ windows:
     panes:
       - newsboat
 
-  - window_name: anki
-    start_directory: "~/mine/anki"
-    panes:
-      -
-      -
-
   - window_name: blog
     start_directory: "~/github.com/denismaciel/denismaciel.com"
     panes:

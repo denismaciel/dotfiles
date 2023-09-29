@@ -1,0 +1,12 @@
+session_name: mine
+windows:
+  - window_name: saas-invent
+    start_directory: "~/mine/biz-roaster"
+    panes:
+      -
+      -
+  - window_name: cli-todo
+    start_directory: "~/github.com/denismaciel/cli-todo"
+    panes:
+      -
+      -
