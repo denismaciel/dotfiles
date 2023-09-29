@@ -304,6 +304,14 @@ globalkeys = gears.table.join(
         )
     end, { description = 'Notebook', group = 'launcher' }),
 
+    awful.key({ modkey }, 'x', function()
+        utils.focus_or_spawn(
+            'Scratchpad',
+            -- [[ nixGL alacritty --class Scratchpad -e /home/denis/scripts/weekly_note 2>&1 /tmp/notbook.log ]]
+            [[ nixGL alacritty --class Scratchpad ]]
+        )
+    end, { description = 'Scratchpad', group = 'launcher' }),
+
     awful.key({ modkey }, 'f', function()
         utils.focus_or_spawn('Code', 'nixGL alacritty --class Code')
     end, { description = 'Code', group = 'launcher' }),
@@ -511,6 +519,7 @@ awful.rules.rules = {
                 'Wpa_gui',
                 'veromix',
                 'xtightvncviewer',
+                'Scratchpad',
             },
 
             -- Note that the name property shown in xprop might be set slightly after creation of the client
