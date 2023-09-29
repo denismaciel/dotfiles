@@ -11,19 +11,30 @@ export PATH="$HOME/node/bin:$PATH"
 export PATH="$HOME/venvs/default/bin:$PATH"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="$PATH:/home/denis/.local/bin"
-
-export ZK_NOTEBOOK_DIR="$HOME/Sync/Notes/Current"
-
 export GOPATH=$(go env GOPATH)
 export PATH=$GOROOT/bin:$PATH
 
+export R_LIBS_USER="$HOME/r/x86_64-pc-linux-gnu-library/4.1" # Custom location for R packages
+export LC_ALL=en_US.UTF-8 # Fix problem when opening nvim
+export VISUAL=nvim
+export EDITOR=nvim
+export PYTHONBREAKPOINT=ipdb.set_trace
+# Fix annoying warning: 
+#     - https://nixos.wiki/wiki/Locales
+#     - https://www.reddit.com/r/NixOS/comments/oj4kmd/every_time_i_run_a_program_installed_with_nix_i/
+export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
+export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
+export XDG_CONFIG_HOME=$HOME/.config
+
 export COLORSCHEME=dark
+export ZK_NOTEBOOK_DIR="$HOME/Sync/Notes/Current"
+
+
 
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
 
 export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
 source /home/denis/.nix-profile/etc/profile.d/nix.sh
-
 
 # ----------------------------------
 # --------- Warnings ---------------
@@ -32,13 +43,8 @@ source /home/denis/.nix-profile/etc/profile.d/nix.sh
 # # check_syncthing
 # todo report
 
-eval "$(starship init zsh)"
 
 
-export R_LIBS_USER="$HOME/r/x86_64-pc-linux-gnu-library/4.1" # Custom location for R packages
-export LC_ALL=en_US.UTF-8 # Fix problem when opening nvim
-export VISUAL=nvim
-export EDITOR=nvim
 
 # ---------------------------
 # --------- fzf -------------
@@ -53,8 +59,6 @@ function  _fzf_compgen_path() {
   fd --hidden --follow --exclude ".git" --exclude "venv" . "$1"
 }
 
-export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
-export XDG_CONFIG_HOME=$HOME/.config
 
 # ---------------------------
 # --------- aliases ---------
@@ -109,16 +113,11 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording en
 setopt HIST_VERIFY               # Dont execute immediately upon history expansion.
 setopt INTERACTIVE_COMMENTS       # Allow for comments
 
-eval "$(scmpuff init -s)"
-
-export PYTHONBREAKPOINT=ipdb.set_trace
 if [ -e /home/denis/credentials/recap.sh ]; then . /home/denis/credentials/recap.sh; fi
 
-# Fix annoying warning: 
-#     - https://nixos.wiki/wiki/Locales
-#     - https://www.reddit.com/r/NixOS/comments/oj4kmd/every_time_i_run_a_program_installed_with_nix_i/
-export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
+eval "$(starship init zsh)"
+eval "$(scmpuff init -s)"
 eval "$(direnv hook zsh)"
 eval "$(zoxide init zsh)"
 
@@ -146,17 +145,9 @@ if [ -n "${commands[fzf-share]}" ]; then
     source "$(fzf-share)/completion.zsh"
 fi
 
-source "$(fzf-share)/key-bindings.zsh"
-
-# OCTAVIA CLI 0.44.4
-OCTAVIA_ENV_FILE=/home/denis/.octavia
-export OCTAVIA_ENABLE_TELEMETRY=False
-alias octavia="docker run -i --rm -v \$(pwd):/home/octavia-project --network host --env-file \${OCTAVIA_ENV_FILE} --user \$(id -u):\$(id -g) airbyte/octavia-cli:0.44.4"
-
 # ==================
 # === Functions ====
 # ==================
-
 function mv_last {
     local source_folder="$1"
     local destination_folder="$2"
@@ -199,6 +190,7 @@ function togglep() {
         return 1
     fi
 }
+
 function open() {
     nohup xdg-open "$*" >> /dev/null &
 }
