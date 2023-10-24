@@ -26,6 +26,7 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.imagemagick
     pkgs.brightnessctl
     pkgs.just
     pkgs.golden-cheetah
@@ -105,6 +106,7 @@
     pkgs.obsidian
     pkgs.papirus-icon-theme
     pkgs.pgcli
+    pkgs.mycli
     pkgs.polybar
     pkgs.postgresql
     pkgs.qutebrowser

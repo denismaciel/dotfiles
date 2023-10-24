@@ -10,3 +10,8 @@ windows:
     panes:
       -
       -
+  - window_name: praise-penguin
+    start_directory: "~/github.com/denismaciel/praise-penguin"
+    panes:
+      -
+      -

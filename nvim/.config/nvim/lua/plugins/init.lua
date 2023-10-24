@@ -1,5 +1,32 @@
 return {
     {
+        'folke/noice.nvim',
+        event = 'VeryLazy',
+        opts = {
+            lsp = {
+                -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+                override = {
+                    ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+                    ['vim.lsp.util.stylize_markdown'] = true,
+                    ['cmp.entry.get_documentation'] = true,
+                },
+            },
+            -- you can enable a preset for easier configuration
+            presets = {
+                bottom_search = true, -- use a classic bottom cmdline for search
+                command_palette = true, -- position the cmdline and popupmenu together
+                long_message_to_split = true, -- long messages will be sent to a split
+                inc_rename = false, -- enables an input dialog for inc-rename.nvim
+                lsp_doc_border = false, -- add a border to hover docs and signature help
+            },
+        },
+        dependencies = {
+            'MunifTanjim/nui.nvim',
+            'rcarriga/nvim-notify',
+        },
+    },
+    'dkarter/bullets.vim',
+    {
         'mickael-menu/zk-nvim',
         config = function()
             require('zk').setup {
@@ -8,20 +35,21 @@ return {
         end,
     },
     {
-        'utilyre/sentiment.nvim',
-        version = '*',
-        opts = {},
-    },
-    {
-        'img-paste-devs/img-paste.vim',
-    },
-    {
         'jackMort/ChatGPT.nvim',
         event = 'VeryLazy',
         config = function()
             local config = {
                 keymaps = {
                     submit = '<C-s>',
+                },
+                openai_params = {
+                    model = 'gpt-4',
+                },
+                openai_edit_params = {
+                    model = 'gpt-4',
+                },
+                chat = {
+                    welcome_message = '',
                 },
             }
 
@@ -39,11 +67,9 @@ return {
     },
     {
         'nvim-telescope/telescope.nvim',
-        -- tag = '0.1.1',
         dependencies = { { 'nvim-lua/plenary.nvim' } },
     },
     'nvim-telescope/telescope-ui-select.nvim',
-
     {
         'lukas-reineke/headlines.nvim',
         opts = {
@@ -113,6 +139,7 @@ return {
     {
         'utilyre/barbecue.nvim',
         opts = {
+            show_modified = true,
             theme = {
                 dirname = { fg = '#737aa2' },
             },

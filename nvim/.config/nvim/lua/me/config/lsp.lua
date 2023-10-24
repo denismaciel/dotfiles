@@ -85,6 +85,9 @@ configs.gopls = {
     },
 }
 
+lspc.prismals.setup {
+    capabilities = capabilities,
+}
 lspc.terraformls.setup {
     capabilities = capabilities,
     filetypes = { 'terraform', 'hcl' },
