@@ -26,6 +26,7 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.bun
     pkgs.imagemagick
     pkgs.brightnessctl
     pkgs.just
