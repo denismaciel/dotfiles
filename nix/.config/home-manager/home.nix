@@ -76,6 +76,7 @@
     pkgs.picom
     pkgs.dbmate
     pkgs.difftastic
+    # pkgs.st
     pkgs.direnv
     pkgs.docker
     pkgs.element-desktop

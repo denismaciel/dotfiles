@@ -144,24 +144,8 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
 
-local function set_wallpaper(s)
-    -- Wallpaper
-    if beautiful.wallpaper then
-        local wallpaper = beautiful.wallpaper
-        -- If wallpaper is a function, call it with the screen
-        if type(wallpaper) == 'function' then
-            wallpaper = wallpaper(s)
-        end
-        gears.wallpaper.maximized(wallpaper, s, true)
-    end
-end
-
--- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-screen.connect_signal('property::geometry', set_wallpaper)
-
 awful.screen.connect_for_each_screen(function(s)
     awful.tag({ '1' }, s, awful.layout.layouts[1])
-    -- awful.tag({ '2' }, s, awful.layout.layouts[1])
 end)
 -- }}}
 
@@ -205,11 +189,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, 'k', function()
         awful.client.focus.byidx(-1)
     end, { description = 'focus previous by index', group = 'client' }),
-    awful.key({ modkey }, 'w', function()
-        mymainmenu:show()
-    end, { description = 'show main menu', group = 'awesome' }),
 
-    -- Layout manipulation
     awful.key({ modkey, 'Shift' }, 'j', function()
         awful.client.swap.byidx(1)
     end, { description = 'swap with next client by index', group = 'client' }),
@@ -221,12 +201,9 @@ globalkeys = gears.table.join(
         end,
         { description = 'swap with previous client by index', group = 'client' }
     ),
-    awful.key({ modkey, 'Control' }, 'j', function()
+    awful.key({ modkey }, 'w', function()
         awful.screen.focus_relative(1)
     end, { description = 'focus the next screen', group = 'screen' }),
-    awful.key({ modkey, 'Control' }, 'k', function()
-        awful.screen.focus_relative(-1)
-    end, { description = 'focus the previous screen', group = 'screen' }),
     awful.key(
         { modkey },
         'u',
@@ -307,46 +284,51 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, 'x', function()
         utils.focus_or_spawn(
             'Scratchpad',
-            -- [[ nixGL alacritty --class Scratchpad -e /home/denis/scripts/weekly_note 2>&1 /tmp/notbook.log ]]
             [[ nixGL alacritty --class Scratchpad ]]
         )
-    end, { description = 'Scratchpad', group = 'launcher' }),
+    end),
 
     awful.key({ modkey }, 'f', function()
         utils.focus_or_spawn('Code', 'nixGL alacritty --class Code')
-    end, { description = 'Code', group = 'launcher' }),
+    end),
 
     awful.key({ modkey }, 'g', function()
         utils.focus_or_spawn('Google-chrome', 'google-chrome-stable')
-    end, { description = 'Chrome', group = 'launcher' }),
+    end),
 
     awful.key({ modkey }, 's', function()
         utils.focus_or_spawn('Slack', 'slack')
-    end, { description = 'Chrome', group = 'launcher' }),
+    end),
 
     awful.key({ modkey }, 'b', function()
         utils.focus_or_spawn('firefox', 'firefox')
-    end, { description = 'Firefox', group = 'launcher' }),
+    end),
 
     awful.key({ modkey }, 'y', function()
         awful.spawn.with_shell 'rofi -combi-modi window,run -show combi'
-    end, { description = 'rofi', group = 'launcher' }),
+    end),
 
-    awful.key({ modkey }, 't', function()
-        awful.spawn.with_shell '/home/denis/.local/bin/todo add-todo'
-    end, { description = 'Add TODO', group = 'launcher' }),
+    -- awful.key({ modkey }, 't', function()
+    --     utils.focus_or_spawn(
+    --         'Scratchpad',
+    --         [[ nixGL alacritty --class Scratchpad -e '/home/denis/.local/bin/dennich-todo' 'add-todo' ]]
+    --     )
+    -- end, { description = 'Add TODO', group = 'launcher' }),
 
     awful.key({ modkey }, 'c', function()
         awful.util.spawn [[rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}']]
-    end, { description = 'Clipboad', group = 'launcher' }),
+    end),
 
     awful.key({ modkey }, 'e', function()
         awful.util.spawn [[ rofi -show emoji -modi emoji ]]
-    end, { description = 'Emoji', group = 'launcher' }),
+    end),
 
     awful.key({ modkey }, 'r', function()
-        awful.spawn.with_shell '/home/denis/.local/bin/todo start-pomodoro'
-    end, { description = 'Start Pomodoro', group = 'launcher' }),
+        utils.focus_or_spawn(
+            'Scratchpad',
+            [[ nixGL alacritty --class Scratchpad -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
+        )
+    end),
 
     -- Volume
     awful.key({}, 'XF86AudioRaiseVolume', function()
@@ -369,15 +351,9 @@ globalkeys = gears.table.join(
 )
 
 clientkeys = gears.table.join(
-    -- awful.key({ modkey,           }, "f",
-    --     function (c)
-    --         c.fullscreen = not c.fullscreen
-    --         c:raise()
-    --     end,
-    --     {description = "toggle fullscreen", group = "client"}),
     awful.key({ modkey }, 'q', function(c)
         c:kill()
-    end, { description = 'close', group = 'client' }),
+    end),
     awful.key(
         { modkey, 'Control' },
         'space',
@@ -421,7 +397,7 @@ for i = 1, 9 do
         -- View tag only.
         awful.key({ modkey }, '#' .. i + 9, function()
             local screen = awful.screen.focused()
-            local tag = screen.tags[i]
+            local tag = screen.tags
             if tag then
                 tag:view_only()
             end
@@ -429,7 +405,7 @@ for i = 1, 9 do
         -- Toggle tag display.
         awful.key({ modkey, 'Control' }, '#' .. i + 9, function()
             local screen = awful.screen.focused()
-            local tag = screen.tags[i]
+            local tag = screen.tags
             if tag then
                 awful.tag.viewtoggle(tag)
             end
@@ -564,51 +540,6 @@ client.connect_signal('manage', function(c)
         awful.placement.no_offscreen(c)
     end
 end)
-
--- Add a titlebar if titlebars_enabled is set to true in the rules.
--- client.connect_signal("request::titlebars", function(c)
--- 	-- buttons for the titlebar
--- 	local buttons = gears.table.join(
--- 		awful.button({}, 1, function()
--- 			c:emit_signal("request::activate", "titlebar", { raise = true })
--- 			awful.mouse.client.move(c)
--- 		end),
--- 		awful.button({}, 3, function()
--- 			c:emit_signal("request::activate", "titlebar", { raise = true })
--- 			awful.mouse.client.resize(c)
--- 		end)
--- 	)
-
--- 	awful.titlebar(c):setup({
--- 		{ -- Left
--- 			awful.titlebar.widget.iconwidget(c),
--- 			buttons = buttons,
--- 			layout = wibox.layout.fixed.horizontal,
--- 		},
--- 		{ -- Middle
--- 			{ -- Title
--- 				align = "center",
--- 				widget = awful.titlebar.widget.titlewidget(c),
--- 			},
--- 			buttons = buttons,
--- 			layout = wibox.layout.flex.horizontal,
--- 		},
--- 		{ -- Right
--- 			awful.titlebar.widget.floatingbutton(c),
--- 			awful.titlebar.widget.maximizedbutton(c),
--- 			awful.titlebar.widget.stickybutton(c),
--- 			awful.titlebar.widget.ontopbutton(c),
--- 			awful.titlebar.widget.closebutton(c),
--- 			layout = wibox.layout.fixed.horizontal(),
--- 		},
--- 		layout = wibox.layout.align.horizontal,
--- 	})
--- end)
-
--- Enable sloppy focus, so that focus follows mouse.
--- client.connect_signal("mouse::enter", function(c)
---     c:emit_signal("request::activate", "mouse_enter", {raise = false})
--- end)
 
 client.connect_signal('focus', function(c)
     c.border_color = beautiful.border_focus

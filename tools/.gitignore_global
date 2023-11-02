@@ -11,5 +11,6 @@ snaps
 .python-version
 tags
 playground
+p/
 _debug.py
 __pycache__
