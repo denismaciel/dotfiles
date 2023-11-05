@@ -75,5 +75,5 @@ chmod 600 id_rsa
 
 cd ~/dotfiles git remote set-url origin git@github.com:denismaciel/dotfiles.git
 
-# Go CLIs
-go get -u github.com/open-pomodoro/openpomodoro-cli/cmd/pomodoro
+# Install crontab
+crontab ~/dotfiles/denis-crontab
