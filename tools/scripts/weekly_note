@@ -1,12 +1,20 @@
 #! /bin/bash
 
-OBSIDIAN_FOLDER="$HOME/Sync/Notes/Current"
-FILE_PATH="$OBSIDIAN_FOLDER/Weekly/$(date +'%Y-%W.md')"
+NOTES_FOLDER="$HOME/Sync/Notes/Current"
+# Get the current year
+YEAR=$(date +'%Y')
+# Get the week number with Monday as the first day of the week
+WEEK=$(date +'%W')
+# Calculate the date of the first day of the week (Monday)
+MONDAY_DATE=$(date -d "$YEAR-01-01 +$((WEEK*7)) days -$(date -d "$YEAR-01-01" +%u) days +1 day" +'%Y-%m-%d')
 
-cd "$OBSIDIAN_FOLDER"
-if [ -f  "$FILE_PATH" ]; then
+FILE_NAME="$MONDAY_DATE.md"
+FILE_PATH="$NOTES_FOLDER/Weekly/$FILE_NAME"
+
+cd "$NOTES_FOLDER"
+if [ -f "$FILE_PATH" ]; then
     echo "$FILE_PATH"
 else
-    echo '#' "$(date +'%Y-%W.md')" > "$FILE_PATH"
+    echo "# $FILE_NAME" > "$FILE_PATH"
 fi
-nvim -c 'lua require("me").center_and_change_colorscheme()' $FILE_PATH
+nvim -c 'lua require("me").center_and_change_colorscheme()' "$FILE_PATH"
