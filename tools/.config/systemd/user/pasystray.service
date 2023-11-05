@@ -1,0 +1,10 @@
+[Unit]
+Description=Pasystray PulseAudio system tray
+
+[Service]
+Type=simple
+ExecStart=/home/denis/.nix-profile/bin/pasystray
+Restart=always
+
+[Install]
+WantedBy=default.target

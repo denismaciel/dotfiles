@@ -1,0 +1,10 @@
+[Unit]
+Description=Redshift
+
+[Service]
+Type=simple
+ExecStart=/home/denis/.nix-profile/bin/redshift-gtk
+Restart=always
+
+[Install]
+WantedBy=default.target

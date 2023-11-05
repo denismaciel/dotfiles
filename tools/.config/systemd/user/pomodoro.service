@@ -1,0 +1,11 @@
+[Unit]
+Description=Pomodoro Server
+After=network.target
+
+[Service]
+ExecStart=/home/denis/.local/bin/dennich-pomodoro start-server
+Restart=always
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
