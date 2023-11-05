@@ -143,7 +143,7 @@
     pkgs.zsh-fzf-tab
     pkgs.zsh-syntax-highlighting
     pkgs.comic-mono
-    pkgs.zotero
+    # pkgs.zotero
     (pkgs.rofi.override { plugins = [ pkgs.rofi-emoji pkgs.rofi-calc ]; })
     (pkgs.nerdfonts.override {
       fonts = [
@@ -258,8 +258,8 @@
     (
       import (
         let
-          rev = "master";
-          # rev = "d55d7646c129a9afe1da3a61813bb365d178c421";
+          # rev = "master";
+          rev = "29b5f1c2aef88e2b6f41a9d529e50b24802fdb7d";
         in
         builtins.fetchTarball {
           url = "https://github.com/nix-community/neovim-nightly-overlay/archive/${rev}.tar.gz";
