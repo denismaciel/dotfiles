@@ -3,6 +3,9 @@
 {
   home.username = "denis";
   home.homeDirectory = "/home/denis";
+  home.file = {
+    ".npmrc".source = ./_npmrc;
+  };
   xdg.enable = true;
   xdg.mimeApps = {
     enable = true;
