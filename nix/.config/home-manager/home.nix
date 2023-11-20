@@ -5,6 +5,7 @@
   home.homeDirectory = "/home/denis";
   home.file = {
     ".npmrc".source = ./_npmrc;
+    ".ipython/profile_default/ipython_config.py".source = ./_ipython/profile_default/ipython_config.py;
   };
   xdg.enable = true;
   xdg.mimeApps = {
