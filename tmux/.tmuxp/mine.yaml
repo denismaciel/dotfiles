@@ -10,13 +10,18 @@ windows:
     panes:
       -
       -
-  - window_name: cli-todo
-    start_directory: "~/github.com/denismaciel/cli-todo"
+  - window_name: dennich
+    start_directory: "~/github.com/denismaciel/dennich"
     panes:
       -
       -
-  - window_name: praise-penguin
+  - window_name: praise-penguin-py
     start_directory: "~/github.com/denismaciel/praise-penguin"
+    panes:
+      -
+      -
+  - window_name: praise-penguin-app
+    start_directory: "~/github.com/denismaciel/praise-penguin/landing-page"
     panes:
       -
       -

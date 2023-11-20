@@ -231,6 +231,10 @@ globalkeys = gears.table.join(
         { description = 'quit awesome', group = 'awesome' }
     ),
 
+    awful.key({ modkey, 'Shift' }, 's', function()
+        awful.spawn.with_shell 'systemctl suspend && i3lock -c 000000'
+    end, { description = 'sleep & lock', group = 'awesome' }),
+
     awful.key({ modkey }, 'l', function()
         awful.tag.incmwfact(0.05)
     end, { description = 'increase master width factor', group = 'layout' }),
@@ -324,10 +328,7 @@ globalkeys = gears.table.join(
     end),
 
     awful.key({ modkey }, 'r', function()
-        utils.focus_or_spawn(
-            'Scratchpad',
-            [[ nixGL alacritty --class Scratchpad -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
-        )
+        awful.util.spawn [[ nixGL alacritty --class FloatThatThing -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
     end),
 
     -- Volume
@@ -496,6 +497,7 @@ awful.rules.rules = {
                 'veromix',
                 'xtightvncviewer',
                 'Scratchpad',
+                'FloatThatThing',
             },
 
             -- Note that the name property shown in xprop might be set slightly after creation of the client
@@ -538,6 +540,9 @@ client.connect_signal('manage', function(c)
     then
         -- Prevent clients from being unreachable after screen count changes.
         awful.placement.no_offscreen(c)
+    end
+    if c.class == 'Zenity' then
+        c.ontop = true
     end
 end)
 

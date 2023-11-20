@@ -86,6 +86,23 @@ wk.register {
         ':!echo -n %:t:r | xclip -selection clipboard<CR>',
         'Copy model name to clipboard',
     },
+    ['<leader>st'] = {
+        function()
+            require('telescope.builtin').find_files {
+                find_command = {
+                    'rg',
+                    '--files',
+                    '--hidden',
+                    '-g',
+                    '!.git',
+                    '-g',
+                    '!.snapshots/',
+                },
+                cwd = '/home/denis/.cache/recap/bigquery-schema/',
+            }
+        end,
+        'Find table schema',
+    },
 
     -- Date
     ['<leader>t'] = { name = 'Date' },

@@ -26,8 +26,10 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.arp-scan
     pkgs.bun
     pkgs.imagemagick
+    pkgs.sqlitebrowser
     pkgs.brightnessctl
     pkgs.just
     pkgs.golden-cheetah
