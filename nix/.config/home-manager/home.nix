@@ -1,12 +1,32 @@
 { config, pkgs, ... }:
 
 {
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
   home.username = "denis";
   home.homeDirectory = "/home/denis";
   xdg.enable = true;
-  xdg.mime.enable = true;
+  xdg.mimeApps = {
+    enable = true;
+
+    defaultApplications = {
+      "text/html" = [ "google-chrome.desktop" ];
+      "x-scheme-handler/http" = [ "google-chrome.desktop" ];
+      "x-scheme-handler/https" = [ "google-chrome.desktop" ];
+      "x-scheme-handler/about" = [ "google-chrome.desktop" ];
+      "x-scheme-handler/unknown" = [ "google-chrome.desktop" ];
+      "x-scheme-handler/notion" = [ "notion-app-enhanced.desktop" ];
+      "application/zip" = [ "org.gnome.FileRoller.desktop" ];
+      "x-scheme-handler/element" = [ "element-desktop.desktop" ];
+      "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
+      "application/pdf" = [ "sioyek.desktop" ];
+    };
+
+    associations.added = {
+      "application/json" = [ "org.gnome.gedit.desktop" ];
+      "text/csv" = [ "nvim.desktop" ];
+      "text/plain" = [ "sioyek.desktop" ];
+      "application/epub+zip" = [ "org.pwmt.zathura-pdf-mupdf.desktop" ];
+    };
+  };
   targets.genericLinux.enable = true;
   xsession = {
     enable = true;
@@ -25,129 +45,126 @@
   # changes in each release.
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
-  home.packages = [
-    pkgs.arp-scan
-    pkgs.bun
-    pkgs.imagemagick
-    pkgs.sqlitebrowser
-    pkgs.brightnessctl
-    pkgs.just
-    pkgs.golden-cheetah
-    pkgs.calibre
-    pkgs.zk
-    pkgs.glow
-    pkgs.gh
-    pkgs.pistol # terminal previewer
-    pkgs.firefox
-    pkgs.wezterm
-    pkgs.ffmpeg
-    pkgs.vscode
-    pkgs.texlive.combined.scheme-medium
-    pkgs.python310Packages.cfn-lint
-    pkgs.libreoffice
-    pkgs.brave
-    pkgs.pgadmin
-    pkgs.litecli
-    pkgs.gimp
-    pkgs.yq-go
-    pkgs.delta
-    pkgs.awscli2
-    pkgs.aws-sam-cli
-    pkgs.ngrok
-    pkgs.google-cloud-sdk
-    pkgs.pandoc
-    pkgs.kubernetes-helm
-    pkgs.kubectl
-    pkgs.pasystray
-    pkgs.okular
-    pkgs.sqlite
-    pkgs.sioyek
-    pkgs.redshift
-    pkgs.imwheel
-    pkgs.anki
-    pkgs.tor-browser-bundle-bin
-    pkgs.lazygit
-    pkgs.delve
-    pkgs.jsonnet
-    pkgs.R
-    pkgs.hugo
-    pkgs._1password-gui
-    pkgs.alacritty
-    pkgs.arandr
-    pkgs.awesome
-    pkgs.picom
-    pkgs.dbmate
-    pkgs.difftastic
-    # pkgs.st
-    pkgs.direnv
-    pkgs.docker
-    pkgs.element-desktop
-    pkgs.fd
-    pkgs.flameshot
-    pkgs.fzf
-    pkgs.gcc
-    pkgs.gnumake
-    pkgs.golangci-lint
-    pkgs.go-swagger
-    pkgs.go_1_20
-    pkgs.gofumpt
-    pkgs.gomi
-    pkgs.google-chrome
-    pkgs.gopls
-    pkgs.gotools # for goimports
-    pkgs.haskellPackages.greenclip
-    pkgs.htop
-    pkgs.jq
-    pkgs.keepassxc
-    pkgs.lf
-    pkgs.lua
-    pkgs.mpv
-    pkgs.newsboat
-    pkgs.gnome.nautilus
-    pkgs.nodejs-18_x
-    pkgs.notion-app-enhanced
-    pkgs.obs-studio
-    pkgs.obsidian
-    pkgs.papirus-icon-theme
-    pkgs.pgcli
-    pkgs.mycli
-    pkgs.polybar
-    pkgs.postgresql
-    pkgs.qutebrowser
-    pkgs.ripgrep
-    pkgs.rnix-lsp
-    pkgs.rstudio
-    pkgs.scmpuff
-    pkgs.slack
-    pkgs.spotify-tui
-    pkgs.spotify-unwrapped
-    pkgs.spotifyd
-    pkgs.ssm-session-manager-plugin # Aws Session Manager for executing commands on Fargate tasks
-    pkgs.starship
-    pkgs.stow
-    pkgs.stylua
-    pkgs.sumneko-lua-language-server
-    pkgs.syncthing
-    pkgs.terraform
-    pkgs.terraform-ls
-    pkgs.tmux
-    pkgs.tmuxp
-    pkgs.universal-ctags
-    pkgs.unzip
-    pkgs.vlc
-    pkgs.xclip
-    pkgs.xdotool
-    pkgs.xorg.xbacklight
-    pkgs.yaml-language-server
-    pkgs.zathura
-    pkgs.zoxide
-    pkgs.zsh
-    pkgs.zsh-fzf-tab
-    pkgs.zsh-syntax-highlighting
-    pkgs.comic-mono
-    # pkgs.zotero
-    (pkgs.rofi.override { plugins = [ pkgs.rofi-emoji pkgs.rofi-calc ]; })
-    (pkgs.nerdfonts.override {
+  home.packages = with pkgs; [
+    arp-scan
+    bun
+    imagemagick
+    sqlitebrowser
+    brightnessctl
+    just
+    golden-cheetah
+    calibre
+    zk
+    glow
+    gh
+    pistol # terminal previewer
+    firefox
+    wezterm
+    ffmpeg
+    vscode
+    texlive.combined.scheme-medium
+    python310Packages.cfn-lint
+    libreoffice
+    brave
+    pgadmin
+    litecli
+    gimp
+    yq-go
+    delta
+    # awscli2
+    # aws-sam-cli
+    ngrok
+    google-cloud-sdk
+    pandoc
+    kubernetes-helm
+    kubectl
+    pasystray
+    okular
+    sqlite
+    sioyek
+    redshift
+    imwheel
+    anki
+    tor-browser-bundle-bin
+    lazygit
+    delve
+    jsonnet
+    R
+    _1password-gui
+    alacritty
+    arandr
+    awesome
+    picom
+    dbmate
+    difftastic
+    direnv
+    docker
+    element-desktop
+    fd
+    flameshot
+    fzf
+    gcc
+    gnumake
+    golangci-lint
+    go-swagger
+    go_1_20
+    gofumpt
+    gomi
+    google-chrome
+    gopls
+    gotools # for goimports
+    haskellPackages.greenclip
+    htop
+    jq
+    keepassxc
+    lf
+    lua
+    mpv
+    newsboat
+    gnome.nautilus
+    nodejs-18_x
+    notion-app-enhanced
+    obs-studio
+    obsidian
+    papirus-icon-theme
+    pgcli
+    mycli
+    polybar
+    postgresql
+    qutebrowser
+    ripgrep
+    rnix-lsp
+    rstudio
+    scmpuff
+    slack
+    spotify-tui
+    spotify-unwrapped
+    spotifyd
+    ssm-session-manager-plugin # Aws Session Manager for executing commands on Fargate tasks
+    starship
+    stow
+    stylua
+    sumneko-lua-language-server
+    syncthing
+    terraform
+    terraform-ls
+    tmux
+    tmuxp
+    universal-ctags
+    unzip
+    vlc
+    xclip
+    xdotool
+    xorg.xbacklight
+    yaml-language-server
+    zathura
+    zoxide
+    zsh
+    zsh-fzf-tab
+    zsh-syntax-highlighting
+    comic-mono
+    (rofi.override { plugins = [ pkgs.rofi-emoji pkgs.rofi-calc ]; })
+    (nerdfonts.override {
       fonts = [
         "FiraCode"
         "DroidSansMono"
@@ -177,7 +194,7 @@
       };
       env_var = {
         variable = "ENV";
-        format="[$env_value]($style) ";
+        format = "[$env_value]($style) ";
         symbol = " ";
         style = "white";
       };
@@ -256,23 +273,23 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [ "nodejs-16.20.0" ];
-  nixpkgs.overlays = [
-    (
-      import (
-        let
-          # rev = "master";
-          rev = "29b5f1c2aef88e2b6f41a9d529e50b24802fdb7d";
-        in
-        builtins.fetchTarball {
-          url = "https://github.com/nix-community/neovim-nightly-overlay/archive/${rev}.tar.gz";
-        }
-      )
-    )
-  ];
+  # nixpkgs.overlays = [
+  #   (
+  #     import (
+  #       let
+  #         # rev = "master";
+  #         rev = "29b5f1c2aef88e2b6f41a9d529e50b24802fdb7d";
+  #       in
+  #       builtins.fetchTarball {
+  #         url = "https://github.com/nix-community/neovim-nightly-overlay/archive/${rev}.tar.gz";
+  #       }
+  #     )
+  #   )
+  # ];
 
   programs.neovim = {
     enable = true;
-    package = pkgs.neovim-nightly;
+    # package = pkgs.neovim-nightly;
     extraConfig = "
       lua require 'init'
     ";
