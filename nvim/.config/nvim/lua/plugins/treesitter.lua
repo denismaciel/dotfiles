@@ -5,7 +5,6 @@ return {
             'nvim-treesitter/nvim-treesitter-refactor',
             'nvim-treesitter/nvim-treesitter-textobjects',
             'nvim-treesitter/playground',
-            'JoosepAlviste/nvim-ts-context-commentstring',
         },
         build = ':TSUpdate',
         config = function()
@@ -35,10 +34,6 @@ return {
                         ['h5'] = 'h5',
                         ['_h5'] = '_h5',
                     },
-                },
-                context_commentstring = {
-                    enable = true,
-                    enable_autocmd = false,
                 },
                 autotag = {
                     enable = true,

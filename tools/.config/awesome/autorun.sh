@@ -5,6 +5,3 @@ function run {
     $@&
   fi
 }
-
-run picom
-run greenclip daemon

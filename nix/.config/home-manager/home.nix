@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ inputs, pkgs,  ... }:
 
 {
   home.username = "denis";
@@ -50,100 +50,99 @@
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
-    arp-scan
-    bun
-    imagemagick
-    sqlitebrowser
-    brightnessctl
-    just
-    golden-cheetah
-    calibre
-    zk
-    glow
-    gh
-    pistol # terminal previewer
-    firefox
-    wezterm
-    ffmpeg
-    vscode
-    texlive.combined.scheme-medium
-    python310Packages.cfn-lint
-    libreoffice
-    brave
-    pgadmin
-    litecli
-    gimp
-    yq-go
-    delta
-    # awscli2
     # aws-sam-cli
-    ngrok
-    google-cloud-sdk
-    pandoc
-    kubernetes-helm
-    kubectl
-    pasystray
-    okular
-    sqlite
-    sioyek
-    redshift
-    imwheel
-    anki
-    tor-browser-bundle-bin
-    lazygit
-    delve
-    jsonnet
+    # awscli2
     R
     _1password-gui
     alacritty
+    anki
     arandr
+    arp-scan
     awesome
-    picom
+    brave
+    brightnessctl
+    btop
+    bun
+    calibre
+    cargo
+    comic-mono
     dbmate
+    delta
+    delve
     difftastic
     direnv
     docker
     element-desktop
     fd
+    ffmpeg
+    firefox
     flameshot
     fzf
     gcc
+    gh
+    gimp
+    glow
+    gnome.nautilus
     gnumake
-    golangci-lint
     go-swagger
     go_1_20
     gofumpt
+    golangci-lint
+    golden-cheetah
     gomi
     google-chrome
+    google-cloud-sdk
     gopls
     gotools # for goimports
     haskellPackages.greenclip
     htop
+    imagemagick
+    imwheel
     jq
+    jsonnet
+    just
     keepassxc
+    kubectl
+    kubernetes-helm
+    lazygit
     lf
+    libreoffice
+    litecli
     lua
     mpv
+    mycli
+    neovim-nightly
     newsboat
-    gnome.nautilus
+    ngrok
+    nil
     nodejs-18_x
     notion-app-enhanced
     obs-studio
     obsidian
+    okular
+    pandoc
     papirus-icon-theme
+    pasystray
+    pgadmin
     pgcli
-    mycli
+    picom
     polybar
     postgresql
+    python310Packages.cfn-lint
     qutebrowser
+    redshift
     ripgrep
     rnix-lsp
     rstudio
+    rustc
     scmpuff
+    sioyek
     slack
     spotify-tui
     spotify-unwrapped
     spotifyd
+    sqlite
+    sqlitebrowser
     ssm-session-manager-plugin # Aws Session Manager for executing commands on Fargate tasks
     starship
     stow
@@ -152,21 +151,26 @@
     syncthing
     terraform
     terraform-ls
+    texlive.combined.scheme-medium
     tmux
     tmuxp
+    tor-browser-bundle-bin
     universal-ctags
     unzip
     vlc
+    vscode
+    wezterm
     xclip
     xdotool
     xorg.xbacklight
     yaml-language-server
+    yq-go
     zathura
+    zk
     zoxide
     zsh
     zsh-fzf-tab
     zsh-syntax-highlighting
-    comic-mono
     (rofi.override { plugins = [ pkgs.rofi-emoji pkgs.rofi-calc ]; })
     (nerdfonts.override {
       fonts = [
@@ -290,6 +294,89 @@
   #     )
   #   )
   # ];
+  #
+  nixpkgs = {
+    overlays = [
+      inputs.neovim-nightly-overlay.overlay
+    ];
+  };
+  systemd.user.services.redshift = {
+    Unit = {
+      Description = "Redshift colour temperature adjuster";
+    };
+
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      ExecStart = "${pkgs.redshift}/bin/redshift-gtk";
+      RestartSec = 3;
+      Restart = "always";
+    };
+  };
+
+  systemd.user.services.flameshot = {
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      ExecStart = "${pkgs.flameshot}/bin/flameshot";
+      Restart = "always";
+      RestartSec = 3;
+    };
+  };
+  systemd.user.services.pasystray = {
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.pasystray}/bin/pasystray";
+      Restart = "always";
+      RestartSec = 3;
+    };
+  };
+
+  systemd.user.services.pomodoro-server = {
+    Unit = {
+      Description = "Pomodoro Server";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "/home/denis/.local/bin/dennich-pomodoro start-server";
+      ExecStartPre = "/bin/sleep 10";
+      Restart = "always";
+      RestartSec = 3;
+    };
+  };
+
+  systemd.user.services.feh = {
+    Unit = {
+      Description = "Feh";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.feh}/bin/feh  --bg-scale /home/denis/dotfiles/assets/wallpaper.jpg";
+    };
+  };
+
+  systemd.user.services.greenclip = {
+    Unit = {
+      Description = "greenclip daemon";
+      After = [ "graphical-session.target" ];
+    };
+    Install = { WantedBy = [ "graphical-session.target" ]; };
+    Service = {
+      ExecStart = "${pkgs.haskellPackages.greenclip}/bin/greenclip daemon";
+    };
+  };
+
 
   programs.neovim = {
     enable = true;
@@ -298,5 +385,6 @@
       lua require 'init'
     ";
   };
-
+  # services.gnome.gnome-keyring.enable = true;
+  # systemd.user.sessionVariables.SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
 }

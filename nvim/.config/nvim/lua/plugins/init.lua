@@ -161,11 +161,7 @@ return {
     'nvim-lua/plenary.nvim',
     {
         'numToStr/Comment.nvim',
-        opts = {
-            pre_hook = function()
-                require('ts_context_commentstring.internal').update_commentstring()
-            end,
-        },
+        opts = {},
     },
     'mbbill/undotree',
     'windwp/nvim-autopairs',

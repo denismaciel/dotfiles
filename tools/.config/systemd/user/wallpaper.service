@@ -1,9 +1,0 @@
-[Unit]
-Description=Set Wallpaper with feh
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/feh --bg-scale /home/denis/dotfiles/assets/wallpaper.jpg
-
-[Install]
-WantedBy=graphical.target
