@@ -35,6 +35,15 @@ o.cursorline = true
 
 o.undodir = os.getenv 'HOME' .. '/.config/nvim/undodir'
 
+o.list = true
+o.listchars = {
+    tab = '▸ ',
+    trail = '·',
+    nbsp = '␣',
+    extends = '❯',
+    precedes = '❮',
+}
+
 o.undofile = true
 o.showmatch = true
 

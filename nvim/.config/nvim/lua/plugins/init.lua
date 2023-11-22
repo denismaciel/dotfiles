@@ -122,7 +122,11 @@ return {
             }
         end,
     },
-    { 'j-hui/fidget.nvim', opts = {}, tag = 'legacy' },
+    {
+        'j-hui/fidget.nvim',
+        opts = {},
+        -- tag = 'legacy'
+    },
     -- { 'm-demare/hlargs.nvim',    opts = {} },
     { 'lewis6991/gitsigns.nvim', opts = {} },
     { 'windwp/nvim-autopairs', opts = {} },
@@ -158,7 +162,6 @@ return {
         },
     },
     'christoomey/vim-tmux-navigator',
-    'nvim-lua/plenary.nvim',
     {
         'numToStr/Comment.nvim',
         opts = {},
@@ -175,7 +178,6 @@ return {
         },
         version = 'nightly',
     },
-    'mhartington/formatter.nvim',
 
     -- == LSP ===
     'neovim/nvim-lspconfig',
@@ -188,7 +190,7 @@ return {
             },
         },
     },
-    'simrat39/inlay-hints.nvim',
+    -- 'simrat39/inlay-hints.nvim',
     { 'williamboman/mason.nvim', opts = {} },
     'jayp0521/mason-nvim-dap.nvim',
     'williamboman/mason-lspconfig.nvim',

@@ -560,4 +560,3 @@ beautiful.useless_gap = 3
 awful.spawn.with_shell 'syncthing'
 awful.spawn.with_shell '/home/denis/.screenlayout/laptop-dell-vertical.sh'
 awful.spawn.with_shell '/home/denis/.config/polybar/launch.sh'
-awful.spawn.with_shell '/home/denis/.config/awesome/autorun.sh'
