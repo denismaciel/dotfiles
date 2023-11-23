@@ -6,6 +6,8 @@
   home.file = {
     ".npmrc".source = ./_npmrc;
     ".ipython/profile_default/ipython_config.py".source = ./_ipython/profile_default/ipython_config.py;
+    ".config/awesome/rc.lua".source = ./awesome/rc.lua;
+    ".config/awesome/main/utils.lua".source = ./awesome/main/utils.lua;
   };
   xdg.enable = true;
   xdg.mimeApps = {
@@ -34,6 +36,9 @@
   targets.genericLinux.enable = true;
   xsession = {
     enable = true;
+    windowManager.awesome = {
+        enable = true;
+    };
     initExtra = ''
       xset r rate 200 40
     '';
@@ -300,6 +305,7 @@
       inputs.neovim-nightly-overlay.overlay
     ];
   };
+  systemd.user.startServices = true;
   systemd.user.services.redshift = {
     Unit = {
       Description = "Redshift colour temperature adjuster";
