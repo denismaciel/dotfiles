@@ -216,6 +216,8 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  programs.ssh.enable = true;
+
   programs.starship = {
     enable = true;
     enableZshIntegration = true;

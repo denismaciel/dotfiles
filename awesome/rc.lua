@@ -287,12 +287,12 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, 'x', function()
         utils.focus_or_spawn(
             'Scratchpad',
-            [[ alacritty --class Scratchpad 2>&1 /tmp/scratchpad.log ]]
+            [[ alacritty --class Scratchpad ]]
         )
     end),
 
     awful.key({ modkey }, 'f', function()
-        utils.focus_or_spawn('Code', 'alacritty --class Code 2>&1 /tmp/code.log')
+        utils.focus_or_spawn('Code', 'alacritty --class Code')
     end),
 
     awful.key({ modkey }, 'g', function()
