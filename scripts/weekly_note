@@ -1,7 +1,5 @@
 #! /bin/sh
 
-touch /home/denis/hey
-
 NOTES_FOLDER="$HOME/Sync/Notes/Current"
 # Get the current year
 YEAR=$(date +'%Y')
