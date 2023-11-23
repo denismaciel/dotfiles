@@ -359,20 +359,20 @@
     };
   };
 
-  systemd.user.services.pomodoro-server = {
-    Unit = {
-      Description = "Pomodoro Server";
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-    Service = {
-      ExecStart = "/home/denis/.local/bin/dennich-pomodoro start-server";
-      ExecStartPre = "/bin/sleep 10";
-      Restart = "always";
-      RestartSec = 3;
-    };
-  };
+  # systemd.user.services.pomodoro-server = {
+  #   Unit = {
+  #     Description = "Pomodoro Server";
+  #   };
+  #   Install = {
+  #     WantedBy = [ "graphical-session.target" ];
+  #   };
+  #   Service = {
+  #     ExecStart = "/home/denis/.local/bin/dennich-pomodoro start-server";
+  #     ExecStartPre = "/bin/sleep 10";
+  #     Restart = "always";
+  #     RestartSec = 3;
+  #   };
+  # };
 
   systemd.user.services.feh = {
     Unit = {
