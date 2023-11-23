@@ -8,6 +8,29 @@
     ".ipython/profile_default/ipython_config.py".source = ./_ipython/profile_default/ipython_config.py;
     ".config/awesome/rc.lua".source = ./awesome/rc.lua;
     ".config/awesome/main/utils.lua".source = ./awesome/main/utils.lua;
+
+    ".config/alacritty/alacritty.yml".source = ./alacritty/alacritty.yml;
+  # ".config/direnv/direnv.toml".source = ./direnv/direnv.toml;
+  # ".config/fd/ignore".source = ./fd/ignore;
+  # ".config/greenclip.toml".source = ./greenclip.toml;
+  # ".config/lf/colors".source = ./lf/colors;
+  # ".config/lf/icons".source = ./lf/icons;
+  # ".config/lf/lfrc".source = ./lf/lfrc;
+  # ".config/pgcli/config".source = ./pgcli/config;
+  # ".config/pgcli/history".source = ./pgcli/history;
+  # ".config/pgcli/log".source = ./pgcli/log;
+  # ".config/polybar/config.ini".source = ./polybar/config.ini;
+  # ".config/polybar/launch.sh".source = ./polybar/launch.sh;
+  # ".config/redshift/redshift.conf".source = ./redshift/redshift.conf;
+  # ".config/rofi/config.rasi".source = ./rofi/config.rasi;
+  # ".config/sioyek/prefs_user.config".source = ./sioyek/prefs_user.config;
+  # ".ctags.d/default.ctags".source = ./_ctags.d/default.ctags;
+  # ".gitignore_global".source = ./_gitignore_global;
+  # ".newsboat/cache.db".source = ./_newsboat/cache.db;
+  # ".newsboat/cache.db.lock".source = ./_newsboat/cache.db.lock;
+  # ".newsboat/config".source = ./_newsboat/config;
+  # ".newsboat/urls".source = ./_newsboat/urls;
+  # ".ripgrep_ignore".source = ./_ripgrep_ignore;
   };
   xdg.enable = true;
   xdg.mimeApps = {
@@ -57,6 +80,7 @@
   home.packages = with pkgs; [
     # aws-sam-cli
     # awscli2
+    tree
     R
     _1password-gui
     alacritty
