@@ -6,6 +6,27 @@
   home.file = {
     ".npmrc".source = ./_npmrc;
     ".ipython/profile_default/ipython_config.py".source = ./_ipython/profile_default/ipython_config.py;
+    ".config/awesome/rc.lua".source = ./awesome/rc.lua;
+    ".config/awesome/main/utils.lua".source = ./awesome/main/utils.lua;
+    ".config/alacritty/alacritty.yml".source = ./alacritty/alacritty.yml;
+    ".config/direnv/direnv.toml".source = ./direnv/direnv.toml;
+    ".config/fd/ignore".source = ./fd/ignore;
+    ".config/greenclip.toml".source = ./greenclip.toml;
+    ".config/lf/colors".source = ./lf/colors;
+    ".config/lf/icons".source = ./lf/icons;
+    ".config/lf/lfrc".source = ./lf/lfrc;
+    ".config/pgcli/config".source = ./pgcli/config;
+    ".config/polybar/config.ini".source = ./polybar/config.ini;
+    ".config/polybar/launch.sh".source = ./polybar/launch.sh;
+    ".config/redshift/redshift.conf".source = ./redshift/redshift.conf;
+    ".config/rofi/config.rasi".source = ./rofi/config.rasi;
+    ".config/sioyek/prefs_user.config".source = ./sioyek/prefs_user.config;
+    ".ctags.d/default.ctags".source = ./_ctags.d/default.ctags;
+    ".newsboat/config".source = ./_newsboat/config;
+    ".newsboat/urls".source = ./_newsboat/urls;
+    ".ripgrep_ignore".source = ./_ripgrep_ignore;
+    ".zshrc".source = ./_zshrc;
+    ".zimrc".source = ./_zimrc;
   };
   xdg.enable = true;
   xdg.mimeApps = {
@@ -34,6 +55,9 @@
   targets.genericLinux.enable = true;
   xsession = {
     enable = true;
+    windowManager.awesome = {
+        enable = true;
+    };
     initExtra = ''
       xset r rate 200 40
     '';
@@ -52,6 +76,7 @@
   home.packages = with pkgs; [
     # aws-sam-cli
     # awscli2
+    tree
     R
     _1password-gui
     alacritty
@@ -193,6 +218,7 @@
 
   programs.starship = {
     enable = true;
+    enableZshIntegration = true;
     settings = {
       add_newline = true;
       character = {
@@ -281,25 +307,12 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [ "nodejs-16.20.0" ];
-  # nixpkgs.overlays = [
-  #   (
-  #     import (
-  #       let
-  #         # rev = "master";
-  #         rev = "29b5f1c2aef88e2b6f41a9d529e50b24802fdb7d";
-  #       in
-  #       builtins.fetchTarball {
-  #         url = "https://github.com/nix-community/neovim-nightly-overlay/archive/${rev}.tar.gz";
-  #       }
-  #     )
-  #   )
-  # ];
-  #
   nixpkgs = {
     overlays = [
       inputs.neovim-nightly-overlay.overlay
     ];
   };
+  systemd.user.startServices = true;
   systemd.user.services.redshift = {
     Unit = {
       Description = "Redshift colour temperature adjuster";
@@ -376,15 +389,4 @@
       ExecStart = "${pkgs.haskellPackages.greenclip}/bin/greenclip daemon";
     };
   };
-
-
-  programs.neovim = {
-    enable = true;
-    # package = pkgs.neovim-nightly;
-    extraConfig = "
-      lua require 'init'
-    ";
-  };
-  # services.gnome.gnome-keyring.enable = true;
-  # systemd.user.sessionVariables.SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
 }

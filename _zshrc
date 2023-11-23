@@ -1,8 +1,7 @@
 # zmodload zsh/zprof
 source ~/zsh-defer/zsh-defer.plugin.zsh
 
-export PATH=$HOME/bin:$PATH
-export PATH=$HOME/scripts:$PATH
+export PATH=$HOME/dotfiles/scripts:$PATH
 export PATH=$PATH:/usr/local/go/bin
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/go/bin/:$PATH"
@@ -29,22 +28,10 @@ export XDG_CONFIG_HOME=$HOME/.config
 export COLORSCHEME=dark
 export ZK_NOTEBOOK_DIR="$HOME/Sync/Notes/Current"
 
-
-
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
 
 export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
 source /home/denis/.nix-profile/etc/profile.d/nix.sh
-
-# ----------------------------------
-# --------- Warnings ---------------
-# ----------------------------------
-# git -C $HOME/dotfiles diff --exit-code > /dev/null || echo " === Commit the changes to your dotfiles, my man! ==="
-# # check_syncthing
-# todo report
-
-
-
 
 # ---------------------------
 # --------- fzf -------------
