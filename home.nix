@@ -306,20 +306,6 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [ "nodejs-16.20.0" ];
-  # nixpkgs.overlays = [
-  #   (
-  #     import (
-  #       let
-  #         # rev = "master";
-  #         rev = "29b5f1c2aef88e2b6f41a9d529e50b24802fdb7d";
-  #       in
-  #       builtins.fetchTarball {
-  #         url = "https://github.com/nix-community/neovim-nightly-overlay/archive/${rev}.tar.gz";
-  #       }
-  #     )
-  #   )
-  # ];
-  #
   nixpkgs = {
     overlays = [
       inputs.neovim-nightly-overlay.overlay
@@ -405,11 +391,11 @@
 
 
   programs.neovim = {
-    enable = true;
+    # enable = true;
     # package = pkgs.neovim-nightly;
-    extraConfig = "
-      lua require 'init'
-    ";
+    # extraConfig = "
+    #   lua require 'init'
+    # ";
   };
   # services.gnome.gnome-keyring.enable = true;
   # systemd.user.sessionVariables.SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
