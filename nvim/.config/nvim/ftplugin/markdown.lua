@@ -7,4 +7,4 @@ end)
 vim.keymap.set('n', '<C-P>', function()
     require('me').cycle_notes 'down'
 end)
-vim.api.nvim_win_set_option(0, 'conceallevel', 1)
+-- vim.api.nvim_win_set_option(0, 'conceallevel', 1)
