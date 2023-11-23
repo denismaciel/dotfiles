@@ -27,6 +27,15 @@
   };
 
   outputs = inputs@{ nixpkgs, home-manager, nixos-hardware,  ... }: {
+      homeConfigurations = {
+        denis = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.${"x86_64-linux"};
+          extraSpecialArgs = { inherit inputs ; };
+          modules = [
+            ./home.nix
+          ];
+        };
+      };
     nixosConfigurations = {
       laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -34,17 +43,12 @@
           ./configuration.nix
           home-manager.nixosModules.home-manager
           {
-            # home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.denis = import ./home.nix;
             home-manager.extraSpecialArgs = {
                 inherit inputs;
             };
-
-            # Optionally, use home-manager.extraSpecialArgs to pass
-            # arguments to home.nix
           }
-        # nixos-hardware.nixosModules.apple-macbook-air-4
         ];
       };
     };
