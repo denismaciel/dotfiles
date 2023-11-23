@@ -280,19 +280,19 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, 'd', function()
         utils.focus_or_spawn(
             'Notebook',
-            [[ alacritty --class Notebook -e /home/denis/scripts/weekly_note 2>&1 /tmp/notbook.log ]]
+            [[ alacritty --class Notebook -e /home/denis/dotfiles/scripts/weekly_note ]]
         )
     end, { description = 'Notebook', group = 'launcher' }),
 
     awful.key({ modkey }, 'x', function()
         utils.focus_or_spawn(
             'Scratchpad',
-            [[ alacritty --class Scratchpad ]]
+            [[ alacritty --class Scratchpad 2>&1 /tmp/scratchpad.log ]]
         )
     end),
 
     awful.key({ modkey }, 'f', function()
-        utils.focus_or_spawn('Code', 'alacritty --class Code')
+        utils.focus_or_spawn('Code', 'alacritty --class Code 2>&1 /tmp/code.log')
     end),
 
     awful.key({ modkey }, 'g', function()
