@@ -10,15 +10,15 @@
     ".config/awesome/main/utils.lua".source = ./awesome/main/utils.lua;
 
     ".config/alacritty/alacritty.yml".source = ./alacritty/alacritty.yml;
-  # ".config/direnv/direnv.toml".source = ./direnv/direnv.toml;
-  # ".config/fd/ignore".source = ./fd/ignore;
-  # ".config/greenclip.toml".source = ./greenclip.toml;
-  # ".config/lf/colors".source = ./lf/colors;
-  # ".config/lf/icons".source = ./lf/icons;
-  # ".config/lf/lfrc".source = ./lf/lfrc;
-  # ".config/pgcli/config".source = ./pgcli/config;
-  # ".config/pgcli/history".source = ./pgcli/history;
-  # ".config/pgcli/log".source = ./pgcli/log;
+    ".config/direnv/direnv.toml".source = ./direnv/direnv.toml;
+    ".config/fd/ignore".source = ./fd/ignore;
+    ".config/greenclip.toml".source = ./greenclip.toml;
+    ".config/lf/colors".source = ./lf/colors;
+    ".config/lf/icons".source = ./lf/icons;
+    ".config/lf/lfrc".source = ./lf/lfrc;
+    ".config/pgcli/config".source = ./pgcli/config;
+    ".config/pgcli/history".source = ./pgcli/history;
+    ".config/pgcli/log".source = ./pgcli/log;
   # ".config/polybar/config.ini".source = ./polybar/config.ini;
   # ".config/polybar/launch.sh".source = ./polybar/launch.sh;
   # ".config/redshift/redshift.conf".source = ./redshift/redshift.conf;
