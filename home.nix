@@ -24,8 +24,8 @@
     ".config/sioyek/prefs_user.config".source = ./sioyek/prefs_user.config;
   # ".ctags.d/default.ctags".source = ./_ctags.d/default.ctags;
   # ".gitignore_global".source = ./_gitignore_global;
-  # ".newsboat/config".source = ./_newsboat/config;
-  # ".newsboat/urls".source = ./_newsboat/urls;
+    ".newsboat/config".source = ./_newsboat/config;
+    ".newsboat/urls".source = ./_newsboat/urls;
     ".ripgrep_ignore".source = ./_ripgrep_ignore;
   };
   xdg.enable = true;
