@@ -12,19 +12,7 @@ local lspc = require 'lspconfig'
 local null_ls = require 'null-ls'
 local util = require 'lspconfig.util'
 
-require('mason-lspconfig').setup {
-    ensure_installed = {
-        'lua_ls',
-        'rust_analyzer',
-        'gopls',
-        'tsserver',
-        'prismals',
-        'pyright',
-        'tailwindcss',
-        'bashls',
-        'cssls',
-    },
-}
+require('mason-lspconfig').setup {}
 
 null_ls.setup {
     sources = {

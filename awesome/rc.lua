@@ -21,7 +21,7 @@ local hotkeys_popup = require 'awful.hotkeys_popup'
 require 'awful.hotkeys_popup.keys'
 
 -- Load Debian menu entries
-local debian = require 'debian.menu'
+-- local debian = require 'debian.menu'
 local has_fdo, freedesktop = pcall(require, 'freedesktop')
 
 beautiful.wallpaper = '/user/denis/Downloads/wallpaper.jpg'
@@ -131,7 +131,6 @@ else
     mymainmenu = awful.menu {
         items = {
             menu_awesome,
-            { 'Debian', debian.menu.Debian_menu.Debian },
             menu_terminal,
         },
     }
@@ -558,5 +557,5 @@ end)
 beautiful.useless_gap = 3
 
 awful.spawn.with_shell 'syncthing'
-awful.spawn.with_shell '/home/denis/.screenlayout/laptop-dell-vertical.sh'
-awful.spawn.with_shell '/home/denis/.config/polybar/launch.sh'
+-- awful.spawn.with_shell '/home/denis/.screenlayout/laptop-dell-vertical.sh'
+-- awful.spawn.with_shell '/home/denis/.config/polybar/launch.sh'
