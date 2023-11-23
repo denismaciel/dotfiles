@@ -8,7 +8,6 @@
     ".ipython/profile_default/ipython_config.py".source = ./_ipython/profile_default/ipython_config.py;
     ".config/awesome/rc.lua".source = ./awesome/rc.lua;
     ".config/awesome/main/utils.lua".source = ./awesome/main/utils.lua;
-
     ".config/alacritty/alacritty.yml".source = ./alacritty/alacritty.yml;
     ".config/direnv/direnv.toml".source = ./direnv/direnv.toml;
     ".config/fd/ignore".source = ./fd/ignore;
@@ -22,7 +21,7 @@
     ".config/redshift/redshift.conf".source = ./redshift/redshift.conf;
     ".config/rofi/config.rasi".source = ./rofi/config.rasi;
     ".config/sioyek/prefs_user.config".source = ./sioyek/prefs_user.config;
-   ".ctags.d/default.ctags".source = ./_ctags.d/default.ctags;
+    ".ctags.d/default.ctags".source = ./_ctags.d/default.ctags;
     ".newsboat/config".source = ./_newsboat/config;
     ".newsboat/urls".source = ./_newsboat/urls;
     ".ripgrep_ignore".source = ./_ripgrep_ignore;
