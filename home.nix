@@ -25,6 +25,7 @@
     ".newsboat/config".source = ./_newsboat/config;
     ".newsboat/urls".source = ./_newsboat/urls;
     ".ripgrep_ignore".source = ./_ripgrep_ignore;
+    ".zshrc".source = ./_zshrc;
     ".zimrc".source = ./_zimrc;
   };
   xdg.enable = true;
@@ -217,6 +218,7 @@
 
   programs.starship = {
     enable = true;
+    enableZshIntegration = true;
     settings = {
       add_newline = true;
       character = {
@@ -387,15 +389,4 @@
       ExecStart = "${pkgs.haskellPackages.greenclip}/bin/greenclip daemon";
     };
   };
-
-
-  programs.neovim = {
-    # enable = true;
-    # package = pkgs.neovim-nightly;
-    # extraConfig = "
-    #   lua require 'init'
-    # ";
-  };
-  # services.gnome.gnome-keyring.enable = true;
-  # systemd.user.sessionVariables.SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
 }
