@@ -26,6 +26,7 @@
     ".newsboat/config".source = ./_newsboat/config;
     ".newsboat/urls".source = ./_newsboat/urls;
     ".ripgrep_ignore".source = ./_ripgrep_ignore;
+    ".zimrc".source = ./_zimrc;
   };
   xdg.enable = true;
   xdg.mimeApps = {
