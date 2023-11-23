@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 
 # Define the names or indexes of the two sinks
 SINK1="alsa_output.usb-Generic_Lenovo_USB-C_Mini_Dock-00.analog-stereo"

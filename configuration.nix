@@ -118,6 +118,7 @@
     git
     curl
     wget
+    alacritty
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
 

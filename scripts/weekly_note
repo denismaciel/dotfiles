@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 
 NOTES_FOLDER="$HOME/Sync/Notes/Current"
 # Get the current year

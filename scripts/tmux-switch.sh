@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 
 # customizable
 LIST_DATA="#{session_name} [#{window_name}]"
