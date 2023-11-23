@@ -17,11 +17,11 @@
     ".config/lf/icons".source = ./lf/icons;
     ".config/lf/lfrc".source = ./lf/lfrc;
     ".config/pgcli/config".source = ./pgcli/config;
-  # ".config/polybar/config.ini".source = ./polybar/config.ini;
-  # ".config/polybar/launch.sh".source = ./polybar/launch.sh;
-  # ".config/redshift/redshift.conf".source = ./redshift/redshift.conf;
-  # ".config/rofi/config.rasi".source = ./rofi/config.rasi;
-  # ".config/sioyek/prefs_user.config".source = ./sioyek/prefs_user.config;
+    ".config/polybar/config.ini".source = ./polybar/config.ini;
+    ".config/polybar/launch.sh".source = ./polybar/launch.sh;
+    ".config/redshift/redshift.conf".source = ./redshift/redshift.conf;
+    ".config/rofi/config.rasi".source = ./rofi/config.rasi;
+    ".config/sioyek/prefs_user.config".source = ./sioyek/prefs_user.config;
   # ".ctags.d/default.ctags".source = ./_ctags.d/default.ctags;
   # ".gitignore_global".source = ./_gitignore_global;
   # ".newsboat/config".source = ./_newsboat/config;
