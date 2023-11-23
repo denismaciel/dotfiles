@@ -22,8 +22,7 @@
     ".config/redshift/redshift.conf".source = ./redshift/redshift.conf;
     ".config/rofi/config.rasi".source = ./rofi/config.rasi;
     ".config/sioyek/prefs_user.config".source = ./sioyek/prefs_user.config;
-  # ".ctags.d/default.ctags".source = ./_ctags.d/default.ctags;
-  # ".gitignore_global".source = ./_gitignore_global;
+   ".ctags.d/default.ctags".source = ./_ctags.d/default.ctags;
     ".newsboat/config".source = ./_newsboat/config;
     ".newsboat/urls".source = ./_newsboat/urls;
     ".ripgrep_ignore".source = ./_ripgrep_ignore;
