@@ -216,7 +216,24 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  programs.ssh.enable = true;
+  programs.ssh = {
+    enable = true;
+    extraConfig = ''
+      AddKeysToAgent yes
+      IdentityFile ~/.ssh/id_ed25519
+
+      Host jumpserver-prod
+          HostName 3.68.82.3
+          User ec2-user
+          IdentityFile ~/.ssh/jumpserver-prod
+
+      Host airbyte-prod
+          HostName 10.0.4.51
+          User ec2-user
+          ProxyJump jumpserver-prod
+          IdentityFile ~/.ssh/jumpserver-prod
+    '';
+  };
 
   programs.starship = {
     enable = true;
