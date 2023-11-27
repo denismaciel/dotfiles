@@ -16,8 +16,6 @@
     ".config/lf/icons".source = ./lf/icons;
     ".config/lf/lfrc".source = ./lf/lfrc;
     ".config/pgcli/config".source = ./pgcli/config;
-    # ".config/polybar/config.ini".source = ./polybar/config.ini;
-    ".config/polybar/launch.sh".source = ./polybar/launch.sh;
     ".config/redshift/redshift.conf".source = ./redshift/redshift.conf;
     ".config/rofi/config.rasi".source = ./rofi/config.rasi;
     ".config/sioyek/prefs_user.config".source = ./sioyek/prefs_user.config;
@@ -58,9 +56,6 @@
     windowManager.awesome = {
         enable = true;
     };
-    initExtra = ''
-      xset r rate 200 40
-    '';
   };
 
   # This value determines the Home Manager release that your
@@ -76,6 +71,7 @@
   home.packages = with pkgs; [
     # aws-sam-cli
     # awscli2
+    jdk17
     tree
     R
     _1password-gui
@@ -376,20 +372,19 @@
     };
   };
 
-  # systemd.user.services.pomodoro-server = {
-  #   Unit = {
-  #     Description = "Pomodoro Server";
-  #   };
-  #   Install = {
-  #     WantedBy = [ "graphical-session.target" ];
-  #   };
-  #   Service = {
-  #     ExecStart = "/home/denis/.local/bin/dennich-pomodoro start-server";
-  #     ExecStartPre = "/bin/sleep 10";
-  #     Restart = "always";
-  #     RestartSec = 3;
-  #   };
-  # };
+  systemd.user.services.pomodoro-server = {
+    Unit = {
+      Description = "Pomodoro Server";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "/home/denis/.local/bin/dennich-pomodoro start-server";
+      Restart = "always";
+      RestartSec = 3;
+    };
+  };
 
   systemd.user.services.feh = {
     Unit = {

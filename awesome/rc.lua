@@ -68,7 +68,7 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. 'default/theme.lua')
 
 -- This is used later as the default terminal and editor to run.
-terminal = 'alacritty'
+terminal = 'nixGL alacritty'
 editor = os.getenv 'EDITOR' or 'editor'
 editor_cmd = terminal .. ' -e ' .. editor
 
@@ -280,19 +280,19 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, 'd', function()
         utils.focus_or_spawn(
             'Notebook',
-            [[ alacritty --class Notebook -e /home/denis/dotfiles/scripts/weekly_note ]]
+            [[ nixGL alacritty --class Notebook -e /home/denis/dotfiles/scripts/weekly_note ]]
         )
     end, { description = 'Notebook', group = 'launcher' }),
 
     awful.key({ modkey }, 'x', function()
         utils.focus_or_spawn(
             'Scratchpad',
-            [[ alacritty --class Scratchpad ]]
+            [[ nixGL alacritty --class Scratchpad ]]
         )
     end),
 
     awful.key({ modkey }, 'f', function()
-        utils.focus_or_spawn('Code', 'alacritty --class Code')
+        utils.focus_or_spawn('Code', 'nixGL alacritty --class Code')
     end),
 
     awful.key({ modkey }, 'g', function()
@@ -327,7 +327,7 @@ globalkeys = gears.table.join(
     end),
 
     awful.key({ modkey }, 'r', function()
-        awful.util.spawn [[ alacritty --class FloatThatThing -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
+        awful.util.spawn [[ nixGL alacritty --class FloatThatThing -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
     end),
 
     -- Volume
