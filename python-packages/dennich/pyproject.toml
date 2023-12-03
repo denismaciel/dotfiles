@@ -1,0 +1,41 @@
+[project]
+name = "dennich"
+version = "0.0.1" 
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic",
+    "anki",
+    "markdownify",
+    "plumbum",
+    "pyfzf",
+    "openai",
+    "structlog",
+    "sqlalchemy",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pre-commit", "mypy", "ipython", "pip-tools"]
+
+[project.scripts]
+dennich-todo = "dennich.todo:main"
+dennich-danki = "dennich.danki.main:main"
+dennich-sanki = "dennich.search:main"
+dennich-convert-audio = "dennich.convert_audio:main"
+dennich-pomodoro = "dennich.todo.pomodoro.cli:main"
+
+[tool.setuptools]
+script-files = [
+    "scripts/dennich-audio-diary",
+]
+
+[build-system]
+requires = ["setuptools>=43.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.mypy]
+strict = true
+
+[[tool.mypy.overrides]]
+module = ["markdownify", "plumbum.*", "pyfzf.*"]
+ignore_missing_imports = true

@@ -297,7 +297,6 @@ set -g window-active-style bg=default
 
   programs.zsh = {
     enable = true;
-    # enableCompletion = true;
     defaultKeymap = "viins";
     dotDir = ".config/zsh";
     initExtra = builtins.readFile ./configs/_zshrc;
@@ -506,7 +505,7 @@ set -g window-active-style bg=default
       WantedBy = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "/home/denis/.local/bin/dennich-pomodoro start-server";
+      ExecStart = "/home/denis/.nix-profile/bin/dennich-pomodoro start-server";
       Restart = "always";
       RestartSec = 3;
     };
