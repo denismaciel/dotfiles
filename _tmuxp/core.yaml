@@ -45,3 +45,28 @@ windows:
     panes:
       -
       -
+  - window_name: saasinvent-app
+    start_directory: "~/mine/saas-invent/webapp"
+    panes:
+      -
+      -
+  - window_name: saasinvent-py
+    start_directory: "~/mine/saas-invent/saasinvent"
+    panes:
+      -
+      -
+  - window_name: dennich
+    start_directory: "~/github.com/denismaciel/dennich"
+    panes:
+      -
+      -
+  - window_name: praise-penguin-py
+    start_directory: "~/github.com/denismaciel/praise-penguin"
+    panes:
+      -
+      -
+  - window_name: praise-penguin-app
+    start_directory: "~/github.com/denismaciel/praise-penguin/landing-page"
+    panes:
+      -
+      -

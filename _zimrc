@@ -1,6 +1,0 @@
-# zmodule docker/cli/blob/master/contrib/completion/zsh
-zmodule zsh-users/zsh-completions --fpath src
-zmodule greymd/docker-zsh-completion
-zmodule completion
-zmodule Aloxaf/fzf-tab
-zmodule zdharma-continuum/fast-syntax-highlighting

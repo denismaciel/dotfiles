@@ -23,8 +23,9 @@
     ".newsboat/config".source = ./_newsboat/config;
     ".newsboat/urls".source = ./_newsboat/urls;
     ".ripgrep_ignore".source = ./_ripgrep_ignore;
-    ".zshrc".source = ./_zshrc;
+    # ".zshrc".source = ./_zshrc;
     ".zimrc".source = ./_zimrc;
+    ".tmuxp/core.yml".source = ./_tmuxp/core.yaml;
   };
   xdg.enable = true;
   xdg.mimeApps = {
@@ -173,8 +174,6 @@
     terraform
     terraform-ls
     texlive.combined.scheme-medium
-    tmux
-    tmuxp
     tor-browser-bundle-bin
     universal-ctags
     unzip
@@ -192,6 +191,7 @@
     zsh
     zsh-fzf-tab
     zsh-syntax-highlighting
+    (pkgs.callPackage ./dennich.nix {})
     (rofi.override { plugins = [ pkgs.rofi-emoji pkgs.rofi-calc ]; })
     (nerdfonts.override {
       fonts = [
@@ -211,7 +211,133 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+  programs.tmux = {
+    enable = true;
+    tmuxp.enable = true;
+    plugins = with pkgs.tmuxPlugins; [
+      vim-tmux-navigator
+      yank
+      tmux-fzf
+    ];
+    extraConfig = ''
+# Pane and windows indexes start with one
+# set -g base-index 1
+# setw -g pane-base-index 1
+set -g mouse on
+set -sg escape-time 1
+setw -g mode-keys vi
 
+# Get rid of confimation
+bind-key & kill-window
+bind-key x kill-pane
+
+bind-key f last-window
+
+bind-key u display-popup -h 90% -w 90% -E "weekly_note"
+# FIXME
+bind-key a display-popup -h 90% -w 90% -E "~/venvs/apy/bin/apy add -d default; sleep 2"
+bind-key m run-shell -b tmux-switch.sh
+
+# Open new windows in the current path	
+bind c new-window -c "$HOME"
+bind \\ split-window -h -c '#{pane_current_path}'  # Split panes horizontal
+bind \' split-window -h -c '#{pane_current_path}'  # Split panes horizontal
+bind - split-window -v -c '#{pane_current_path}'  # Split panes vertically
+
+# bind-key b run "tmux send-keys -t #S:1.1 'tss' Enter"
+bind-key e command-prompt -p "Command:" \
+         "run \"tmux list-panes  -F '##{session_name}:##{window_index}.##{pane_index}' \
+                | xargs -I PANE tmux send-keys -t PANE '%1' Enter\""
+
+bind-key b resize-pane -Z
+
+# Vi key bindings on Visual Mode
+bind-key -T copy-mode-vi v send-keys -X begin-selection
+bind-key -T copy-mode-vi y send-keys -X copy-selection
+bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
+bind-key -T copy-mode-vi / command-prompt -i -p "search down" "send -X search-forward-incremental \"%%%\""
+bind-key -T copy-mode-vi ? command-prompt -i -p "search up" "send -X search-backward-incremental \"%%%\""
+
+bind-key r source-file ~/.tmux.conf; display "Config reloaded!"	
+
+set -g default-terminal "tmux-256color"
+set -ag terminal-overrides ",xterm-256color:RGB"
+
+bind-key -r k resize-pane -U 5
+bind-key -r j resize-pane -D 5
+bind-key -r h resize-pane -L 5
+bind-key -r l resize-pane -R 5
+
+######################	
+### DESIGN CHANGES ###	
+######################	
+set-option -g status-position top
+set -g status-bg colour234
+set -g status-fg colour255
+# set -g status-right '#[fg=colour233,bg=colour241,bold] %d/%m #[fg=colour233,bg=colour245,bold] %H:%M:%S '
+# set -g status-right "#(pmd)"
+set -g status-right ""
+set -g status-left ""
+set -g status-justify left
+set -g status-right-length 500
+set -g status-left-length 0
+set -g status-interval 1
+
+# #{?window_zoomed_flag,#[fg=red](,}#W#{?window_zoomed_flag,#[fg=red]),}
+setw -g window-status-current-format '#{?window_zoomed_flag,#[fg=black]#[bg=white]=============== #W ===============,#[fg=colour240]#W}'	
+
+# setw -g window-status-format ' #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F '
+setw -g window-status-format ""
+
+set -g pane-active-border-style fg=colour188
+set -g pane-border-style fg=colour240
+set -g window-style bg=default
+set -g window-active-style bg=default
+    '';
+
+  };
+
+  programs.zsh = {
+    enable = true;
+    # enableCompletion = true;
+    dotDir = ".config/zsh";
+    initExtra = builtins.readFile ./_zshrc;
+    plugins = [
+      {
+        name = "zsh-defer";
+        src = pkgs.fetchFromGitHub {
+          owner = "romkatv";
+          repo = "zsh-defer";
+          rev = "master";
+          sha256 = "/rcIS2AbTyGw2HjsLPkHtt50c2CrtAFDnLuV5wsHcLc=";
+        };
+      }
+      {
+        name = "zsh-completions";
+        src = pkgs.zsh-completions;
+      }
+      {
+        name = "zsh-fzf-tab";
+        file = "fzf-tab.plugin.zsh";
+        src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
+      }
+      {
+        name = "zsh-autopair";
+        file = "zsh-autopair.plugin.zsh";
+        src = pkgs.fetchFromGitHub {
+          owner = "hlissner";
+          repo = "zsh-autopair";
+          rev = "34a8bca0c18fcf3ab1561caef9790abffc1d3d49";
+          sha256 = "1h0vm2dgrmb8i2pvsgis3lshc5b0ad846836m62y8h3rdb3zmpy1";
+        };
+      }
+      {
+        name = "zsh-syntax-highlighting";
+        file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
+        src = pkgs.zsh-syntax-highlighting;
+      }
+    ];
+  };
   programs.ssh = {
     enable = true;
     extraConfig = ''
