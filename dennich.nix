@@ -4,7 +4,7 @@ python3Packages.buildPythonApplication rec {
   pname = "dennich";
   version = "1.32.0";
   format = "pyproject";
-  src = /home/denis/github.com/denismaciel/dennich;
+  src = ./python-packages/dennich;
 
   nativeBuildInputs = [
     python3Packages.setuptools
