@@ -23,8 +23,6 @@
     ".newsboat/config".source = ./_newsboat/config;
     ".newsboat/urls".source = ./_newsboat/urls;
     ".ripgrep_ignore".source = ./_ripgrep_ignore;
-    # ".zshrc".source = ./_zshrc;
-    ".zimrc".source = ./_zimrc;
     ".tmuxp/core.yml".source = ./_tmuxp/core.yaml;
   };
   xdg.enable = true;
@@ -300,6 +298,7 @@ set -g window-active-style bg=default
   programs.zsh = {
     enable = true;
     # enableCompletion = true;
+    defaultKeymap = "viins";
     dotDir = ".config/zsh";
     initExtra = builtins.readFile ./_zshrc;
     plugins = [
@@ -315,6 +314,7 @@ set -g window-active-style bg=default
       {
         name = "zsh-completions";
         src = pkgs.zsh-completions;
+        file = "zsh-completions.plugin.zsh";
       }
       {
         name = "zsh-fzf-tab";

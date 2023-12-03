@@ -9,7 +9,6 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="$PATH:/home/denis/.local/bin"
 export GOPATH=$(go env GOPATH)
 export PATH=$GOROOT/bin:$PATH
-
 export R_LIBS_USER="$HOME/r/x86_64-pc-linux-gnu-library/4.1" # Custom location for R packages
 export LC_ALL=en_US.UTF-8 # Fix problem when opening nvim
 export VISUAL=nvim
@@ -51,7 +50,6 @@ function  _fzf_compgen_path() {
 # --------- aliases ---------
 # ---------------------------
 alias core='tmuxp load core -y'
-alias mine='tmuxp load mine -y'
 alias act='source venv/bin/activate'
 alias l='ls -lah'
 alias la='ls -lAh'
@@ -74,7 +72,7 @@ alias tsw="date +'%Y-%W' | tr -d '\n' | xclip -selection clipboard && xclip -sel
 setopt autocd # .. is shortcut for cd .. 
 
 # vi mode
-bindkey -v
+
 export KEYTIMEOUT=1
 bindkey -v '^?' backward-delete-char
 bindkey "^E" backward-word
@@ -103,7 +101,6 @@ setopt INTERACTIVE_COMMENTS       # Allow for comments
 if [ -e /home/denis/credentials/recap.sh ]; then . /home/denis/credentials/recap.sh; fi
 
 
-eval "$(starship init zsh)"
 eval "$(scmpuff init -s)"
 eval "$(direnv hook zsh)"
 eval "$(zoxide init zsh)"
@@ -256,4 +253,3 @@ function check_syncthing() {
         echo "🚨 syncthing is not running 🚨"
     fi
 }
-# zprof
