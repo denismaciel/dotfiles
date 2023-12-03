@@ -4,26 +4,26 @@
   home.username = "denis";
   home.homeDirectory = "/home/denis";
   home.file = {
-    ".npmrc".source = ./_npmrc;
-    ".ipython/profile_default/ipython_config.py".source = ./_ipython/profile_default/ipython_config.py;
-    ".config/awesome/rc.lua".source = ./awesome/rc.lua;
-    ".config/awesome/main/utils.lua".source = ./awesome/main/utils.lua;
-    ".config/alacritty/alacritty.yml".source = ./alacritty/alacritty.yml;
-    ".config/direnv/direnv.toml".source = ./direnv/direnv.toml;
-    ".config/fd/ignore".source = ./fd/ignore;
-    ".config/greenclip.toml".source = ./greenclip.toml;
-    ".config/lf/colors".source = ./lf/colors;
-    ".config/lf/icons".source = ./lf/icons;
-    ".config/lf/lfrc".source = ./lf/lfrc;
-    ".config/pgcli/config".source = ./pgcli/config;
-    ".config/redshift/redshift.conf".source = ./redshift/redshift.conf;
-    ".config/rofi/config.rasi".source = ./rofi/config.rasi;
-    ".config/sioyek/prefs_user.config".source = ./sioyek/prefs_user.config;
-    ".ctags.d/default.ctags".source = ./_ctags.d/default.ctags;
-    ".newsboat/config".source = ./_newsboat/config;
-    ".newsboat/urls".source = ./_newsboat/urls;
-    ".ripgrep_ignore".source = ./_ripgrep_ignore;
-    ".tmuxp/core.yml".source = ./_tmuxp/core.yaml;
+    ".npmrc".source = ./configs/_npmrc;
+    ".ipython/profile_default/ipython_config.py".source = ./configs/_ipython/profile_default/ipython_config.py;
+    ".config/awesome/rc.lua".source = ./configs/awesome/rc.lua;
+    ".config/awesome/main/utils.lua".source = ./configs/awesome/main/utils.lua;
+    ".config/alacritty/alacritty.yml".source = ./configs/alacritty/alacritty.yml;
+    ".config/direnv/direnv.toml".source = ./configs/direnv/direnv.toml;
+    ".config/fd/ignore".source = ./configs/fd/ignore;
+    ".config/greenclip.toml".source = ./configs/greenclip.toml;
+    ".config/lf/colors".source = ./configs/lf/colors;
+    ".config/lf/icons".source = ./configs/lf/icons;
+    ".config/lf/lfrc".source = ./configs/lf/lfrc;
+    ".config/pgcli/config".source = ./configs/pgcli/config;
+    ".config/redshift/redshift.conf".source = ./configs/redshift/redshift.conf;
+    ".config/rofi/config.rasi".source = ./configs/rofi/config.rasi;
+    ".config/sioyek/prefs_user.config".source = ./configs/sioyek/prefs_user.config;
+    ".ctags.d/default.ctags".source = ./configs/_ctags.d/default.ctags;
+    ".newsboat/config".source = ./configs/_newsboat/config;
+    ".newsboat/urls".source = ./configs/_newsboat/urls;
+    ".ripgrep_ignore".source = ./configs/_ripgrep_ignore;
+    ".tmuxp/core.yml".source = ./configs/_tmuxp/core.yaml;
   };
   xdg.enable = true;
   xdg.mimeApps = {
@@ -300,7 +300,7 @@ set -g window-active-style bg=default
     # enableCompletion = true;
     defaultKeymap = "viins";
     dotDir = ".config/zsh";
-    initExtra = builtins.readFile ./_zshrc;
+    initExtra = builtins.readFile ./configs/_zshrc;
     plugins = [
       {
         name = "zsh-defer";
@@ -412,8 +412,8 @@ set -g window-active-style bg=default
 
   services.polybar = {
     enable = true;
-    extraConfig = builtins.readFile ./polybar/config.ini;
-    script = builtins.readFile ./polybar/launch.sh;
+    extraConfig = builtins.readFile ./configs/polybar/config.ini;
+    script = builtins.readFile ./configs/polybar/launch.sh;
   };
 
   programs.git = {
