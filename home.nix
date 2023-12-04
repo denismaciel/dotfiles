@@ -189,7 +189,7 @@
     zsh
     zsh-fzf-tab
     zsh-syntax-highlighting
-    (pkgs.callPackage ./dennich.nix {})
+    # (pkgs.callPackage ./dennich.nix {})
     (rofi.override { plugins = [ pkgs.rofi-emoji pkgs.rofi-calc ]; })
     (nerdfonts.override {
       fonts = [

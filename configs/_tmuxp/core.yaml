@@ -56,7 +56,7 @@ windows:
       -
       -
   - window_name: dennich
-    start_directory: "~/github.com/denismaciel/dennich"
+    start_directory: "~/dotfiles/python-packages/dennich"
     panes:
       -
       -

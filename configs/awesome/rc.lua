@@ -327,7 +327,7 @@ globalkeys = gears.table.join(
     end),
 
     awful.key({ modkey }, 'r', function()
-        awful.util.spawn [[ nixGL alacritty --class FloatThatThing -e sh -c '/home/denis/.nix-profile/bin/dennich-todo start-pomodoro' ]]
+        awful.util.spawn [[ nixGL alacritty --class FloatThatThing -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
     end),
 
     -- Volume

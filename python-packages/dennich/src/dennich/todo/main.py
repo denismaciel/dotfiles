@@ -7,7 +7,6 @@ import logging
 import re
 import sys
 import typing
-from collections import defaultdict
 from subprocess import run
 
 import structlog
@@ -23,11 +22,6 @@ from dennich.todo.select import SelectionCancelled
 from dennich.todo.select import SelectionKind
 from dennich.todo.select import SelectionSelected
 from dennich.todo.select import Selector
-
-TODO_FILE_JSONL = '/home/denis/Sync/Notes/Current/todo.jsonlines'
-DONE_FILE_JSONL = '/home/denis/Sync/Notes/Current/done.jsonlines'
-POMODORO_HISTORY_FILE = '/home/denis/.pomodoro/history'
-POMODORO_BIN = '/home/denis/bin/pomodoro'
 
 RE_DURATION = re.compile(r'duration=\d+')
 RE_DESCRIPTION = re.compile(r'description="?.+"?')
@@ -98,42 +92,38 @@ def year_week(d: datetime.date) -> str:
 
 
 def report() -> int:
-    def human_readable(minutes: int) -> str:
-        hs, mins = divmod(minutes, 60)
-        return f'{hs}h {mins}m'
+    today = dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    tags = {}
+    pomodoros = load_pomodoros_created_after(
+        get_session(),
+        today
+        # - dt.timedelta(days=7),
+    )
+    for p in pomodoros:
+        if not p.todo.tags:
+            tags['default'] = (
+                tags.get('default', dt.timedelta()) + p.end_time - p.start_time
+            )
+            continue
 
-    today = datetime.date.today()
-    minutes_week: dict[str, int] = defaultdict(int)
+        for tag in p.todo.tags:
+            tags[tag] = tags.get(tag, dt.timedelta()) + p.end_time - p.start_time
 
-    print('-----------------------------')
-    print(f'--- Time tracking {year_week(today)} ---')
-    print('-----------------------------')
+    todos = {}
+    for p in pomodoros:
+        todos[p.todo.name] = (
+            todos.get(p.todo.name, dt.timedelta()) + p.end_time - p.start_time
+        )
 
-    with open(POMODORO_HISTORY_FILE) as f:
-        for i, line in enumerate(f):
-            ts_raw, *_ = line.split()
-            ts = datetime.datetime.fromisoformat(ts_raw)
+    print()
+    print('--------- Tags 🏷 ----------------')
+    for tag, td in sorted(tags.items(), key=lambda x: -x[1]):
+        print(f'{tag}: {convert_timedelta_to_human_readable(td)}')
 
-            try:
-                if year_week(ts) == year_week(today):
-                    (dur_raw,) = RE_DURATION.findall(line)
-                    duration = int(dur_raw.replace('duration=', ''))
-
-                    (description,) = RE_DESCRIPTION.findall(line)
-                    description = description.replace('description=', '')
-                    description = clean_description(
-                        description, patterns=('TODO', 'HABIT')
-                    )
-                    description = description.replace('"', '').strip()
-                    minutes_week[description] += duration
-            except Exception as e:
-                print('An error ocurred with log line:', i + 1, '\n', e)
-                print(line)
-                raise SystemExit(1)
-
-    for desc, dur in sorted(minutes_week.items(), key=lambda x: -x[1]):
-        if dur > 20:
-            print(human_readable(dur), desc)
+    print()
+    print('--------- Todos 💬 ---------------')
+    for todo, td in sorted(todos.items(), key=lambda x: -x[1]):
+        print(f'{todo}: {convert_timedelta_to_human_readable(td)}')
     return 0
 
 
@@ -180,35 +170,4 @@ def convert_timedelta_to_human_readable(td: dt.timedelta) -> str:
 
 
 if __name__ == '__main__':
-    today = dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-    tags = {}
-    pomodoros = load_pomodoros_created_after(
-        get_session(),
-        today
-        # - dt.timedelta(days=7),
-    )
-    for p in pomodoros:
-        if not p.todo.tags:
-            tags['default'] = (
-                tags.get('default', dt.timedelta()) + p.end_time - p.start_time
-            )
-            continue
-
-        for tag in p.todo.tags:
-            tags[tag] = tags.get(tag, dt.timedelta()) + p.end_time - p.start_time
-
-    todos = {}
-    for p in pomodoros:
-        todos[p.todo.name] = (
-            todos.get(p.todo.name, dt.timedelta()) + p.end_time - p.start_time
-        )
-
-    print()
-    print('--------- Tags 🏷 ----------------')
-    for tag, td in sorted(tags.items(), key=lambda x: -x[1]):
-        print(f'{tag}: {convert_timedelta_to_human_readable(td)}')
-
-    print()
-    print('--------- Todos 💬 ---------------')
-    for todo, td in sorted(todos.items(), key=lambda x: -x[1]):
-        print(f'{todo}: {convert_timedelta_to_human_readable(td)}')
+    main()

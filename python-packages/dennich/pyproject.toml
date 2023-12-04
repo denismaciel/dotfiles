@@ -18,7 +18,7 @@ dependencies = [
 dev = ["pytest", "pre-commit", "mypy", "ipython", "pip-tools"]
 
 [project.scripts]
-dennich-todo = "dennich.todo:main"
+dennich-todo = "dennich.todo.main:main"
 dennich-danki = "dennich.danki.main:main"
 dennich-sanki = "dennich.search:main"
 dennich-convert-audio = "dennich.convert_audio:main"

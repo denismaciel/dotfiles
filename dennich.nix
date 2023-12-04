@@ -1,8 +1,8 @@
 { python3Packages }:
 
-python3Packages.buildPythonApplication rec {
+python3Packages.buildPythonApplication {
   pname = "dennich";
-  version = "1.32.0";
+  version = "1.0.0";
   format = "pyproject";
   src = ./python-packages/dennich;
 
