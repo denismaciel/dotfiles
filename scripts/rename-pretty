@@ -8,7 +8,6 @@ REMOVE_PATTERS = [' (z-lib.org)']
 
 
 def main():
-
     path = pathlib.Path()
     if len(sys.argv) == 1:
         print('You must pass a file name')

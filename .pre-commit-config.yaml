@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-json
       - id: check-merge-conflict
@@ -9,21 +9,21 @@ repos:
       - id: debug-statements # prevents commiting calls to breakpoint()
       - id: double-quote-string-fixer # replaces " with ' in string literals
   - repo: https://github.com/psf/black
-    rev: 22.12.0
+    rev: 23.11.0
     hooks:
       - id: black
         args: [--skip-string-normalization]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.0.207"
+    rev: "v0.1.6"
     hooks:
       - id: ruff
-        args: ["--force-exclude", "--fix"]
+        args: ["--fix"]
   - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.9.0
+    rev: v3.12.0
     hooks:
       - id: reorder-python-imports
   - repo: https://github.com/JohnnyMorganz/StyLua
-    rev: v0.15.3
+    rev: v0.19.1
     hooks:
       - id: stylua-system
   # - repo: https://github.com/Yelp/detect-secrets

@@ -130,7 +130,6 @@ class CLI:
         # stat string,
 
         with conn:
-
             if _type == 'numeric':
                 try:
                     stat = float(args.stat)
