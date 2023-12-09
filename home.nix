@@ -505,7 +505,7 @@ set -g window-active-style bg=default
       WantedBy = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "/home/denis/.nix-profile/bin/dennich-pomodoro start-server";
+      ExecStart = "/home/denis/.local/bin/dennich-pomodoro start-server";
       Restart = "always";
       RestartSec = 3;
     };
