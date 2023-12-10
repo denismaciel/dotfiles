@@ -120,15 +120,20 @@ wk.register {
 
     ['<leader>u'] = { '<cmd>UndotreeToggle<CR>', 'Undotree' },
 
-    ['<leader>o'] = { name = 'Obsidian' },
-    ['<leader>oa'] = {
-        function()
-            me.find_anki_notes(require('telescope.themes').get_dropdown {})
-        end,
-        'Find Anki note',
-    },
+    ['<leader>a'] = { name = 'Anki' },
 }
 
+vim.keymap.set({ 'n' }, '<leader>ao', function()
+    me.find_anki_notes(require('telescope.themes').get_dropdown {})
+end, {
+    desc = 'Find Anki note',
+})
+
+vim.keymap.set({ 'n' }, '<leader>ae', function()
+    me.anki_edit_note()
+end, {
+    desc = 'Edit Anki note',
+})
 wk.register {
     ['gdd'] = { vim.lsp.buf.declaration, '!! Declaration' },
     ['ga'] = { vim.lsp.buf.code_action, 'Code action' },

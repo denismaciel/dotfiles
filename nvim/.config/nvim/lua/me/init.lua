@@ -88,16 +88,16 @@ local function parse_anki_note_id(str)
     end
 end
 
-M.edit_anki_note_command = function()
+M.anki_edit_note = function()
+    -- Open a tmux popup running apy in order to review a note.
     local filename = vim.fn.expand '%:t'
-    local number = parse_anki_note_id(filename)
-    if number then
-        local bash_cmd = 'apy review nid:' .. number
-        local nvim_cmd = 'echo -n "'
-            .. bash_cmd
-            .. '" | xclip -selection clipboard'
-        os.execute(nvim_cmd)
+    local note_id = parse_anki_note_id(filename)
+    if note_id then
+        local apy_cmd = '"apy review nid:' .. note_id .. '"'
+        local bash_cmd = 'tmux display-popup -h 90% -w 90% -E ' .. apy_cmd
+        os.execute(bash_cmd)
     else
+        print(filename)
         print 'No 13-digit number found.'
     end
 end
@@ -146,7 +146,7 @@ M.find_anki_notes = function(opts)
                 actions.select_default:replace(function()
                     actions.close(prompt_bufnr)
                     local selection = action_state.get_selected_entry()
-                    vim.cmd('e ' .. selection.value.file_name)
+                    vim.cmd('e ' .. selection.value.file_path)
                 end)
                 return true
             end,
