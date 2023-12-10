@@ -1,1 +1,0 @@
-* * * * * zip -r ~/Sync/Backups/$(date +\%F)_Notes.zip ~/Sync/Notes

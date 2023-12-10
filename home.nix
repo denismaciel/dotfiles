@@ -540,4 +540,37 @@ set -g window-active-style bg=default
       ExecStart = "${pkgs.haskellPackages.greenclip}/bin/greenclip daemon";
     };
   };
+
+  systemd.user.services.dump-anki = {
+        Unit = {
+            Description = "Dump Anki Notes to index.json";
+        };
+        Service = {
+            Type = "oneshot";
+            ExecStart="/home/denis/.local/bin/dennich-danki dump";
+        };
+    };
+  systemd.user.timers.dump-anki = {
+        Timer.OnCalendar = "*:0/2";
+        Timer.Persistent = true;
+        Install.WantedBy = [ "timers.target" ];
+    };
+
+
+# 0 10 * * * zip -r ~/Sync/Backups/$(date +\%F)_Notes.zip ~/Sync/Notes
+  systemd.user.services.backup-notes = {
+        Unit = {
+            Description = "Backup Notes";
+        };
+        Service = {
+            Type = "oneshot";
+            ExecStart="/bin/sh -c 'zip -r ~/Sync/Backups/$(date +\\%F)_Notes.zip ~/Sync/Notes'";
+        };
+    };
+
+    systemd.user.timers.backup-notes = {
+            Timer.OnCalendar = "*-*-* 10:00:00";
+            Timer.Persistent = true;
+            Install.WantedBy = [ "timers.target" ];
+    };
 }
