@@ -66,7 +66,7 @@ M.cycle_notes = function(direction)
     elseif direction == 'down' then
         next_f = files[idx - 1]
     else
-        print 'Unkown direction'
+        print 'Unknown direction'
     end
 
     if next_f == nil then
