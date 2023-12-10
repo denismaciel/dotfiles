@@ -136,7 +136,7 @@ M.find_anki_notes = function(opts)
                         value = entry,
                         display = entry.title,
                         ordinal = entry.title,
-                        filename = entry.file_name,
+                        filename = entry.file_path,
                     }
                 end,
             },
