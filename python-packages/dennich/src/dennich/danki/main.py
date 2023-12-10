@@ -111,11 +111,32 @@ def write_notes(notes: list[Note]) -> None:
         )
 
 
-def main() -> int:
+def dump() -> int:
     notes = load_notes()
     write_notes(notes)
     return 0
 
 
+def cli() -> int:
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    subparser = parser.add_subparsers(dest='command')
+
+    dump_parser = subparser.add_parser('dump')
+    search_parser = subparser.add_parser('search')
+
+    args = parser.parse_args()
+
+    if args.command == 'dump':
+        dump()
+    elif args.command == 'search':
+        print('searching')
+    else:
+        parser.print_help()
+        return 1
+    return 0
+
+
 if __name__ == '__main__':
-    exit(main())
+    exit(cli())
