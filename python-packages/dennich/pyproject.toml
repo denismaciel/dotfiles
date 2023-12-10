@@ -7,8 +7,6 @@ dependencies = [
     "pydantic",
     "anki",
     "markdownify",
-    "plumbum",
-    "pyfzf",
     "openai",
     "structlog",
     "sqlalchemy",
@@ -19,7 +17,7 @@ dev = ["pytest", "pre-commit", "mypy", "ipython", "pip-tools"]
 
 [project.scripts]
 dennich-todo = "dennich.todo.main:main"
-dennich-danki = "dennich.danki.main:main"
+dennich-danki = "dennich.danki.main:cli"
 dennich-convert-audio = "dennich.convert_audio:main"
 dennich-pomodoro = "dennich.todo.pomodoro.cli:main"
 
@@ -36,5 +34,5 @@ build-backend = "setuptools.build_meta"
 strict = true
 
 [[tool.mypy.overrides]]
-module = ["markdownify", "plumbum.*", "pyfzf.*"]
+module = ["markdownify"]
 ignore_missing_imports = true
