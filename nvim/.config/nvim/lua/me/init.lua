@@ -77,63 +77,6 @@ M.cycle_notes = function(direction)
     vim.api.nvim_buf_delete(cbuf, { force = false })
 end
 
-local function get_current_commit_sha(directory)
-    local popen = io.popen
-    local result = popen('git -C "' .. directory .. '" ' .. 'rev-parse HEAD')
-    if result == nil then
-        return
-    end
-    for line in result:lines() do
-        return line
-    end
-end
-
-M.get_github_permalink = function()
-    local sha = get_current_commit_sha(vim.fn.getcwd())
-    local linenr = vim.api.nvim_win_get_cursor(0)[1]
-    local file = vim.fn.expand '%:p'
-
-    local _, j = string.find(file, 'core')
-
-    -- We want to get rid of: `.../core{0,1,2}/`. That's why j + 3.
-    file = file:sub(j + 3, nil)
-    local permalink = (
-        'https://github.com/recap-technologies/core/blob/'
-        .. sha
-        .. '/'
-        .. file
-        .. '#L'
-        .. linenr
-    )
-    vim.cmd('let @+ = \'' .. permalink .. '\'')
-end
-
-M.dump_todos = function()
-    local file_path = '/home/denis/Sync/Notes/Current/todo.jsonlines'
-    local file = io.open(file_path, 'r')
-
-    if not file then
-        print('Error: could not open file ' .. file_path)
-        return
-    end
-
-    for line in file:lines() do
-        local todo = vim.json.decode(line)
-        if todo then
-            local pos = vim.api.nvim_win_get_cursor(0)
-            vim.api.nvim_buf_set_lines(
-                0,
-                pos[1],
-                pos[1],
-                false,
-                { '- [ ] ' .. todo.name }
-            )
-        end
-    end
-
-    file:close()
-end
-
 local function parse_anki_note_id(str)
     local pattern = '%d%d%d%d%d%d%d%d%d%d%d%d%d'
     local number = string.match(str, pattern)
@@ -209,13 +152,6 @@ M.find_anki_notes = function(opts)
             end,
         })
         :find()
-end
-
-M.open_test_file = function()
-    local current_file = vim.fn.expand '%:p'
-    local test_file = current_file:gsub('src/(.-)%.lua', 'tests/%1_test.lua')
-    print(test_file)
-    vim.cmd('edit ' .. test_file)
 end
 
 return M

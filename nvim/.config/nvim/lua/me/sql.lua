@@ -20,7 +20,6 @@ M.bigquery_check = function(env)
     local buffnr = vim.api.nvim_create_buf(true, true)
     vim.api.nvim_buf_set_lines(buffnr, 0, 0, true, buff_lines)
     vim.cmd 'split'
-    local curbuf = vim.api.nvim_win_get_buf(0)
     vim.api.nvim_win_set_option(0, 'wrap', true)
     vim.api.nvim_win_set_buf(0, buffnr)
 end
