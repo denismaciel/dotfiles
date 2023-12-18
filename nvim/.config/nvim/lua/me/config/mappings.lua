@@ -22,7 +22,7 @@ vim.keymap.set('n', 'gtd', vim.lsp.buf.type_definition)
 vim.keymap.set('n', 'grn', vim.lsp.buf.rename)
 vim.keymap.set('n', '<leader>;', '<cmd>Telescope buffers<CR>')
 vim.keymap.set('n', 'K', vim.lsp.buf.hover)
-vim.keymap.set('n', 'tr', '<cmd>NvimTreeFindFileToggle<CR>')
+vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeFindFileToggle<CR>')
 vim.keymap.set(
     'v',
     '<leader>tm',
@@ -196,9 +196,13 @@ wk.register {
         require('telescope.builtin').commands,
         'Vim Commands',
     },
-    ['th'] = {
+    ['thi'] = {
         require('telescope.builtin').command_history,
         'Vim Command History',
+    },
+    ['the'] = {
+        require('telescope.builtin').help_tags,
+        'Vim Help',
     },
     ['tft'] = {
         require('telescope.builtin').filetypes,

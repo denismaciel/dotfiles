@@ -5,9 +5,10 @@ local dapui = require 'dapui'
 local dap_go = require 'dap-go'
 local dap_python = require 'dap-python'
 
-require('dap').set_log_level 'TRACE'
-dap_go.setup()
+dap.set_log_level 'TRACE'
 dapui.setup()
+
+dap_go.setup()
 dap_python.setup '~/venvs/debugpy/bin/python'
 dap_python.test_runner = 'pytest'
 

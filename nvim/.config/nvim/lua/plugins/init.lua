@@ -41,6 +41,7 @@ return {
             local config = {
                 keymaps = {
                     submit = '<C-s>',
+                    toggle_sessions = '<C-t>',
                 },
                 openai_params = {
                     model = 'gpt-4',
@@ -49,13 +50,13 @@ return {
                     model = 'gpt-4',
                 },
                 chat = {
-                    welcome_message = '',
+                    welcome_message = 'Hello',
                 },
             }
-
-            if not vim.env.OPENAI_API_KEY then
-                return
-            end
+            --
+            -- if not vim.env.OPENAI_API_KEY then
+            --     return
+            -- end
 
             require('chatgpt').setup(config)
         end,

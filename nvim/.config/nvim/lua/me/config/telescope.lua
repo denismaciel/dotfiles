@@ -1,6 +1,28 @@
 local actions = require 'telescope.actions'
 local actions_layout = require 'telescope.actions.layout'
 
+local open_in_nvim_tree = function(prompt_bufnr)
+    local action_state = require 'telescope.actions.state'
+    local Path = require 'plenary.path'
+    local actions = require 'telescope.actions'
+
+    local entry = action_state.get_selected_entry()[1]
+    local entry_path = Path:new(entry):parent():absolute()
+    actions._close(prompt_bufnr, true)
+    entry_path = Path:new(entry):parent():absolute()
+    entry_path = entry_path:gsub('\\', '\\\\')
+
+    vim.cmd 'NvimTreeClose'
+    vim.cmd('NvimTreeOpen ' .. entry_path)
+
+    file_name = nil
+    for s in string.gmatch(entry, '[^/]+') do
+        file_name = s
+    end
+
+    vim.cmd('/' .. file_name)
+end
+
 require('telescope').setup {
     extensions = {
         ['ui-select'] = {
@@ -8,6 +30,17 @@ require('telescope').setup {
         },
     },
     defaults = {
+
+        mappings = {
+            n = {
+                ['h'] = actions_layout.toggle_preview,
+                ['<c-s>'] = open_in_nvim_tree,
+            },
+            i = {
+                ['<C-h>'] = actions_layout.toggle_preview,
+                ['<c-s>'] = open_in_nvim_tree,
+            },
+        },
         path_display = { 'truncate' },
         vimgrep_arguments = {
             'rg',
@@ -38,13 +71,6 @@ require('telescope').setup {
         },
     },
     pickers = {
-        find_files = {
-            mappings = {
-                n = {
-                    ['h'] = actions_layout.toggle_preview,
-                },
-            },
-        },
         buffers = {
             mappings = {
                 n = {
@@ -66,4 +92,3 @@ require('telescope').setup {
 
 require('telescope').load_extension 'luasnip'
 require('telescope').load_extension 'ui-select'
-require('telescope').load_extension 'luasnip'
