@@ -150,3 +150,4 @@ lspc.cmake.setup { capabilities = capabilities }
 lspc.bashls.setup { capabilities = capabilities }
 lspc.tailwindcss.setup { capabilities = capabilities }
 lspc.nil_ls.setup { capabilities = capabilities }
+lspc.hls.setup { capabilities = capabilities }

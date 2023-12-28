@@ -70,6 +70,7 @@
   home.packages = with pkgs; [
     # aws-sam-cli
     # awscli2
+    exercism
     jdk17
     tree
     R
@@ -98,7 +99,6 @@
     firefox
     flameshot
     fzf
-    gcc
     gh
     gimp
     glow
