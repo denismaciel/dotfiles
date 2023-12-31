@@ -173,7 +173,14 @@ return {
     'APZelos/blamer.nvim',
     {
         'nvim-tree/nvim-tree.lua',
-        opts = {},
+        opts = {
+            view = {
+                width = 70,
+            },
+            filters = {
+                dotfiles = false,
+            },
+        },
         dependencies = {
             'nvim-tree/nvim-web-devicons',
         },

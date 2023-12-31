@@ -540,7 +540,7 @@ client.connect_signal('manage', function(c)
         -- Prevent clients from being unreachable after screen count changes.
         awful.placement.no_offscreen(c)
     end
-    if c.class == 'Zenity' then
+    if c.class == 'Zenity' or c.class == 'Scratchpad' then
         c.ontop = true
     end
 end)

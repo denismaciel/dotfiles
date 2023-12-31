@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 import datetime
 import datetime as dt
+import enum
+import itertools
 import logging
 import re
 import sys
@@ -91,39 +93,102 @@ def year_week(d: datetime.date) -> str:
     return format(d, '%Y-%W')
 
 
-def report() -> int:
+def report(since: int, report_type: str) -> int:
+    from rich.console import Console
+    from rich.table import Table
+    import polars as pl
+
+    console = Console()
+
     today = dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-    tags = {}
-    pomodoros = load_pomodoros_created_after(
-        get_session(),
-        today
-        # - dt.timedelta(days=7),
+    start_date = today - dt.timedelta(days=since)
+    range = pl.date_range(start_date, today, dt.timedelta(days=1), eager=True)
+
+    pomodoros = load_pomodoros_created_after(get_session(), start_date)
+
+    tags = [p.todo.tags for p in pomodoros]
+    tags_set = set(itertools.chain.from_iterable(tags))
+    df = (
+        pl.DataFrame(
+            {
+                'start_time': [p.start_time for p in pomodoros],
+                'end_time': [p.end_time for p in pomodoros],
+                'duration': [p.duration for p in pomodoros],
+                'todo': [p.todo.name for p in pomodoros],
+                'todo_id': [p.todo.id for p in pomodoros],
+                'tags': tags,
+            }
+        )
+        .with_columns(
+            start_time=pl.col('start_time').cast(pl.Datetime),
+            end_time=pl.col('end_time').cast(pl.Datetime),
+            start_date=pl.col('start_time').cast(pl.Date),
+            end_date=pl.col('end_time').cast(pl.Date),
+            duration=pl.duration(minutes=pl.col('duration')),
+        )
+        .with_columns(
+            pl.when(pl.col('duration') < pl.col('end_time') - pl.col('start_time'))
+            .then(pl.col('duration'))
+            .otherwise(pl.col('end_time') - pl.col('start_time'))
+            .alias('duration')
+        )
     )
-    for p in pomodoros:
-        if not p.todo.tags:
-            tags['default'] = (
-                tags.get('default', dt.timedelta()) + p.end_time - p.start_time
+
+    to_extend = pl.DataFrame(
+        list({'start_date': d, 'tag': t} for d, t in itertools.product(range, tags_set))
+    ).with_columns(start_date=pl.col('start_date').cast(pl.Date).cast(str))
+
+    tag_per_day = (
+        df.with_columns(tag=pl.col('tags').explode())
+        .groupby(['tag', 'start_date'])
+        .agg(pl.sum('duration').alias('duration'))
+        .filter(pl.col('tag').is_not_null())
+        .with_columns(start_date=pl.col('start_date').cast(str))
+        .join(
+            to_extend,
+            on=['start_date', 'tag'],
+            how='outer',
+        )
+        .sort(by=['tag', 'start_date'])
+        .with_columns(
+            duration=pl.when(
+                pl.col('duration').is_null(),
             )
-            continue
+            .then(pl.duration(minutes=0))
+            .otherwise(pl.col('duration')),
+        )
+        .with_columns(
+            start_date=pl.col('start_date_right'),
+            tag=pl.col('tag_right'),
+        )
+    )
 
-        for tag in p.todo.tags:
-            tags[tag] = tags.get(tag, dt.timedelta()) + p.end_time - p.start_time
+    wide = (
+        tag_per_day.filter(pl.col('tag').is_in(['recap', 'biz']))
+        .sort(by='start_date')
+        .pivot(
+            values='duration',
+            columns='tag',
+            index='start_date',
+            aggregate_function='sum',
+        )
+    )
 
-    todos = {}
-    for p in pomodoros:
-        todos[p.todo.name] = (
-            todos.get(p.todo.name, dt.timedelta()) + p.end_time - p.start_time
+    tbl = Table(title='🏷  Tag per day')
+    tbl.add_column('date')
+    tbl.add_column('re:cap')
+    tbl.add_column('biz')
+    for row in wide.rows(named=True):
+        recap = row.get('recap') or dt.timedelta()
+        biz = row.get('biz') or dt.timedelta()
+
+        tbl.add_row(
+            str(row['start_date']),
+            convert_timedelta_to_human_readable(recap),
+            convert_timedelta_to_human_readable(biz),
         )
 
-    print()
-    print('--------- Tags 🏷 ----------------')
-    for tag, td in sorted(tags.items(), key=lambda x: -x[1]):
-        print(f'{tag}: {convert_timedelta_to_human_readable(td)}')
-
-    print()
-    print('--------- Todos 💬 ---------------')
-    for todo, td in sorted(todos.items(), key=lambda x: -x[1]):
-        print(f'{todo}: {convert_timedelta_to_human_readable(td)}')
+    console.print(tbl)
     return 0
 
 
@@ -133,11 +198,23 @@ def clean_description(name: str, patterns: tuple[str, ...]) -> str:
     return name.strip()
 
 
+class ReportType(enum.StrEnum):
+    tag_per_day = 'tag-per-day'
+    todos = 'todos'
+    tags = 'tags'
+
+
 def main() -> int:
     argv = sys.argv[1:]
     parser = argparse.ArgumentParser(prog='todos')
     subparsers = parser.add_subparsers(dest='command')
-    _ = subparsers.add_parser('report')
+
+    sp_report = subparsers.add_parser('report')
+    sp_report.add_argument('--since', type=int, default=7)
+    sp_report.add_argument(
+        '--report-type', choices=list(ReportType), default=ReportType.tag_per_day
+    )
+
     _ = subparsers.add_parser('start-pomodoro')
     _ = subparsers.add_parser('today-status')
 
@@ -149,7 +226,7 @@ def main() -> int:
         start_pomodoro(selector)
         return 0
     elif args.command == 'report':
-        return report()
+        return report(since=args.since, report_type=args.report_type)
     elif args.command == 'today-status':
         return today_status.main()
     elif args.command is None:
@@ -166,6 +243,8 @@ def convert_timedelta_to_human_readable(td: dt.timedelta) -> str:
     """
     minutes = td.total_seconds() / 60
     hours, minutes = divmod(minutes, 60)
+    if hours == 0 and minutes == 0:
+        return '-'
     return f'{int(hours)}h {int(minutes)}m'
 
 

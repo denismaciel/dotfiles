@@ -458,7 +458,7 @@ set -g window-active-style bg=default
   };
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [ "nodejs-16.20.0" ];
+  nixpkgs.config.permittedInsecurePackages = [ "nodejs-16.20.0" "electron-25.9.0" ];
   nixpkgs = {
     overlays = [
       inputs.neovim-nightly-overlay.overlay

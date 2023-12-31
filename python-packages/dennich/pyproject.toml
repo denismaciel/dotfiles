@@ -5,11 +5,13 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "pydantic",
+    "polars",
     "anki",
     "markdownify",
     "openai",
     "structlog",
     "sqlalchemy",
+    "rich"
 ]
 
 [project.optional-dependencies]
