@@ -134,7 +134,7 @@ def report(since: int, report_type: str) -> int:
         )
     )
 
-    to_extend = pl.DataFrame(
+    date_tag_product = pl.DataFrame(
         list({'start_date': d, 'tag': t} for d, t in itertools.product(range, tags_set))
     ).with_columns(start_date=pl.col('start_date').cast(pl.Date).cast(str))
 
@@ -145,7 +145,7 @@ def report(since: int, report_type: str) -> int:
         .filter(pl.col('tag').is_not_null())
         .with_columns(start_date=pl.col('start_date').cast(str))
         .join(
-            to_extend,
+            date_tag_product,
             on=['start_date', 'tag'],
             how='outer',
         )
