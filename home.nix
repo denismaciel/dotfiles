@@ -258,7 +258,7 @@ bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
 bind-key -T copy-mode-vi / command-prompt -i -p "search down" "send -X search-forward-incremental \"%%%\""
 bind-key -T copy-mode-vi ? command-prompt -i -p "search up" "send -X search-backward-incremental \"%%%\""
 
-bind-key r source-file ~/.tmux.conf; display "Config reloaded!"	
+bind-key r source-file ~/.config/tmux/tmux.conf; display "Config reloaded!"	
 
 set -g default-terminal "tmux-256color"
 set -ag terminal-overrides ",xterm-256color:RGB"
@@ -284,7 +284,7 @@ set -g status-left-length 0
 set -g status-interval 1
 
 # #{?window_zoomed_flag,#[fg=red](,}#W#{?window_zoomed_flag,#[fg=red]),}
-setw -g window-status-current-format '#{?window_zoomed_flag,#[fg=black]#[bg=white]=============== #W ===============,#[fg=colour240]#W}'	
+setw -g window-status-current-format '#{?window_zoomed_flag,#[fg=colour240] 📺 #W,#[fg=colour240]#W}'	
 
 # setw -g window-status-format ' #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F '
 setw -g window-status-format ""
