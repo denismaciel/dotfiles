@@ -31,7 +31,6 @@ cmp.setup {
         ['<C-p>'] = cmp.mapping.select_prev_item(),
     },
     sources = cmp.config.sources({
-        { name = 'copilot' },
         { name = 'nvim_lsp_signature_help' },
         { name = 'nvim_lsp' },
         { name = 'path' },
