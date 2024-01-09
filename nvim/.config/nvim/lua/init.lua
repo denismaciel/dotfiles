@@ -126,7 +126,7 @@ local function set_colorscheme()
     --         return
     --     end
     -- end
-    vim.cmd 'colorscheme no-clown-fiesta'
+    vim.cmd 'colorscheme tokyonight-moon'
 end
 
 set_colorscheme()

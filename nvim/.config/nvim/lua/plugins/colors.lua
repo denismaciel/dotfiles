@@ -13,6 +13,7 @@ return {
     -- === Colors ===
     'folke/tokyonight.nvim',
     -- 'gbprod/nord.nvim',
+    { 'rose-pine/neovim', name = 'rose-pine' },
     'morhetz/gruvbox',
     'shaunsingh/nord.nvim',
     { 'catppuccin/nvim', name = 'catppuccin' },
@@ -26,7 +27,6 @@ return {
         },
     },
     'nyoom-engineering/oxocarbon.nvim',
-
     {
         'projekt0n/github-nvim-theme',
         -- lazy = false,    -- make sure we load this during startup if it is your main colorscheme

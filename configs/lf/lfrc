@@ -1,10 +1,8 @@
 cmd mkdir ${{
-
   printf "Directory Name: "
   read ans
   mkdir $ans
 }}
-
 
 cmd mkfile ${{
   printf "File Name: "
@@ -28,10 +26,14 @@ cmd fzf_select ${{
 }}
 
 cmd open ${{
-    case $(file --mime-type -Lb $f) in
+    case $(file --mime-type -Lb "$f") in
         text/*) nvim $fx;;
-        *) for f in $fx; do xdg-open $f > /dev/null 2> /dev/null & done;;
+        *) for f in "$fx"; do xdg-open "$f" > /dev/null 2> /dev/null & done;;
     esac
+}}
+
+cmd gomi_delete ${{
+  gomi "$fx"
 }}
 
 cmd pager ${{
@@ -52,7 +54,7 @@ set drawbox
 set previewer pistol
 map . set hidden!
 map au unarchive
-map D delete
+map D gomi_delete
 map p paste
 map x cut
 map y copy

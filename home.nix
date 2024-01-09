@@ -70,6 +70,8 @@
   home.packages = with pkgs; [
     # aws-sam-cli
     # awscli2
+    discord
+    termusic
     exercism
     jdk17
     tree
