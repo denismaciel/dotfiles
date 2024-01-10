@@ -70,7 +70,6 @@ vim.keymap.set(
     ':call RenameFile()<CR>',
     { desc = 'Rename file' }
 )
-
 vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>', { desc = 'Toggle' })
 vim.keymap.set(
     'n',
