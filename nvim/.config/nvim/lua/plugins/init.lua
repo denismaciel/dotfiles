@@ -81,7 +81,7 @@ return {
     },
 
     { 'kylechui/nvim-surround', opts = {} },
-    'jose-elias-alvarez/null-ls.nvim',
+    'nvimtools/none-ls.nvim',
     {
         'rcarriga/nvim-notify',
         opts = function()
