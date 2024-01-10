@@ -123,8 +123,8 @@ return {
         lspc.cssls.setup({ capabilities = capabilities })
         lspc.eslint.setup({ capabilities = capabilities })
         lspc.gopls.setup({ capabilities = capabilities })
-        -- lspc.jedi_language_server.setup({ capabilities = capabilities })
-        lspc.pyright.setup({ capabilities = capabilities })
+        lspc.jedi_language_server.setup({ capabilities = capabilities })
+        -- lspc.pyright.setup({ capabilities = capabilities })
         -- lspc.rnix.setup { capabilities = capabilities }
         lspc.rust_analyzer.setup({ capabilities = capabilities })
         lspc.bashls.setup({ capabilities = capabilities })
