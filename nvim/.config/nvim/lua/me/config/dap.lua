@@ -1,4 +1,3 @@
-require('mason-nvim-dap').setup()
 local wk = require('which-key')
 local dap = require('dap')
 local dapui = require('dapui')
