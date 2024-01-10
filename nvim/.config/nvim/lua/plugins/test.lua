@@ -24,61 +24,62 @@ local function open_test_file()
     vim.cmd('edit ' .. test_file_path)
 end
 
-return {
-    {
-        'nvim-neotest/neotest',
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-            'antoinemadec/FixCursorHold.nvim',
-            'nvim-neotest/neotest-python',
-        },
-        keys = {
-            {
-                '<Leader>ro',
-                function()
-                    open_test_file()
-                end,
-                { noremap = true, silent = true },
-            },
-            {
-                '<Leader>rt',
-                function()
-                    require('neotest').run.run()
-                end,
-                { noremap = true, silent = true },
-            },
-            {
-                '<Leader>rs',
-                function()
-                    require('neotest').summary.open()
-                end,
-                { noremap = true, silent = true },
-            },
-
-            {
-                '[n',
-                function()
-                    require('neotest').jump.prev({ status = 'failed' })
-                end,
-                { noremap = true, silent = true },
-            },
-            {
-                ']n',
-                function()
-                    require('neotest').jump.next({ status = 'failed' })
-                end,
-                { noremap = true, silent = true },
-            },
-        },
-        config = function()
-            require('neotest').setup({
-                adapters = {
-                    require('neotest-python')({
-                        dap = { justMyCode = false },
-                        pytest_discover_instances = true,
-                    }),
-                },
-            })
-        end,
-    },
-}
+return {}
+-- return {
+--     {
+--         'nvim-neotest/neotest',
+--         dependencies = {
+--             'nvim-lua/plenary.nvim',
+--             'antoinemadec/FixCursorHold.nvim',
+--             'nvim-neotest/neotest-python',
+--         },
+--         keys = {
+--             {
+--                 '<Leader>ro',
+--                 function()
+--                     open_test_file()
+--                 end,
+--                 { noremap = true, silent = true },
+--             },
+--             {
+--                 '<Leader>rt',
+--                 function()
+--                     require('neotest').run.run()
+--                 end,
+--                 { noremap = true, silent = true },
+--             },
+--             {
+--                 '<Leader>rs',
+--                 function()
+--                     require('neotest').summary.open()
+--                 end,
+--                 { noremap = true, silent = true },
+--             },
+--
+--             {
+--                 '[n',
+--                 function()
+--                     require('neotest').jump.prev({ status = 'failed' })
+--                 end,
+--                 { noremap = true, silent = true },
+--             },
+--             {
+--                 ']n',
+--                 function()
+--                     require('neotest').jump.next({ status = 'failed' })
+--                 end,
+--                 { noremap = true, silent = true },
+--             },
+--         },
+--         config = function()
+--             require('neotest').setup({
+--                 adapters = {
+--                     require('neotest-python')({
+--                         dap = { justMyCode = false },
+--                         pytest_discover_instances = true,
+--                     }),
+--                 },
+--             })
+--         end,
+--     },
+-- }
