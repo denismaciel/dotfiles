@@ -18,7 +18,6 @@ return {
 
         null_ls.setup({
             sources = {
-                -- Python
                 null_ls.builtins.formatting.reorder_python_imports,
                 null_ls.builtins.formatting.black.with({
                     args = {
@@ -29,11 +28,8 @@ return {
                         '-',
                     },
                 }),
-                -- Lua
                 null_ls.builtins.formatting.stylua,
-                -- Javascript
                 null_ls.builtins.formatting.prettier,
-                -- Cloudformation
                 null_ls.builtins.diagnostics.cfn_lint,
             },
         })
