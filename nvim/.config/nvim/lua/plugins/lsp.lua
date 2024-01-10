@@ -100,7 +100,8 @@ return {
         lspc.eslint.setup({ capabilities = capabilities })
         lspc.jedi_language_server.setup({ capabilities = capabilities })
         lspc.pyright.setup({
-            capabilities = capabilities,
+            -- capabilities = capabilities,
+            autostart = false,
             settings = {
                 python = {
                     stubPath = vim.fn.stdpath('data')
@@ -114,6 +115,7 @@ return {
                         useLibraryCodeForTypes = true,
                         typeCheckingMode = 'off',
                         -- diagnosticMode = 'workspace',
+                        diagnosticMode = 'openFilesOnly',
                     },
                 },
             },
