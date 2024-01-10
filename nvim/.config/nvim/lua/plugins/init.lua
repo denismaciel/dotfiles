@@ -99,15 +99,6 @@ return {
     -- { 'm-demare/hlargs.nvim',    opts = {} },
     { 'lewis6991/gitsigns.nvim', opts = {} },
     { 'windwp/nvim-autopairs', opts = {} },
-
-    -- === DAP ===
-    'mfussenegger/nvim-dap',
-    'rcarriga/nvim-dap-ui',
-    'leoluz/nvim-dap-go',
-    'mfussenegger/nvim-dap-python',
-    'nvim-telescope/telescope-dap.nvim',
-
-    -- { 'NvChad/nvim-colorizer.lua', opts = {} },
     { 'klen/nvim-test', opts = {} },
     {
         'ggandor/leap.nvim',
@@ -163,12 +154,4 @@ return {
             },
         },
     },
-    -- === Completion ===
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline',
-    'hrsh7th/nvim-cmp',
-    'hrsh7th/cmp-nvim-lsp-signature-help',
-    'onsails/lspkind.nvim',
 }

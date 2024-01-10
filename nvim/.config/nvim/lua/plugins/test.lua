@@ -27,6 +27,11 @@ end
 return {
     {
         'nvim-neotest/neotest',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'antoinemadec/FixCursorHold.nvim',
+            'nvim-neotest/neotest-python',
+        },
         keys = {
             {
                 '<Leader>ro',
@@ -75,10 +80,5 @@ return {
                 },
             })
         end,
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-            'antoinemadec/FixCursorHold.nvim',
-            'nvim-neotest/neotest-python',
-        },
     },
 }

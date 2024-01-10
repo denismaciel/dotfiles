@@ -97,3 +97,14 @@ o.foldmethod = 'expr'
 o.foldexpr = 'nvim_treesitter#foldexpr()'
 o.foldlevelstart = 99
 o.foldlevel = 99
+
+vim.filetype.add({
+    filename = {
+        ['.env'] = 'sh',
+        ['.env.*'] = 'sh',
+        ['*.env.*'] = 'sh',
+        ['.envrc'] = 'sh',
+        ['*.env'] = 'sh',
+        ['*.envrc'] = 'sh',
+    },
+})

@@ -70,6 +70,7 @@
   home.packages = with pkgs; [
     # aws-sam-cli
     # awscli2
+    nodePackages.pyright
     discord
     termusic
     exercism

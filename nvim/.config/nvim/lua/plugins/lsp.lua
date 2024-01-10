@@ -2,12 +2,6 @@ return {
     'neovim/nvim-lspconfig',
     event = 'VeryLazy',
     config = function()
-        local me = require('me')
-
-        if me.is_shorts_mode() then
-            return
-        end
-
         local capabilities = require('cmp_nvim_lsp').default_capabilities(
             vim.lsp.protocol.make_client_capabilities()
         )
@@ -33,32 +27,6 @@ return {
                 null_ls.builtins.diagnostics.cfn_lint,
             },
         })
-
-        local function org_imports()
-            local params = vim.lsp.util.make_range_params()
-            params.context = { only = { 'source.organizeImports' } }
-            local result = vim.lsp.buf_request_sync(
-                0,
-                'textDocument/codeAction',
-                params,
-                nil
-            )
-            for _, res in pairs(result or {}) do
-                for _, r in pairs(res.result or {}) do
-                    if r.edit then
-                        vim.lsp.util.apply_workspace_edit(r.edit, 'utf-16')
-                    else
-                        vim.lsp.buf.execute_command(r.command)
-                    end
-                end
-            end
-        end
-
-        vim.api.nvim_create_autocmd(
-            'BufWritePre',
-            { pattern = { '*.go' }, callback = org_imports }
-        )
-
         configs.gopls = {
             default_config = {
                 cmd = { 'gopls' },
@@ -74,6 +42,9 @@ return {
                 },
             },
         }
+        lspc.gopls.setup({
+            capabilities = capabilities,
+        })
 
         lspc.prismals.setup({
             capabilities = capabilities,
@@ -118,7 +89,6 @@ return {
         })
         lspc.cssls.setup({ capabilities = capabilities })
         lspc.eslint.setup({ capabilities = capabilities })
-        lspc.gopls.setup({ capabilities = capabilities })
         lspc.jedi_language_server.setup({ capabilities = capabilities })
         -- lspc.pyright.setup({ capabilities = capabilities })
         -- lspc.rnix.setup { capabilities = capabilities }
