@@ -8,7 +8,10 @@
     ".ipython/profile_default/ipython_config.py".source = ./configs/_ipython/profile_default/ipython_config.py;
     ".config/awesome/rc.lua".source = ./configs/awesome/rc.lua;
     ".config/awesome/main/utils.lua".source = ./configs/awesome/main/utils.lua;
-    ".config/alacritty/alacritty.yml".source = ./configs/alacritty/alacritty.yml;
+    ".config/alacritty/alacritty.toml".source = ./configs/alacritty/alacritty.toml;
+    ".config/alacritty/rose-pine.toml".source = ./configs/alacritty/rose-pine.toml;
+    ".config/alacritty/rose-pine-moon.toml".source = ./configs/alacritty/rose-pine-moon.toml;
+    ".config/alacritty/rose-pine-dawn.toml".source = ./configs/alacritty/rose-pine-dawn.toml;
     ".config/direnv/direnv.toml".source = ./configs/direnv/direnv.toml;
     ".config/fd/ignore".source = ./configs/fd/ignore;
     ".config/greenclip.toml".source = ./configs/greenclip.toml;
