@@ -164,31 +164,11 @@ return {
         },
     },
     -- === Completion ===
-    'hrsh7th/vim-vsnip',
-    'hrsh7th/vim-vsnip-integ',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
     'hrsh7th/nvim-cmp',
     'hrsh7th/cmp-nvim-lsp-signature-help',
-    {
-        'L3MON4D3/LuaSnip',
-        opts = function()
-            local luasnip = require('luasnip')
-            vim.keymap.set({ 'i', 's' }, '<C-S>', function()
-                if luasnip.expand_or_jumpable() then
-                    luasnip.expand_or_jump()
-                end
-            end, { silent = true })
-        end,
-    },
-
-    {
-        'benfowler/telescope-luasnip.nvim',
-        module = 'telescope._extension.luasnip', -- for lazy loading
-    },
-    'saadparwaiz1/cmp_luasnip',
-    'rafamadriz/friendly-snippets',
     'onsails/lspkind.nvim',
 }
