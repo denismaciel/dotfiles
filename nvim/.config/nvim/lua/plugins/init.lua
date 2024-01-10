@@ -1,14 +1,6 @@
 return {
     'dkarter/bullets.vim',
     {
-        'mickael-menu/zk-nvim',
-        config = function()
-            require('zk').setup({
-                picker = 'telescope',
-            })
-        end,
-    },
-    {
         'jackMort/ChatGPT.nvim',
         event = 'VeryLazy',
         config = function()
@@ -66,8 +58,7 @@ return {
         dependencies = { 'nvim-treesitter/nvim-treesitter' },
     },
 
-    -- ======================
-    'folke/which-key.nvim',
+    { 'folke/which-key.nvim', opts = {} },
     { 'folke/neodev.nvim', opts = {} },
     {
         'folke/zen-mode.nvim',
