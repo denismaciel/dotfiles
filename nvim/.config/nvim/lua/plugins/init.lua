@@ -106,21 +106,21 @@ return {
             require('leap').set_default_keymaps()
         end,
     },
-    {
-        'utilyre/barbecue.nvim',
-        opts = {
-            show_modified = true,
-            theme = {
-                dirname = { fg = '#737aa2' },
-            },
-        },
-        name = 'barbecue',
-        version = '*',
-        dependencies = {
-            'SmiteshP/nvim-navic',
-            'nvim-tree/nvim-web-devicons',
-        },
-    },
+    -- {
+    --     'utilyre/barbecue.nvim',
+    --     opts = {
+    --         show_modified = true,
+    --         theme = {
+    --             dirname = { fg = '#737aa2' },
+    --         },
+    --     },
+    --     name = 'barbecue',
+    --     version = '*',
+    --     dependencies = {
+    --         'SmiteshP/nvim-navic',
+    --         'nvim-tree/nvim-web-devicons',
+    --     },
+    -- },
     'christoomey/vim-tmux-navigator',
     {
         'numToStr/Comment.nvim',

@@ -71,6 +71,8 @@
     # aws-sam-cli
     # awscli2
     nodePackages.pyright
+    vscode-langservers-extracted
+    tailwindcss-language-server
     discord
     termusic
     exercism

@@ -1,5 +1,14 @@
 return {
     'neovim/nvim-lspconfig',
+    dependencies = {
+        {
+            'microsoft/python-type-stubs',
+            -- cond = false makes sure the plugin is never loaded.
+            -- It's not a real neovim plugin.
+            -- We only need the data in the git repo for Pyright.
+            -- cond = false,
+        },
+    },
     event = 'VeryLazy',
     config = function()
         local capabilities = require('cmp_nvim_lsp').default_capabilities(
@@ -90,11 +99,29 @@ return {
         lspc.cssls.setup({ capabilities = capabilities })
         lspc.eslint.setup({ capabilities = capabilities })
         lspc.jedi_language_server.setup({ capabilities = capabilities })
-        -- lspc.pyright.setup({ capabilities = capabilities })
+        lspc.pyright.setup({
+            capabilities = capabilities,
+            settings = {
+                python = {
+                    stubPath = vim.fn.stdpath('data')
+                        .. '/lazy/python-type-stubs',
+                    exclude = {
+                        'venv',
+                        'venv-*',
+                    },
+                    analysis = {
+                        autoSearchPaths = false,
+                        useLibraryCodeForTypes = true,
+                        typeCheckingMode = 'off',
+                        -- diagnosticMode = 'workspace',
+                    },
+                },
+            },
+        })
         -- lspc.rnix.setup { capabilities = capabilities }
         lspc.rust_analyzer.setup({ capabilities = capabilities })
         lspc.bashls.setup({ capabilities = capabilities })
-        lspc.tsserver.setup({ capabilities = capabilities })
+        -- lspc.tsserver.setup({ capabilities = capabilities })
         lspc.yamlls.setup({
             capabilities = capabilities,
             settings = {
