@@ -32,9 +32,9 @@ return {
     {
         'mickael-menu/zk-nvim',
         config = function()
-            require('zk').setup {
+            require('zk').setup({
                 picker = 'telescope',
-            }
+            })
         end,
     },
     {
@@ -107,11 +107,11 @@ return {
     {
         'folke/zen-mode.nvim',
         opts = function()
-            require('zen-mode').setup {
+            require('zen-mode').setup({
                 window = {
                     width = 120,
                 },
-            }
+            })
         end,
     },
 
@@ -120,10 +120,10 @@ return {
     {
         'rcarriga/nvim-notify',
         opts = function()
-            vim.notify = require 'notify'
-            require('notify').setup {
+            vim.notify = require('notify')
+            require('notify').setup({
                 background_colour = '#000000',
-            }
+            })
         end,
     },
     {
@@ -218,7 +218,7 @@ return {
     {
         'L3MON4D3/LuaSnip',
         opts = function()
-            local luasnip = require 'luasnip'
+            local luasnip = require('luasnip')
             vim.keymap.set({ 'i', 's' }, '<C-S>', function()
                 if luasnip.expand_or_jumpable() then
                     luasnip.expand_or_jump()

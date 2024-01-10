@@ -1,17 +1,17 @@
-local cmp = require 'cmp'
-local lspkind = require 'lspkind'
-local luasnip = require 'luasnip'
+local cmp = require('cmp')
+local lspkind = require('lspkind')
+local luasnip = require('luasnip')
 
-luasnip.setup {
+luasnip.setup({
     -- see: https://github.com/L3MON4D3/LuaSnip/issues/525
     region_check_events = 'InsertEnter',
     delete_check_events = 'InsertLeave',
-}
+})
 lspkind.init()
 
 require('luasnip.loaders.from_vscode').lazy_load()
 
-cmp.setup {
+cmp.setup({
     -- preselect = cmp.PreselectMode.None,
     snippet = {
         expand = function(args)
@@ -22,11 +22,11 @@ cmp.setup {
         ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
         ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
         ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-        ['<C-e>'] = cmp.mapping {
+        ['<C-e>'] = cmp.mapping({
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
-        },
-        ['<C-y>'] = cmp.mapping.confirm { select = false },
+        }),
+        ['<C-y>'] = cmp.mapping.confirm({ select = false }),
         ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<C-p>'] = cmp.mapping.select_prev_item(),
     },
@@ -43,7 +43,7 @@ cmp.setup {
         { name = 'buffer' },
     }),
     formatting = {
-        format = lspkind.cmp_format {
+        format = lspkind.cmp_format({
             mode = 'symbol_text', -- show only symbol annotations
             maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
             ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
@@ -52,9 +52,9 @@ cmp.setup {
             before = function(entry, vim_item)
                 return vim_item
             end,
-        },
+        }),
     },
-}
+})
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 -- cmp.setup.cmdline('/', {

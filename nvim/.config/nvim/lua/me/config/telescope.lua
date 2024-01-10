@@ -1,10 +1,10 @@
-local actions = require 'telescope.actions'
-local actions_layout = require 'telescope.actions.layout'
+local actions = require('telescope.actions')
+local actions_layout = require('telescope.actions.layout')
 
 local open_in_nvim_tree = function(prompt_bufnr)
-    local action_state = require 'telescope.actions.state'
-    local Path = require 'plenary.path'
-    local actions = require 'telescope.actions'
+    local action_state = require('telescope.actions.state')
+    local Path = require('plenary.path')
+    local actions = require('telescope.actions')
 
     local entry = action_state.get_selected_entry()[1]
     local entry_path = Path:new(entry):parent():absolute()
@@ -12,7 +12,7 @@ local open_in_nvim_tree = function(prompt_bufnr)
     entry_path = Path:new(entry):parent():absolute()
     entry_path = entry_path:gsub('\\', '\\\\')
 
-    vim.cmd 'NvimTreeClose'
+    vim.cmd('NvimTreeClose')
     vim.cmd('NvimTreeOpen ' .. entry_path)
 
     file_name = nil
@@ -23,7 +23,7 @@ local open_in_nvim_tree = function(prompt_bufnr)
     vim.cmd('/' .. file_name)
 end
 
-require('telescope').setup {
+require('telescope').setup({
     extensions = {
         ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -88,7 +88,7 @@ require('telescope').setup {
             },
         },
     },
-}
+})
 
-require('telescope').load_extension 'luasnip'
-require('telescope').load_extension 'ui-select'
+require('telescope').load_extension('luasnip')
+require('telescope').load_extension('ui-select')

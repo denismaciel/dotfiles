@@ -2,23 +2,23 @@
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, 'luarocks.loader')
 
-local utils = require 'main.utils'
+local utils = require('main.utils')
 
 -- Standard awesome library
-local gears = require 'gears'
-local awful = require 'awful'
-require 'awful.autofocus'
+local gears = require('gears')
+local awful = require('awful')
+require('awful.autofocus')
 -- Widget and layout library
 -- local wibox = require("wibox")
 -- Theme handling library
-local beautiful = require 'beautiful'
+local beautiful = require('beautiful')
 -- Notification library
-local naughty = require 'naughty'
-local menubar = require 'menubar'
-local hotkeys_popup = require 'awful.hotkeys_popup'
+local naughty = require('naughty')
+local menubar = require('menubar')
+local hotkeys_popup = require('awful.hotkeys_popup')
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
-require 'awful.hotkeys_popup.keys'
+require('awful.hotkeys_popup.keys')
 
 -- Load Debian menu entries
 -- local debian = require 'debian.menu'
@@ -36,11 +36,11 @@ end
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
-    naughty.notify {
+    naughty.notify({
         preset = naughty.config.presets.critical,
         title = 'Oops, there were errors during startup!',
         text = awesome.startup_errors,
-    }
+    })
 end
 
 -- Handle runtime errors after startup
@@ -53,11 +53,11 @@ do
         end
         in_error = true
 
-        naughty.notify {
+        naughty.notify({
             preset = naughty.config.presets.critical,
             title = 'Oops, an error happened!',
             text = tostring(err),
-        }
+        })
         in_error = false
     end)
 end
@@ -69,7 +69,7 @@ beautiful.init(gears.filesystem.get_themes_dir() .. 'default/theme.lua')
 
 -- This is used later as the default terminal and editor to run.
 terminal = 'nixGL alacritty'
-editor = os.getenv 'EDITOR' or 'editor'
+editor = os.getenv('EDITOR') or 'editor'
 editor_cmd = terminal .. ' -e ' .. editor
 
 -- Default modkey.
@@ -123,17 +123,17 @@ local menu_awesome = { 'awesome', myawesomemenu, beautiful.awesome_icon }
 local menu_terminal = { 'open terminal', terminal }
 
 if has_fdo then
-    mymainmenu = freedesktop.menu.build {
+    mymainmenu = freedesktop.menu.build({
         before = { menu_awesome },
         after = { menu_terminal },
-    }
+    })
 else
-    mymainmenu = awful.menu {
+    mymainmenu = awful.menu({
         items = {
             menu_awesome,
             menu_terminal,
         },
-    }
+    })
 end
 
 -- Menubar configuration
@@ -231,7 +231,7 @@ globalkeys = gears.table.join(
     ),
 
     awful.key({ modkey, 'Shift' }, 's', function()
-        awful.spawn.with_shell 'systemctl suspend && i3lock -c 000000'
+        awful.spawn.with_shell('systemctl suspend && i3lock -c 000000')
     end, { description = 'sleep & lock', group = 'awesome' }),
 
     awful.key({ modkey }, 'l', function()
@@ -308,7 +308,7 @@ globalkeys = gears.table.join(
     end),
 
     awful.key({ modkey }, 'y', function()
-        awful.spawn.with_shell 'rofi -combi-modi window,run -show combi'
+        awful.spawn.with_shell('rofi -combi-modi window,run -show combi')
     end),
 
     -- awful.key({ modkey }, 't', function()
@@ -319,15 +319,19 @@ globalkeys = gears.table.join(
     -- end, { description = 'Add TODO', group = 'launcher' }),
 
     awful.key({ modkey }, 'c', function()
-        awful.util.spawn [[rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}']]
+        awful.util.spawn(
+            [[rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}']]
+        )
     end),
 
     awful.key({ modkey }, 'e', function()
-        awful.util.spawn [[ rofi -show emoji -modi emoji ]]
+        awful.util.spawn([[ rofi -show emoji -modi emoji ]])
     end),
 
     awful.key({ modkey }, 'r', function()
-        awful.util.spawn [[ nixGL alacritty --class FloatThatThing -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
+        awful.util.spawn(
+            [[ nixGL alacritty --class FloatThatThing -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
+        )
     end),
 
     -- Volume
@@ -343,10 +347,10 @@ globalkeys = gears.table.join(
 
     -- Brightness
     awful.key({}, 'XF86MonBrightnessDown', function()
-        awful.util.spawn 'xbacklight -dec 15'
+        awful.util.spawn('xbacklight -dec 15')
     end),
     awful.key({}, 'XF86MonBrightnessUp', function()
-        awful.util.spawn 'xbacklight -inc 15'
+        awful.util.spawn('xbacklight -inc 15')
     end)
 )
 
@@ -556,6 +560,6 @@ end)
 -- Gaps
 beautiful.useless_gap = 3
 
-awful.spawn.with_shell 'syncthing'
+awful.spawn.with_shell('syncthing')
 -- awful.spawn.with_shell '/home/denis/.screenlayout/laptop-dell-vertical.sh'
 -- awful.spawn.with_shell '/home/denis/.config/polybar/launch.sh'

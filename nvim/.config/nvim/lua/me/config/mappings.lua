@@ -1,20 +1,20 @@
-local wk = require 'which-key'
-local sql = require 'me.sql'
-local me = require 'me'
-local zettel = require 'me.zettel'
-local themes = require 'telescope.themes'
+local wk = require('which-key')
+local sql = require('me.sql')
+local me = require('me')
+local zettel = require('me.zettel')
+local themes = require('telescope.themes')
 
 vim.keymap.set('n', '<leader>c', '<cmd>ChatGPT<CR>')
 vim.keymap.set('n', '<leader>tt', function()
     package.loaded['me'] = nil
     package.loaded['me.sql'] = nil
-    vim.api.nvim_command [[ source $MYVIMRC ]]
+    vim.api.nvim_command([[ source $MYVIMRC ]])
     require('me.sql').dbt_model_name()
 end)
 
 vim.keymap.set('n', '<leader>asdf', function()
     package.loaded['me'] = nil
-    vim.api.nvim_command [[ source $MYVIMRC ]]
+    vim.api.nvim_command([[ source $MYVIMRC ]])
 end)
 vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition)
 vim.keymap.set('n', 'gD', vim.lsp.buf.implementation)
@@ -47,11 +47,11 @@ vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
 vim.keymap.set('v', '//', [[ y/\V<C-R>=escape(@",'/\')<CR><CR> ]]) --- Search currenlty selected text
 
-vim.cmd 'command Bd bp | sp | bn | bd'
-vim.cmd 'command Bdd bp! | sp! | bn! | bd!'
+vim.cmd('command Bd bp | sp | bn | bd')
+vim.cmd('command Bdd bp! | sp! | bn! | bd!')
 
-wk.setup {}
-wk.register {
+wk.setup({})
+wk.register({
     ['<leader>f'] = { name = 'File' },
     ['<leader>fc'] = {
         ':!echo -n % | xclip -selection clipboard<CR>',
@@ -88,7 +88,7 @@ wk.register {
     },
     ['<leader>st'] = {
         function()
-            require('telescope.builtin').find_files {
+            require('telescope.builtin').find_files({
                 find_command = {
                     'rg',
                     '--files',
@@ -99,7 +99,7 @@ wk.register {
                     '!.snapshots/',
                 },
                 cwd = '/home/denis/.cache/recap/bigquery-schema/',
-            }
+            })
         end,
         'Find table schema',
     },
@@ -121,10 +121,10 @@ wk.register {
     ['<leader>u'] = { '<cmd>UndotreeToggle<CR>', 'Undotree' },
 
     ['<leader>a'] = { name = 'Anki' },
-}
+})
 
 vim.keymap.set({ 'n' }, '<leader>ao', function()
-    me.find_anki_notes(require('telescope.themes').get_dropdown {})
+    me.find_anki_notes(require('telescope.themes').get_dropdown({}))
 end, {
     desc = 'Find Anki note',
 })
@@ -134,12 +134,12 @@ vim.keymap.set({ 'n' }, '<leader>ae', function()
 end, {
     desc = 'Edit Anki note',
 })
-wk.register {
+wk.register({
     ['gdd'] = { vim.lsp.buf.declaration, '!! Declaration' },
     ['ga'] = { vim.lsp.buf.code_action, 'Code action' },
     ['gtt'] = {
         function()
-            local opts = themes.get_dropdown {}
+            local opts = themes.get_dropdown({})
             local layout_config = {
                 width = 0.9,
                 height = 0.6,
@@ -159,18 +159,18 @@ wk.register {
     ['gr'] = {
         function()
             require('telescope.builtin').lsp_references(
-                require('telescope.themes').get_dropdown {}
+                require('telescope.themes').get_dropdown({})
             )
         end,
         '!! References',
     },
-}
+})
 
-wk.register {
+wk.register({
     ['t'] = { name = 'Telescope' },
     ['tt'] = {
         function()
-            require('telescope.builtin').find_files {
+            require('telescope.builtin').find_files({
                 find_command = {
                     'rg',
                     '--files',
@@ -180,15 +180,15 @@ wk.register {
                     '-g',
                     '!.snapshots/',
                 },
-            }
+            })
         end,
         'Find files',
     },
     ['td'] = {
         function()
-            require('telescope.builtin').find_files {
+            require('telescope.builtin').find_files({
                 find_command = { 'git', 'diff', '--name-only', '--relative' },
-            }
+            })
         end,
         'Find diff files',
     },
@@ -216,7 +216,7 @@ wk.register {
         require('telescope.builtin').current_buffer_fuzzy_find,
         'Buffers',
     },
-}
+})
 
 vim.keymap.set('n', '<leader>rg', require('telescope.builtin').live_grep)
 vim.keymap.set('n', '<leader>/', require('telescope.builtin').treesitter)

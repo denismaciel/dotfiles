@@ -2,7 +2,7 @@ local function open_test_file()
     -- Opens the test file for the current file
     --
     -- Get relative path of the current file
-    local current_file_path = vim.fn.expand '%:p'
+    local current_file_path = vim.fn.expand('%:p')
     -- remove the root directory from the path
     current_file_path = string.gsub(current_file_path, vim.fn.getcwd(), '')
 
@@ -53,27 +53,27 @@ return {
             {
                 '[n',
                 function()
-                    require('neotest').jump.prev { status = 'failed' }
+                    require('neotest').jump.prev({ status = 'failed' })
                 end,
                 { noremap = true, silent = true },
             },
             {
                 ']n',
                 function()
-                    require('neotest').jump.next { status = 'failed' }
+                    require('neotest').jump.next({ status = 'failed' })
                 end,
                 { noremap = true, silent = true },
             },
         },
         config = function()
-            require('neotest').setup {
+            require('neotest').setup({
                 adapters = {
-                    require 'neotest-python' {
+                    require('neotest-python')({
                         dap = { justMyCode = false },
                         pytest_discover_instances = true,
-                    },
+                    }),
                 },
-            }
+            })
         end,
         dependencies = {
             'nvim-lua/plenary.nvim',

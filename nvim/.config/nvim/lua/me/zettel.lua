@@ -1,7 +1,7 @@
 local M = {}
 
-local zk = require 'zk'
-local commands = require 'zk.commands'
+local zk = require('zk')
+local commands = require('zk.commands')
 
 local function make_edit_fn(defaults, picker_options)
     return function(options)
@@ -23,7 +23,7 @@ commands.add(
 )
 
 M.create_new_note = function()
-    local note_name = vim.fn.input 'New note > '
+    local note_name = vim.fn.input('New note > ')
     if note_name == '' then
         return
     end

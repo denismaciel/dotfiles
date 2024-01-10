@@ -1,4 +1,4 @@
-local me = require 'me'
+local me = require('me')
 
 if me.is_shorts_mode() then
     return
@@ -7,18 +7,18 @@ end
 local capabilities = require('cmp_nvim_lsp').default_capabilities(
     vim.lsp.protocol.make_client_capabilities()
 )
-local configs = require 'lspconfig.configs'
-local lspc = require 'lspconfig'
-local null_ls = require 'null-ls'
-local util = require 'lspconfig.util'
+local configs = require('lspconfig.configs')
+local lspc = require('lspconfig')
+local null_ls = require('null-ls')
+local util = require('lspconfig.util')
 
-require('mason-lspconfig').setup {}
+require('mason-lspconfig').setup({})
 
-null_ls.setup {
+null_ls.setup({
     sources = {
         -- Python
         null_ls.builtins.formatting.reorder_python_imports,
-        null_ls.builtins.formatting.black.with {
+        null_ls.builtins.formatting.black.with({
             args = {
                 '--stdin-filename',
                 '$FILENAME',
@@ -26,7 +26,7 @@ null_ls.setup {
                 '--quiet',
                 '-',
             },
-        },
+        }),
         -- Lua
         null_ls.builtins.formatting.stylua,
         -- Javascript
@@ -34,7 +34,7 @@ null_ls.setup {
         -- Cloudformation
         null_ls.builtins.diagnostics.cfn_lint,
     },
-}
+})
 
 local function org_imports()
     local params = vim.lsp.util.make_range_params()
@@ -62,7 +62,7 @@ configs.gopls = {
         cmd = { 'gopls' },
         filetypes = { 'go', 'gomod' },
         root_dir = function(fname)
-            return util.root_pattern 'go.work'(fname)
+            return util.root_pattern('go.work')(fname)
                 or util.root_pattern('go.mod', '.git')(fname)
         end,
     },
@@ -73,14 +73,14 @@ configs.gopls = {
     },
 }
 
-lspc.prismals.setup {
+lspc.prismals.setup({
     capabilities = capabilities,
-}
-lspc.terraformls.setup {
+})
+lspc.terraformls.setup({
     capabilities = capabilities,
     filetypes = { 'terraform', 'hcl' },
-}
-lspc.lua_ls.setup {
+})
+lspc.lua_ls.setup({
     capabilities = capabilities,
     settings = {
         Lua = {
@@ -92,8 +92,8 @@ lspc.lua_ls.setup {
             },
         },
     },
-}
-lspc.jsonnet_ls.setup {
+})
+lspc.jsonnet_ls.setup({
     capabilities = capabilities,
     ext_vars = {
         foo = 'bar',
@@ -113,17 +113,17 @@ lspc.jsonnet_ls.setup {
         StripComments = false,
         StripAllButComments = false,
     },
-}
-lspc.cssls.setup { capabilities = capabilities }
-lspc.eslint.setup { capabilities = capabilities }
-lspc.gopls.setup { capabilities = capabilities }
+})
+lspc.cssls.setup({ capabilities = capabilities })
+lspc.eslint.setup({ capabilities = capabilities })
+lspc.gopls.setup({ capabilities = capabilities })
 -- lspc.jedi_language_server.setup({ capabilities = capabilities })
-lspc.pyright.setup { capabilities = capabilities }
+lspc.pyright.setup({ capabilities = capabilities })
 -- lspc.rnix.setup { capabilities = capabilities }
-lspc.rust_analyzer.setup { capabilities = capabilities }
-lspc.bashls.setup { capabilities = capabilities }
+lspc.rust_analyzer.setup({ capabilities = capabilities })
+lspc.bashls.setup({ capabilities = capabilities })
 -- lspc.tsserver.setup({ capabilities = capabilities })
-require('typescript').setup {
+require('typescript').setup({
     disable_commands = false, -- prevent the plugin from creating Vim commands
     debug = false, -- enable debug logging for commands
     go_to_source_definition = {
@@ -132,8 +132,8 @@ require('typescript').setup {
     server = { -- pass options to lspconfig's setup method
         capabilities = capabilities,
     },
-}
-lspc.yamlls.setup {
+})
+lspc.yamlls.setup({
     capabilities = capabilities,
     settings = {
         yaml = {
@@ -144,10 +144,10 @@ lspc.yamlls.setup {
             keyOrdering = false,
         },
     },
-}
-lspc.dockerls.setup { capabilities = capabilities }
-lspc.cmake.setup { capabilities = capabilities }
-lspc.bashls.setup { capabilities = capabilities }
-lspc.tailwindcss.setup { capabilities = capabilities }
-lspc.nil_ls.setup { capabilities = capabilities }
-lspc.hls.setup { capabilities = capabilities }
+})
+lspc.dockerls.setup({ capabilities = capabilities })
+lspc.cmake.setup({ capabilities = capabilities })
+lspc.bashls.setup({ capabilities = capabilities })
+lspc.tailwindcss.setup({ capabilities = capabilities })
+lspc.nil_ls.setup({ capabilities = capabilities })
+lspc.hls.setup({ capabilities = capabilities })

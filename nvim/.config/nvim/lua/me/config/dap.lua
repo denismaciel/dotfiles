@@ -1,28 +1,28 @@
 require('mason-nvim-dap').setup()
-local wk = require 'which-key'
-local dap = require 'dap'
-local dapui = require 'dapui'
-local dap_go = require 'dap-go'
-local dap_python = require 'dap-python'
+local wk = require('which-key')
+local dap = require('dap')
+local dapui = require('dapui')
+local dap_go = require('dap-go')
+local dap_python = require('dap-python')
 
-dap.set_log_level 'TRACE'
+dap.set_log_level('TRACE')
 dapui.setup()
 
 dap_go.setup()
-dap_python.setup '~/venvs/debugpy/bin/python'
+dap_python.setup('~/venvs/debugpy/bin/python')
 dap_python.test_runner = 'pytest'
 
 dap.listeners.after.event_initialized['dapui_config'] = function()
-    dapui.open {}
+    dapui.open({})
 end
 dap.listeners.before.event_terminated['dapui_config'] = function()
-    dapui.close {}
+    dapui.close({})
 end
 dap.listeners.before.event_exited['dapui_config'] = function()
-    dapui.close {}
+    dapui.close({})
 end
 
-require('telescope').load_extension 'dap'
+require('telescope').load_extension('dap')
 -- nnoremap <silent> <Leader>B <Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
 -- nnoremap <silent> <Leader>lp <Cmd>lua
 -- nnoremap <silent> <Leader>dr <Cmd>lua require'dap'.repl.open()<CR>
@@ -34,7 +34,11 @@ wk.register({
         b = { dap.toggle_breakpoint, 'Breakpoint' },
         B = {
             function()
-                dap.set_breakpoint(nil, nil, vim.fn.input 'Log point message: ')
+                dap.set_breakpoint(
+                    nil,
+                    nil,
+                    vim.fn.input('Log point message: ')
+                )
             end,
             'Breakpoint with Message',
         },

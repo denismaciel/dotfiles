@@ -1,4 +1,4 @@
-local me = require 'me'
+local me = require('me')
 
 if me.is_shorts_mode() then
     return {}
@@ -8,7 +8,7 @@ return {
     {
         'zbirenbaum/copilot.lua',
         config = function()
-            require('copilot').setup {
+            require('copilot').setup({
                 panel = {
                     enabled = true,
                     auto_refresh = true,
@@ -44,7 +44,7 @@ return {
                 },
                 copilot_node_command = 'node', -- Node.js version must be > 16.x
                 server_opts_overrides = {},
-            }
+            })
         end,
     },
     {

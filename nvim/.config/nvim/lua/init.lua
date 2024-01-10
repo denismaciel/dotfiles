@@ -1,9 +1,9 @@
-vim.g.python3_host_prog = os.getenv 'HOME' .. '/venvs/neovim/bin/python'
+vim.g.python3_host_prog = os.getenv('HOME') .. '/venvs/neovim/bin/python'
 vim.g.mapleader = ' '
 
 local o = vim.opt
 
-vim.cmd 'set shortmess+=I'
+vim.cmd('set shortmess+=I')
 
 o.clipboard = o.clipboard + 'unnamedplus'
 o.formatoptions = o.formatoptions + 'cro'
@@ -33,7 +33,7 @@ o.smartcase = true
 
 o.cursorline = true
 
-o.undodir = os.getenv 'HOME' .. '/.config/nvim/undodir'
+o.undodir = os.getenv('HOME') .. '/.config/nvim/undodir'
 
 o.list = true
 o.listchars = {
@@ -55,21 +55,21 @@ o.completeopt = { 'menu', 'menuone', 'noselect' }
 o.laststatus = 3
 o.winbar = '%=%m %f'
 
-vim.cmd 'cabbrev W w'
-vim.cmd 'cabbrev Wq wq'
-vim.cmd 'cabbrev WQ wq'
-vim.cmd 'cabbrev bd Bd'
-vim.cmd 'cabbrev bd! Bdd'
-vim.cmd 'cabbrev Bd! Bdd'
+vim.cmd('cabbrev W w')
+vim.cmd('cabbrev Wq wq')
+vim.cmd('cabbrev WQ wq')
+vim.cmd('cabbrev bd Bd')
+vim.cmd('cabbrev bd! Bdd')
+vim.cmd('cabbrev Bd! Bdd')
 
-vim.cmd [[
+vim.cmd([[
 augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=200}
 augroup END
-]]
+]])
 
-vim.cmd [[
+vim.cmd([[
 function! RenameFile()
     let old_name = expand('%')
     let new_name = input('New file name: ', expand('%'), 'file')
@@ -79,19 +79,19 @@ function! RenameFile()
         redraw!
     endif
 endfunction
-]]
+]])
 
 -- Bootstrap lazy.nvim
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system {
+    vim.fn.system({
         'git',
         'clone',
         '--filter=blob:none',
         '--single-branch',
         'https://github.com/folke/lazy.nvim.git',
         lazypath,
-    }
+    })
 end
 vim.opt.runtimepath:prepend(lazypath)
 
@@ -103,13 +103,13 @@ end
 
 vim.fn.sign_define('DapBreakpoint', { text = '•', linehl = '', numhl = '' })
 
-require('lazy').setup 'plugins'
+require('lazy').setup('plugins')
 
-require 'me.config.cmp'
-require 'me.config.dap'
-require 'me.config.lsp'
-require 'me.config.mappings'
-require 'me.config.telescope'
+require('me.config.cmp')
+require('me.config.dap')
+require('me.config.lsp')
+require('me.config.mappings')
+require('me.config.telescope')
 -- It seems these options need to be set *after* treesitter has been
 -- configured. Otherwise, it will download all the parsers every time on
 -- startup.
@@ -126,10 +126,10 @@ local function set_colorscheme()
     --         return
     --     end
     -- end
-    vim.cmd 'colorscheme tokyonight-moon'
+    vim.cmd('colorscheme tokyonight-moon')
 end
 
 set_colorscheme()
 
-local me = require 'me'
+local me = require('me')
 me.maybe_toggle_shorts_mode()
