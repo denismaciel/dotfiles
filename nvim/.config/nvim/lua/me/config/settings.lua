@@ -15,7 +15,7 @@ o.autoindent = true
 o.expandtab = true
 o.hidden = true -- switch buffers without saving
 o.wrap = false
-o.number = true
+o.number = false
 o.termguicolors = true
 o.backspace = { 'indent', 'eol', 'start' }
 o.showcmd = false -- show command in bottom bar
@@ -43,6 +43,7 @@ o.listchars = {
     extends = '❯',
     precedes = '❮',
 }
+o.fillchars = { eob = ' ' } -- hide ~ at end of buffer
 
 o.undofile = true
 o.showmatch = true
@@ -53,7 +54,10 @@ o.splitright = true
 o.completeopt = { 'menu', 'menuone', 'noselect' }
 
 o.laststatus = 3
-o.winbar = '%=%m %f'
+-- o.winbar = '%=%m %f'
+o.showmode = false
+o.ruler = false
+o.showcmd = false
 
 vim.cmd('cabbrev W w')
 vim.cmd('cabbrev Wq wq')
@@ -92,3 +96,27 @@ vim.api.nvim_create_autocmd('ExitPre', {
     command = 'set guicursor=a:hor20',
     desc = 'Set cursor back to beam when leaving Neovim.',
 })
+
+-- Remove cursorline and cursorcolumn when when window is unfocused
+local function autocmd(events, ...)
+    vim.api.nvim_create_autocmd(events, { callback = ... })
+end
+
+local old_guicursor, old_cursorline, old_cursorcolumn
+autocmd('VimEnter', function()
+    old_guicursor = o.guicursor
+    old_cursorline = o.cursorline
+    old_cursorcolumn = o.cursorcolumn
+end)
+
+autocmd({ 'WinLeave', 'FocusLost' }, function()
+    vim.opt.guicursor = 'a:noCursor'
+    vim.opt.cursorline = false
+    vim.opt.cursorcolumn = false
+end)
+
+autocmd({ 'WinEnter', 'FocusGained' }, function()
+    vim.opt.guicursor = old_guicursor
+    vim.opt.cursorline = old_cursorline
+    vim.opt.cursorcolumn = old_cursorcolumn
+end)
