@@ -14,6 +14,11 @@ return {
         local dap_go = require('dap-go')
         local dap_python = require('dap-python')
 
+        vim.fn.sign_define(
+            'DapBreakpoint',
+            { text = '•', linehl = '', numhl = '' }
+        )
+
         dap.set_log_level('TRACE')
         dapui.setup()
         dap_go.setup()

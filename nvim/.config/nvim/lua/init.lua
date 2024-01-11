@@ -16,4 +16,10 @@ vim.opt.runtimepath:prepend(lazypath)
 require('lazy').setup('plugins')
 require('me.config.mappings')
 
-vim.cmd('colorscheme tokyonight-moon')
+vim.cmd('colorscheme rose-pine')
+
+vim.api.nvim_create_autocmd('ExitPre', {
+    group = vim.api.nvim_create_augroup('Exit', { clear = true }),
+    command = 'set guicursor=a:hor20',
+    desc = 'Set cursor back to beam when leaving Neovim.',
+})

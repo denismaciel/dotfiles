@@ -13,7 +13,27 @@ return {
     -- === Colors ===
     'folke/tokyonight.nvim',
     -- 'gbprod/nord.nvim',
-    { 'rose-pine/neovim', name = 'rose-pine' },
+    {
+        'rose-pine/neovim',
+        name = 'rose-pine',
+        config = function()
+            local palette = require('rose-pine.palette')
+            require('rose-pine').setup({
+                dim_inactive_windows = true,
+                styles = {
+                    italic = false,
+                },
+                highlight_groups = {
+                    Cursor = { fg = palette.gold, bg = palette.gold },
+                    CursorColumn = { bg = palette.gold, fg = palette.gold },
+                    -- CursorIM = {},
+                    CursorLine = { bg = palette.overlay },
+                    CursorLineNr = { fg = palette.text, bold = true },
+                },
+            })
+        end,
+    },
+
     'morhetz/gruvbox',
     'shaunsingh/nord.nvim',
     { 'catppuccin/nvim', name = 'catppuccin' },

@@ -18,7 +18,7 @@ o.wrap = false
 o.number = true
 o.termguicolors = true
 o.backspace = { 'indent', 'eol', 'start' }
-o.showcmd = true -- show command in bottom bar
+o.showcmd = false -- show command in bottom bar
 o.showmatch = true -- highlight matching parenthesis
 
 o.backup = false
@@ -81,30 +81,14 @@ function! RenameFile()
 endfunction
 ]])
 
-local signs = { Error = '¤', Warn = '¤', Hint = '¤', Info = '¤' }
+local signs = { Error = '•', Warn = '•', Hint = '•', Info = '•' }
 for type, icon in pairs(signs) do
     local hl = 'DiagnosticSign' .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
 end
 
-vim.fn.sign_define('DapBreakpoint', { text = '•', linehl = '', numhl = '' })
-
--- Which is not the case right now.
--- It seems these options need to be set *after* treesitter has been
--- configured. Otherwise, it will download all the parsers every time on
--- startup.
-o.foldmethod = 'expr'
-o.foldexpr = 'nvim_treesitter#foldexpr()'
-o.foldlevelstart = 99
-o.foldlevel = 99
-
-vim.filetype.add({
-    filename = {
-        ['.env'] = 'sh',
-        ['.env.*'] = 'sh',
-        ['*.env.*'] = 'sh',
-        ['.envrc'] = 'sh',
-        ['*.env'] = 'sh',
-        ['*.envrc'] = 'sh',
-    },
+vim.api.nvim_create_autocmd('ExitPre', {
+    group = vim.api.nvim_create_augroup('Exit', { clear = true }),
+    command = 'set guicursor=a:hor20',
+    desc = 'Set cursor back to beam when leaving Neovim.',
 })
