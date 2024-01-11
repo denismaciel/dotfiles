@@ -1,6 +1,7 @@
 return {
     'dkarter/bullets.vim',
     {
+        { 'akinsho/toggleterm.nvim', version = '*', opts = {} },
         'jackMort/ChatGPT.nvim',
         event = 'VeryLazy',
         config = function()

@@ -1,6 +1,22 @@
-#! /bin/sh
+#! /bin/bash
+
+#set options for strict error checking
+set -euo pipefail
+
+CONFIG_FILE="$HOME/.config/dennich/dennich.json"
+WORK_MODE=$(jq -r '.work_mode' "$CONFIG_FILE")
 
 NOTES_FOLDER="$HOME/Sync/Notes/Current"
+
+if [ "$WORK_MODE" = "work" ]; then
+    TARGET_FOLDER="$NOTES_FOLDER/Work/Weekly"
+elif [ "$WORK_MODE" = "private" ]; then
+    TARGET_FOLDER="$NOTES_FOLDER/Private/Weekly"
+else
+    echo "Invalid work mode: $WORK_MODE"
+    exit 1
+fi
+
 # Get the current year
 YEAR=$(date +'%Y')
 # Get the week number with Monday as the first day of the week
@@ -9,7 +25,7 @@ WEEK=$(date +'%W')
 MONDAY_DATE=$(date -d "$YEAR-01-01 +$((WEEK*7)) days -$(date -d "$YEAR-01-01" +%u) days +1 day" +'%Y-%m-%d')
 
 FILE_NAME="$MONDAY_DATE.md"
-FILE_PATH="$NOTES_FOLDER/Weekly/$FILE_NAME"
+FILE_PATH="$TARGET_FOLDER/$FILE_NAME"
 
 cd "$NOTES_FOLDER"
 if [ -f "$FILE_PATH" ]; then

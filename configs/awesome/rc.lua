@@ -278,9 +278,10 @@ globalkeys = gears.table.join(
     end, { description = 'restore minimized', group = 'client' }),
 
     awful.key({ modkey }, 'd', function()
+        utils.getenv('work_mode')
         utils.focus_or_spawn(
             'Notebook',
-            [[ nixGL alacritty --class Notebook -e /home/denis/dotfiles/scripts/weekly_note ]]
+            [[ nixGL alacritty --class Notebook -e /home/denis/dotfiles/scripts/weekly_note  ]]
         )
     end, { description = 'Notebook', group = 'launcher' }),
 
@@ -310,13 +311,6 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, 'y', function()
         awful.spawn.with_shell('rofi -combi-modi window,run -show combi')
     end),
-
-    -- awful.key({ modkey }, 't', function()
-    --     utils.focus_or_spawn(
-    --         'Scratchpad',
-    --         [[ alacritty --class Scratchpad -e '/home/denis/.local/bin/dennich-todo' 'add-todo' ]]
-    --     )
-    -- end, { description = 'Add TODO', group = 'launcher' }),
 
     awful.key({ modkey }, 'c', function()
         awful.util.spawn(

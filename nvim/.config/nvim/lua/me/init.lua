@@ -28,7 +28,7 @@ end
 
 M.center_and_change_colorscheme = function()
     vim.cmd([[ normal Gzz ]])
-    vim.cmd([[ colorscheme rose-pine ]])
+    vim.cmd([[ colorscheme nord ]])
     vim.cmd([[ ZenMode ]])
     M.highlight_markdown_titles()
 end

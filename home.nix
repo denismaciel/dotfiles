@@ -8,6 +8,7 @@
     ".ipython/profile_default/ipython_config.py".source = ./configs/_ipython/profile_default/ipython_config.py;
     ".config/awesome/rc.lua".source = ./configs/awesome/rc.lua;
     ".config/awesome/main/utils.lua".source = ./configs/awesome/main/utils.lua;
+    ".config/awesome/main/dkjson.lua".source = ./configs/awesome/main/dkjson.lua;
     ".config/alacritty/alacritty.toml".source = ./configs/alacritty/alacritty.toml;
     ".config/alacritty/rose-pine.toml".source = ./configs/alacritty/rose-pine.toml;
     ".config/alacritty/rose-pine-moon.toml".source = ./configs/alacritty/rose-pine-moon.toml;
@@ -73,7 +74,9 @@
   home.packages = with pkgs; [
     # aws-sam-cli
     # awscli2
+    nodePackages_latest.bash-language-server
     nodePackages.pyright
+    nodePackages.prettier
     vscode-langservers-extracted
     tailwindcss-language-server
     discord
@@ -151,7 +154,7 @@
     pandoc
     papirus-icon-theme
     pasystray
-    pgadmin
+    pgadmin4-desktopmode
     pgcli
     picom
     polybar

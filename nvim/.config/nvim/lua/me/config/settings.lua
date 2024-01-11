@@ -5,6 +5,7 @@ local o = vim.opt
 
 vim.cmd('set shortmess+=I')
 
+o.signcolumn = 'yes'
 o.clipboard = o.clipboard + 'unnamedplus'
 o.formatoptions = o.formatoptions + 'cro'
 o.mouse = 'a'

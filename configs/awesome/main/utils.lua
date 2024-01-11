@@ -1,4 +1,5 @@
 local awful = require('awful')
+local json = require('main.dkjson')
 
 local M = {}
 
@@ -44,6 +45,27 @@ M.focus_or_spawn = function(klass, spawn_command)
     else
         awful.util.spawn(spawn_command)
     end
+end
+
+-- Read work mode from a JSON file
+M.getenv = function(name)
+    -- File ./config/dennich/dennich.json
+    local f = io.open(os.getenv('HOME') .. '/.config/dennich/dennich.json', 'r')
+
+    if f == nil then
+        return nil
+    end
+    local content = f:read('*all')
+    f:close()
+    local data = json.decode(content)
+    -- write the value to a temp file for testing
+    local f2 = io.open('/tmp/awesome-dennich.json', 'w')
+    if f2 == nil then
+        return nil
+    end
+    f2:write(content)
+    f2:close()
+    print(data['work_mode'])
 end
 
 return M
