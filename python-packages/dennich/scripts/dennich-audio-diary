@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/bash
 
 AUDIO_FILE_NAME=/home/denis/Sync/convert-audio/$(date +"%Y%m%d-%H%M.mp3")
 TRANSCRIPTION_FILE_NAME=/home/denis/Sync/convert-audio/$(date +"%Y%m%d-%H%M.txt")

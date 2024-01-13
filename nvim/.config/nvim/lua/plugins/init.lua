@@ -135,7 +135,6 @@ return {
         dependencies = {
             'nvim-tree/nvim-web-devicons',
         },
-        version = 'nightly',
     },
     {
         'folke/trouble.nvim',

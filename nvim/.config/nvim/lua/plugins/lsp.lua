@@ -101,7 +101,7 @@ return {
         lspc.jedi_language_server.setup({ capabilities = capabilities })
         lspc.pyright.setup({
             -- capabilities = capabilities,
-            autostart = false,
+            -- autostart = false,
             settings = {
                 python = {
                     stubPath = vim.fn.stdpath('data')
