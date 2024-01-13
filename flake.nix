@@ -37,6 +37,20 @@
         };
       };
     nixosConfigurations = {
+      laptop-x1carbon-9gen = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./configuration-x1carbon-9gen.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useUserPackages = true;
+            home-manager.users.denis = import ./home.nix;
+            home-manager.extraSpecialArgs = {
+                inherit inputs;
+            };
+          }
+        ];
+      };
       laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [

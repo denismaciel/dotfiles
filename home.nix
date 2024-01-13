@@ -1,5 +1,4 @@
 { inputs, pkgs,  ... }:
-
 {
   home.username = "denis";
   home.homeDirectory = "/home/denis";
@@ -74,6 +73,10 @@
   home.packages = with pkgs; [
     # aws-sam-cli
     # awscli2
+    pulsemixer
+    libinput
+    keyd
+    gnome.zenity
     nodePackages_latest.bash-language-server
     nodePackages.pyright
     nodePackages.prettier
@@ -116,7 +119,9 @@
     gnome.nautilus
     gnumake
     go-swagger
-    go_1_20
+    # go_1_20
+    go_1_21
+    gcc
     gofumpt
     golangci-lint
     golden-cheetah
@@ -192,6 +197,7 @@
     xclip
     xdotool
     xorg.xbacklight
+    xorg.xev
     yaml-language-server
     yq-go
     zathura
@@ -370,6 +376,10 @@ set -g window-active-style bg=default
           User root
           Port 22
           IdentityFile ~/.ssh/id_rsa_remarkable
+    Host raspberry-pi
+        Hostname 192.168.0.14
+        User pi
+        IdentityFile ~/.ssh/id_ed25519
     '';
   };
 

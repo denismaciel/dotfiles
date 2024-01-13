@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env sh
 
 #set options for strict error checking
 set -euo pipefail
