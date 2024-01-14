@@ -70,7 +70,14 @@ return {
                         callSnippet = 'Replace',
                     },
                     diagnostics = {
-                        globals = { 'vim', 'require' },
+                        globals = {
+                            'vim',
+                            'require',
+                            'awesome', -- awesomewm
+                            'client',  -- awesomewm
+                            'screen',  -- awesomewm
+                            'root',    -- awesomewm
+                        },
                     },
                 },
             },

@@ -109,7 +109,7 @@ myawesomemenu = {
             hotkeys_popup.show_help(nil, awful.screen.focused())
         end,
     },
-    { 'manual', terminal .. ' -e man awesome' },
+    { 'manual',  terminal .. ' -e man awesome' },
     { 'restart', awesome.restart },
     {
         'quit',
@@ -162,7 +162,7 @@ root.buttons(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
-    -- awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
+-- awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
     awful.key(
         { modkey },
         'Left',
@@ -286,10 +286,7 @@ globalkeys = gears.table.join(
     end, { description = 'Notebook', group = 'launcher' }),
 
     awful.key({ modkey }, 'x', function()
-        utils.focus_or_spawn(
-            'Scratchpad',
-            [[ alacritty --class Scratchpad ]]
-        )
+        utils.focus_or_spawn('Scratchpad', [[ alacritty --class Scratchpad ]])
     end),
 
     awful.key({ modkey }, 'f', function()
@@ -478,7 +475,7 @@ awful.rules.rules = {
     {
         rule_any = {
             instance = {
-                'DTA', -- Firefox addon DownThemAll.
+                'DTA',   -- Firefox addon DownThemAll.
                 'copyq', -- Includes session name in class.
                 'pinentry',
             },
@@ -487,7 +484,7 @@ awful.rules.rules = {
                 'Blueman-manager',
                 'Gpick',
                 'Kruler',
-                'MessageWin', -- kalarm.
+                'MessageWin',  -- kalarm.
                 'Sxiv',
                 'Tor Browser', -- Needs a fixed window size to avoid fingerprinting by screen size.
                 'Wpa_gui',
@@ -503,9 +500,9 @@ awful.rules.rules = {
                 'Event Tester', -- xev.
             },
             role = {
-                'AlarmWindow', -- Thunderbird's calendar.
+                'AlarmWindow',   -- Thunderbird's calendar.
                 'ConfigManager', -- Thunderbird's about:config.
-                'pop-up', -- e.g. Google Chrome's (detached) Developer Tools.
+                'pop-up',        -- e.g. Google Chrome's (detached) Developer Tools.
             },
         },
         properties = { floating = true, placement = awful.placement.centered },
@@ -538,7 +535,11 @@ client.connect_signal('manage', function(c)
         -- Prevent clients from being unreachable after screen count changes.
         awful.placement.no_offscreen(c)
     end
-    if c.class == 'Zenity' or c.class == 'Scratchpad' then
+    if
+        c.class == 'Zenity'
+        or c.class == 'Scratchpad'
+        or c.class == 'zenity'
+    then
         c.ontop = true
     end
 end)
@@ -555,5 +556,5 @@ end)
 beautiful.useless_gap = 3
 
 awful.spawn.with_shell('syncthing')
--- awful.spawn.with_shell '/home/denis/.screenlayout/laptop-dell-vertical.sh'
+awful.spawn.with_shell('/home/denis/dotfiles/scripts/laptop-dell-vertical.sh')
 -- awful.spawn.with_shell '/home/denis/.config/polybar/launch.sh'

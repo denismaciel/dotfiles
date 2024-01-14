@@ -9,7 +9,7 @@ return {
         build = ':TSUpdate',
         config = function()
             require('nvim-treesitter.configs').setup({
-                -- ensure_installed = 'all',
+                ensure_installed = 'all',
                 indent = {
                     enable = true,
                 },
@@ -39,8 +39,7 @@ return {
                     enable = true,
                 },
                 textobjects = {
-                    move = {
-                        enable = true,
+                    move = { enable = true,
                         set_jumps = false, -- whether to set jumps in the jumplist
                         goto_next_start = {
                             -- ["<C-n>"] = "@function.outer",

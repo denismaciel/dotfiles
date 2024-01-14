@@ -6,7 +6,7 @@ local o = vim.opt
 vim.cmd('set shortmess+=I')
 
 o.signcolumn = 'yes'
-o.clipboard = o.clipboard + 'unnamedplus'
+o.clipboard = 'unnamedplus'
 o.formatoptions = o.formatoptions + 'cro'
 o.mouse = 'a'
 o.tabstop = 4 -- how many spaces a tab is when vim reads a file

@@ -191,22 +191,32 @@ async def server() -> None:
 
 async def nag() -> None:
     while True:
+        logger.info('Will I nag?', running_task=RUNNING)
         await asyncio.sleep(60)
         if RUNNING is None:
             logger.info('Nagging for Pomodoro')
-            cmd = ['zenity', '--error', '--text', "'Track your time!'"]
-            proc = await asyncio.create_subprocess_shell(
-                ' '.join(cmd),
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE,
-            )
+            cmd = ['/etc/profiles/per-user/denis/bin/zenity', '--error', '--text', "'Track your time!'"]
+            try:
+                proc = await asyncio.create_subprocess_shell(
+                    ' '.join(cmd),
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.PIPE,
+                )
 
-            # stdout, stderr = await proc.communicate()
-            # logger.info(
-            #     'Zenity finished',
-            #     nag_stderr=stderr.decode('utf-8'),
-            #     nag_stdout=stdout.decode('utf-8'),
-            # )
+                # Commented out becasue we don't want to wait for the Zenity process to complete.
+                # That is, we don't wanna wait for the user to click on the notification.
+                # Because we want' to be really annoying an trigger mutliple notifications.
+                # Yeah, that's how annoying we are.
+                #
+                # stdout, stderr = await proc.communicate()
+                # logger.info(
+                #     'Zenity finished',
+                #     nag_stderr=stderr.decode('utf-8'),
+                #     nag_stdout=stdout.decode('utf-8'),
+                # )
+            except Exception as e:
+                logger.error(f"Error executing zenity command: {e}")
+
 
 
 def serve() -> int:
