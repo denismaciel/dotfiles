@@ -74,6 +74,7 @@
     # aws-sam-cli
     # awscli2
     pulsemixer
+    pulseaudio
     libinput
     keyd
     gnome.zenity

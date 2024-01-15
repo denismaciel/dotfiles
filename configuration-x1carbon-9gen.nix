@@ -80,6 +80,7 @@
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -101,7 +102,7 @@
   users.users.denis = {
     isNormalUser = true;
     description = "denis";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "audio" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
       firefox

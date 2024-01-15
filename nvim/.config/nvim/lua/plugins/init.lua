@@ -91,7 +91,6 @@ return {
     -- { 'm-demare/hlargs.nvim',    opts = {} },
     { 'lewis6991/gitsigns.nvim', opts = {} },
     { 'windwp/nvim-autopairs', opts = {} },
-    { 'klen/nvim-test', opts = {} },
     {
         'ggandor/leap.nvim',
         opts = function()
