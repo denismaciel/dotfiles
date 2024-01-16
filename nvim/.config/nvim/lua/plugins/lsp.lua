@@ -127,7 +127,7 @@ return {
                 },
             },
         })
-        -- lspc.rnix.setup { capabilities = capabilities }
+        lspc.rnix.setup { capabilities = capabilities }
         lspc.rust_analyzer.setup({ capabilities = capabilities })
         lspc.bashls.setup({ capabilities = capabilities })
         -- lspc.tsserver.setup({ capabilities = capabilities })

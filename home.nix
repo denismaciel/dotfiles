@@ -1,4 +1,4 @@
-{ inputs, pkgs,  ... }:
+{ inputs, pkgs, ... }:
 {
   home.username = "denis";
   home.homeDirectory = "/home/denis";
@@ -56,8 +56,15 @@
   xsession = {
     enable = true;
     windowManager.awesome = {
-        enable = true;
+      enable = true;
     };
+    # These two lines are needed so xdg-open doesn't
+    # get confused and can open link
+    # Source: https://discourse.nixos.org/t/clicked-links-in-desktop-apps-not-opening-browers/29114/3
+    initExtra = ''
+      unset XDG_CURRENT_DESKTOP
+      unset DESKTOP_SESSION
+    '';
   };
 
   # This value determines the Home Manager release that your
@@ -236,79 +243,80 @@
       tmux-fzf
     ];
     extraConfig = ''
-# Pane and windows indexes start with one
-# set -g base-index 1
-# setw -g pane-base-index 1
-set -g mouse on
-set -sg escape-time 1
-setw -g mode-keys vi
+          # test
+      # Pane and windows indexes start with one
+      # set -g base-index 1
+      # setw -g pane-base-index 1
+      set -g mouse on
+      set -sg escape-time 1
+      setw -g mode-keys vi
 
-# Get rid of confimation
-bind-key & kill-window
-bind-key x kill-pane
+      # Get rid of confimation
+      bind-key & kill-window
+      bind-key x kill-pane
 
-bind-key f last-window
+      bind-key f last-window
 
-bind-key u display-popup -h 90% -w 90% -E "weekly_note"
-# FIXME
-bind-key a display-popup -h 90% -w 90% -E "~/venvs/apy/bin/apy add -d default; sleep 2"
-bind-key m run-shell -b tmux-switch.sh
+      bind-key u display-popup -h 90% -w 90% -E "weekly_note"
+      # FIXME
+      bind-key a display-popup -h 90% -w 90% -E "~/venvs/apy/bin/apy add -d default; sleep 2"
+      bind-key m run-shell -b tmux-switch.sh
 
-# Open new windows in the current path	
-bind c new-window -c "$HOME"
-bind \\ split-window -h -c '#{pane_current_path}'  # Split panes horizontal
-bind \' split-window -h -c '#{pane_current_path}'  # Split panes horizontal
-bind - split-window -v -c '#{pane_current_path}'  # Split panes vertically
+      # Open new windows in the current path	
+      bind c new-window -c "$HOME"
+      bind \\ split-window -h -c '#{pane_current_path}'  # Split panes horizontal
+      bind \' split-window -h -c '#{pane_current_path}'  # Split panes horizontal
+      bind - split-window -v -c '#{pane_current_path}'  # Split panes vertically
 
-# bind-key b run "tmux send-keys -t #S:1.1 'tss' Enter"
-bind-key e command-prompt -p "Command:" \
-         "run \"tmux list-panes  -F '##{session_name}:##{window_index}.##{pane_index}' \
-                | xargs -I PANE tmux send-keys -t PANE '%1' Enter\""
+      # bind-key b run "tmux send-keys -t #S:1.1 'tss' Enter"
+      bind-key e command-prompt -p "Command:" \
+               "run \"tmux list-panes  -F '##{session_name}:##{window_index}.##{pane_index}' \
+                      | xargs -I PANE tmux send-keys -t PANE '%1' Enter\""
 
-bind-key b resize-pane -Z
+      bind-key b resize-pane -Z
 
-# Vi key bindings on Visual Mode
-bind-key -T copy-mode-vi v send-keys -X begin-selection
-bind-key -T copy-mode-vi y send-keys -X copy-selection
-bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
-bind-key -T copy-mode-vi / command-prompt -i -p "search down" "send -X search-forward-incremental \"%%%\""
-bind-key -T copy-mode-vi ? command-prompt -i -p "search up" "send -X search-backward-incremental \"%%%\""
+      # Vi key bindings on Visual Mode
+      bind-key -T copy-mode-vi v send-keys -X begin-selection
+      bind-key -T copy-mode-vi y send-keys -X copy-selection
+      bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
+      bind-key -T copy-mode-vi / command-prompt -i -p "search down" "send -X search-forward-incremental \"%%%\""
+      bind-key -T copy-mode-vi ? command-prompt -i -p "search up" "send -X search-backward-incremental \"%%%\""
 
-bind-key r source-file ~/.config/tmux/tmux.conf; display "Config reloaded!"	
+      bind-key r source-file ~/.config/tmux/tmux.conf; display "Config reloaded!"	
 
-set -g default-terminal "tmux-256color"
-set -ag terminal-overrides ",xterm-256color:RGB"
+      set -g default-terminal "tmux-256color"
+      set -ag terminal-overrides ",xterm-256color:RGB"
 
-bind-key -r k resize-pane -U 5
-bind-key -r j resize-pane -D 5
-bind-key -r h resize-pane -L 5
-bind-key -r l resize-pane -R 5
+      bind-key -r k resize-pane -U 5
+      bind-key -r j resize-pane -D 5
+      bind-key -r h resize-pane -L 5
+      bind-key -r l resize-pane -R 5
 
-######################	
-### DESIGN CHANGES ###	
-######################	
-set-option -g status-position top
-set -g status-bg colour234
-set -g status-fg colour255
-# set -g status-right '#[fg=colour233,bg=colour241,bold] %d/%m #[fg=colour233,bg=colour245,bold] %H:%M:%S '
-# set -g status-right "#(pmd)"
-set -g status-right ""
-set -g status-left ""
-set -g status-justify left
-set -g status-right-length 500
-set -g status-left-length 0
-set -g status-interval 1
+      ######################	
+      ### DESIGN CHANGES ###	
+      ######################	
+      set-option -g status-position top
+      set -g status-bg colour234
+      set -g status-fg colour255
+      # set -g status-right '#[fg=colour233,bg=colour241,bold] %d/%m #[fg=colour233,bg=colour245,bold] %H:%M:%S '
+      # set -g status-right "#(pmd)"
+      set -g status-right ""
+      set -g status-left ""
+      set -g status-justify left
+      set -g status-right-length 500
+      set -g status-left-length 0
+      set -g status-interval 1
 
-# #{?window_zoomed_flag,#[fg=red](,}#W#{?window_zoomed_flag,#[fg=red]),}
-setw -g window-status-current-format '#{?window_zoomed_flag,#[fg=colour240] 📺 #W,#[fg=colour240]#W}'	
+      # #{?window_zoomed_flag,#[fg=red](,}#W#{?window_zoomed_flag,#[fg=red]),}
+      setw -g window-status-current-format '#{?window_zoomed_flag,#[fg=colour240] 📺 #W,#[fg=colour240]#W}'	
 
-# setw -g window-status-format ' #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F '
-setw -g window-status-format ""
+      # setw -g window-status-format ' #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F '
+      setw -g window-status-format ""
 
-set -g pane-active-border-style fg=colour188
-set -g pane-border-style fg=colour240
-set -g window-style bg=default
-set -g window-active-style bg=default
+      set -g pane-active-border-style fg=colour188
+      set -g pane-border-style fg=colour240
+      set -g window-style bg=default
+      set -g window-active-style bg=default
     '';
 
   };
@@ -358,29 +366,29 @@ set -g window-active-style bg=default
   programs.ssh = {
     enable = true;
     extraConfig = ''
-      AddKeysToAgent yes
-      IdentityFile ~/.ssh/id_ed25519
-
-      Host jumpserver-prod
-          HostName 3.68.82.3
-          User ec2-user
-          IdentityFile ~/.ssh/jumpserver-prod
-
-      Host airbyte-prod
-          HostName 10.0.4.51
-          User ec2-user
-          ProxyJump jumpserver-prod
-          IdentityFile ~/.ssh/jumpserver-prod
-
-      Host remarkable
-          Hostname 10.11.99.1
-          User root
-          Port 22
-          IdentityFile ~/.ssh/id_rsa_remarkable
-    Host raspberry-pi
-        Hostname 192.168.0.14
-        User pi
+        AddKeysToAgent yes
         IdentityFile ~/.ssh/id_ed25519
+
+        Host jumpserver-prod
+            HostName 3.68.82.3
+            User ec2-user
+            IdentityFile ~/.ssh/jumpserver-prod
+
+        Host airbyte-prod
+            HostName 10.0.4.51
+            User ec2-user
+            ProxyJump jumpserver-prod
+            IdentityFile ~/.ssh/jumpserver-prod
+
+        Host remarkable
+            Hostname 10.11.99.1
+            User root
+            Port 22
+            IdentityFile ~/.ssh/id_rsa_remarkable
+      Host raspberry-pi
+          Hostname 192.168.0.14
+          User pi
+          IdentityFile ~/.ssh/id_ed25519
     '';
   };
 
@@ -564,35 +572,35 @@ set -g window-active-style bg=default
   };
 
   systemd.user.services.dump-anki = {
-        Unit = {
-            Description = "Dump Anki Notes to index.json";
-        };
-        Service = {
-            Type = "oneshot";
-            ExecStart="/home/denis/.local/bin/dennich-danki dump";
-        };
+    Unit = {
+      Description = "Dump Anki Notes to index.json";
     };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "/home/denis/.local/bin/dennich-danki dump";
+    };
+  };
   systemd.user.timers.dump-anki = {
-        Timer.OnCalendar = "*:0/2";
-        Timer.Persistent = true;
-        Install.WantedBy = [ "timers.target" ];
-    };
+    Timer.OnCalendar = "*:0/2";
+    Timer.Persistent = true;
+    Install.WantedBy = [ "timers.target" ];
+  };
 
 
-# 0 10 * * * zip -r ~/Sync/Backups/$(date +\%F)_Notes.zip ~/Sync/Notes
-  systemd.user.services.backup-notes = {
-        Unit = {
-            Description = "Backup Notes";
-        };
-        Service = {
-            Type = "oneshot";
-            ExecStart="/bin/sh -c 'zip -r ~/Sync/Backups/$(date +\\%F)_Notes.zip ~/Sync/Notes'";
-        };
-    };
-
-    systemd.user.timers.backup-notes = {
-            Timer.OnCalendar = "*-*-* 10:00:00";
-            Timer.Persistent = true;
-            Install.WantedBy = [ "timers.target" ];
-    };
+  # 0 10 * * * zip -r ~/Sync/Backups/$(date +\%F)_Notes.zip ~/Sync/Notes
+  # systemd.user.services.backup-notes = {
+  #   Unit = {
+  #     Description = "Backup Notes";
+  #   };
+  #   Service = {
+  #     Type = "oneshot";
+  #     ExecStart = "/bin/sh -c 'zip -r ~/Sync/Backups/$(date +\\%F)_Notes.zip ~/Sync/Notes'";
+  #   };
+  # };
+  #
+  # systemd.user.timers.backup-notes = {
+  #   Timer.OnCalendar = "*-*-* 10:00:00";
+  #   Timer.Persistent = true;
+  #   Install.WantedBy = [ "timers.target" ];
+  # };
 }

@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration-x1carbon-9gen.nix
     ];
 
@@ -44,14 +45,14 @@
 
   # Enable the X11 windowing system.
   services.xserver = {
-      enable = true;
-      xkbOptions = "ctrl:nocaps"; # Remap CapsLock to Control
-      autoRepeatDelay = 200;
-      autoRepeatInterval = 40;
-      # Enable the KDE Plasma Desktop Environment.
-      displayManager.sddm.enable = true;
-      desktopManager.plasma5.enable = true;
- };
+    enable = true;
+    xkbOptions = "ctrl:nocaps"; # Remap CapsLock to Control
+    autoRepeatDelay = 200;
+    autoRepeatInterval = 40;
+    # Enable the KDE Plasma Desktop Environment.
+    displayManager.sddm.enable = true;
+    desktopManager.plasma5.enable = true;
+  };
 
   # Configure keymap in X11
   services.xserver = {
@@ -62,13 +63,13 @@
   services.keyd = {
     enable = true;
     keyboards = {
-        default = {
-         settings = {
-            main = {
-              pause = "volumeup";
-              scrolllock = "volumedown";
-              sysrq = "mute";
-            };
+      default = {
+        settings = {
+          main = {
+            pause = "volumeup";
+            scrolllock = "volumedown";
+            sysrq = "mute";
+          };
         };
       };
     };
@@ -107,7 +108,7 @@
     packages = with pkgs; [
       firefox
       kate
-    #  thunderbird
+      zip
     ];
   };
 
@@ -121,6 +122,7 @@
     git
     wget
     gnome.zenity
+    zip
   ];
 
   programs.zsh.enable = true;
