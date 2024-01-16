@@ -74,15 +74,15 @@ return {
 
     { 'kylechui/nvim-surround', opts = {} },
     'nvimtools/none-ls.nvim',
-    {
-        'rcarriga/nvim-notify',
-        opts = function()
-            vim.notify = require('notify')
-            require('notify').setup({
-                background_colour = '#000000',
-            })
-        end,
-    },
+    -- {
+    --     'rcarriga/nvim-notify',
+    --     opts = function()
+    --         vim.notify = require('notify')
+    --         require('notify').setup({
+    --             background_colour = '#000000',
+    --         })
+    --     end,
+    -- },
     {
         'j-hui/fidget.nvim',
         opts = {},
