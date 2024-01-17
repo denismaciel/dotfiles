@@ -1,5 +1,8 @@
-{ inputs, pkgs, ... }:
 {
+  inputs,
+  pkgs,
+  ...
+}: {
   home.username = "denis";
   home.homeDirectory = "/home/denis";
   home.file = {
@@ -33,23 +36,23 @@
     enable = true;
 
     defaultApplications = {
-      "text/html" = [ "google-chrome.desktop" ];
-      "x-scheme-handler/http" = [ "google-chrome.desktop" ];
-      "x-scheme-handler/https" = [ "google-chrome.desktop" ];
-      "x-scheme-handler/about" = [ "google-chrome.desktop" ];
-      "x-scheme-handler/unknown" = [ "google-chrome.desktop" ];
-      "x-scheme-handler/notion" = [ "notion-app-enhanced.desktop" ];
-      "application/zip" = [ "org.gnome.FileRoller.desktop" ];
-      "x-scheme-handler/element" = [ "element-desktop.desktop" ];
-      "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
-      "application/pdf" = [ "sioyek.desktop" ];
+      "text/html" = ["google-chrome.desktop"];
+      "x-scheme-handler/http" = ["google-chrome.desktop"];
+      "x-scheme-handler/https" = ["google-chrome.desktop"];
+      "x-scheme-handler/about" = ["google-chrome.desktop"];
+      "x-scheme-handler/unknown" = ["google-chrome.desktop"];
+      "x-scheme-handler/notion" = ["notion-app-enhanced.desktop"];
+      "application/zip" = ["org.gnome.FileRoller.desktop"];
+      "x-scheme-handler/element" = ["element-desktop.desktop"];
+      "inode/directory" = ["org.gnome.Nautilus.desktop"];
+      "application/pdf" = ["sioyek.desktop"];
     };
 
     associations.added = {
-      "application/json" = [ "org.gnome.gedit.desktop" ];
-      "text/csv" = [ "nvim.desktop" ];
-      "text/plain" = [ "sioyek.desktop" ];
-      "application/epub+zip" = [ "org.pwmt.zathura-pdf-mupdf.desktop" ];
+      "application/json" = ["org.gnome.gedit.desktop"];
+      "text/csv" = ["nvim.desktop"];
+      "text/plain" = ["sioyek.desktop"];
+      "application/epub+zip" = ["org.pwmt.zathura-pdf-mupdf.desktop"];
     };
   };
   targets.genericLinux.enable = true;
@@ -80,6 +83,7 @@
   home.packages = with pkgs; [
     # aws-sam-cli
     # awscli2
+    statix
     pulsemixer
     pulseaudio
     libinput
@@ -215,7 +219,7 @@
     zsh-fzf-tab
     zsh-syntax-highlighting
     # (pkgs.callPackage ./dennich.nix {})
-    (rofi.override { plugins = [ pkgs.rofi-emoji pkgs.rofi-calc ]; })
+    (rofi.override {plugins = [pkgs.rofi-emoji pkgs.rofi-calc];})
     (nerdfonts.override {
       fonts = [
         "FiraCode"
@@ -262,7 +266,7 @@
       bind-key a display-popup -h 90% -w 90% -E "~/venvs/apy/bin/apy add -d default; sleep 2"
       bind-key m run-shell -b tmux-switch.sh
 
-      # Open new windows in the current path	
+      # Open new windows in the current path
       bind c new-window -c "$HOME"
       bind \\ split-window -h -c '#{pane_current_path}'  # Split panes horizontal
       bind \' split-window -h -c '#{pane_current_path}'  # Split panes horizontal
@@ -282,7 +286,7 @@
       bind-key -T copy-mode-vi / command-prompt -i -p "search down" "send -X search-forward-incremental \"%%%\""
       bind-key -T copy-mode-vi ? command-prompt -i -p "search up" "send -X search-backward-incremental \"%%%\""
 
-      bind-key r source-file ~/.config/tmux/tmux.conf; display "Config reloaded!"	
+      bind-key r source-file ~/.config/tmux/tmux.conf; display "Config reloaded!"
 
       set -g default-terminal "tmux-256color"
       set -ag terminal-overrides ",xterm-256color:RGB"
@@ -292,9 +296,9 @@
       bind-key -r h resize-pane -L 5
       bind-key -r l resize-pane -R 5
 
-      ######################	
-      ### DESIGN CHANGES ###	
-      ######################	
+      ######################
+      ### DESIGN CHANGES ###
+      ######################
       set-option -g status-position top
       set -g status-bg colour234
       set -g status-fg colour255
@@ -308,7 +312,7 @@
       set -g status-interval 1
 
       # #{?window_zoomed_flag,#[fg=red](,}#W#{?window_zoomed_flag,#[fg=red]),}
-      setw -g window-status-current-format '#{?window_zoomed_flag,#[fg=colour240] 📺 #W,#[fg=colour240]#W}'	
+      setw -g window-status-current-format '#{?window_zoomed_flag,#[fg=colour240] 📺 #W,#[fg=colour240]#W}'
 
       # setw -g window-status-format ' #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F '
       setw -g window-status-format ""
@@ -318,7 +322,6 @@
       set -g window-style bg=default
       set -g window-active-style bg=default
     '';
-
   };
 
   programs.zsh = {
@@ -488,7 +491,7 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [ "nodejs-16.20.0" "electron-25.9.0" ];
+  nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.0" "electron-25.9.0"];
   nixpkgs = {
     overlays = [
       inputs.neovim-nightly-overlay.overlay
@@ -501,7 +504,7 @@
     };
 
     Install = {
-      WantedBy = [ "graphical-session.target" ];
+      WantedBy = ["graphical-session.target"];
     };
 
     Service = {
@@ -513,7 +516,7 @@
 
   systemd.user.services.flameshot = {
     Install = {
-      WantedBy = [ "graphical-session.target" ];
+      WantedBy = ["graphical-session.target"];
     };
 
     Service = {
@@ -524,7 +527,7 @@
   };
   systemd.user.services.pasystray = {
     Install = {
-      WantedBy = [ "graphical-session.target" ];
+      WantedBy = ["graphical-session.target"];
     };
     Service = {
       ExecStart = "${pkgs.pasystray}/bin/pasystray";
@@ -538,7 +541,7 @@
       Description = "Pomodoro Server";
     };
     Install = {
-      WantedBy = [ "graphical-session.target" ];
+      WantedBy = ["graphical-session.target"];
     };
     Service = {
       ExecStart = "/home/denis/.local/bin/dennich-pomodoro start-server";
@@ -552,7 +555,7 @@
       Description = "Feh";
     };
     Install = {
-      WantedBy = [ "graphical-session.target" ];
+      WantedBy = ["graphical-session.target"];
     };
     Service = {
       Type = "oneshot";
@@ -563,9 +566,9 @@
   systemd.user.services.greenclip = {
     Unit = {
       Description = "greenclip daemon";
-      After = [ "graphical-session.target" ];
+      After = ["graphical-session.target"];
     };
-    Install = { WantedBy = [ "graphical-session.target" ]; };
+    Install = {WantedBy = ["graphical-session.target"];};
     Service = {
       ExecStart = "${pkgs.haskellPackages.greenclip}/bin/greenclip daemon";
     };
@@ -583,9 +586,8 @@
   systemd.user.timers.dump-anki = {
     Timer.OnCalendar = "*:0/2";
     Timer.Persistent = true;
-    Install.WantedBy = [ "timers.target" ];
+    Install.WantedBy = ["timers.target"];
   };
-
 
   # 0 10 * * * zip -r ~/Sync/Backups/$(date +\%F)_Notes.zip ~/Sync/Notes
   # systemd.user.services.backup-notes = {
