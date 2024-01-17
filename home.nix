@@ -54,17 +54,17 @@
   };
   targets.genericLinux.enable = true;
   xsession = {
-    enable = true;
-    windowManager.awesome = {
-      enable = true;
-    };
     # These two lines are needed so xdg-open doesn't
-    # get confused and can open link
+    # get confused and can correctly open links in a browser
     # Source: https://discourse.nixos.org/t/clicked-links-in-desktop-apps-not-opening-browers/29114/3
     initExtra = ''
       unset XDG_CURRENT_DESKTOP
       unset DESKTOP_SESSION
     '';
+    enable = true;
+    windowManager.awesome = {
+      enable = true;
+    };
   };
 
   # This value determines the Home Manager release that your
