@@ -19,8 +19,12 @@ return {
         local null_ls = require('null-ls')
         local util = require('lspconfig.util')
 
+        local custom_sources = require "me.null-ls"
+
         null_ls.setup({
             sources = {
+                custom_sources.formatting.jsonnet,
+                -- custom_sources.hover.man,
                 null_ls.builtins.formatting.reorder_python_imports,
                 null_ls.builtins.formatting.black.with({
                     args = {
@@ -34,6 +38,7 @@ return {
                 null_ls.builtins.formatting.stylua,
                 null_ls.builtins.formatting.prettier,
                 null_ls.builtins.diagnostics.cfn_lint,
+                null_ls.builtins.diagnostics.statix,
             },
         })
         configs.gopls = {
@@ -127,7 +132,7 @@ return {
                 },
             },
         })
-        lspc.rnix.setup { capabilities = capabilities }
+        lspc.rnix.setup({ capabilities = capabilities })
         lspc.rust_analyzer.setup({ capabilities = capabilities })
         lspc.bashls.setup({ capabilities = capabilities })
         -- lspc.tsserver.setup({ capabilities = capabilities })
@@ -147,7 +152,16 @@ return {
         lspc.cmake.setup({ capabilities = capabilities })
         lspc.bashls.setup({ capabilities = capabilities })
         lspc.tailwindcss.setup({ capabilities = capabilities })
-        lspc.nil_ls.setup({ capabilities = capabilities })
+        lspc.nil_ls.setup({
+            capabilities = capabilities,
+            settings = {
+                ['nil'] = {
+                    formatting = {
+                        command = { 'alejandra', '-qq' },
+                    },
+                },
+            },
+        })
         lspc.hls.setup({ capabilities = capabilities })
     end,
 }

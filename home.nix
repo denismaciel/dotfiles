@@ -83,6 +83,7 @@
   home.packages = with pkgs; [
     # aws-sam-cli
     # awscli2
+    lsof
     statix
     pulsemixer
     pulseaudio
