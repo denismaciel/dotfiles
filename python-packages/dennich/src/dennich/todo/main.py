@@ -16,6 +16,7 @@ from dennich.todo.cmd import today_status
 from dennich.todo.models import get_session
 from dennich.todo.models import load_pomodoros_created_after
 from dennich.todo.models import load_todos
+from dennich.todo.models import Pomodoro
 from dennich.todo.models import Todo
 from dennich.todo.models import upsert_todo
 from dennich.todo.pomodoro.client import Client
@@ -106,7 +107,12 @@ def report(since: int, report_type: str) -> int:
 
     pomodoros = load_pomodoros_created_after(get_session(), start_date)
 
-    tags = [p.todo.tags for p in pomodoros]
+    def get_tags(pomodoro: Pomodoro) -> list[str]:
+        if pomodoro.todo.tags is None:
+            raise ValueError(f"Todo {pomodoro.todo.name} has no tags")
+        return pomodoro.todo.tags
+
+    tags = [get_tags(p) for p in pomodoros]
     tags_set = set(itertools.chain.from_iterable(tags))
     df = (
         pl.DataFrame(
