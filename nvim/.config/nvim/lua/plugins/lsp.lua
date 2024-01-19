@@ -39,6 +39,7 @@ return {
                 null_ls.builtins.formatting.prettier,
                 null_ls.builtins.diagnostics.cfn_lint,
                 null_ls.builtins.diagnostics.statix,
+                null_ls.builtins.formatting.golines,
             },
         })
         configs.gopls = {

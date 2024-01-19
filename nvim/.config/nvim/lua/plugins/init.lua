@@ -1,4 +1,41 @@
 return {
+    {
+        'ThePrimeagen/harpoon',
+        branch = 'harpoon2',
+        config = function()
+            local harpoon = require('harpoon')
+            harpoon:setup()
+            vim.keymap.set('n', '<C-a>', function()
+                harpoon:list():append()
+            end)
+            vim.keymap.set('n', '<C-e>', function()
+                harpoon.ui:toggle_quick_menu(harpoon:list())
+            end)
+
+            vim.keymap.set('n', '<leader>h', function()
+                harpoon:list():select(1)
+            end)
+            vim.keymap.set('n', '<leader>j', function()
+                harpoon:list():select(2)
+            end)
+            vim.keymap.set('n', '<leader>k', function()
+                harpoon:list():select(3)
+            end)
+            -- vim.keymap.set('n', '<C-s>', function()
+            --     harpoon:list():select(4)
+            -- end)
+
+            vim.keymap.set('n', '<C-P>', function()
+                harpoon:list():prev()
+            end)
+            vim.keymap.set('n', '<C-N>', function()
+                harpoon:list():next()
+            end)
+        end,
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+        },
+    },
     'dkarter/bullets.vim',
     {
         { 'akinsho/toggleterm.nvim', version = '*', opts = {} },
@@ -60,7 +97,7 @@ return {
     },
 
     { 'folke/which-key.nvim', opts = {} },
-    { 'folke/neodev.nvim', opts = {} },
+    { 'folke/neodev.nvim',    opts = {} },
     {
         'folke/zen-mode.nvim',
         opts = function()
@@ -72,7 +109,7 @@ return {
         end,
     },
 
-    { 'kylechui/nvim-surround', opts = {} },
+    { 'kylechui/nvim-surround',  opts = {} },
     'nvimtools/none-ls.nvim',
     -- {
     --     'rcarriga/nvim-notify',
@@ -90,7 +127,7 @@ return {
     },
     -- { 'm-demare/hlargs.nvim',    opts = {} },
     { 'lewis6991/gitsigns.nvim', opts = {} },
-    { 'windwp/nvim-autopairs', opts = {} },
+    { 'windwp/nvim-autopairs',   opts = {} },
     {
         'ggandor/leap.nvim',
         opts = function()
