@@ -63,6 +63,7 @@
     initExtra = ''
       unset XDG_CURRENT_DESKTOP
       unset DESKTOP_SESSION
+      export NODE_OPTIONS="--max-old-space-size=8192"
     '';
     enable = true;
     windowManager.awesome = {
@@ -83,23 +84,7 @@
   home.packages = with pkgs; [
     # aws-sam-cli
     # awscli2
-    lsof
-    statix
-    pulsemixer
-    pulseaudio
-    libinput
-    keyd
-    gnome.zenity
-    nodePackages_latest.bash-language-server
-    nodePackages.pyright
-    nodePackages.prettier
-    vscode-langservers-extracted
-    tailwindcss-language-server
-    discord
-    termusic
-    exercism
-    jdk17
-    tree
+    # go_1_20
     R
     _1password-gui
     alacritty
@@ -119,22 +104,24 @@
     delve
     difftastic
     direnv
+    discord
     docker
     element-desktop
+    exercism
     fd
     ffmpeg
     firefox
     flameshot
     fzf
+    gcc
     gh
     gimp
     glow
     gnome.nautilus
+    gnome.zenity
     gnumake
     go-swagger
-    # go_1_20
     go_1_21
-    gcc
     gofumpt
     golangci-lint
     golden-cheetah
@@ -147,16 +134,20 @@
     htop
     imagemagick
     imwheel
+    jdk17
     jq
     jsonnet
     just
     keepassxc
+    keyd
     kubectl
     kubernetes-helm
     lazygit
     lf
+    libinput
     libreoffice
     litecli
+    lsof
     lua
     mpv
     mycli
@@ -164,6 +155,10 @@
     newsboat
     ngrok
     nil
+    nodePackages.prettier
+    nodePackages.pyright
+    nodePackages_latest.bash-language-server
+    nodePackages_latest.typescript-language-server
     nodejs-18_x
     notion-app-enhanced
     obs-studio
@@ -177,6 +172,8 @@
     picom
     polybar
     postgresql
+    pulseaudio
+    pulsemixer
     python310Packages.cfn-lint
     qutebrowser
     redshift
@@ -194,18 +191,24 @@
     sqlitebrowser
     ssm-session-manager-plugin # Aws Session Manager for executing commands on Fargate tasks
     starship
+    statix
     stow
     stylua
     sumneko-lua-language-server
     syncthing
+    tailwindcss-language-server
+    termusic
     terraform
     terraform-ls
     texlive.combined.scheme-medium
     tor-browser-bundle-bin
+    tree
+    typescript
     universal-ctags
     unzip
     vlc
     vscode
+    vscode-langservers-extracted
     wezterm
     xclip
     xdotool
