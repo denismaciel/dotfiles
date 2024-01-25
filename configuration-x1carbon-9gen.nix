@@ -1,15 +1,15 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration-x1carbon-9gen.nix
-    ];
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration-x1carbon-9gen.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -78,6 +78,12 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+    openFirewall = true;
+  };
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -103,7 +109,7 @@
   users.users.denis = {
     isNormalUser = true;
     description = "denis";
-    extraGroups = [ "networkmanager" "wheel" "docker" "audio" ];
+    extraGroups = ["networkmanager" "wheel" "docker" "audio"];
     shell = pkgs.zsh;
     packages = with pkgs; [
       firefox
@@ -154,4 +160,13 @@
   system.stateVersion = "23.11"; # Did you read the comment?
 
   virtualisation.docker.enable = true;
+  virtualisation = {
+    podman = {
+      enable = true;
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      # dockerCompat = true;
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
 }

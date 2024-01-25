@@ -85,7 +85,9 @@
     # aws-sam-cli
     # awscli2
     # go_1_20
+    xdragon
     R
+    openai-whisper
     _1password-gui
     alacritty
     anki
@@ -174,7 +176,7 @@
     postgresql
     pulseaudio
     pulsemixer
-    python310Packages.cfn-lint
+    python311Packages.cfn-lint
     qutebrowser
     redshift
     ripgrep
@@ -264,6 +266,8 @@
       bind-key x kill-pane
 
       bind-key f last-window
+
+      # bind -n DoubleClick1Pane run-shell "dragon -x '#{pane_current_path}/#{mouse_word}'"
 
       bind-key u display-popup -h 90% -w 90% -E "weekly_note"
       # FIXME

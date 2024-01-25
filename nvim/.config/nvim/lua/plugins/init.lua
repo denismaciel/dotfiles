@@ -1,5 +1,44 @@
 return {
     {
+        'NvChad/nvim-colorizer.lua',
+        config = function()
+            require('colorizer').setup({
+                filetypes = {
+                    'html',
+                    'css',
+                    'sass',
+                    'scss',
+                    'javascript',
+                    'javascriptreact',
+                    'typescript',
+                    'typescriptreact',
+                    'vue',
+                    'svelte',
+                    'lua',
+                },
+                user_default_options = {
+                    mode = 'virtualtext',
+                    names = false,
+                },
+            })
+        end,
+    },
+    {
+        'kndndrj/nvim-dbee',
+        dependencies = {
+            'MunifTanjim/nui.nvim',
+        },
+        build = function()
+            -- Install tries to automatically detect the install method.
+            -- if it fails, try calling it with one of these parameters:
+            --    "curl", "wget", "bitsadmin", "go"
+            require('dbee').install('go')
+        end,
+        config = function()
+            require('dbee').setup( --[[optional config]])
+        end,
+    },
+    {
         'ThePrimeagen/harpoon',
         branch = 'harpoon2',
         config = function()
