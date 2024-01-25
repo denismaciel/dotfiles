@@ -24,6 +24,8 @@ from dennich.todo.models import Todo
 
 logger = structlog.get_logger()
 
+MAX_NUMBER_OF_ZENITY_WINDOWS = 20
+
 
 @dataclass
 class RunningPomodoro:
@@ -189,34 +191,67 @@ async def server() -> None:
         loop.create_task(handle_client(client_socket))
 
 
+def count_zenity_windows() -> int:
+    try:
+        # Command to count Zenity windows
+        command = ['pgrep', '-c', 'zenity']
+
+        # Run the command and capture the output
+        process = subprocess.run(
+            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+        )
+
+        # Check if the command was executed successfully
+        if process.returncode == 0:
+            # Return the count as an integer
+            return int(process.stdout.strip())
+        else:
+            # If the command failed, return 0 assuming no Zenity windows are open
+            return 0
+    except Exception as e:
+        # Handle any exceptions that occur
+        logger.exception('Error while counting Zenity windows.', exc_info=e)
+        return 0
+
+
 async def nag() -> None:
     while True:
         logger.info('Will I nag?', running_task=RUNNING)
         await asyncio.sleep(60)
         if RUNNING is None:
             logger.info('Nagging for Pomodoro')
-            cmd = ['/etc/profiles/per-user/denis/bin/zenity', '--error', '--text', "'Track your time!'"]
-            try:
-                proc = await asyncio.create_subprocess_shell(
-                    ' '.join(cmd),
-                    stdout=asyncio.subprocess.PIPE,
-                    stderr=asyncio.subprocess.PIPE,
-                )
+            cmd = [
+                '/etc/profiles/per-user/denis/bin/zenity',
+                '--error',
+                '--text',
+                "'Track your time!'",
+            ]
 
-                # Commented out becasue we don't want to wait for the Zenity process to complete.
-                # That is, we don't wanna wait for the user to click on the notification.
-                # Because we want' to be really annoying an trigger mutliple notifications.
-                # Yeah, that's how annoying we are.
-                #
-                # stdout, stderr = await proc.communicate()
-                # logger.info(
-                #     'Zenity finished',
-                #     nag_stderr=stderr.decode('utf-8'),
-                #     nag_stdout=stdout.decode('utf-8'),
-                # )
-            except Exception as e:
-                logger.error(f"Error executing zenity command: {e}")
+            zenity_windows = count_zenity_windows()
+            logger.info('Zenity windows open', zenity_windows=zenity_windows)
+            if zenity_windows <= MAX_NUMBER_OF_ZENITY_WINDOWS:
+                try:
+                    proc = await asyncio.create_subprocess_shell(
+                        ' '.join(cmd),
+                        stdout=asyncio.subprocess.PIPE,
+                        stderr=asyncio.subprocess.PIPE,
+                    )
 
+                    # Commented out becasue we don't want to wait for the Zenity process to complete.
+                    # That is, we don't wanna wait for the user to click on the notification.
+                    # Because we want' to be really annoying an trigger mutliple notifications.
+                    # Yeah, that's how annoying we are.
+                    #
+                    # stdout, stderr = await proc.communicate()
+                    # logger.info(
+                    #     'Zenity finished',
+                    #     nag_stderr=stderr.decode('utf-8'),
+                    #     nag_stdout=stdout.decode('utf-8'),
+                    # )
+                except Exception as e:
+                    logger.error(f"Error executing zenity command: {e}")
+            else:
+                logger.info('Not nagging, too many Zenity windows open.')
 
 
 def serve() -> int:
