@@ -109,7 +109,7 @@ myawesomemenu = {
             hotkeys_popup.show_help(nil, awful.screen.focused())
         end,
     },
-    { 'manual',  terminal .. ' -e man awesome' },
+    { 'manual', terminal .. ' -e man awesome' },
     { 'restart', awesome.restart },
     {
         'quit',
@@ -162,7 +162,7 @@ root.buttons(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
--- awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
+    -- awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
     awful.key(
         { modkey },
         'Left',
@@ -374,7 +374,8 @@ clientkeys = gears.table.join(
         c:raise()
     end, { description = '(un)maximize', group = 'client' }),
     awful.key({ modkey, 'Control' }, 'm', function(c)
-        c.maximized_vertical = not c.maximized_vertical
+        -- c.maximized_vertical = not c.maximized_vertical
+        c.placement = awful.placement.centered
         c:raise()
     end, { description = '(un)maximize vertically', group = 'client' }),
     awful.key({ modkey, 'Shift' }, 'm', function(c)
@@ -475,7 +476,7 @@ awful.rules.rules = {
     {
         rule_any = {
             instance = {
-                'DTA',   -- Firefox addon DownThemAll.
+                'DTA', -- Firefox addon DownThemAll.
                 'copyq', -- Includes session name in class.
                 'pinentry',
             },
@@ -484,7 +485,7 @@ awful.rules.rules = {
                 'Blueman-manager',
                 'Gpick',
                 'Kruler',
-                'MessageWin',  -- kalarm.
+                'MessageWin', -- kalarm.
                 'Sxiv',
                 'Tor Browser', -- Needs a fixed window size to avoid fingerprinting by screen size.
                 'Wpa_gui',
@@ -492,6 +493,7 @@ awful.rules.rules = {
                 'xtightvncviewer',
                 'Scratchpad',
                 'FloatThatThing',
+                'Dragon',
             },
 
             -- Note that the name property shown in xprop might be set slightly after creation of the client
@@ -500,9 +502,9 @@ awful.rules.rules = {
                 'Event Tester', -- xev.
             },
             role = {
-                'AlarmWindow',   -- Thunderbird's calendar.
+                'AlarmWindow', -- Thunderbird's calendar.
                 'ConfigManager', -- Thunderbird's about:config.
-                'pop-up',        -- e.g. Google Chrome's (detached) Developer Tools.
+                'pop-up', -- e.g. Google Chrome's (detached) Developer Tools.
             },
         },
         properties = { floating = true, placement = awful.placement.centered },
@@ -539,8 +541,16 @@ client.connect_signal('manage', function(c)
         c.class == 'Zenity'
         or c.class == 'Scratchpad'
         or c.class == 'zenity'
+        or c.class == 'Dragon'
     then
         c.ontop = true
+    end
+
+    if c.class == 'Anki' then
+        c.floating = true
+        c.width = 800
+        c.height = 600
+        c.centered = true
     end
 end)
 
