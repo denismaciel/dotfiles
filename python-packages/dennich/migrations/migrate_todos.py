@@ -27,10 +27,10 @@ def migrate_jsonl_to_todos(jsonl_file_path):
     return todos
 
 
-# Assuming `jsonl_file_path` is the path to your JSONL file
 files = [
-    '/home/denis/Sync/Notes/Current/done.jsonlines',
-    '/home/denis/Sync/Notes/Current/todo.jsonlines',
+    # This won't work anymore since the file is not in the same path
+    # '/home/denis/Sync/Notes/Current/done.jsonlines',
+    # '/home/denis/Sync/Notes/Current/todo.jsonlines',
 ]
 
 

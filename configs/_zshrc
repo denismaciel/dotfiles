@@ -23,7 +23,7 @@ export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 export XDG_CONFIG_HOME=$HOME/.config
 
 export COLORSCHEME=dark
-export ZK_NOTEBOOK_DIR="$HOME/Sync/Notes/Current"
+export ZK_NOTEBOOK_DIR="$HOME/Sync/notes/current"
 
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
 

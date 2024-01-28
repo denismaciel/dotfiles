@@ -6,12 +6,12 @@ set -euo pipefail
 CONFIG_FILE="$HOME/.config/dennich/dennich.json"
 WORK_MODE=$(jq -r '.work_mode' "$CONFIG_FILE")
 
-NOTES_FOLDER="$HOME/Sync/Notes/Current"
+NOTES_FOLDER="$HOME/Sync/notes/current"
 
 if [ "$WORK_MODE" = "work" ]; then
-    TARGET_FOLDER="$NOTES_FOLDER/Work/Weekly"
+    TARGET_FOLDER="$NOTES_FOLDER/work/weekly"
 elif [ "$WORK_MODE" = "private" ]; then
-    TARGET_FOLDER="$NOTES_FOLDER/Private/Weekly"
+    TARGET_FOLDER="$NOTES_FOLDER/private/weekly"
 else
     echo "Invalid work mode: $WORK_MODE"
     exit 1

@@ -26,23 +26,17 @@ return {
             end
         end
 
-        -- commands.add(
-        --     'ZkOrphans',
-        --     make_edit_fn({ orphan = true }, { title = 'Zk Orphans' })
-        -- )
         commands.add(
             'ZkRecents',
             make_edit_fn(
-                { createdAfter = '1 weeks ago', exclude = 'Anki*' },
+                { createdAfter = '4 weeks ago', exclude = 'Anki*' },
                 { title = 'Zk Recents' }
             )
         )
-
         vim.keymap.set(
             'n',
             '<leader>nn',
-            create_new_note,
-            { desc = 'Create new note' }
+            [[ <Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>]]
         )
     end,
 }

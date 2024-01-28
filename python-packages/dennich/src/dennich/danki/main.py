@@ -11,7 +11,7 @@ from typing import NamedTuple
 from markdownify import markdownify
 
 ANKI_DATABASE_FILE = '/home/denis/.local/share/Anki2/denis/collection.anki2'
-ANKI_NOTES_DIR = Path('/home/denis/Sync/Notes/Current/Anki')
+ANKI_NOTES_DIR = Path('/home/denis/Sync/notes/current/anki')
 INDEX_FILE = ANKI_NOTES_DIR / 'index.json'
 SPLIT_CHAR = chr(31)
 
