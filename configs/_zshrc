@@ -69,6 +69,7 @@ alias clip='xclip -selection clipboard'
 alias tss="date +'%Y-%m-%d %H:%M:%S' | tr -d '\n' | xclip -selection clipboard && xclip -selection clipboard -o"
 alias tsd="date +'%Y-%m-%d' | tr -d '\n' | xclip -selection clipboard && xclip -selection clipboard -o"
 alias tsw="date +'%Y-%W' | tr -d '\n' | xclip -selection clipboard && xclip -selection clipboard -o"
+alias kz="pkill zenity"
 
 setopt autocd # .. is shortcut for cd .. 
 

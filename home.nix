@@ -377,29 +377,29 @@
   programs.ssh = {
     enable = true;
     extraConfig = ''
-        AddKeysToAgent yes
-        IdentityFile ~/.ssh/id_ed25519
+      AddKeysToAgent yes
+      IdentityFile ~/.ssh/id_ed25519
 
-        Host jumpserver-prod
-            HostName 3.68.82.3
-            User ec2-user
-            IdentityFile ~/.ssh/jumpserver-prod
+      Host jumpserver-prod
+          HostName 3.68.82.3
+          User ec2-user
+          IdentityFile ~/.ssh/jumpserver-prod
 
-        Host airbyte-prod
-            HostName 10.0.4.51
-            User ec2-user
-            ProxyJump jumpserver-prod
-            IdentityFile ~/.ssh/jumpserver-prod
+      Host airbyte-prod
+          HostName 10.0.4.51
+          User ec2-user
+          ProxyJump jumpserver-prod
+          IdentityFile ~/.ssh/jumpserver-prod
 
-        Host remarkable
-            Hostname 10.11.99.1
-            User root
-            Port 22
-            IdentityFile ~/.ssh/id_rsa_remarkable
-      Host raspberry-pi
-          Hostname 192.168.0.14
-          User pi
+      Host remarkable
+          Hostname 192.168.0.179
+          User root
+          Port 22
           IdentityFile ~/.ssh/id_ed25519
+      Host raspberry-pi
+         Hostname 192.168.0.14
+         User pi
+         IdentityFile ~/.ssh/id_ed25519
     '';
   };
 
