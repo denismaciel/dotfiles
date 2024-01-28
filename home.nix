@@ -3,88 +3,12 @@
   pkgs,
   ...
 }: {
-  home.username = "denis";
-  home.homeDirectory = "/home/denis";
-  home.file = {
-    ".npmrc".source = ./configs/_npmrc;
-    ".ipython/profile_default/ipython_config.py".source = ./configs/_ipython/profile_default/ipython_config.py;
-    ".config/awesome/rc.lua".source = ./configs/awesome/rc.lua;
-    ".config/awesome/main/utils.lua".source = ./configs/awesome/main/utils.lua;
-    ".config/awesome/main/dkjson.lua".source = ./configs/awesome/main/dkjson.lua;
-    ".config/alacritty/alacritty.toml".source = ./configs/alacritty/alacritty.toml;
-    ".config/alacritty/rose-pine.toml".source = ./configs/alacritty/rose-pine.toml;
-    ".config/alacritty/rose-pine-moon.toml".source = ./configs/alacritty/rose-pine-moon.toml;
-    ".config/alacritty/rose-pine-dawn.toml".source = ./configs/alacritty/rose-pine-dawn.toml;
-    ".config/direnv/direnv.toml".source = ./configs/direnv/direnv.toml;
-    ".config/fd/ignore".source = ./configs/fd/ignore;
-    ".config/greenclip.toml".source = ./configs/greenclip.toml;
-    ".config/lf/colors".source = ./configs/lf/colors;
-    ".config/lf/icons".source = ./configs/lf/icons;
-    ".config/lf/lfrc".source = ./configs/lf/lfrc;
-    ".config/pgcli/config".source = ./configs/pgcli/config;
-    ".config/redshift/redshift.conf".source = ./configs/redshift/redshift.conf;
-    ".config/rofi/config.rasi".source = ./configs/rofi/config.rasi;
-    ".config/sioyek/prefs_user.config".source = ./configs/sioyek/prefs_user.config;
-    ".ctags.d/default.ctags".source = ./configs/_ctags.d/default.ctags;
-    ".newsboat/config".source = ./configs/_newsboat/config;
-    ".newsboat/urls".source = ./configs/_newsboat/urls;
-    ".ripgrep_ignore".source = ./configs/_ripgrep_ignore;
-    ".tmuxp/core.yml".source = ./configs/_tmuxp/core.yaml;
-  };
-  xdg.enable = true;
-  xdg.mimeApps = {
-    enable = true;
-
-    defaultApplications = {
-      "text/html" = ["google-chrome.desktop"];
-      "x-scheme-handler/http" = ["google-chrome.desktop"];
-      "x-scheme-handler/https" = ["google-chrome.desktop"];
-      "x-scheme-handler/about" = ["google-chrome.desktop"];
-      "x-scheme-handler/unknown" = ["google-chrome.desktop"];
-      "x-scheme-handler/notion" = ["notion-app-enhanced.desktop"];
-      "application/zip" = ["org.gnome.FileRoller.desktop"];
-      "x-scheme-handler/element" = ["element-desktop.desktop"];
-      "inode/directory" = ["org.gnome.Nautilus.desktop"];
-      "application/pdf" = ["sioyek.desktop"];
-    };
-
-    associations.added = {
-      "application/json" = ["org.gnome.gedit.desktop"];
-      "text/csv" = ["nvim.desktop"];
-      "text/plain" = ["sioyek.desktop"];
-      "application/epub+zip" = ["org.pwmt.zathura-pdf-mupdf.desktop"];
-    };
-  };
-  targets.genericLinux.enable = true;
-  xsession = {
-    # These two lines are needed so xdg-open doesn't
-    # get confused and can correctly open links in a browser
-    # Source: https://discourse.nixos.org/t/clicked-links-in-desktop-apps-not-opening-browers/29114/3
-    initExtra = ''
-      unset XDG_CURRENT_DESKTOP
-      unset DESKTOP_SESSION
-      export NODE_OPTIONS="--max-old-space-size=8192"
-    '';
-    enable = true;
-    windowManager.awesome = {
-      enable = true;
-    };
-  };
-
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
-  home.stateVersion = "22.05";
-  fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
     # aws-sam-cli
     # awscli2
     # go_1_20
+    neovide
+    rust-analyzer
     xdragon
     R
     openai-whisper
@@ -241,6 +165,84 @@
       ];
     })
   ];
+  home.username = "denis";
+  home.homeDirectory = "/home/denis";
+  home.file = {
+    ".npmrc".source = ./configs/_npmrc;
+    ".ipython/profile_default/ipython_config.py".source = ./configs/_ipython/profile_default/ipython_config.py;
+    ".config/awesome/rc.lua".source = ./configs/awesome/rc.lua;
+    ".config/awesome/main/utils.lua".source = ./configs/awesome/main/utils.lua;
+    ".config/awesome/main/dkjson.lua".source = ./configs/awesome/main/dkjson.lua;
+    ".config/alacritty/alacritty.toml".source = ./configs/alacritty/alacritty.toml;
+    ".config/alacritty/rose-pine.toml".source = ./configs/alacritty/rose-pine.toml;
+    ".config/alacritty/rose-pine-moon.toml".source = ./configs/alacritty/rose-pine-moon.toml;
+    ".config/alacritty/rose-pine-dawn.toml".source = ./configs/alacritty/rose-pine-dawn.toml;
+    ".config/direnv/direnv.toml".source = ./configs/direnv/direnv.toml;
+    ".config/fd/ignore".source = ./configs/fd/ignore;
+    ".config/greenclip.toml".source = ./configs/greenclip.toml;
+    ".config/lf/colors".source = ./configs/lf/colors;
+    ".config/lf/icons".source = ./configs/lf/icons;
+    ".config/lf/lfrc".source = ./configs/lf/lfrc;
+    ".config/pgcli/config".source = ./configs/pgcli/config;
+    ".config/redshift/redshift.conf".source = ./configs/redshift/redshift.conf;
+    ".config/rofi/config.rasi".source = ./configs/rofi/config.rasi;
+    ".config/sioyek/prefs_user.config".source = ./configs/sioyek/prefs_user.config;
+    ".ctags.d/default.ctags".source = ./configs/_ctags.d/default.ctags;
+    ".newsboat/config".source = ./configs/_newsboat/config;
+    ".newsboat/urls".source = ./configs/_newsboat/urls;
+    ".ripgrep_ignore".source = ./configs/_ripgrep_ignore;
+    ".tmuxp/core.yml".source = ./configs/_tmuxp/core.yaml;
+  };
+  xdg.enable = true;
+  xdg.mimeApps = {
+    enable = true;
+
+    defaultApplications = {
+      "text/html" = ["google-chrome.desktop"];
+      "x-scheme-handler/http" = ["google-chrome.desktop"];
+      "x-scheme-handler/https" = ["google-chrome.desktop"];
+      "x-scheme-handler/about" = ["google-chrome.desktop"];
+      "x-scheme-handler/unknown" = ["google-chrome.desktop"];
+      "x-scheme-handler/notion" = ["notion-app-enhanced.desktop"];
+      "application/zip" = ["org.gnome.FileRoller.desktop"];
+      "x-scheme-handler/element" = ["element-desktop.desktop"];
+      "inode/directory" = ["org.gnome.Nautilus.desktop"];
+      "application/pdf" = ["sioyek.desktop"];
+    };
+
+    associations.added = {
+      "application/json" = ["org.gnome.gedit.desktop"];
+      "text/csv" = ["nvim.desktop"];
+      "text/plain" = ["sioyek.desktop"];
+      "application/epub+zip" = ["org.pwmt.zathura-pdf-mupdf.desktop"];
+    };
+  };
+  targets.genericLinux.enable = true;
+  xsession = {
+    # These two lines are needed so xdg-open doesn't
+    # get confused and can correctly open links in a browser
+    # Source: https://discourse.nixos.org/t/clicked-links-in-desktop-apps-not-opening-browers/29114/3
+    initExtra = ''
+      unset XDG_CURRENT_DESKTOP
+      unset DESKTOP_SESSION
+      export NODE_OPTIONS="--max-old-space-size=8192"
+    '';
+    enable = true;
+    windowManager.awesome = {
+      enable = true;
+    };
+  };
+
+  # This value determines the Home Manager release that your
+  # configuration is compatible with. This helps avoid breakage
+  # when a new Home Manager release introduces backwards
+  # incompatible changes.
+  #
+  # You can update Home Manager without changing this value. See
+  # the Home Manager release notes for a list of state version
+  # changes in each release.
+  home.stateVersion = "22.05";
+  fonts.fontconfig.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
