@@ -552,6 +552,11 @@ client.connect_signal('manage', function(c)
         c.height = 600
         c.centered = true
     end
+
+    -- Rounded corners
+    c.shape = function(cr, w, h)
+        gears.shape.rounded_rect(cr, w, h, 10)
+    end
 end)
 
 client.connect_signal('focus', function(c)

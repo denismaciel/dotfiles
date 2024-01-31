@@ -7,6 +7,8 @@
     # aws-sam-cli
     # awscli2
     # go_1_20
+    ruff # must be installed here because it requires some dynamically linked libs (I guess)
+    skim
     neovide
     rust-analyzer
     xdragon

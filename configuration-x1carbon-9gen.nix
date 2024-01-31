@@ -129,6 +129,7 @@
     wget
     gnome.zenity
     zip
+    groff
   ];
 
   programs.zsh.enable = true;
