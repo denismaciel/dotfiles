@@ -7,6 +7,7 @@
     # aws-sam-cli
     # awscli2
     # go_1_20
+    slides
     ruff # must be installed here because it requires some dynamically linked libs (I guess)
     skim
     neovide
@@ -257,7 +258,6 @@
       tmux-fzf
     ];
     extraConfig = ''
-          # test
       # Pane and windows indexes start with one
       # set -g base-index 1
       # setw -g pane-base-index 1
@@ -400,10 +400,17 @@
           User root
           Port 22
           IdentityFile ~/.ssh/id_ed25519
+
       Host raspberry-pi
          Hostname 192.168.0.14
          User pi
          IdentityFile ~/.ssh/id_ed25519
+
+      Host nixos-macbookair
+         Hostname 192.168.0.70
+         User denis
+         IdentityFile ~/.ssh/id_ed25519
+
     '';
   };
 

@@ -76,7 +76,9 @@ def main() -> int:
             + response['task_name']
             + ' •'
             + format_seconds_to_minutes(response['remaining_time'])
-            + '• '
+            + '• ('
+            + format_seconds_to_hours_minutes(response['task_time_spent'])
+            + ')'
         )
     return 0
 
@@ -84,6 +86,11 @@ def main() -> int:
 def format_seconds_to_minutes(seconds: int) -> str:
     minutes, seconds = divmod(seconds, 60)
     return f'{int(minutes):02d}:{int(seconds):02d}'
+
+def format_seconds_to_hours_minutes(seconds: int) -> str:
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    return f'{int(hours):02d}:{int(minutes):02d}'
 
 
 def _main() -> int:

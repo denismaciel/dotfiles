@@ -165,6 +165,7 @@ class GetStatusResponse(TypedDict):
     remaining_time: float
     task_name: str
     task_id: int
+    task_time_spent: float
 
 
 class ErrorResponse(TypedDict):

@@ -22,10 +22,11 @@ dennich-todo = "dennich.todo.main:main"
 dennich-danki = "dennich.danki.main:cli"
 dennich-convert-audio = "dennich.convert_audio:main"
 dennich-pomodoro = "dennich.todo.pomodoro.cli:main"
+dennich-transcribe-audio = "dennich.transcribe_audio:main"
 
 [tool.setuptools]
 script-files = [
-    "scripts/dennich-audio-diary",
+    "scripts/rec",
 ]
 
 [build-system]

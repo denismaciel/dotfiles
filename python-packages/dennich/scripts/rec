@@ -1,0 +1,12 @@
+#! /usr/bin/env bash
+
+record_and_transcribe() {
+  # Record audio and save it to a temp file with a timestamp
+  TEMP_FILE="/tmp/audio-$(date +'%Y%m%d-%H%M%S').mp3"
+  arecord --format=cd "$TEMP_FILE"
+  
+  # Transcribe the audio file and output the transcription
+  dennich-transcribe-audio "$TEMP_FILE" | tee >(xclip -selection clipboard)
+}
+
+record_and_transcribe

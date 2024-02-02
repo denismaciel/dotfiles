@@ -36,6 +36,18 @@ M.dbt_open_compiled = function()
     end
 end
 
+M.dbt_open_run = function()
+    local fname = vim.fn.expand('%')
+    local result =
+        io.popen('./venv/bin/sqly get-dbt-run-path --file ' .. fname)
+    for line in result:lines() do
+        vim.api.nvim_command('split')
+        vim.api.nvim_command('view ' .. line)
+        vim.api.nvim_command('syntax off')
+        vim.treesitter.stop()
+    end
+end
+
 M.dbt_open_snaps = function()
     local root_folder = vim.fn.expand('%:h')
     local snap_folder_name = vim.fn.expand('%:t:r')

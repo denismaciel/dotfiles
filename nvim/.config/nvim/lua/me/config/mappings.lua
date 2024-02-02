@@ -116,6 +116,12 @@ vim.keymap.set(
 )
 vim.keymap.set(
     'n',
+    '<leader>sr',
+    sql.dbt_open_run,
+    { desc = 'Open run query' }
+)
+vim.keymap.set(
+    'n',
     '<leader>sv',
     sql.dbt_open_snaps,
     { desc = 'Open snapshots' }

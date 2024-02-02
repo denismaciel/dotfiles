@@ -58,19 +58,16 @@ def transcribe_audio(file_path, api_url, language='en', task='transcribe'):
 
 
 # Example usage
-api_url = 'http://localhost:9000'
-file_path = '/home/denis/Downloads/Approach - Tuesday at 09-54.m4a'
-response = transcribe_audio(file_path, api_url)
-print(response)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('file_path', help='path to audio file')
-
+    api_url = 'http://nixos-macbookair:5000'
     args = parser.parse_args()
 
     response = transcribe_audio(args.file_path, api_url)
+    print(response)
 
     return 0
 

@@ -57,8 +57,9 @@ def task_completed_callback() -> None:
 
     proc = subprocess.run(
         [
-            '/home/denis/.nix-profile/bin/mpv',
-            '/home/denis/dotfile/scripts/assets/win95.ogg',
+            '/usr/bin/env',
+            'mpv',
+            '/home/denis/dotfiles/scripts/assets/win95.ogg',
         ],
         capture_output=True,
     )
@@ -151,11 +152,23 @@ async def get_status() -> GetStatusResponse | ErrorResponse:
             RUNNING.pomodoro.duration * 60
             - (dt.datetime.now() - RUNNING.pomodoro.start_time).total_seconds()
         )
+
+        sess = get_session()
+        todo = load_todo_by_id(sess, RUNNING.todo.id)
+
+        # Sum the time of all the pomodoros for the task
+        spent_time = 0
+        for p in todo.pomodoros:
+            # Report only the time spent today
+            if p.end_time is not None and p.start_time.date() == dt.date.today():
+                spent_time += (p.end_time - p.start_time).total_seconds()
+
         return GetStatusResponse(
             status_code=200,
             remaining_time=remaining_time,
             task_name=RUNNING.todo.name,
             task_id=RUNNING.todo.id,
+            task_time_spent=spent_time,
         )
     else:
         return ErrorResponse(status_code=404, message='No Pomodoro task is running.')
@@ -176,10 +189,12 @@ async def cancel_pomodoro_task() -> Response:
 
 
 async def server() -> None:
+    import atexit
     loop = asyncio.get_running_loop()
     logger.info('Pomodoro server started.')
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(('0.0.0.0', 12347))
+    atexit.register(server_socket.close)
     server_socket.listen(5)
     server_socket.setblocking(False)
     logger.info('Pomodoro server started, waiting for connections...')
@@ -189,6 +204,7 @@ async def server() -> None:
     while True:
         client_socket, _ = await loop.sock_accept(server_socket)
         loop.create_task(handle_client(client_socket))
+
 
 
 def count_zenity_windows() -> int:
@@ -255,8 +271,24 @@ async def nag() -> None:
 
 
 def serve() -> int:
+    import getpass
+
+    user = getpass.getuser()
+    print(f"Starting Pomodoro server for user {user}.")
+
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(server())
+    try:
+        loop.run_until_complete(server())
+    except KeyboardInterrupt:
+        print("Shutdown initiated.")
+        tasks = [
+            t for t in asyncio.all_tasks(loop) if t is not asyncio.current_task(loop)
+        ]
+        [task.cancel() for task in tasks]
+        loop.run_until_complete(asyncio.gather(*tasks, return_exceptions=True))
+        loop.run_until_complete(loop.shutdown_asyncgens())
+    finally:
+        loop.close()
     return 0
 
 
