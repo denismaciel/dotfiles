@@ -1,5 +1,8 @@
 return {
     {
+        'preservim/vim-pencil',
+    },
+    {
         'NvChad/nvim-colorizer.lua',
         config = function()
             require('colorizer').setup({
@@ -136,7 +139,7 @@ return {
     },
 
     { 'folke/which-key.nvim', opts = {} },
-    { 'folke/neodev.nvim',    opts = {} },
+    { 'folke/neodev.nvim', opts = {} },
     {
         'folke/zen-mode.nvim',
         opts = function()
@@ -148,7 +151,7 @@ return {
         end,
     },
 
-    { 'kylechui/nvim-surround',  opts = {} },
+    { 'kylechui/nvim-surround', opts = {} },
     'nvimtools/none-ls.nvim',
     -- {
     --     'rcarriga/nvim-notify',
@@ -166,7 +169,7 @@ return {
     },
     -- { 'm-demare/hlargs.nvim',    opts = {} },
     { 'lewis6991/gitsigns.nvim', opts = {} },
-    { 'windwp/nvim-autopairs',   opts = {} },
+    { 'windwp/nvim-autopairs', opts = {} },
     {
         'ggandor/leap.nvim',
         opts = function()

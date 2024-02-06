@@ -65,3 +65,8 @@ windows:
     panes:
       -
       -
+  - window_name: downloads
+    start_directory: "~/Downloads"
+    panes:
+      -
+      -

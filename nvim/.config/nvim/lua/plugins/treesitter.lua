@@ -9,9 +9,25 @@ return {
         build = ':TSUpdate',
         config = function()
             require('nvim-treesitter.configs').setup({
+                modules = {},
+                sync_install = true,
+                ignore_install = {},
+                auto_install = true,
                 ensure_installed = 'all',
                 indent = {
                     enable = true,
+                },
+                incremental_selection = {
+                    enable = true,
+                    keymaps = {
+                        -- init_selection = '+',
+                        -- node_incremental = '+',
+                        -- node_decremental = '-',
+                        init_selection = '<CR>',
+                        scope_incremental = '<CR>',
+                        node_incremental = '<TAB>',
+                        node_decremental = '<S-TAB>',
+                    },
                 },
                 refactor = {
                     highlight_definitions = {
@@ -39,7 +55,8 @@ return {
                     enable = true,
                 },
                 textobjects = {
-                    move = { enable = true,
+                    move = {
+                        enable = true,
                         set_jumps = false, -- whether to set jumps in the jumplist
                         goto_next_start = {
                             -- ["<C-n>"] = "@function.outer",

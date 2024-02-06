@@ -26,6 +26,8 @@ from dennich.todo.select import SelectionKind
 from dennich.todo.select import SelectionSelected
 from dennich.todo.select import Selector
 
+# TODO lsdjlkjf
+
 RE_DURATION = re.compile(r'duration=\d+')
 RE_DESCRIPTION = re.compile(r'description="?.+"?')
 
@@ -109,7 +111,7 @@ def report(since: int, report_type: str) -> int:
 
     def get_tags(pomodoro: Pomodoro) -> list[str]:
         if pomodoro.todo.tags is None:
-            raise ValueError(f"Todo {pomodoro.todo.name} has no tags")
+            raise ValueError(f'Todo {pomodoro.todo.name} has no tags')
         return pomodoro.todo.tags
 
     tags = [get_tags(p) for p in pomodoros]

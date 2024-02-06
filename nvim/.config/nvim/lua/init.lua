@@ -16,13 +16,16 @@ vim.opt.runtimepath:prepend(lazypath)
 require('lazy').setup('plugins')
 require('me.config.mappings')
 
-vim.cmd('colorscheme rose-pine')
+vim.cmd('colorscheme no-clown-fiesta')
 
-vim.api.nvim_create_autocmd('ExitPre', {
-    group = vim.api.nvim_create_augroup('Exit', { clear = true }),
-    command = 'set guicursor=a:hor20',
-    desc = 'Set cursor back to beam when leaving Neovim.',
-})
+-- vim.api.nvim_create_autocmd('ExitPre', {
+--     group = vim.api.nvim_create_augroup('Exit', { clear = true }),
+--     command = 'set guicursor=a:hor20',
+--     desc = 'Set cursor back to beam when leaving Neovim.',
+-- })
+--
+-- vim.opt.guicursor = "n-v-i-c:block-Cursor"
+vim.opt.guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20'
 
 vim.api.nvim_create_autocmd('BufEnter', {
     group = vim.api.nvim_create_augroup('CustomizeWebDev', { clear = true }),

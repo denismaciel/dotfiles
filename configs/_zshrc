@@ -58,7 +58,7 @@ alias ll='ls -lh'
 alias lsa='ls -lah' 
 alias ls='ls -G --color=auto'
 alias R='R --no-save'
-alias diary='nvim "$HOME/Sync/Notes/Current/Diary/$(date +'%Y-%m-%d').md"'
+alias diary='nvim "$HOME/Sync/notes/current/diary/$(date +'%Y-%m-%d').md"'
 alias gp="git push origin HEAD"
 alias rm=gomi
 alias vi=nvim
@@ -146,12 +146,12 @@ function gb {
 }
 
 function togglep() {
-    if [[ -f playground/p.go ]]; then 
+    if [[ -f play/p.go ]]; then 
         echo "==> gopher"
-        mv playground/p.go playground/p.gopher
-    elif [[ -f playground/p.gopher ]]; then
+        mv play/p.go play/p.gopher
+    elif [[ -f play/p.gopher ]]; then
         echo "==> go"
-        mv playground/p.gopher playground/p.go
+        mv play/p.gopher play/p.go
     else
         echo "No gopher, no go"
         return 1

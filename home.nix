@@ -180,6 +180,7 @@
     ".config/alacritty/rose-pine.toml".source = ./configs/alacritty/rose-pine.toml;
     ".config/alacritty/rose-pine-moon.toml".source = ./configs/alacritty/rose-pine-moon.toml;
     ".config/alacritty/rose-pine-dawn.toml".source = ./configs/alacritty/rose-pine-dawn.toml;
+    ".config/alacritty/nord.toml".source = ./configs/alacritty/nord.toml;
     ".config/direnv/direnv.toml".source = ./configs/direnv/direnv.toml;
     ".config/fd/ignore".source = ./configs/fd/ignore;
     ".config/greenclip.toml".source = ./configs/greenclip.toml;
@@ -491,10 +492,10 @@
       ".vscode"
       "__pycache__"
       "_debug.py"
-      "playground"
       "snaps"
       "tags"
       "venv"
+      "play"
     ];
     aliases = {
       last = "for-each-ref --sort=-committerdate --count=20 --format='%(align:70,left)%(refname:short)%(end)%(committerdate:relative)' refs/heads/";

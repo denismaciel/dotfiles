@@ -1,5 +1,6 @@
 live_config_reload = true
-import = ["~/.config/alacritty/rose-pine-moon.toml"]
+# import = ["~/.config/alacritty/rose-pine-moon.toml"]
+import = ["~/.config/alacritty/nord.toml"]
 
 [cursor.style]
 shape = "Underline"

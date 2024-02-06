@@ -40,11 +40,18 @@ return {
     'morhetz/gruvbox',
     'savq/melange',
     'rebelot/kanagawa.nvim',
+    -- {
+    --     'aktersnurra/no-clown-fiesta.nvim',
+    --     opts = {
+    --         styles = { type = { bold = true }, comments = { italic = true } },
+    --     },
+    -- },
+    'nyoom-engineering/oxocarbon.nvim',
     {
-        'aktersnurra/no-clown-fiesta.nvim',
+        -- local
+        dir = '~/github.com/denismaciel/no-clown-fiesta.nvim',
         opts = {
             styles = { type = { bold = true }, comments = { italic = true } },
         },
     },
-    'nyoom-engineering/oxocarbon.nvim',
 }
