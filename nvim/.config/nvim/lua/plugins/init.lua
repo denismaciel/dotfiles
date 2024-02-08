@@ -117,26 +117,26 @@ return {
         dependencies = { 'nvim-lua/plenary.nvim' },
     },
     'nvim-telescope/telescope-ui-select.nvim',
-    {
-        'lukas-reineke/headlines.nvim',
-        opts = {
-            markdown = {
-                headline_highlights = {
-                    'Headline1',
-                    'Headline2',
-                    'Headline3',
-                    'Headline4',
-                    'Headline5',
-                    'Headline6',
-                },
-                codeblock_highlight = 'CodeBlock',
-                dash_highlight = 'Dash',
-                quote_highlight = 'Quote',
-                fat_headlines = false,
-            },
-        },
-        dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    },
+    -- {
+    --     'lukas-reineke/headlines.nvim',
+    --     opts = {
+    --         markdown = {
+    --             headline_highlights = {
+    --                 'Headline1',
+    --                 'Headline2',
+    --                 'Headline3',
+    --                 'Headline4',
+    --                 'Headline5',
+    --                 'Headline6',
+    --             },
+    --             codeblock_highlight = 'CodeBlock',
+    --             dash_highlight = 'Dash',
+    --             quote_highlight = 'Quote',
+    --             fat_headlines = false,
+    --         },
+    --     },
+    --     dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    -- },
 
     { 'folke/which-key.nvim', opts = {} },
     { 'folke/neodev.nvim', opts = {} },
