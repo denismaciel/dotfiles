@@ -15,6 +15,35 @@ end
 vim.opt.runtimepath:prepend(lazypath)
 require('lazy').setup('plugins')
 require('me.config.mappings')
+local palette = require('no-clown-fiesta.palette')
+
+local augroup_highlight_todo = 'DennichHighlightTODO'
+local highlight_group_done = 'DennichDONE'
+vim.api.nvim_create_augroup(augroup_highlight_todo, { clear = true })
+-- Autocommand to extend Neovim's syntax to match `TODO` and `DONE`
+vim.api.nvim_create_autocmd({ 'WinEnter', 'VimEnter' }, {
+    group = augroup_highlight_todo,
+    pattern = '*',
+    callback = function()
+        vim.fn.matchadd(highlight_group_done, 'DONE', -1)
+        -- `Todo` is a prexisting highlight group that we leverage to highlight
+        -- `TODO`.
+        -- For `DONE`, we create need a new highlight group and set the `strikethrough`
+        vim.fn.matchadd('Todo', 'TODO', -1)
+    end,
+})
+vim.api.nvim_create_autocmd('ColorScheme', {
+    pattern = '*',
+    group = augroup_highlight_todo,
+    callback = function()
+        vim.api.nvim_set_hl(
+            0,
+            highlight_group_done,
+            { strikethrough = true, fg = 'gray' }
+        )
+        vim.api.nvim_set_hl(0, 'Todo', { bold = true, fg = palette.roxo })
+    end,
+})
 
 vim.cmd('colorscheme no-clown-fiesta')
 

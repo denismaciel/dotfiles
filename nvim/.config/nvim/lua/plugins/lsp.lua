@@ -11,6 +11,22 @@ return {
     },
     event = 'VeryLazy',
     config = function()
+        -- Ronded borders
+        local _border = 'rounded'
+        vim.lsp.handlers['textDocument/hover'] =
+            vim.lsp.with(vim.lsp.handlers.hover, {
+                border = _border,
+            })
+
+        vim.lsp.handlers['textDocument/signatureHelp'] =
+            vim.lsp.with(vim.lsp.handlers.signature_help, {
+                border = _border,
+            })
+
+        vim.diagnostic.config({
+            float = { border = _border },
+        })
+
         local capabilities = require('cmp_nvim_lsp').default_capabilities(
             vim.lsp.protocol.make_client_capabilities()
         )
@@ -19,7 +35,7 @@ return {
         local null_ls = require('null-ls')
         local util = require('lspconfig.util')
 
-        local custom_sources = require "me.null-ls"
+        local custom_sources = require('me.null-ls')
 
         null_ls.setup({
             sources = {
@@ -36,10 +52,25 @@ return {
                     },
                 }),
                 null_ls.builtins.formatting.stylua,
-                null_ls.builtins.formatting.prettier,
+                null_ls.builtins.formatting.prettier.with({
+                    filetypes = {
+                        'css',
+                        'html',
+                        'javascript',
+                        'javascriptreact',
+                        'json',
+                        'scss',
+                        'toml',
+                        'typescript',
+                        'typescriptreact',
+                        'vue',
+                        'yaml',
+                    },
+                }),
                 null_ls.builtins.diagnostics.cfn_lint,
                 null_ls.builtins.diagnostics.statix,
                 null_ls.builtins.formatting.golines,
+                null_ls.builtins.formatting.mdformat,
             },
         })
         configs.gopls = {
@@ -80,9 +111,9 @@ return {
                             'vim',
                             'require',
                             'awesome', -- awesomewm
-                            'client',  -- awesomewm
-                            'screen',  -- awesomewm
-                            'root',    -- awesomewm
+                            'client', -- awesomewm
+                            'screen', -- awesomewm
+                            'root', -- awesomewm
                         },
                     },
                 },
