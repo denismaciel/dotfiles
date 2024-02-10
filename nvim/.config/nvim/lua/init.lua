@@ -42,6 +42,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
             { strikethrough = true, fg = 'gray' }
         )
         vim.api.nvim_set_hl(0, 'Todo', { bold = true, fg = palette.roxo })
+        vim.api.nvim_set_hl(0, '@markup.raw', { bg = palette.gray })
     end,
 })
 

@@ -78,7 +78,6 @@ return {
             'nvim-lua/plenary.nvim',
         },
     },
-    'dkarter/bullets.vim',
     {
         { 'akinsho/toggleterm.nvim', version = '*', opts = {} },
         'jackMort/ChatGPT.nvim',

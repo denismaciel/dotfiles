@@ -9,6 +9,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     callback = function()
         vim.api.nvim_win_set_option(0, 'wrap', true)
         vim.api.nvim_buf_set_option(0, 'shiftwidth', 2)
+        vim.api.nvim_buf_set_option(0, 'conceallevel', 0)
     end,
     group = group,
 })

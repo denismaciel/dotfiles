@@ -17,6 +17,7 @@
     R
     openai-whisper
     _1password-gui
+    _1password
     alacritty
     anki
     arandr
