@@ -1,0 +1,33 @@
+#! /usr/bin/env sh
+
+#set options for strict error checking
+set -euo pipefail
+
+CONFIG_FILE="$HOME/.config/dennich/dennich.json"
+WORK_MODE=$(jq -r '.work_mode' "$CONFIG_FILE")
+
+NOTES_FOLDER="$HOME/Sync/notes/current"
+
+if [ "$WORK_MODE" = "work" ]; then
+    TARGET_FOLDER="$NOTES_FOLDER/work/daily"
+elif [ "$WORK_MODE" = "private" ]; then
+    TARGET_FOLDER="$NOTES_FOLDER/private/daily"
+else
+    echo "Invalid work mode: $WORK_MODE"
+    exit 1
+fi
+
+TODAY_DATE=$(date +'%Y-%m-%d')
+
+DAY_OF_WEEK_NAME=$(date +'%A')
+
+FILE_NAME="$TODAY_DATE.md"
+FILE_PATH="$TARGET_FOLDER/$FILE_NAME"
+
+cd "$NOTES_FOLDER"
+if [ -f "$FILE_PATH" ]; then
+    echo "$FILE_PATH"
+else
+    echo "# $TODAY_DATE ($DAY_OF_WEEK_NAME)" > "$FILE_PATH"
+fi
+nvim -c 'lua require("me").center_and_change_colorscheme()' "$FILE_PATH"
