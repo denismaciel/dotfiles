@@ -23,6 +23,22 @@ return {
         dapui.setup()
         dap_go.setup()
         dap_python.setup('~/venvs/debugpy/bin/python')
+
+        table.insert(dap.configurations.python, {
+            type = 'python',
+            request = 'launch',
+            name = 'Debug risk model',
+            program = '/home/denis/work/core/pycap/src/pycap/risk_model/scripts/debug.py',
+            python = '/home/denis/work/core/pycap/venv/bin/python',
+            cwd = '/home/denis/work/core/pycap',
+            args = { 'run-risk-model' },
+
+            -- "mode": "auto",
+            -- "args": ["run-risk-model"],
+            -- "cwd": "${workspaceFolder}/pycap",
+            -- "program": "${workspaceFolder}/pycap/src/pycap/risk_model/scripts/debug.py",
+            -- "python": "${workspaceFolder}/pycap/venv/bin/python"
+        })
         dap_python.test_runner = 'pytest'
 
         dap.listeners.after.event_initialized['dapui_config'] = function()

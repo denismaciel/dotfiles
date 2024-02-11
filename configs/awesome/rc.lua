@@ -281,7 +281,7 @@ globalkeys = gears.table.join(
         utils.getenv('work_mode')
         utils.focus_or_spawn(
             'Notebook',
-            [[ alacritty --class Notebook -e /home/denis/dotfiles/scripts/weekly_note  ]]
+            [[ alacritty --class Notebook -e /home/denis/dotfiles/scripts/daily_note  ]]
         )
     end, { description = 'Notebook', group = 'launcher' }),
 
