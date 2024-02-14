@@ -15,9 +15,9 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 vim.keymap.set('n', '<C-N>', function()
-    require('me').cycle_notes('up')
+    require('me').cycle_notes('down')
 end)
 
 vim.keymap.set('n', '<C-P>', function()
-    require('me').cycle_notes('down')
+    require('me').cycle_notes('up')
 end)

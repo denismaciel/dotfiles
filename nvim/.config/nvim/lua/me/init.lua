@@ -75,6 +75,12 @@ M.cycle_notes = function(direction)
     end
     local cbuf = vim.api.nvim_get_current_buf()
     vim.api.nvim_command('edit ' .. buf_dir .. '/' .. next_f)
+
+    -- Don't delete buffer if it has unsaved changes.
+    if vim.api.nvim_buf_get_option(cbuf, 'modified') then
+        return
+    end
+
     vim.api.nvim_buf_delete(cbuf, { force = false })
 end
 

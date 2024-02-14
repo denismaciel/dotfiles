@@ -60,6 +60,8 @@ return {
                     '%.ttf',
                     '%.woff',
                     '%.woff2',
+                    '%.parquet',
+                    '%.csv',
                 },
                 layout_config = {
                     width = function(_, max_columns)
