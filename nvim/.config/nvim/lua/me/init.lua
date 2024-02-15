@@ -56,6 +56,14 @@ M.cycle_notes = function(direction)
     local f_name = vim.fn.expand('%:t')
     local files = scandir(buf_dir)
 
+
+    files = vim.tbl_filter(function(path)
+        if path == '.' or path == '..' then
+            return false
+        end
+        return true
+    end, files)
+
     for i, f in ipairs(files) do
         if f == f_name then
             idx = i
@@ -71,8 +79,10 @@ M.cycle_notes = function(direction)
     end
 
     if next_f == nil then
-        error('could not find file')
+        print('You reached the last note.')
+        return
     end
+
     local cbuf = vim.api.nvim_get_current_buf()
     vim.api.nvim_command('edit ' .. buf_dir .. '/' .. next_f)
 
