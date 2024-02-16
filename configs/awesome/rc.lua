@@ -286,7 +286,7 @@ globalkeys = gears.table.join(
     end, { description = 'Notebook', group = 'launcher' }),
 
     awful.key({ modkey }, 'x', function()
-        utils.focus_or_spawn('Scratchpad', [[ alacritty --class Scratchpad ]])
+        utils.toggle_or_spawn('Scratchpad', [[ alacritty --class Scratchpad ]])
     end),
 
     awful.key({ modkey }, 'f', function()

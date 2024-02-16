@@ -47,6 +47,22 @@ M.focus_or_spawn = function(klass, spawn_command)
     end
 end
 
+
+M.toggle_or_spawn = function(klass, spawn_command)
+    local found = M.find_client_by_class(klass)
+
+    if not found then
+        awful.util.spawn(spawn_command)
+        return
+    end
+
+    if found == client.focus then
+        found.minimized = true
+    else
+        client.focus = found
+        found:raise()
+    end
+end
 -- Read work mode from a JSON file
 M.getenv = function(name)
     -- File ./config/dennich/dennich.json
