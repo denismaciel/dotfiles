@@ -52,3 +52,7 @@ def main() -> int:
         raise NotImplementedError('Unknown command')
 
     return 0
+
+
+if __name__ == '__main__':
+    main()

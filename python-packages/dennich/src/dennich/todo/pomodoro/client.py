@@ -11,9 +11,14 @@ from dennich.todo.models import Request
 logger = structlog.stdlib.get_logger()
 
 
+PORT_PYTHON = 12347
+PORT_GO = 12350
+PORT = PORT_PYTHON
+
+
 class Client:
     def __init__(self) -> None:
-        self.server_address = ('127.0.0.1', 12347)
+        self.server_address = ('127.0.0.1', PORT)
 
     def send_command_to_server(self, request: Request) -> dict[str, Any]:
         # logger.debug('Sending request to server', request=request)
