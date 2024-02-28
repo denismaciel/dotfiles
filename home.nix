@@ -7,6 +7,7 @@
     # aws-sam-cli
     # awscli2
     # go_1_20
+    sqlcipher
     python311Packages.mdformat
     slides
     ruff # must be installed here because it requires some dynamically linked libs (I guess)
@@ -16,8 +17,8 @@
     xdragon
     R
     openai-whisper
-    _1password-gui
-    _1password
+    # _1password-gui
+    # _1password
     alacritty
     anki
     arandr
@@ -98,7 +99,7 @@
     pandoc
     papirus-icon-theme
     pasystray
-    pgadmin4-desktopmode
+    # pgadmin4-desktopmode
     pgcli
     picom
     polybar

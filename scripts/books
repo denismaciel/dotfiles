@@ -1,5 +1,9 @@
-#! /usr/bin/env bash
+#! /usr/bin/env sh
 
+# > The -e option will cause the script to exit immediately when a command fails.
+# > The -u option will cause the script to exit immediately when an undefined variable is used.
+# > The -x option will cause the script to print each command before it is executed.
+set -eu
 cd /home/denis/Sync/books 
 book_name=$(fd . | fzf)
 
@@ -7,5 +11,7 @@ if [  -z "$book_name" ]
 then
     echo 'No book selected'
 else
-    (sioyek "$book_name" &)
+    # how to pipe stderr and stdout to the same file
+    # $ command > file 2>&1
+    sioyek "$book_name" > /tmp/book.log 2>&1 &
 fi
