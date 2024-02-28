@@ -25,6 +25,10 @@ export XDG_CONFIG_HOME=$HOME/.config
 export COLORSCHEME=dark
 export ZK_NOTEBOOK_DIR="$HOME/Sync/notes/current"
 
+# Fixes dynamically linked binaries in NixOS
+# `import numpy as np` just works
+export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
 
 export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}

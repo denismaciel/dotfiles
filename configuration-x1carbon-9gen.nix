@@ -125,19 +125,25 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "1password-gui"
-    "1password"
-  ];
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "1password-gui"
+      "1password"
+    ];
   programs._1password.enable = true;
   programs._1password-gui = {
     enable = true;
     # Certain features, including CLI integration and system authentication support,
     # require enabling PolKit integration on some desktop environments (e.g. Plasma).
-    polkitPolicyOwners = [ "denis" ];
+    polkitPolicyOwners = ["denis"];
   };
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc.lib
+      zlib # numpy
+    ];
+  };
   environment.systemPackages = with pkgs; [
     neovim
     git
