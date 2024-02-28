@@ -5,7 +5,7 @@ windows:
     panes:
       -
       -
-  - window_name: gh-actions
+  - window_name: github-actions
     start_directory: "~/work/core/.github"
     panes:
       -
