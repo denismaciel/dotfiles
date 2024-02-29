@@ -64,3 +64,11 @@ vim.api.nvim_create_autocmd('BufEnter', {
         vim.bo.shiftwidth = 2
     end,
 })
+
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+    group = vim.api.nvim_create_augroup('CustomizeEnv', { clear = true }),
+    pattern = { '.env.*' },
+    callback = function()
+        vim.bo.filetype = 'sh'
+    end,
+})
