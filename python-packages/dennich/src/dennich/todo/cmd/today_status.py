@@ -87,6 +87,7 @@ def format_seconds_to_minutes(seconds: int) -> str:
     minutes, seconds = divmod(seconds, 60)
     return f'{int(minutes):02d}:{int(seconds):02d}'
 
+
 def format_seconds_to_hours_minutes(seconds: int) -> str:
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)

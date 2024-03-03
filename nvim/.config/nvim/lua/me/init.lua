@@ -56,7 +56,6 @@ M.cycle_notes = function(direction)
     local f_name = vim.fn.expand('%:t')
     local files = scandir(buf_dir)
 
-
     files = vim.tbl_filter(function(path)
         if path == '.' or path == '..' then
             return false

@@ -38,8 +38,7 @@ end
 
 M.dbt_open_run = function()
     local fname = vim.fn.expand('%')
-    local result =
-        io.popen('./venv/bin/sqly get-dbt-run-path --file ' .. fname)
+    local result = io.popen('./venv/bin/sqly get-dbt-run-path --file ' .. fname)
     for line in result:lines() do
         vim.api.nvim_command('split')
         vim.api.nvim_command('view ' .. line)

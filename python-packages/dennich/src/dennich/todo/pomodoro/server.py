@@ -190,6 +190,7 @@ async def cancel_pomodoro_task() -> Response:
 
 async def server() -> None:
     import atexit
+
     loop = asyncio.get_running_loop()
     logger.info('Pomodoro server started.')
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -204,7 +205,6 @@ async def server() -> None:
     while True:
         client_socket, _ = await loop.sock_accept(server_socket)
         loop.create_task(handle_client(client_socket))
-
 
 
 def count_zenity_windows() -> int:
@@ -265,7 +265,7 @@ async def nag() -> None:
                     #     nag_stdout=stdout.decode('utf-8'),
                     # )
                 except Exception as e:
-                    logger.error(f"Error executing zenity command: {e}")
+                    logger.error(f'Error executing zenity command: {e}')
             else:
                 logger.info('Not nagging, too many Zenity windows open.')
 
@@ -274,13 +274,13 @@ def serve() -> int:
     import getpass
 
     user = getpass.getuser()
-    print(f"Starting Pomodoro server for user {user}.")
+    print(f'Starting Pomodoro server for user {user}.')
 
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(server())
     except KeyboardInterrupt:
-        print("Shutdown initiated.")
+        print('Shutdown initiated.')
         tasks = [
             t for t in asyncio.all_tasks(loop) if t is not asyncio.current_task(loop)
         ]

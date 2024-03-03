@@ -47,7 +47,6 @@ M.focus_or_spawn = function(klass, spawn_command)
     end
 end
 
-
 M.toggle_or_spawn = function(klass, spawn_command)
     local found = M.find_client_by_class(klass)
 

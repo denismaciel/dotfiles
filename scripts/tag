@@ -1,15 +1,14 @@
 #! /usr/bin/env python
-
 import argparse
 import datetime
 
-parser = argparse.ArgumentParser("")
+parser = argparse.ArgumentParser('')
 parser.add_argument(
-    "--kind",
+    '--kind',
     choices=[
-        "risk-model",
-        "dagster",
-        "backend",
+        'risk-model',
+        'dagster',
+        'backend',
         'customer-app',
         'operations-app',
     ],
@@ -17,4 +16,4 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
-print(f"{args.kind}-v{datetime.date.today()}.1")
+print(f'{args.kind}-v{datetime.date.today()}.1')
