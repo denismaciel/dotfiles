@@ -7,6 +7,8 @@
     # aws-sam-cli
     # awscli2
     # go_1_20
+    hyperfine
+    graphviz
     sqlcipher
     python311Packages.mdformat
     slides

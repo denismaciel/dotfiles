@@ -53,13 +53,21 @@
     xkbOptions = "ctrl:nocaps"; # Remap CapsLock to Control
     autoRepeatDelay = 200;
     autoRepeatInterval = 40;
-    # Enable the KDE Plasma Desktop Environment.
-    displayManager.sddm.enable = true;
-    desktopManager.plasma5.enable = true;
-  };
+  
+    displayManager = {
+        sddm.enable = true;
+        defaultSession = "none+awesome";
+    };
 
-  # Configure keymap in X11
-  services.xserver = {
+    windowManager.awesome = {
+      enable = true;
+      luaModules = with pkgs.luaPackages; [
+        luarocks # is the package manager for Lua modules
+        luadbi-mysql # Database abstraction layer
+      ];
+
+    };
+
     layout = "us";
     xkbVariant = "";
   };
