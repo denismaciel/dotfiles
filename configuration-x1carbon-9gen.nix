@@ -128,11 +128,6 @@
     description = "denis";
     extraGroups = ["networkmanager" "wheel" "docker" "audio"];
     shell = pkgs.zsh;
-    packages = with pkgs; [
-      firefox
-      kate
-      zip
-    ];
   };
 
   # Allow unfree packages
@@ -158,12 +153,13 @@
     ];
   };
   environment.systemPackages = with pkgs; [
-    neovim
+    firefox
     git
-    wget
     gnome.zenity
-    zip
     groff
+    neovim
+    wget
+    zip
   ];
 
   programs.zsh.enable = true;
@@ -178,7 +174,15 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
+  # programs.ssh.startAgent = true;
+  programs.ssh = {
+    startAgent = true;
+    extraConfig = ''
+      AddKeysToAgent yes
+      IdentityFile ~/.ssh/id_rsa
+    '';
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

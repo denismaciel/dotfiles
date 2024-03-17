@@ -373,41 +373,41 @@
       }
     ];
   };
-  programs.ssh = {
-    enable = true;
-    extraConfig = ''
-      AddKeysToAgent yes
-      IdentityFile ~/.ssh/id_ed25519
-
-      Host jumpserver-prod
-          HostName 3.68.82.3
-          User ec2-user
-          IdentityFile ~/.ssh/jumpserver-prod
-
-      Host airbyte-prod
-          HostName 10.0.4.51
-          User ec2-user
-          ProxyJump jumpserver-prod
-          IdentityFile ~/.ssh/jumpserver-prod
-
-      Host remarkable
-          Hostname 192.168.0.179
-          User root
-          Port 22
-          IdentityFile ~/.ssh/id_ed25519
-
-      Host raspberry-pi
-         Hostname 192.168.0.14
-         User pi
-         IdentityFile ~/.ssh/id_ed25519
-
-      Host nixos-macbookair
-         Hostname 192.168.0.70
-         User denis
-         IdentityFile ~/.ssh/id_ed25519
-
-    '';
-  };
+  # programs.ssh = {
+  #   enable = true;
+  #   extraConfig = ''
+  #     AddKeysToAgent yes
+  #     IdentityFile ~/.ssh/id_ed25519
+  #
+  #     Host jumpserver-prod
+  #         HostName 3.68.82.3
+  #         User ec2-user
+  #         IdentityFile ~/.ssh/jumpserver-prod
+  #
+  #     Host airbyte-prod
+  #         HostName 10.0.4.51
+  #         User ec2-user
+  #         ProxyJump jumpserver-prod
+  #         IdentityFile ~/.ssh/jumpserver-prod
+  #
+  #     Host remarkable
+  #         Hostname 192.168.0.179
+  #         User root
+  #         Port 22
+  #         IdentityFile ~/.ssh/id_ed25519
+  #
+  #     Host raspberry-pi
+  #        Hostname 192.168.0.14
+  #        User pi
+  #        IdentityFile ~/.ssh/id_ed25519
+  #
+  #     Host nixos-macbookair
+  #        Hostname 192.168.0.70
+  #        User denis
+  #        IdentityFile ~/.ssh/id_ed25519
+  #
+  #   '';
+  # };
 
   programs.starship = {
     enable = true;
