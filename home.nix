@@ -4,9 +4,7 @@
   ...
 }: {
   home.packages = with pkgs; [
-    # aws-sam-cli
-    # awscli2
-    # go_1_20
+    alejandra
     droidcam
     hyperfine
     graphviz
@@ -16,13 +14,10 @@
     slides
     ruff # must be installed here because it requires some dynamically linked libs (I guess)
     skim
-    # neovide
     rust-analyzer
     xdragon
     R
     openai-whisper
-    # _1password-gui
-    # _1password
     alacritty
     anki
     arandr

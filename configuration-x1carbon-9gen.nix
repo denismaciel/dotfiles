@@ -57,7 +57,7 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    xkbOptions = "ctrl:nocaps"; # Remap CapsLock to Control
+    
     autoRepeatDelay = 200;
     autoRepeatInterval = 40;
 
@@ -68,15 +68,13 @@
 
     windowManager.awesome = {
       enable = true;
-      luaModules = with pkgs.luaPackages; [
-        luarocks # is the package manager for Lua modules
-        # luadbi-mysql # Database abstraction layer
-      ];
-
+      luaModules = with pkgs.luaPackages; [ luarocks ];
     };
-
-    layout = "us";
-    xkbVariant = "";
+    xkb = {
+      layout = "us";
+      variant = "";
+      options = "ctrl:nocaps"; # Remap CapsLock to Control
+    };
   };
 
   services.keyd = {
@@ -99,7 +97,7 @@
 
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
     openFirewall = true;
   };
 
