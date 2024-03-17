@@ -69,6 +69,7 @@ return {
                 }),
                 null_ls.builtins.diagnostics.cfn_lint,
                 null_ls.builtins.diagnostics.statix,
+                null_ls.builtins.diagnostics.markdownlint,
                 null_ls.builtins.formatting.golines,
                 null_ls.builtins.formatting.mdformat,
             },

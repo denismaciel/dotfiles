@@ -4,12 +4,12 @@
   ...
 }: {
   home.packages = with pkgs; [
+    feh
     droidcam
     hyperfine
     graphviz
     sqlcipher
     python312
-    python311Packages.mdformat
     slides
     skim
     rust-analyzer
@@ -573,7 +573,7 @@
     };
     Service = {
       Type = "oneshot";
-      ExecStart = "${pkgs.feh}/bin/feh  --bg-scale /home/denis/dotfiles/assets/wallpaper.jpg";
+      ExecStart = "${pkgs.feh}/bin/feh --bg-fill --no-xinerama /home/denis/dotfiles/assets/wallpaper.jpg";
     };
   };
 

@@ -160,6 +160,10 @@
     wget
     zip
   ];
+  environment.extraInit = ''
+    export PATH=$PATH:$HOME/.local/bin
+    export PATH=$PATH:$HOME/venvs/default/bin
+  '';
 
   programs.zsh.enable = true;
   # Some programs need SUID wrappers, can be configured further or are
