@@ -4,7 +4,6 @@
   ...
 }: {
   home.packages = with pkgs; [
-    alejandra
     droidcam
     hyperfine
     graphviz
@@ -12,11 +11,9 @@
     python312
     python311Packages.mdformat
     slides
-    ruff # must be installed here because it requires some dynamically linked libs (I guess)
     skim
     rust-analyzer
     xdragon
-    R
     openai-whisper
     alacritty
     anki
@@ -98,7 +95,6 @@
     pandoc
     papirus-icon-theme
     pasystray
-    # pgadmin4-desktopmode
     pgcli
     picom
     polybar
@@ -109,15 +105,11 @@
     qutebrowser
     redshift
     ripgrep
-    # rnix-lsp
-    rstudio
     rustc
     scmpuff
     sioyek
     slack
-    # spotify-tui
     spotify-unwrapped
-    # spotifyd
     sqlite
     sqlitebrowser
     ssm-session-manager-plugin # Aws Session Manager for executing commands on Fargate tasks

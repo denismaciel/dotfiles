@@ -2,11 +2,17 @@
   description = "NixOS configuration";
 
   nixConfig = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = ["nix-command" "flakes"];
     substituters = [
       # Replace the official cache with a mirror located in China
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
+      # "https://mirrors.ustc.edu.cn/nix-channels/store"
       "https://cache.nixos.org/"
+      "https://nix-community.cachix.org"
+    ];
+
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
 
     extra-substituters = [
@@ -19,35 +25,51 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/master";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    alejandra.url = "github:kamadorueda/alejandra/3.0.0";
+    alejandra.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-ld.url = "github:Mic92/nix-ld";
+    nix-ld.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware,  ... }: {
-      homeConfigurations = {
-        denis = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.${"x86_64-linux"};
-          extraSpecialArgs = { inherit inputs ; };
-          modules = [
-            ./home.nix
-          ];
-        };
+  outputs = inputs @ {
+    nixpkgs,
+    home-manager,
+    nixos-hardware,
+    alejandra,
+    nix-ld,
+    ...
+  }: {
+    homeConfigurations = {
+      denis = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.${"x86_64-linux"};
+        extraSpecialArgs = {inherit inputs;};
+        modules = [
+          ./home.nix
+        ];
       };
+    };
     nixosConfigurations = {
-      laptop-x1carbon-9gen = nixpkgs.lib.nixosSystem {
+      laptop-x1carbon-9gen = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = [
           ./configuration-x1carbon-9gen.nix
           home-manager.nixosModules.home-manager
+          nix-ld.nixosModules.nix-ld
           {
             home-manager.useUserPackages = true;
             home-manager.users.denis = import ./home.nix;
             home-manager.extraSpecialArgs = {
-                inherit inputs;
+              inherit inputs;
             };
+          }
+          {
+            environment.systemPackages = [alejandra.defaultPackage.${system}];
           }
         ];
       };
@@ -60,7 +82,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.denis = import ./home.nix;
             home-manager.extraSpecialArgs = {
-                inherit inputs;
+              inherit inputs;
             };
           }
         ];

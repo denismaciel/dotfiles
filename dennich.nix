@@ -1,5 +1,4 @@
-{ python3Packages }:
-
+{python3Packages}:
 python3Packages.buildPythonApplication {
   pname = "dennich";
   version = "1.0.0";

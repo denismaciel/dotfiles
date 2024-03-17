@@ -1,10 +1,11 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config
-, pkgs
-, lib
-, ...
+{
+  config,
+  pkgs,
+  lib,
+  ...
 }: {
   imports = [
     # Include the results of the hardware scan.
@@ -12,12 +13,11 @@
   ];
 
   # DroidCamX
-  boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
-  boot.kernelModules = [ "v4l2loopback" ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
+  boot.kernelModules = ["v4l2loopback"];
   programs.adb.enable = true; # enable android proper data tethering
-  networking.firewall.allowedTCPPorts = [ 4747 ];
-  networking.firewall.allowedUDPPorts = [ 4747 ];
-
+  networking.firewall.allowedTCPPorts = [4747];
+  networking.firewall.allowedUDPPorts = [4747];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -57,7 +57,7 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    
+
     autoRepeatDelay = 200;
     autoRepeatInterval = 40;
 
@@ -68,7 +68,7 @@
 
     windowManager.awesome = {
       enable = true;
-      luaModules = with pkgs.luaPackages; [ luarocks ];
+      luaModules = with pkgs.luaPackages; [luarocks];
     };
     xkb = {
       layout = "us";
@@ -126,7 +126,7 @@
   users.users.denis = {
     isNormalUser = true;
     description = "denis";
-    extraGroups = [ "networkmanager" "wheel" "docker" "audio" ];
+    extraGroups = ["networkmanager" "wheel" "docker" "audio"];
     shell = pkgs.zsh;
     packages = with pkgs; [
       firefox
@@ -148,9 +148,9 @@
     enable = true;
     # Certain features, including CLI integration and system authentication support,
     # require enabling PolKit integration on some desktop environments (e.g. Plasma).
-    polkitPolicyOwners = [ "denis" ];
+    polkitPolicyOwners = ["denis"];
   };
-  programs.nix-ld = {
+  programs.nix-ld.dev = {
     enable = true;
     libraries = with pkgs; [
       stdenv.cc.cc.lib
