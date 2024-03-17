@@ -10,6 +10,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 return {
+    'ramojus/mellifluous.nvim',
     'folke/tokyonight.nvim',
     'alexanderjeurissen/lumiere.vim',
     -- 'gbprod/nord.nvim',

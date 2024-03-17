@@ -70,6 +70,8 @@ vim.keymap.set(
     ':!pandoc --to html | xclip -t text/html -selection clipboard<cr>u'
 )
 vim.keymap.set('n', '$', 'g$')
+vim.keymap.set('n', '<c>o', '<c>ozz')
+vim.keymap.set('n', '<c>]', '<c>]zz')
 vim.keymap.set('n', '0', 'g0')
 vim.keymap.set('n', 'j', 'gj')
 vim.keymap.set('n', 'k', 'gk')

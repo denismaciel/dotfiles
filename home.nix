@@ -7,14 +7,16 @@
     # aws-sam-cli
     # awscli2
     # go_1_20
+    droidcam
     hyperfine
     graphviz
     sqlcipher
+    python312
     python311Packages.mdformat
     slides
     ruff # must be installed here because it requires some dynamically linked libs (I guess)
     skim
-    neovide
+    # neovide
     rust-analyzer
     xdragon
     R
@@ -112,15 +114,15 @@
     qutebrowser
     redshift
     ripgrep
-    rnix-lsp
+    # rnix-lsp
     rstudio
     rustc
     scmpuff
     sioyek
     slack
-    spotify-tui
+    # spotify-tui
     spotify-unwrapped
-    spotifyd
+    # spotifyd
     sqlite
     sqlitebrowser
     ssm-session-manager-plugin # Aws Session Manager for executing commands on Fargate tasks

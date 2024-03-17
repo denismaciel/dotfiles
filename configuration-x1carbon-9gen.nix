@@ -1,16 +1,23 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
-  config,
-  pkgs,
-  lib,
-  ...
+{ config
+, pkgs
+, lib
+, ...
 }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration-x1carbon-9gen.nix
   ];
+
+  # DroidCamX
+  boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+  boot.kernelModules = [ "v4l2loopback" ];
+  programs.adb.enable = true; # enable android proper data tethering
+  networking.firewall.allowedTCPPorts = [ 4747 ];
+  networking.firewall.allowedUDPPorts = [ 4747 ];
+
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -53,17 +60,17 @@
     xkbOptions = "ctrl:nocaps"; # Remap CapsLock to Control
     autoRepeatDelay = 200;
     autoRepeatInterval = 40;
-  
+
     displayManager = {
-        sddm.enable = true;
-        defaultSession = "none+awesome";
+      sddm.enable = true;
+      defaultSession = "none+awesome";
     };
 
     windowManager.awesome = {
       enable = true;
       luaModules = with pkgs.luaPackages; [
         luarocks # is the package manager for Lua modules
-        luadbi-mysql # Database abstraction layer
+        # luadbi-mysql # Database abstraction layer
       ];
 
     };
@@ -121,7 +128,7 @@
   users.users.denis = {
     isNormalUser = true;
     description = "denis";
-    extraGroups = ["networkmanager" "wheel" "docker" "audio"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "audio" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
       firefox
@@ -143,7 +150,7 @@
     enable = true;
     # Certain features, including CLI integration and system authentication support,
     # require enabling PolKit integration on some desktop environments (e.g. Plasma).
-    polkitPolicyOwners = ["denis"];
+    polkitPolicyOwners = [ "denis" ];
   };
   programs.nix-ld = {
     enable = true;

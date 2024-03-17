@@ -41,7 +41,7 @@ return {
             sources = {
                 custom_sources.formatting.jsonnet,
                 -- custom_sources.hover.man,
-                null_ls.builtins.formatting.reorder_python_imports,
+                -- null_ls.builtins.formatting.reorder_python_imports,
                 null_ls.builtins.formatting.black.with({
                     args = {
                         '--stdin-filename',
@@ -164,7 +164,7 @@ return {
                 },
             },
         })
-        lspc.rnix.setup({ capabilities = capabilities })
+        -- lspc.rnix.setup({ capabilities = capabilities })
         lspc.rust_analyzer.setup({ capabilities = capabilities })
         lspc.bashls.setup({ capabilities = capabilities })
         -- lspc.tsserver.setup({ capabilities = capabilities })
