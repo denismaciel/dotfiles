@@ -144,7 +144,7 @@
     # require enabling PolKit integration on some desktop environments (e.g. Plasma).
     polkitPolicyOwners = ["denis"];
   };
-  programs.nix-ld.dev = {
+  programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
       stdenv.cc.cc.lib

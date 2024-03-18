@@ -33,8 +33,6 @@
     alejandra.url = "github:kamadorueda/alejandra/3.0.0";
     alejandra.inputs.nixpkgs.follows = "nixpkgs";
 
-    nix-ld.url = "github:Mic92/nix-ld";
-    nix-ld.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {
@@ -42,7 +40,6 @@
     home-manager,
     nixos-hardware,
     alejandra,
-    nix-ld,
     ...
   }: {
     homeConfigurations = {
@@ -60,7 +57,6 @@
         modules = [
           ./hosts/x1carbon9gen/configuration.nix
           home-manager.nixosModules.home-manager
-          nix-ld.nixosModules.nix-ld
           {
             home-manager.useUserPackages = true;
             home-manager.users.denis = import ./home.nix;
