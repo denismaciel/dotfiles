@@ -6,6 +6,7 @@
   home.packages = with pkgs; [
     feh
     droidcam
+    markdownlint-cli
     hyperfine
     graphviz
     sqlcipher
