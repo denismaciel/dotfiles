@@ -78,8 +78,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
     local file_path = vim.fn.expand('%:p')
     if file_path == '/tmp/tmux_pane_content' then
       vim.cmd('colorscheme tokyonight')
-    else
-      vim.cmd('colorscheme no-clown-fiesta')
     end
   end,
 })

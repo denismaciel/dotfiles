@@ -1,11 +1,16 @@
 return {
+    {
+        'rcarriga/nvim-dap-ui',
+        dependencies = {
+            'nvim-neotest/nvim-nio',
+        },
+    },
     'mfussenegger/nvim-dap',
     dependencies = {
         'leoluz/nvim-dap-go',
         'mfussenegger/nvim-dap-python',
         'nvim-telescope/telescope-dap.nvim',
         'nvim-telescope/telescope.nvim',
-        'rcarriga/nvim-dap-ui',
     },
     config = function()
         local wk = require('which-key')

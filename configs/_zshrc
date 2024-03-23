@@ -105,6 +105,7 @@ setopt HIST_VERIFY               # Dont execute immediately upon history expansi
 setopt INTERACTIVE_COMMENTS       # Allow for comments
 
 if [ -e /home/denis/credentials/recap.sh ]; then . /home/denis/credentials/recap.sh; fi
+if [ -e /home/denis/credentials/secrets.sh ]; then . /home/denis/credentials/secrets.sh; fi
 
 
 eval "$(scmpuff init -s)"

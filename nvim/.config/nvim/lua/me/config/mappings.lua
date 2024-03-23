@@ -38,6 +38,7 @@ end
 
 wk.setup({})
 wk.register({
+    ['t'] = { name = 'Telescope' },
     ['<leader>f'] = { name = 'File' },
     ['<leader>x'] = { name = 'Trouble' },
     ['<leader>s'] = { name = 'SQL' },
