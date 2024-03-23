@@ -4,6 +4,7 @@
   ...
 }: {
   home.packages = with pkgs; [
+    dbeaver
     feh
     droidcam
     markdownlint-cli
@@ -269,9 +270,8 @@
 
       # bind -n DoubleClick1Pane run-shell "dragon -x '#{pane_current_path}/#{mouse_word}'"
 
-      bind-key u display-popup -h 90% -w 90% -E "weekly_note"
       # FIXME
-      bind-key a display-popup -h 90% -w 90% -E "~/venvs/apy/bin/apy add -d default; sleep 2"
+      bind-key a display-popup -h 90% -w 90% -E "~/.local/bin/apy add -d default; sleep 2"
       bind-key m run-shell -b tmux-switch.sh
 
       # Open new windows in the current path
@@ -280,7 +280,6 @@
       bind \' split-window -h -c '#{pane_current_path}'  # Split panes horizontal
       bind - split-window -v -c '#{pane_current_path}'  # Split panes vertically
 
-      # bind-key b run "tmux send-keys -t #S:1.1 'tss' Enter"
       bind-key e command-prompt -p "Command:" \
                "run \"tmux list-panes  -F '##{session_name}:##{window_index}.##{pane_index}' \
                       | xargs -I PANE tmux send-keys -t PANE '%1' Enter\""
@@ -406,7 +405,6 @@
   #        Hostname 192.168.0.70
   #        User denis
   #        IdentityFile ~/.ssh/id_ed25519
-  #
   #   '';
   # };
 

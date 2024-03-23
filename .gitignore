@@ -24,3 +24,41 @@ nvim/.config/nvim/init.lua
 # Files automatically created by home-manager
 nvim/.config/nvim/init.lua
 nvim/.config/nvim/init-home-manager.vim
+
+## Rust 
+## Rust build artifacts
+target/
+
+# Rust language server files
+.rust/
+
+# Rust documentation files
+doc/
+
+# Rust test artifacts
+tests/target/
+
+# Rust benchmark artifacts
+benches/target/
+
+# Rust example artifacts
+examples/target/
+
+# Rust backup files
+*.bk
+
+# Rust temporary files
+*.tmp
+
+# Rust log files
+*.log
+
+# Rust profiling files
+*.prof
+
+# Rust coverage files
+*.gcda
+*.gcno
+
+# Rust dependency lock file
+Cargo.lock
