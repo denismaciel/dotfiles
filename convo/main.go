@@ -5,22 +5,20 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/charmbracelet/bubbles/spinner"
+	"github.com/charmbracelet/bubbles/textinput"
+	tea "github.com/charmbracelet/bubbletea"
 )
 
-func main() {
-	// reader := bufio.NewReader(strings.NewReader(testResponse))
-	reader, closer, err := callClaude()
-	defer closer()
-	if err != nil {
-		fmt.Println("Error calling Claude:", err)
-		return
-	}
-	processResponse(reader)
-}
+// Create a logger that writes to a file
+
+const CHAR_DELAY = 15 * time.Millisecond
 
 const testResponse = `event: message_start
 data: {"type": "message_start", "message": {"id": "msg_1nZdL29xx5MUA1yADyHTEsnR8uuvGzszyY", "type": "message", "role": "assistant", "content": [], "model": "claude-3-opus-20240229", "stop_reason": null, "stop_sequence": null, "usage": {"input_tokens": 25, "output_tokens": 1}}}
@@ -66,19 +64,21 @@ type ContentBlockDelta struct {
 	} `json:"delta"`
 }
 
-func callClaude() (*bufio.Reader,
-	// function to close the reader right the type for me: func(*bufio.Reader) error
-	func() error,
-	error) {
-
-	// Set up the request payload
+func callClaude(
+	logger *log.Logger,
+	convo []Message) (*bufio.Reader, func() error, error) {
+	messages := []map[string]string{}
+	for _, m := range convo {
+		messages = append(messages, map[string]string{
+			"role":    string(m.author),
+			"content": m.content,
+		})
+	}
 	payload := map[string]interface{}{
 		"model":      "claude-3-opus-20240229",
 		"max_tokens": 1024,
-		"messages": []map[string]string{
-			{"role": "user", "content": "Write a fibonnaci sequence generator in Rust"},
-		},
-		"stream": true, // Enable streaming
+		"messages":   messages,
+		"stream":     true,
 	}
 
 	// Convert the payload to JSON
@@ -94,7 +94,7 @@ func callClaude() (*bufio.Reader,
 		bytes.NewBuffer(jsonPayload),
 	)
 	if err != nil {
-		fmt.Println("Error creating request:", err)
+		logger.Printf("Error creating request: %v\n", err)
 		return nil, nil, err
 	}
 
@@ -108,13 +108,13 @@ func callClaude() (*bufio.Reader,
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Error making request:", err)
+		logger.Printf("Error making request: %v\n", err)
 		return nil, nil, err
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		fmt.Println("Error: Unexpected status code:", resp.StatusCode)
-		fmt.Println("Response:", resp.Status)
+		logger.Printf("Error: Unexpected status code: %d\n", resp.StatusCode)
+		logger.Printf("Response: %s\n", resp.Status)
 		return nil, nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}
 
@@ -124,48 +124,187 @@ func callClaude() (*bufio.Reader,
 	}, nil
 }
 
-func processResponse(reader *bufio.Reader) {
-	var eventData string
-	var eventName Event
-	for {
-		line, err := reader.ReadString('\n')
-		if err != nil {
-			break
-		}
+type Author string
 
-		// Remove the trailing newline character
-		line = strings.TrimSuffix(line, "\n")
+const (
+	AuthorAssistant Author = "assistant"
+	AuthorUser      Author = "user"
+)
 
-		if line == "" {
-			// Empty line indicates the end of an event
-			// Process the event based on its name
-			switch eventName {
-			case EventContentBlockDelta:
-				var delta ContentBlockDelta
-				json.Unmarshal([]byte(eventData), &delta)
-				for _, char := range delta.Delta.Text {
-					fmt.Print(string(char))
-					time.Sleep(20 * time.Millisecond)
-				}
-			case EventMessageStart,
-				EventContentBlockStart,
-				EventContentBlockStop,
-				EventMessageStop,
-				EventPing:
-				// TODO: remove printing
-				fmt.Println("Event:", eventName)
-			default:
-				fmt.Println("Unknown event:", eventName)
+type Message struct {
+	author  Author
+	content string
+}
+
+func write(logger *log.Logger, llm chan rune, user <-chan []Message) tea.Cmd { return func() tea.Msg { for {
+			convo := <-user
+			reader, closefn, err := callClaude(logger, convo)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "error: %v\n", err)
+				os.Exit(1)
 			}
+			defer closefn()
+			var eventData string
+			var eventName Event
+			for {
+				line, err := reader.ReadString('\n')
+				if err != nil {
+					break
+				}
 
-			// Reset event name and data
-			eventName = ""
-			eventData = ""
-		} else if strings.HasPrefix(line, "event:") {
-			eventName = Event(strings.TrimSpace(strings.TrimPrefix(line, "event:")))
-		} else if strings.HasPrefix(line, "data:") {
-			dataLine := strings.TrimSpace(strings.TrimPrefix(line, "data:"))
-			eventData += dataLine
+				// Remove the trailing newline character
+				line = strings.TrimSuffix(line, "\n")
+
+				if line == "" {
+					// Empty line indicates the end of an event
+					// Process the event based on its name
+					switch eventName {
+					case EventContentBlockDelta:
+						var delta ContentBlockDelta
+						json.Unmarshal([]byte(eventData), &delta)
+						for _, c := range delta.Delta.Text {
+							llm <- c
+							time.Sleep(CHAR_DELAY)
+						}
+					case EventMessageStart,
+						EventContentBlockStart,
+						EventContentBlockStop,
+						EventMessageStop,
+						EventPing:
+					default:
+					}
+
+					// Reset event name and data
+					eventName = ""
+					eventData = ""
+				} else if strings.HasPrefix(line, "event:") {
+					eventName = Event(strings.TrimSpace(strings.TrimPrefix(line, "event:")))
+				} else if strings.HasPrefix(line, "data:") {
+					dataLine := strings.TrimSpace(strings.TrimPrefix(line, "data:"))
+					eventData += dataLine
+				}
+			}
 		}
+	}
+}
+
+func read(sub chan rune) tea.Cmd {
+	return func() tea.Msg {
+		character := <-sub
+		return Character(character)
+	}
+}
+
+type model struct {
+	logger    *log.Logger
+	user      chan []Message
+	llm       chan rune
+	spinner   spinner.Model
+	convo     []Message
+	textInput textinput.Model
+}
+
+func (m model) Init() tea.Cmd {
+	// test logger
+	m.logger.Println("Hello, log file!")
+	return tea.Batch(
+		m.spinner.Tick,
+		write(m.logger, m.llm, m.user),
+		read(m.llm),
+		textinput.Blink,
+	)
+}
+
+type Character rune
+
+func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	switch msg.(type) {
+	case tea.KeyMsg:
+		switch msg.(tea.KeyMsg).Type {
+		case tea.KeyCtrlC, tea.KeyEsc:
+			return m, tea.Quit
+		case tea.KeyEnter:
+			m.convo = append(m.convo, Message{
+				author:  AuthorUser,
+				content: m.textInput.Value(),
+			})
+			m.user <- m.convo
+			m.textInput.SetValue("")
+			return m, nil
+		default:
+			m.textInput, _ = m.textInput.Update(msg)
+			return m, nil
+		}
+	// The Character got sent from convertToStream We then handle it by
+	// appending it to the message and then we reschedule convertToStream to
+	// wait for the next character.
+	case Character:
+		c := msg.(Character)
+		last := m.convo[len(m.convo)-1]
+		if last.author == AuthorAssistant {
+			last.content += string(c)
+			m.convo[len(m.convo)-1] = last
+		} else {
+			m.convo = append(m.convo, Message{
+				author:  AuthorAssistant,
+				content: string(c),
+			})
+		}
+		return m, read(m.llm)
+	case spinner.TickMsg:
+		var cmd tea.Cmd
+		m.spinner, cmd = m.spinner.Update(msg)
+		return m, cmd
+	default:
+		return m, nil
+	}
+}
+func (m model) View() string {
+	s := fmt.Sprintf(
+		"\n %s \n\n",
+		m.spinner.View(),
+	)
+	for _, msg := range m.convo {
+		s += fmt.Sprintf("%s: %s\n", msg.author, msg.content)
+	}
+	s += "\n"
+	s += m.textInput.View()
+
+	return s
+}
+
+func initialModel0() model {
+	ti := textinput.New()
+	ti.Placeholder = ""
+	ti.Focus()
+	ti.CharLimit = 300
+	ti.Width = 80
+
+	// initialize a logger that write to a file log.txt
+	file, err := os.OpenFile("log.txt", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		os.Exit(1)
+	}
+	defer file.Close()
+	logger := log.New(file, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
+	logger.Println("Hello, log file!")
+      logger.Printf("Hello, %s", "log file2!")
+
+	return model{
+		logger:    logger,
+		llm:       make(chan rune),
+		user:      make(chan []Message),
+		spinner:   spinner.New(),
+		convo:     []Message{},
+		textInput: ti,
+	}
+}
+
+func main() {
+	p := tea.NewProgram(initialModel0())
+	if err := p.Start(); err != nil {
+		fmt.Fprintf(os.Stderr, "error: %v", err)
+		os.Exit(1)
 	}
 }
