@@ -2,10 +2,8 @@ package main
 
 import (
 	"bufio"
-	"bytes"
 	"encoding/json"
 	"fmt"
-	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -13,10 +11,9 @@ import (
 	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/glamour"
 	"github.com/rs/zerolog"
 )
-
-// Create a logger that writes to a file
 
 const CHAR_DELAY = 15 * time.Millisecond
 
@@ -64,66 +61,6 @@ type ContentBlockDelta struct {
 	} `json:"delta"`
 }
 
-func callClaude(
-	logger *zerolog.Logger,
-	convo []Message) (*bufio.Reader, func() error, error) {
-	messages := []map[string]string{}
-	for _, m := range convo {
-		messages = append(messages, map[string]string{
-			"role":    string(m.author),
-			"content": m.content,
-		})
-	}
-	payload := map[string]interface{}{
-		"model":      "claude-3-opus-20240229",
-		"max_tokens": 1024,
-		"messages":   messages,
-		"stream":     true,
-	}
-
-	// Convert the payload to JSON
-	jsonPayload, err := json.Marshal(payload)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	// Create a new HTTP request
-	req, err := http.NewRequest(
-		"POST",
-		"https://api.anthropic.com/v1/messages",
-		bytes.NewBuffer(jsonPayload),
-	)
-	if err != nil {
-		logger.Printf("Error creating request: %v\n", err)
-		return nil, nil, err
-	}
-
-	// Set the required headers
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("anthropic-version", "2023-06-01")
-	apiKey := os.Getenv("ANTHROPIC_API_KEY")
-	req.Header.Set("x-api-key", apiKey)
-
-	// Send the request
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		logger.Printf("Error making request: %v\n", err)
-		return nil, nil, err
-	}
-
-	if resp.StatusCode != http.StatusOK {
-		logger.Printf("Error: Unexpected status code: %d\n", resp.StatusCode)
-		logger.Printf("Response: %s\n", resp.Status)
-		return nil, nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
-	}
-
-	reader := bufio.NewReader(resp.Body)
-	return reader, func() error {
-		return resp.Body.Close()
-	}, nil
-}
-
 type Author string
 
 const (
@@ -136,7 +73,11 @@ type Message struct {
 	content string
 }
 
-func write(logger *zerolog.Logger, llm chan rune, user <-chan []Message) tea.Cmd { return func() tea.Msg { for {
+// This function listens for user input on the user channel, sends it to Claude
+// and writes the response to the llm channel.
+func talkToLLM(logger *zerolog.Logger, llm chan rune, user <-chan []Message) tea.Cmd {
+	return func() tea.Msg {
+		for {
 			convo := <-user
 			reader, closefn, err := callClaude(logger, convo)
 			if err != nil {
@@ -144,53 +85,58 @@ func write(logger *zerolog.Logger, llm chan rune, user <-chan []Message) tea.Cmd
 				os.Exit(1)
 			}
 			defer closefn()
-			var eventData string
-			var eventName Event
-			for {
-				line, err := reader.ReadString('\n')
-				if err != nil {
-					break
-				}
-
-				// Remove the trailing newline character
-				line = strings.TrimSuffix(line, "\n")
-
-				if line == "" {
-					// Empty line indicates the end of an event
-					// Process the event based on its name
-					switch eventName {
-					case EventContentBlockDelta:
-						var delta ContentBlockDelta
-						json.Unmarshal([]byte(eventData), &delta)
-						for _, c := range delta.Delta.Text {
-							llm <- c
-							time.Sleep(CHAR_DELAY)
-						}
-					case EventMessageStart,
-						EventContentBlockStart,
-						EventContentBlockStop,
-						EventMessageStop,
-						EventPing:
-					default:
-					}
-
-					// Reset event name and data
-					eventName = ""
-					eventData = ""
-				} else if strings.HasPrefix(line, "event:") {
-					eventName = Event(strings.TrimSpace(strings.TrimPrefix(line, "event:")))
-				} else if strings.HasPrefix(line, "data:") {
-					dataLine := strings.TrimSpace(strings.TrimPrefix(line, "data:"))
-					eventData += dataLine
-				}
-			}
+			processClaudeOutput(reader, llm)
 		}
 	}
 }
 
-func read(sub chan rune) tea.Cmd {
+func processClaudeOutput(reader *bufio.Reader, llm chan rune) {
+  	var eventData string
+	var eventName Event
+	for {
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			break
+		}
+
+		// Remove the trailing newline character
+		line = strings.TrimSuffix(line, "\n")
+
+		if line == "" {
+			// Empty line indicates the end of an event
+			switch eventName {
+			case EventContentBlockDelta:
+				var delta ContentBlockDelta
+				json.Unmarshal([]byte(eventData), &delta)
+				for _, c := range delta.Delta.Text {
+					llm <- c
+					time.Sleep(CHAR_DELAY)
+				}
+			case EventMessageStart,
+				EventContentBlockStart,
+				EventContentBlockStop,
+				EventMessageStop,
+				EventPing:
+			default:
+			}
+
+			// Reset event name and data
+			eventName = ""
+			eventData = ""
+		} else if strings.HasPrefix(line, "event:") {
+			eventName = Event(strings.TrimSpace(strings.TrimPrefix(line, "event:")))
+		} else if strings.HasPrefix(line, "data:") {
+			dataLine := strings.TrimSpace(strings.TrimPrefix(line, "data:"))
+			eventData += dataLine
+		}
+	}
+
+}
+
+
+func readLLMOutput(ch chan rune) tea.Cmd {
 	return func() tea.Msg {
-		character := <-sub
+		character := <-ch
 		return Character(character)
 	}
 }
@@ -205,11 +151,10 @@ type model struct {
 }
 
 func (m model) Init() tea.Cmd {
-	m.logger.Println("Init")
 	return tea.Batch(
 		m.spinner.Tick,
-		write(m.logger, m.llm, m.user),
-		read(m.llm),
+		talkToLLM(m.logger, m.llm, m.user),
+		readLLMOutput(m.llm),
 		textinput.Blink,
 	)
 }
@@ -234,9 +179,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.textInput, _ = m.textInput.Update(msg)
 			return m, nil
 		}
-	// The Character got sent from convertToStream We then handle it by
-	// appending it to the message and then we reschedule convertToStream to
-	// wait for the next character.
+	// Character got sent from readLLMOutput. We then handle it by appending
+	// it to the message. We then reschedule readLLMOutpu to wait for
+	// the next character.
 	case Character:
 		c := msg.(Character)
 		last := m.convo[len(m.convo)-1]
@@ -249,7 +194,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				content: string(c),
 			})
 		}
-		return m, read(m.llm)
+		return m, readLLMOutput(m.llm)
 	case spinner.TickMsg:
 		var cmd tea.Cmd
 		m.spinner, cmd = m.spinner.Update(msg)
@@ -258,21 +203,28 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, nil
 	}
 }
+
 func (m model) View() string {
 	s := fmt.Sprintf(
 		"\n %s \n\n",
 		m.spinner.View(),
 	)
 	for _, msg := range m.convo {
-		s += fmt.Sprintf("%s: %s\n", msg.author, msg.content)
+		rendered, err := renderMessage(msg)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "error: %v\n", err)
+			os.Exit(1)
+		}
+		s += rendered
 	}
 	s += "\n"
 	s += m.textInput.View()
+	s += "\n"
 
 	return s
 }
 
-func initialModel0() model {
+func initialModel() model {
 	ti := textinput.New()
 	ti.Placeholder = ""
 	ti.Focus()
@@ -285,22 +237,41 @@ func initialModel0() model {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		os.Exit(1)
 	}
-	logger := zerolog.New(file).With().Timestamp().Logger()	
+	logger := zerolog.New(file).With().Timestamp().Logger()
 	logger.Println("Hello, log file!")
-      logger.Printf("Hello, %s", "log file2!")
+	logger.Printf("Hello, %s", "log file2!")
 
 	return model{
 		logger:    &logger,
 		llm:       make(chan rune),
-		user:      make(chan []Message),
+		user:      make(chan []Message, 10),
 		spinner:   spinner.New(),
 		convo:     []Message{},
 		textInput: ti,
 	}
 }
 
+func renderMessage(msg Message) (string, error) {
+	const width = 100
+
+	renderer, err := glamour.NewTermRenderer(
+		glamour.WithAutoStyle(),
+		glamour.WithWordWrap(width),
+	)
+	if err != nil {
+		return "", err
+	}
+
+	str, err := renderer.Render(msg.content)
+	if err != nil {
+		return "", err
+	}
+
+	return str, nil
+}
+
 func main() {
-	p := tea.NewProgram(initialModel0())
+	p := tea.NewProgram(initialModel())
 	if err := p.Start(); err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v", err)
 		os.Exit(1)
