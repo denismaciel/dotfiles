@@ -4,6 +4,7 @@
   ...
 }: {
   home.packages = with pkgs; [
+    rclone
     eza
     pkg-config
     openssl
@@ -274,7 +275,7 @@
       # bind -n DoubleClick1Pane run-shell "dragon -x '#{pane_current_path}/#{mouse_word}'"
 
       # FIXME
-      bind-key a display-popup -h 90% -w 90% -E "~/.local/bin/apy add -d default; sleep 2"
+      bind-key a display-popup -h 90% -w 90% -E "~/.local/bin/apy add -d default; sleep 1"
       bind-key m run-shell -b tmux-switch.sh
 
       # Open new windows in the current path
