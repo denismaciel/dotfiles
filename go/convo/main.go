@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -14,6 +13,7 @@ import (
 	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/rs/zerolog"
 )
 
 // Create a logger that writes to a file
@@ -65,7 +65,7 @@ type ContentBlockDelta struct {
 }
 
 func callClaude(
-	logger *log.Logger,
+	logger *zerolog.Logger,
 	convo []Message) (*bufio.Reader, func() error, error) {
 	messages := []map[string]string{}
 	for _, m := range convo {
@@ -136,7 +136,7 @@ type Message struct {
 	content string
 }
 
-func write(logger *log.Logger, llm chan rune, user <-chan []Message) tea.Cmd { return func() tea.Msg { for {
+func write(logger *zerolog.Logger, llm chan rune, user <-chan []Message) tea.Cmd { return func() tea.Msg { for {
 			convo := <-user
 			reader, closefn, err := callClaude(logger, convo)
 			if err != nil {
@@ -196,7 +196,7 @@ func read(sub chan rune) tea.Cmd {
 }
 
 type model struct {
-	logger    *log.Logger
+	logger    *zerolog.Logger
 	user      chan []Message
 	llm       chan rune
 	spinner   spinner.Model
@@ -205,8 +205,7 @@ type model struct {
 }
 
 func (m model) Init() tea.Cmd {
-	// test logger
-	m.logger.Println("Hello, log file!")
+	m.logger.Println("Init")
 	return tea.Batch(
 		m.spinner.Tick,
 		write(m.logger, m.llm, m.user),
@@ -286,13 +285,12 @@ func initialModel0() model {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		os.Exit(1)
 	}
-	defer file.Close()
-	logger := log.New(file, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
+	logger := zerolog.New(file).With().Timestamp().Logger()	
 	logger.Println("Hello, log file!")
       logger.Printf("Hello, %s", "log file2!")
 
 	return model{
-		logger:    logger,
+		logger:    &logger,
 		llm:       make(chan rune),
 		user:      make(chan []Message),
 		spinner:   spinner.New(),
