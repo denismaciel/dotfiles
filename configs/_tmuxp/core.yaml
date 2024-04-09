@@ -55,18 +55,13 @@ windows:
     panes:
       -
       -
-  - window_name: praise-penguin-py
-    start_directory: "~/github.com/denismaciel/praise-penguin"
-    panes:
-      -
-      -
-  - window_name: praise-penguin-app
-    start_directory: "~/github.com/denismaciel/praise-penguin/landing-page"
-    panes:
-      -
-      -
   - window_name: downloads
     start_directory: "~/Downloads"
+    panes:
+      -
+      -
+  - window_name: lighthouse
+    start_directory: "~/me/lighthouse"
     panes:
       -
       -

@@ -56,7 +56,7 @@ end)
 vim.keymap.set('n', '<leader>asdf', function()
     package.loaded['me'] = nil
     vim.api.nvim_command([[ source $MYVIMRC ]])
-    print("reloaded myvimrc")
+    print('reloaded myvimrc')
 end)
 vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition)
 vim.keymap.set('n', 'gD', implementation)
@@ -181,7 +181,7 @@ end, { desc = 'Find table schema' })
 vim.keymap.set(
     'n',
     '<leader>tss',
-    [["=strftime('%Y-%m-%d %H:%M')<CR>p]],
+    [["=strftime('%Y-%m-%d %H:%M')<CR>pI### <Esc>o<Enter>]],
     { desc = 'Insert current timestamp' }
 )
 vim.keymap.set(
