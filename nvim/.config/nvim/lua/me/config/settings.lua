@@ -9,7 +9,7 @@ o.signcolumn = 'yes'
 o.clipboard = 'unnamedplus'
 o.formatoptions = o.formatoptions + 'cro'
 o.mouse = 'a'
-o.tabstop = 4 -- how many spaces a tab is when vim reads a file
+o.tabstop = 4     -- how many spaces a tab is when vim reads a file
 o.softtabstop = 4 --how many spaces are inserted when you hit tab
 o.shiftwidth = 4
 o.autoindent = true
@@ -19,7 +19,7 @@ o.wrap = false
 o.number = false
 o.termguicolors = true
 o.backspace = { 'indent', 'eol', 'start' }
-o.showcmd = false -- show command in bottom bar
+o.showcmd = false  -- show command in bottom bar
 o.showmatch = true -- highlight matching parenthesis
 
 o.backup = false
@@ -28,11 +28,12 @@ o.wrap = false
 
 -- Search
 o.incsearch = true -- search as characters are entered
-o.hlsearch = true -- highlight matches
+o.hlsearch = true  -- highlight matches
 o.ignorecase = true
 o.smartcase = true
 
-o.cursorline = true
+-- o.cursorline = true
+-- o.cursorlineopt = 'number'
 
 o.undodir = os.getenv('HOME') .. '/.config/nvim/undodir'
 
@@ -98,26 +99,26 @@ vim.api.nvim_create_autocmd('ExitPre', {
     desc = 'Set cursor back to beam when leaving Neovim.',
 })
 
--- Remove cursorline and cursorcolumn when when window is unfocused
-local function autocmd(events, ...)
-    vim.api.nvim_create_autocmd(events, { callback = ... })
-end
-
-local old_guicursor, old_cursorline, old_cursorcolumn
-autocmd('VimEnter', function()
-    old_guicursor = o.guicursor
-    old_cursorline = o.cursorline
-    old_cursorcolumn = o.cursorcolumn
-end)
-
-autocmd({ 'WinLeave', 'FocusLost' }, function()
-    vim.opt.guicursor = 'a:noCursor'
-    vim.opt.cursorline = false
-    vim.opt.cursorcolumn = false
-end)
-
-autocmd({ 'WinEnter', 'FocusGained' }, function()
-    vim.opt.guicursor = old_guicursor
-    vim.opt.cursorline = old_cursorline
-    vim.opt.cursorcolumn = old_cursorcolumn
-end)
+-- -- Remove cursorline and cursorcolumn when when window is unfocused
+-- local function autocmd(events, ...)
+--     vim.api.nvim_create_autocmd(events, { callback = ... })
+-- end
+--
+-- local old_guicursor, old_cursorline, old_cursorcolumn
+-- autocmd('VimEnter', function()
+--     old_guicursor = o.guicursor
+--     old_cursorline = o.cursorline
+--     old_cursorcolumn = o.cursorcolumn
+-- end)
+--
+-- autocmd({ 'WinLeave', 'FocusLost' }, function()
+--     vim.opt.guicursor = 'a:noCursor'
+--     vim.opt.cursorline = false
+--     vim.opt.cursorcolumn = false
+-- end)
+--
+-- autocmd({ 'WinEnter', 'FocusGained' }, function()
+--     vim.opt.guicursor = old_guicursor
+--     vim.opt.cursorline = old_cursorline
+--     vim.opt.cursorcolumn = old_cursorcolumn
+-- end)

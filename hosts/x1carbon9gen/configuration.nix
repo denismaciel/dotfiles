@@ -144,6 +144,7 @@
     # require enabling PolKit integration on some desktop environments (e.g. Plasma).
     polkitPolicyOwners = ["denis"];
   };
+  security.polkit.enable = true;
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
@@ -165,6 +166,7 @@
     export PATH=$PATH:$HOME/venvs/default/bin
   '';
 
+  programs.dconf.enable = true;
   programs.zsh.enable = true;
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -210,5 +212,15 @@
       # Required for containers under podman-compose to be able to talk to each other.
       defaultNetwork.settings.dns_enabled = true;
     };
+  };
+
+  services.fprintd.enable = true;
+  security.pam.services = {
+    login.unixAuth = true;
+    # fprint is not stable, locked sometimes after suspend
+    login.fprintAuth = false;
+    sddm.fprintAuth = true;
+    xscreensaver.fprintAuth = true;
+    kwallet.fprintAuth = true;
   };
 }

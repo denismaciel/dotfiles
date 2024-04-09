@@ -245,7 +245,7 @@ func initialModel() model {
 		logger:    &logger,
 		llm:       make(chan rune),
 		user:      make(chan []Message, 10),
-		spinner:   spinner.New(),
+		spinner:   spinner.New(spinner.WithSpinner(spinner.Monkey)),
 		convo:     []Message{},
 		textInput: ti,
 	}

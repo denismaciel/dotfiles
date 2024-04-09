@@ -46,7 +46,6 @@ wk.register({
     ['<leader>a'] = { name = 'Anki' },
 })
 
-vim.keymap.set('n', '<leader>c', '<cmd>ChatGPT<CR>')
 vim.keymap.set('n', '<leader>tt', function()
     package.loaded['me'] = nil
     package.loaded['me.sql'] = nil
@@ -57,6 +56,7 @@ end)
 vim.keymap.set('n', '<leader>asdf', function()
     package.loaded['me'] = nil
     vim.api.nvim_command([[ source $MYVIMRC ]])
+    print("reloaded myvimrc")
 end)
 vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition)
 vim.keymap.set('n', 'gD', implementation)

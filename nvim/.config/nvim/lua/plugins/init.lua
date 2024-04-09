@@ -71,11 +71,11 @@ return {
             end
 
             vim.keymap.set('n', '<C-e>', function()
-                toggle_telescope(harpoon:list())
+                harpoon.ui:toggle_quick_menu(harpoon:list())
             end, { desc = 'Open harpoon window' })
             vim.keymap.set('n', '<C-a>', function()
-                harpoon:list():append()
-            end)
+                harpoon:list():add()
+            end, { desc = 'Add location to Harpoon list' })
             -- vim.keymap.set('n', '<C-e>', function()
             --     harpoon.ui:toggle_quick_menu(harpoon:list())
             -- end)
@@ -94,9 +94,11 @@ return {
             -- end)
 
             vim.keymap.set('n', '<C-P>', function()
+                print('harpoon: previous')
                 harpoon:list():prev()
             end)
             vim.keymap.set('n', '<C-N>', function()
+                print('harpoon: next')
                 harpoon:list():next()
             end)
         end,

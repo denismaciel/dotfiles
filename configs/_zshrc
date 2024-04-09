@@ -51,11 +51,22 @@ function  _fzf_compgen_path() {
 }
 
 
+function act() {
+    if [ -d "venv" ]; then
+        source venv/bin/activate
+        echo "Activated virtual environment in ./venv"
+    elif [ -d ".venv" ]; then
+        source .venv/bin/activate
+        echo "Activated virtual environment in ./.venv"
+    else
+        echo "No virtual environment found in ./venv or ./.venv"
+    fi
+}
+
 # ---------------------------
 # --------- aliases ---------
 # ---------------------------
 alias core='tmuxp load core -y'
-alias act='source venv/bin/activate'
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'

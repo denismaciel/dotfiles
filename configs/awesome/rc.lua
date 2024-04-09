@@ -211,6 +211,7 @@ globalkeys = gears.table.join(
     ),
     awful.key({ modkey }, 'Tab', function()
         awful.client.focus.history.previous()
+        client.minimized = false
         if client.focus then
             client.focus:raise()
         end
@@ -571,5 +572,5 @@ end)
 beautiful.useless_gap = 3
 
 awful.spawn.with_shell('syncthing')
-awful.spawn.with_shell('/home/denis/dotfiles/scripts/laptop-dell-vertical.sh')
+-- awful.spawn.with_shell('/home/denis/dotfiles/scripts/laptop-dell-vertical.sh')
 -- awful.spawn.with_shell '/home/denis/.config/polybar/launch.sh'
