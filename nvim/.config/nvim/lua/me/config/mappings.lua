@@ -250,11 +250,7 @@ vim.keymap.set('n', 'tt', function()
         },
     })
 end, { desc = 'Find files' })
-vim.keymap.set('n', 'td', function()
-    require('telescope.builtin').find_files({
-        find_command = { 'git', 'diff', '--name-only', '--relative' },
-    })
-end, { desc = 'Find diff files' })
+vim.keymap.set('n', 'td', me.insert_text, { desc = 'Insert block of text' })
 vim.keymap.set(
     'n',
     'tc',

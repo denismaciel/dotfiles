@@ -4,8 +4,4 @@
 tmux capture-pane -S -1000 -p > /tmp/tmux_pane_content
 
 # Split the current window vertically and create a new pane
-tmux split-window -v
-
-# Open Vim with the captured content of the original pane
-tmux send-keys "nvim /tmp/tmux_pane_content" C-m
-
+tmux popup -w 90% -h 90% -E "nvim -c 'normal G' /tmp/tmux_pane_content"

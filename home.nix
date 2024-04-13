@@ -263,49 +263,29 @@
       tmux-fzf
     ];
     extraConfig = ''
-      # Pane and windows indexes start with one
-      # set -g base-index 1
-      # setw -g pane-base-index 1
       set -g mouse on
       set -sg escape-time 1
       setw -g mode-keys vi
-
       # Get rid of confimation
+      bind w run "bash ~/dotfiles/scripts/capture"
       bind-key & kill-window
       bind-key x kill-pane
-
       bind-key f last-window
-
-      # bind -n DoubleClick1Pane run-shell "dragon -x '#{pane_current_path}/#{mouse_word}'"
-
-      # FIXME
       bind-key a display-popup -h 90% -w 90% -E "~/.local/bin/apy add -d default; sleep 1"
       bind-key m run-shell -b tmux-switch.sh
-
       # Open new windows in the current path
+      bind-key a display-popup -h 90% -w 90% -E "~/.local/bin/apy add -d default; sleep 1"
       bind c new-window -c "$HOME"
       bind \\ split-window -h -c '#{pane_current_path}'  # Split panes horizontal
       bind \' split-window -h -c '#{pane_current_path}'  # Split panes horizontal
       bind - split-window -v -c '#{pane_current_path}'  # Split panes vertically
-
       bind-key e command-prompt -p "Command:" \
-               "run \"tmux list-panes  -F '##{session_name}:##{window_index}.##{pane_index}' \
+               "run \"tmux list-panes -F '##{session_name}:##{window_index}.##{pane_index}' \
                       | xargs -I PANE tmux send-keys -t PANE '%1' Enter\""
-
       bind-key b resize-pane -Z
-
-      # Vi key bindings on Visual Mode
-      bind-key -T copy-mode-vi v send-keys -X begin-selection
-      bind-key -T copy-mode-vi y send-keys -X copy-selection
-      bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
-      bind-key -T copy-mode-vi / command-prompt -i -p "search down" "send -X search-forward-incremental \"%%%\""
-      bind-key -T copy-mode-vi ? command-prompt -i -p "search up" "send -X search-backward-incremental \"%%%\""
-
       bind-key r source-file ~/.config/tmux/tmux.conf; display "Config reloaded!"
-
       set -g default-terminal "tmux-256color"
       set -ag terminal-overrides ",xterm-256color:RGB"
-
       bind-key -r k resize-pane -U 5
       bind-key -r j resize-pane -D 5
       bind-key -r h resize-pane -L 5

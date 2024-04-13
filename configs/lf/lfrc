@@ -69,3 +69,4 @@ map <space>ff fzf_select
 map <space>fc fzf_select
 
 map gd cd ~/Downloads
+map R $dragon -x "$f"
