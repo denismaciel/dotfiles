@@ -11,7 +11,7 @@ parser.add_argument(
         'backend',
         'customer-app',
         'operations-app',
-        'transaction-tagging'
+        'transaction-tagging',
     ],
     required=True,
 )

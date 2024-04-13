@@ -32,7 +32,6 @@
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     alejandra.url = "github:kamadorueda/alejandra/3.0.0";
     alejandra.inputs.nixpkgs.follows = "nixpkgs";
-
   };
 
   outputs = inputs @ {

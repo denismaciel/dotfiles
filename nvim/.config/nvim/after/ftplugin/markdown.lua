@@ -22,7 +22,6 @@ vim.keymap.set('n', '<C-P>', function()
     require('me').cycle_notes('down')
 end)
 
-
 -- Toggle checkboxes
 -- Copied from:
 -- https://github.com/caarlos0/dotfiles/blob/c2b002dda2329d82d1e8ffd454c8e7957ae6cc75/modules/neovim/config/after/ftplugin/markdown.lua

@@ -13,8 +13,9 @@ hi('CursorLine', {
     cterm = { underline = true },
 })
 
+print('hello')
 
-print("hello")
-
-
-vim.api.nvim_create_autocmd('ColorScheme', { command = [[highlight CursorLine guibg=NONE cterm=underline]] })
+vim.api.nvim_create_autocmd(
+    'ColorScheme',
+    { command = [[highlight CursorLine guibg=NONE cterm=underline]] }
+)

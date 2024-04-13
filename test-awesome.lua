@@ -26,12 +26,11 @@ end
 -- Call the function
 -- list_clients()
 
-
 -- -- Function to minimize all clients except the currently active one
 -- local function minimize_except_focused()
 --     -- Get the currently focused client
 --     local focused_client = client.focus
---     
+--
 --     -- Iterate over all clients
 --     for _, c in ipairs(client.get()) do
 --         -- Check if the client is not the focused client
@@ -44,13 +43,10 @@ end
 --
 -- minimize_except_focused()
 
-
 local awful = require('awful')
 print(awful.client.name)
 print(awful.client.class)
 print(awful.client.focus.history.previous())
 print(awful.client.name)
 print(awful.client.class)
-print("here")
-
-
+print('here')
