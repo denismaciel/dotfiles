@@ -46,7 +46,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     end,
 })
 
-vim.cmd('colorscheme mellifluous')
+vim.cmd('colorscheme no-clown-fiesta')
 
 -- vim.api.nvim_create_autocmd('ExitPre', {
 --     group = vim.api.nvim_create_augroup('Exit', { clear = true }),
