@@ -29,21 +29,6 @@ return {
             })
         end,
     },
-    {
-        'kndndrj/nvim-dbee',
-        dependencies = {
-            'MunifTanjim/nui.nvim',
-        },
-        build = function()
-            -- Install tries to automatically detect the install method.
-            -- if it fails, try calling it with one of these parameters:
-            --    "curl", "wget", "bitsadmin", "go"
-            require('dbee').install('go')
-        end,
-        config = function()
-            require('dbee').setup( --[[optional config]])
-        end,
-    },
     { 'akinsho/toggleterm.nvim', version = '*', opts = {} },
     {
         'nvim-telescope/telescope.nvim',
@@ -68,9 +53,7 @@ return {
     {
         'j-hui/fidget.nvim',
         opts = {},
-        -- tag = 'legacy'
     },
-    -- { 'm-demare/hlargs.nvim',    opts = {} },
     {
         'lewis6991/gitsigns.nvim',
         config = function()
@@ -83,7 +66,6 @@ return {
                         opts.buffer = bufnr
                         vim.keymap.set(mode, l, r, opts)
                     end
-
                     -- Navigation
                     map('n', ']c', function()
                         if vim.wo.diff then
@@ -142,25 +124,24 @@ return {
             require('leap').set_default_keymaps()
         end,
     },
-    -- {
-    --     'utilyre/barbecue.nvim',
-    --     opts = {
-    --         show_modified = true,
-    --         theme = {
-    --             dirname = { fg = '#737aa2' },
-    --         },
-    --     },
-    --     name = 'barbecue',
-    --     version = '*',
-    --     dependencies = {
-    --         'SmiteshP/nvim-navic',
-    --         'nvim-tree/nvim-web-devicons',
-    --     },
-    -- },
+    {
+        'utilyre/barbecue.nvim',
+        opts = {
+            show_modified = true,
+            theme = {
+                dirname = { fg = '#737aa2' },
+            },
+        },
+        name = 'barbecue',
+        version = '*',
+        dependencies = {
+            'SmiteshP/nvim-navic',
+            'nvim-tree/nvim-web-devicons',
+        },
+    },
     'christoomey/vim-tmux-navigator',
     {
         'numToStr/Comment.nvim',
-        opts = {},
     },
     'mbbill/undotree',
     'windwp/nvim-autopairs',
@@ -173,7 +154,7 @@ return {
                 width = 70,
             },
             filters = {
-                dotfiles = false,
+                dotfiles = true,
             },
         },
         dependencies = {
