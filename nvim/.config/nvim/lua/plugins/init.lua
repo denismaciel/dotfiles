@@ -44,39 +44,7 @@ return {
             require('dbee').setup( --[[optional config]])
         end,
     },
-    {
-        { 'akinsho/toggleterm.nvim', version = '*', opts = {} },
-        'jackMort/ChatGPT.nvim',
-        event = 'VeryLazy',
-        config = function()
-            local config = {
-                keymaps = {
-                    submit = '<C-s>',
-                    toggle_sessions = '<C-t>',
-                },
-                openai_params = {
-                    model = 'gpt-4',
-                },
-                openai_edit_params = {
-                    model = 'gpt-4',
-                },
-                chat = {
-                    welcome_message = '🥶',
-                },
-            }
-            --
-            -- if not vim.env.OPENAI_API_KEY then
-            --     return
-            -- end
-
-            require('chatgpt').setup(config)
-        end,
-        dependencies = {
-            'MunifTanjim/nui.nvim',
-            'nvim-lua/plenary.nvim',
-            'nvim-telescope/telescope.nvim',
-        },
-    },
+    { 'akinsho/toggleterm.nvim', version = '*', opts = {} },
     {
         'nvim-telescope/telescope.nvim',
         dependencies = { 'nvim-lua/plenary.nvim' },
@@ -132,8 +100,8 @@ return {
         dependencies = { 'nvim-treesitter/nvim-treesitter' },
     },
 
-    { 'folke/which-key.nvim', opts = {} },
-    { 'folke/neodev.nvim', opts = {} },
+    { 'folke/which-key.nvim',    opts = {} },
+    { 'folke/neodev.nvim',       opts = {} },
     {
         'folke/zen-mode.nvim',
         opts = function()
@@ -226,7 +194,7 @@ return {
         end,
         opts = {},
     },
-    { 'windwp/nvim-autopairs', opts = {} },
+    { 'windwp/nvim-autopairs',  opts = {} },
     {
         'ggandor/leap.nvim',
         opts = function()
