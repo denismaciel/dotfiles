@@ -1,8 +1,5 @@
 return {
     {
-        'sindrets/diffview.nvim',
-    },
-    {
         'preservim/vim-pencil',
     },
     {
