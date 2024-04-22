@@ -56,7 +56,6 @@ end
 
 M.dbt_model_name = function()
     local snap_folder_name = vim.fn.expand('%:t:r')
-    vim.print('here')
     local command = [[ !echo ]]
         .. snap_folder_name
         .. [[ | xclip -selection clipboard ]]

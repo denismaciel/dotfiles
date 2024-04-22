@@ -1,7 +1,6 @@
 local wk = require('which-key')
 local sql = require('me.sql')
 local me = require('me')
-local themes = require('telescope.themes')
 
 -- Stolen from https://github.com/tjdevries/config_manager/blob/ee11710c4ad09e0b303e5030b37c86ad8674f8b2/xdg_config/nvim/lua/tj/lsp/handlers.lua#L30
 local implementation = function()
@@ -215,31 +214,6 @@ end, {
   desc = 'Edit Anki note',
 })
 
-vim.keymap.set('n', 'gdd', vim.lsp.buf.declaration, { desc = 'Declaration' })
-vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, { desc = 'Code action' })
-vim.keymap.set('n', 'gtt', function()
-  local opts = themes.get_dropdown({
-    layout_strategy = 'vertical',
-    border = true,
-    fname_width = 90,
-    layout_config = {
-      prompt_position = "bottom",
-      preview_cutoff = 10,
-      width = function(_, max_columns, _)
-        return max_columns - 10
-      end,
-      height = function(_, _, max_lines)
-        return max_lines - 10
-      end,
-    },
-  })
-  require('telescope.builtin').tags(opts)
-end, { desc = 'Tags' })
-vim.keymap.set('n', 'gr', function()
-  require('telescope.builtin').lsp_references(
-    require('telescope.themes').get_dropdown({})
-  )
-end, { desc = 'References' })
 vim.keymap.set('n', 'tt', function()
   require('telescope.builtin').find_files({
     find_command = {
@@ -252,45 +226,44 @@ vim.keymap.set('n', 'tt', function()
       '!.snapshots/',
     },
   })
-end, { desc = 'Find files' })
+end, { desc = '[T]elescope Find Files' })
 vim.keymap.set('n', 'td', me.insert_text, { desc = 'Insert block of text' })
 vim.keymap.set(
   'n',
   'tc',
   require('telescope.builtin').commands,
-  { desc = 'Vim Commands' }
+  { desc = '[T]elescope Vim [C]ommands' }
 )
 vim.keymap.set(
   'n',
-  'thi',
+  'tch',
   require('telescope.builtin').command_history,
-  { desc = 'Vim Command History' }
+  { desc = '[T]elescope Vim [C]ommand [H]istory' }
 )
 vim.keymap.set(
   'n',
   'the',
   require('telescope.builtin').help_tags,
-  { desc = 'Vim Help' }
+  { desc = '[T]elescope Vim [H][e]lp' }
 )
 vim.keymap.set(
   'n',
   'tft',
   require('telescope.builtin').filetypes,
-  { desc = 'FileTypes' }
+  { desc = '[T]elescope [F]ile[T]ypes' }
 )
 vim.keymap.set(
   'n',
   'tm',
   require('telescope.builtin').marks,
-  { desc = 'Marks' }
+  { desc = '[T]elescope [M]arks' }
 )
 vim.keymap.set(
   'n',
   'tb',
   require('telescope.builtin').current_buffer_fuzzy_find,
-  { desc = 'Buffers' }
+  { desc = '[T]elescope [B]uffers' }
 )
 vim.keymap.set('n', '<leader>rg', require('telescope.builtin').live_grep)
 vim.keymap.set('n', '<leader>/', require('telescope.builtin').treesitter)
-
 vim.keymap.set('n', '<leader>o', '<cmd>SymbolsOutline<enter>')

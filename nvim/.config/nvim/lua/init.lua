@@ -38,6 +38,13 @@ o.scrolloff = 10 -- keep X lines above and below the cusrsor when scrolling
 
 o.undodir = os.getenv('HOME') .. '/.config/nvim/undodir'
 
+-- Decrease update time
+o.updatetime = 250
+
+-- Decrease mapped sequence wait time
+-- Displays which-key popup sooner
+o.timeoutlen = 300
+
 o.list = true
 o.listchars = {
     tab = '▸ ',
@@ -500,22 +507,6 @@ require('lazy').setup({
         },
         event = 'VeryLazy',
         config = function()
-            -- Ronded borders
-            local _border = 'rounded'
-            vim.lsp.handlers['textDocument/hover'] =
-                vim.lsp.with(vim.lsp.handlers.hover, {
-                    border = _border,
-                })
-
-            vim.lsp.handlers['textDocument/signatureHelp'] =
-                vim.lsp.with(vim.lsp.handlers.signature_help, {
-                    border = _border,
-                })
-
-            vim.diagnostic.config({
-                float = { border = _border },
-            })
-
             local capabilities = require('cmp_nvim_lsp').default_capabilities(
                 vim.lsp.protocol.make_client_capabilities()
             )
@@ -524,13 +515,9 @@ require('lazy').setup({
             local null_ls = require('null-ls')
             local util = require('lspconfig.util')
 
-            local custom_sources = require('me.null-ls')
 
             null_ls.setup({
                 sources = {
-                    custom_sources.formatting.jsonnet,
-                    -- custom_sources.hover.man,
-                    -- null_ls.builtins.formatting.reorder_python_imports,
                     null_ls.builtins.formatting.black.with({
                         args = {
                             '--stdin-filename',
@@ -558,7 +545,6 @@ require('lazy').setup({
                     }),
                     null_ls.builtins.diagnostics.cfn_lint,
                     null_ls.builtins.diagnostics.statix,
-                    -- null_ls.builtins.diagnostics.markdownlint,
                     null_ls.builtins.formatting.golines,
                     null_ls.builtins.formatting.mdformat,
                 },
@@ -581,7 +567,6 @@ require('lazy').setup({
             lspc.gopls.setup({
                 capabilities = capabilities,
             })
-
             lspc.prismals.setup({
                 capabilities = capabilities,
             })
@@ -632,7 +617,9 @@ require('lazy').setup({
             })
             lspc.cssls.setup({ capabilities = capabilities })
             lspc.eslint.setup({ capabilities = capabilities })
-            lspc.jedi_language_server.setup({ capabilities = capabilities })
+            lspc.jedi_language_server.setup({
+                capabilities = capabilities,
+            })
             lspc.pyright.setup({
                 -- capabilities = capabilities,
                 -- autostart = false,
@@ -685,6 +672,111 @@ require('lazy').setup({
                 },
             })
             lspc.hls.setup({ capabilities = capabilities })
+
+            -- Autocommand for LSP.
+            -- Key mpas should go in here.
+            vim.api.nvim_create_autocmd('LspAttach', {
+                group = vim.api.nvim_create_augroup(
+                    'on-lsp-attach',
+                    { clear = true }
+                ),
+                callback = function(event)
+                    -- Rounded borders
+                    local _border = 'rounded'
+                    vim.lsp.handlers['textDocument/hover'] =
+                        vim.lsp.with(vim.lsp.handlers.hover, {
+                            border = _border,
+                        })
+
+                    vim.lsp.handlers['textDocument/signatureHelp'] =
+                        vim.lsp.with(vim.lsp.handlers.signature_help, {
+                            border = _border,
+                        })
+
+                    vim.diagnostic.config({
+                        float = { border = _border },
+                    })
+
+                    local map = function(keys, func, desc)
+                        vim.keymap.set(
+                            'n',
+                            keys,
+                            func,
+                            { buffer = event.buf, desc = 'LSP: ' .. desc }
+                        )
+                    end
+                    map('gdd', vim.lsp.buf.declaration, 'Declaration')
+                    map('ga', vim.lsp.buf.code_action, 'Code action')
+                    map('gtt', function()
+                        local opts = require('telescope.themes').get_dropdown({
+                            layout_strategy = 'vertical',
+                            border = true,
+                            fname_width = 90,
+                            layout_config = {
+                                prompt_position = 'bottom',
+                                preview_cutoff = 10,
+                                width = function(_, max_columns, _)
+                                    return max_columns - 10
+                                end,
+                                height = function(_, _, max_lines)
+                                    return max_lines - 10
+                                end,
+                            },
+                        })
+                        require('telescope.builtin').tags(opts)
+                    end, 'Tags')
+                    map('gr', function()
+                        require('telescope.builtin').lsp_references(
+                            require('telescope.themes').get_dropdown({})
+                        )
+                    end, 'References')
+
+                    -- The following two autocommands are used to highlight references of the
+                    -- word under your cursor when your cursor rests there for a little while.
+                    --    See `:help CursorHold` for information about when this is executed
+                    --
+                    -- When you move your cursor, the highlights will be cleared (the second autocommand).
+                    local client =
+                        vim.lsp.get_client_by_id(event.data.client_id)
+                    if
+                        client
+                        and client.server_capabilities.documentHighlightProvider
+                    then
+                        vim.api.nvim_create_autocmd(
+                            { 'CursorHold', 'CursorHoldI' },
+                            {
+                                buffer = event.buf,
+                                callback = vim.lsp.buf.document_highlight,
+                            }
+                        )
+
+                        vim.api.nvim_create_autocmd(
+                            { 'CursorMoved', 'CursorMovedI' },
+                            {
+                                buffer = event.buf,
+                                callback = vim.lsp.buf.clear_references,
+                            }
+                        )
+                    end
+
+                    -- The following autocommand is used to enable inlay hints in your
+                    -- code, if the language server you are using supports them
+                    --
+                    -- This may be unwanted, since they displace some of your code
+                    if
+                        client
+                        and client.server_capabilities.inlayHintProvider
+                        and vim.lsp.inlay_hint
+                    then
+                        map('<leader>th', function()
+                            vim.lsp.inlay_hint.enable(
+                                0,
+                                not vim.lsp.inlay_hint.is_enabled()
+                            )
+                        end, '[T]oggle Inlay [H]ints')
+                    end
+                end,
+            })
         end,
     },
     {
