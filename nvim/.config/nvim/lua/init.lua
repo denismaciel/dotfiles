@@ -9,7 +9,7 @@ o.signcolumn = 'yes'
 o.clipboard = 'unnamedplus'
 o.formatoptions = o.formatoptions + 'cro'
 o.mouse = 'a'
-o.tabstop = 4     -- how many spaces a tab is when vim reads a file
+o.tabstop = 4 -- how many spaces a tab is when vim reads a file
 o.softtabstop = 4 --how many spaces are inserted when you hit tab
 o.shiftwidth = 4
 o.autoindent = true
@@ -19,7 +19,7 @@ o.wrap = false
 o.number = false
 o.termguicolors = true
 o.backspace = { 'indent', 'eol', 'start' }
-o.showcmd = false  -- show command in bottom bar
+o.showcmd = false -- show command in bottom bar
 o.showmatch = true -- highlight matching parenthesis
 
 o.backup = false
@@ -28,7 +28,7 @@ o.wrap = false
 
 -- Search
 o.incsearch = true -- search as characters are entered
-o.hlsearch = true  -- highlight matches
+o.hlsearch = true -- highlight matches
 o.ignorecase = true
 o.smartcase = true
 o.scrolloff = 10 -- keep X lines above and below the cusrsor when scrolling
@@ -178,8 +178,8 @@ require('lazy').setup({
         dependencies = { 'nvim-lua/plenary.nvim' },
     },
     'nvim-telescope/telescope-ui-select.nvim',
-    { 'folke/which-key.nvim',    opts = {} },
-    { 'folke/neodev.nvim',       opts = {} },
+    { 'folke/which-key.nvim', opts = {} },
+    { 'folke/neodev.nvim', opts = {} },
     {
         'folke/zen-mode.nvim',
         opts = function()
@@ -260,7 +260,7 @@ require('lazy').setup({
         end,
         opts = {},
     },
-    { 'windwp/nvim-autopairs',  opts = {} },
+    { 'windwp/nvim-autopairs', opts = {} },
     {
         'ggandor/leap.nvim',
         opts = function()
@@ -481,8 +481,8 @@ require('lazy').setup({
                 }),
                 formatting = {
                     format = lspkind.cmp_format({
-                        mode = 'symbol_text',  -- show only symbol annotations
-                        maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                        mode = 'symbol_text', -- show only symbol annotations
+                        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
                         ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
                         -- The function below will be called before any actual modifications from lspkind
                         -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
@@ -514,7 +514,6 @@ require('lazy').setup({
             local lspc = require('lspconfig')
             local null_ls = require('null-ls')
             local util = require('lspconfig.util')
-
 
             null_ls.setup({
                 sources = {
@@ -586,9 +585,9 @@ require('lazy').setup({
                                 'vim',
                                 'require',
                                 'awesome', -- awesomewm
-                                'client',  -- awesomewm
-                                'screen',  -- awesomewm
-                                'root',    -- awesomewm
+                                'client', -- awesomewm
+                                'screen', -- awesomewm
+                                'root', -- awesomewm
                             },
                         },
                     },
@@ -707,24 +706,6 @@ require('lazy').setup({
                     end
                     map('gdd', vim.lsp.buf.declaration, 'Declaration')
                     map('ga', vim.lsp.buf.code_action, 'Code action')
-                    map('gtt', function()
-                        local opts = require('telescope.themes').get_dropdown({
-                            layout_strategy = 'vertical',
-                            border = true,
-                            fname_width = 90,
-                            layout_config = {
-                                prompt_position = 'bottom',
-                                preview_cutoff = 10,
-                                width = function(_, max_columns, _)
-                                    return max_columns - 10
-                                end,
-                                height = function(_, _, max_lines)
-                                    return max_lines - 10
-                                end,
-                            },
-                        })
-                        require('telescope.builtin').tags(opts)
-                    end, 'Tags')
                     map('gr', function()
                         require('telescope.builtin').lsp_references(
                             require('telescope.themes').get_dropdown({})
@@ -950,7 +931,7 @@ require('lazy').setup({
             }
             vim.g.gutentags_add_default_project_roots = false
             vim.g.gutentags_project_root =
-            { 'package.json', 'go.mod', 'requirements.txt' }
+                { 'package.json', 'go.mod', 'requirements.txt' }
             -- vim.g.gutentags_cache_dir = vim.fn.expand '~/.cache/nvim/ctags/'
             vim.g.gutentags_generate_on_new = true
             vim.g.gutentags_generate_on_missing = true
@@ -960,7 +941,7 @@ require('lazy').setup({
                 [[command! -nargs=0 GutentagsClearCache call system('rm ' . g:gutentags_cache_dir . '/*')]]
             )
             vim.g.gutentags_ctags_extra_args =
-            { '--tag-relative=yes', '--fields=+ailmnS' }
+                { '--tag-relative=yes', '--fields=+ailmnS' }
         end,
     },
     {
