@@ -55,7 +55,7 @@ TodoAction = Literal['add', 'complete']
 
 
 def find_tags(s: str) -> list[str]:
-    return [tag.replace('#', '') for tag in RE_TAG.findall(s)]
+    return sorted([tag.replace('#', '') for tag in RE_TAG.findall(s)])
 
 
 class Todo(Base):
@@ -103,7 +103,7 @@ class Todo(Base):
             return self.name
 
         tags_str = ' '.join(f'#{tag}' for tag in self.tags)
-        return f'{self.name} {tags_str}'
+        return f'{tags_str} \t {self.name}'
 
 
 class Pomodoro(Base):
@@ -130,6 +130,27 @@ def load_todos(sess: Session) -> list[Todo]:
     todos = sess.query(Todo).order_by(Todo.order.desc()).all()
     todos = [todo for todo in todos if todo.completed_at is None]
     return todos
+
+
+def sort_todos(todos: list[Todo]) -> list[Todo]:
+    """ """
+    if len(todos) == 0:
+        return []
+
+    first = todos[0]
+
+    underscore = []
+    regular = []
+    for todo in todos[1:]:
+        if todo.name.startswith('_'):
+            underscore.append(todo)
+        else:
+            regular.append(todo)
+
+    underscore = sorted(underscore, key=lambda t: t.name)
+    regular = sorted(regular, key=lambda t: (t.tags, t.name))
+
+    return [first, *regular, *underscore]
 
 
 def load_pomodoros_created_after(sess: Session, date: dt.datetime) -> list[Pomodoro]:

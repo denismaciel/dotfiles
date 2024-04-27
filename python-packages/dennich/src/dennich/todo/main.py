@@ -4,19 +4,18 @@ import argparse
 import datetime
 import datetime as dt
 import enum
-import itertools
 import logging
 import re
 import sys
 import typing
+from collections.abc import Iterable
 from subprocess import run
 
 import structlog
 from dennich.todo.cmd import today_status
 from dennich.todo.models import get_session
-from dennich.todo.models import load_pomodoros_created_after
 from dennich.todo.models import load_todos
-from dennich.todo.models import Pomodoro
+from dennich.todo.models import sort_todos
 from dennich.todo.models import Todo
 from dennich.todo.models import upsert_todo
 from dennich.todo.pomodoro.client import Client
@@ -26,7 +25,6 @@ from dennich.todo.select import SelectionKind
 from dennich.todo.select import SelectionSelected
 from dennich.todo.select import Selector
 
-# TODO lsdjlkjf
 
 RE_DURATION = re.compile(r'duration=\d+')
 RE_DESCRIPTION = re.compile(r'description="?.+"?')
@@ -36,6 +34,23 @@ structlog.configure(
     wrapper_class=structlog.make_filtering_bound_logger(logging.INFO),
 )
 logger = structlog.stdlib.get_logger()
+
+
+def render_tags(todo: Todo, pad: int) -> str:
+    return ' '.join(f'#{tag}' for tag in todo.tags).ljust(pad)
+
+
+def render_todos(todos: list[Todo]) -> Iterable[str]:
+    """
+    Render todos as strings to be selected with fzf.
+    """
+    # Find out longest tag string to left pad remaing tags
+    rendered_tags = [render_tags(t, 0) for t in todos]
+    max_len = max(len(rt) for rt in rendered_tags)
+
+    for todo in todos:
+        rendered_tag = render_tags(todo, max_len + 3)
+        yield rendered_tag + ' ' + todo.name
 
 
 def start_pomodoro(selector: Selector) -> int:
@@ -49,7 +64,9 @@ def start_pomodoro(selector: Selector) -> int:
     """
     sess = get_session()
     todos = load_todos(sess)
-    selection = selector.select([str(t) for t in todos], prompt='🍅')
+    todos = sort_todos(todos)
+    rendered = render_todos(todos)
+    selection = selector.select(list(rendered), prompt='🍅')
 
     match selection:
         case SelectionSelected(kind=SelectionKind.NEW_ITEM):
@@ -96,110 +113,6 @@ def year_week(d: datetime.date) -> str:
     return format(d, '%Y-%W')
 
 
-def report(since: int, report_type: str) -> int:
-    from rich.console import Console
-    from rich.table import Table
-    import polars as pl
-
-    console = Console()
-
-    today = dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-    start_date = today - dt.timedelta(days=since)
-    range = pl.date_range(start_date, today, dt.timedelta(days=1), eager=True)
-
-    pomodoros = load_pomodoros_created_after(get_session(), start_date)
-
-    def get_tags(pomodoro: Pomodoro) -> list[str]:
-        if pomodoro.todo.tags is None:
-            raise ValueError(f'Todo {pomodoro.todo.name} has no tags')
-        return pomodoro.todo.tags
-
-    tags = [get_tags(p) for p in pomodoros]
-    tags_set = set(itertools.chain.from_iterable(tags))
-    df = (
-        pl.DataFrame(
-            {
-                'start_time': [p.start_time for p in pomodoros],
-                'end_time': [p.end_time for p in pomodoros],
-                'duration': [p.duration for p in pomodoros],
-                'todo': [p.todo.name for p in pomodoros],
-                'todo_id': [p.todo.id for p in pomodoros],
-                'tags': tags,
-            }
-        )
-        .with_columns(
-            start_time=pl.col('start_time').cast(pl.Datetime),
-            end_time=pl.col('end_time').cast(pl.Datetime),
-            start_date=pl.col('start_time').cast(pl.Date),
-            end_date=pl.col('end_time').cast(pl.Date),
-            duration=pl.duration(minutes=pl.col('duration')),
-        )
-        .with_columns(
-            pl.when(pl.col('duration') < pl.col('end_time') - pl.col('start_time'))
-            .then(pl.col('duration'))
-            .otherwise(pl.col('end_time') - pl.col('start_time'))
-            .alias('duration')
-        )
-    )
-
-    date_tag_product = pl.DataFrame(
-        list({'start_date': d, 'tag': t} for d, t in itertools.product(range, tags_set))
-    ).with_columns(start_date=pl.col('start_date').cast(pl.Date).cast(str))
-
-    tag_per_day = (
-        df.with_columns(tag=pl.col('tags').explode())
-        .groupby(['tag', 'start_date'])
-        .agg(pl.sum('duration').alias('duration'))
-        .filter(pl.col('tag').is_not_null())
-        .with_columns(start_date=pl.col('start_date').cast(str))
-        .join(
-            date_tag_product,
-            on=['start_date', 'tag'],
-            how='outer',
-        )
-        .sort(by=['tag', 'start_date'])
-        .with_columns(
-            duration=pl.when(
-                pl.col('duration').is_null(),
-            )
-            .then(pl.duration(minutes=0))
-            .otherwise(pl.col('duration')),
-        )
-        .with_columns(
-            start_date=pl.col('start_date_right'),
-            tag=pl.col('tag_right'),
-        )
-    )
-
-    wide = (
-        tag_per_day.filter(pl.col('tag').is_in(['recap', 'biz']))
-        .sort(by='start_date')
-        .pivot(
-            values='duration',
-            columns='tag',
-            index='start_date',
-            aggregate_function='sum',
-        )
-    )
-
-    tbl = Table(title='🏷  Tag per day')
-    tbl.add_column('date')
-    tbl.add_column('re:cap')
-    tbl.add_column('biz')
-    for row in wide.rows(named=True):
-        recap = row.get('recap') or dt.timedelta()
-        biz = row.get('biz') or dt.timedelta()
-
-        tbl.add_row(
-            str(row['start_date']),
-            convert_timedelta_to_human_readable(recap),
-            convert_timedelta_to_human_readable(biz),
-        )
-
-    console.print(tbl)
-    return 0
-
-
 def clean_description(name: str, patterns: tuple[str, ...]) -> str:
     for p in patterns:
         name = name.replace(p, '')
@@ -234,6 +147,8 @@ def main() -> int:
         start_pomodoro(selector)
         return 0
     elif args.command == 'report':
+        from dennich.todo.report import report
+
         return report(since=args.since, report_type=args.report_type)
     elif args.command == 'today-status':
         return today_status.main()
@@ -243,17 +158,6 @@ def main() -> int:
     else:
         run(['notify-send', 'Unknown command'])
         raise NotImplementedError('unknown command')
-
-
-def convert_timedelta_to_human_readable(td: dt.timedelta) -> str:
-    """
-    XXh YYm
-    """
-    minutes = td.total_seconds() / 60
-    hours, minutes = divmod(minutes, 60)
-    if hours == 0 and minutes == 0:
-        return '-'
-    return f'{int(hours)}h {int(minutes)}m'
 
 
 if __name__ == '__main__':
