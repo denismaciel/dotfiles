@@ -1,16 +1,8 @@
-import enum
 import os
 import tempfile
 from dataclasses import dataclass
 from shutil import which
-from subprocess import CompletedProcess
-from subprocess import run
 from typing import Protocol
-
-
-class SelectionKind(enum.StrEnum):
-    NEW_ITEM = 'new_item'
-    EXISIING_ITEM = 'existing_item'
 
 
 @dataclass
@@ -19,27 +11,16 @@ class SelectionCancelled:
 
 
 @dataclass
-class SelectionSelected:
-    kind: SelectionKind
+class SelectionExistingItem:
+    id: int
+
+
+@dataclass
+class SelectionNewItem:
     text: str
 
 
-Selection = SelectionSelected | SelectionCancelled
-
-
-def define_select_kind_from_rofi(
-    proc: CompletedProcess[str],
-) -> Selection:
-    if proc.returncode != 0:
-        return SelectionCancelled()
-
-    idx, text = proc.stdout.split('|')
-
-    # Rofi returns -1 when no match is found
-    if idx == '-1':
-        return SelectionSelected(text=text.strip(), kind=SelectionKind.NEW_ITEM)
-
-    return SelectionSelected(text=text.strip(), kind=SelectionKind.EXISIING_ITEM)
+Selection = SelectionExistingItem | SelectionNewItem | SelectionCancelled
 
 
 class Selector(Protocol):
@@ -50,27 +31,6 @@ class Selector(Protocol):
         multi_select: bool | None = False,
     ) -> Selection:
         ...
-
-
-class Rofi:
-    def select(
-        self,
-        items: list[str],
-        prompt: str | None = None,
-        multi_select: bool | None = False,
-    ) -> Selection:
-        if multi_select is True:
-            raise NotImplementedError('multi-select is not implemented')
-
-        mutli_select_opt = '-multi-select' if multi_select else ''
-        prompt = prompt or ''
-        with tempfile.NamedTemporaryFile('w+') as f:
-            f.write('\n'.join(items))
-            f.flush()
-            cmd = f'rofi -dmenu -p "{prompt} > " {mutli_select_opt} -format "i|s" -input {f.name}'
-            proc = run(cmd, shell=True, capture_output=True, text=True)
-
-        return define_select_kind_from_rofi(proc)
 
 
 class FzfPrompt:
@@ -117,15 +77,17 @@ def define_select_kind_from_fzf(selection: tuple[str, ...]) -> Selection:
     #  the user input did not match any existing item
     #  so it must be that the user wants to create a new item
     if len(selection) == 1 and selection[0] != '':
-        return SelectionSelected(text=selection[0], kind=SelectionKind.NEW_ITEM)
+        return SelectionNewItem(text=selection[0])
 
     if len(selection) == 2:
         user_input, todo = selection
         _ = user_input
+
+        idx, *_ = todo.split(' ')
         # user input can be empty, which means that the user selected an existing item with the arrow keys
         # user input can be a string which means that the user selected with fuzzy search
         # the distinction is, however, irrelevant for the rest of the program
-        return SelectionSelected(text=todo.strip(), kind=SelectionKind.EXISIING_ITEM)
+        return SelectionExistingItem(id=int(idx))
 
     raise ValueError('Unhandled selection case')
 
@@ -144,8 +106,13 @@ class Fzf:
             '--height 100%',
             '--reverse',
             '--print-query',
+            '--with-nth 2..',
             f'--prompt="{prompt} > "',
         ]
+
+        # add index to items
+
+        items = [f'{i} {item}' for i, item in enumerate(items)]
 
         # use FzfPrompt
         fzf = FzfPrompt()
@@ -153,5 +120,7 @@ class Fzf:
             choices=items,
             fzf_options=' '.join(options),
         )
+
+        print(selection)
 
         return define_select_kind_from_fzf(selection)

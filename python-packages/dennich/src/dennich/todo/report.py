@@ -106,14 +106,17 @@ def report(since: int, report_type: str) -> int:
     tbl.add_column('date')
     tbl.add_column('re:cap')
     tbl.add_column('biz')
+    tbl.add_column('monastic')
     for row in wide.rows(named=True):
         recap = row.get('recap') or dt.timedelta()
         biz = row.get('biz') or dt.timedelta()
+        monastic = row.get('monastic') or dt.timedelta()
 
         tbl.add_row(
             str(row['start_date']),
             convert_timedelta_to_human_readable(recap),
             convert_timedelta_to_human_readable(biz),
+            convert_timedelta_to_human_readable(monastic),
         )
 
     console.print(tbl)

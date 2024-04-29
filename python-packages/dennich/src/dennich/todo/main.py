@@ -21,8 +21,8 @@ from dennich.todo.models import upsert_todo
 from dennich.todo.pomodoro.client import Client
 from dennich.todo.select import Fzf
 from dennich.todo.select import SelectionCancelled
-from dennich.todo.select import SelectionKind
-from dennich.todo.select import SelectionSelected
+from dennich.todo.select import SelectionExistingItem
+from dennich.todo.select import SelectionNewItem
 from dennich.todo.select import Selector
 
 
@@ -40,7 +40,7 @@ def render_tags(todo: Todo, pad: int) -> str:
     return ' '.join(f'#{tag}' for tag in todo.tags).ljust(pad)
 
 
-def render_todos(todos: list[Todo]) -> Iterable[str]:
+def render_todos(todos: list[Todo]) -> Iterable[tuple[Todo, str]]:
     """
     Render todos as strings to be selected with fzf.
     """
@@ -50,7 +50,7 @@ def render_todos(todos: list[Todo]) -> Iterable[str]:
 
     for todo in todos:
         rendered_tag = render_tags(todo, max_len + 3)
-        yield rendered_tag + ' ' + todo.name
+        yield todo, rendered_tag + ' ' + todo.name
 
 
 def start_pomodoro(selector: Selector) -> int:
@@ -65,28 +65,29 @@ def start_pomodoro(selector: Selector) -> int:
     sess = get_session()
     todos = load_todos(sess)
     todos = sort_todos(todos)
-    rendered = render_todos(todos)
-    selection = selector.select(list(rendered), prompt='🍅')
+    rendered = list(render_todos(todos))
+    selection = selector.select([todo_str for todo_str, _ in rendered], prompt='🍅')
 
     match selection:
-        case SelectionSelected(kind=SelectionKind.NEW_ITEM):
+        case SelectionNewItem():
             todo = Todo.from_text_prompt(selection.text)
             logger.debug('Adding new todo', todo=todo)
-        case SelectionSelected(kind=SelectionKind.EXISIING_ITEM):
-            (todo,) = (t for t in todos if str(t) == selection.text)
+        case SelectionExistingItem():
+            todo = todos[selection.id]
             logger.debug('Selecting existing todo', todo=todo)
-        case SelectionSelected(kind):
-            raise ValueError(f'Unhandled selection kind: {kind}')
         case SelectionCancelled():
             return 0
         case _:
             typing.assert_never(selection)
 
-    selection_pomo = selector.select([str(d) for d in [25, 20, 15, 10, 5, 1, 'done']])
+    POMODORO_DURATIONS = [25, 20, 15, 10, 5, 1, 'done']
+    selection_pomo = selector.select([str(d) for d in POMODORO_DURATIONS])
 
     match selection_pomo:
-        case SelectionSelected():
-            duration = selection_pomo.text
+        case SelectionExistingItem():
+            duration = POMODORO_DURATIONS[selection_pomo.id]
+        case SelectionNewItem():
+            raise ValueError(f'Unknown pomodoro time: {selection_pomo.text}')
         case SelectionCancelled():
             # by cancelling the pomodoro, we want to simply add the todo
             # without starting a pomodoro
