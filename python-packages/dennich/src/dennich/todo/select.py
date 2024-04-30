@@ -111,9 +111,7 @@ class Fzf:
         ]
 
         # add index to items
-
         items = [f'{i} {item}' for i, item in enumerate(items)]
-
         # use FzfPrompt
         fzf = FzfPrompt()
         selection = fzf.prompt(

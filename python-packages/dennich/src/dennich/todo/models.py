@@ -133,24 +133,23 @@ def load_todos(sess: Session) -> list[Todo]:
 
 
 def sort_todos(todos: list[Todo]) -> list[Todo]:
-    """ """
+    """
+    1. Last active.
+    2. Sorted by tag.
+    3. Within a tag, underscore last.
+    """
     if len(todos) == 0:
         return []
 
+    def custom_sort(todo: Todo) -> tuple[bool, str]:
+        first = todo.tags[0] if todo.tags else 'zzz'
+        second = todo.name.startswith('_')
+        return second, first
+
     first = todos[0]
+    others = sorted(todos[1:], key=custom_sort)
 
-    underscore = []
-    regular = []
-    for todo in todos[1:]:
-        if todo.name.startswith('_'):
-            underscore.append(todo)
-        else:
-            regular.append(todo)
-
-    underscore = sorted(underscore, key=lambda t: t.name)
-    regular = sorted(regular, key=lambda t: (t.tags, t.name))
-
-    return [first, *regular, *underscore]
+    return [first, *others]
 
 
 def load_pomodoros_created_after(sess: Session, date: dt.datetime) -> list[Pomodoro]:

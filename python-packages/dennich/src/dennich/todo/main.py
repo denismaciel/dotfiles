@@ -37,7 +37,9 @@ logger = structlog.stdlib.get_logger()
 
 
 def render_tags(todo: Todo, pad: int) -> str:
-    return ' '.join(f'#{tag}' for tag in todo.tags).ljust(pad)
+    if len(todo.tags) == 0:
+        return '.' * pad
+    return ' '.join(f'#{tag}' for tag in todo.tags).ljust(pad, '.')
 
 
 def render_todos(todos: list[Todo]) -> Iterable[tuple[Todo, str]]:
@@ -66,7 +68,7 @@ def start_pomodoro(selector: Selector) -> int:
     todos = load_todos(sess)
     todos = sort_todos(todos)
     rendered = list(render_todos(todos))
-    selection = selector.select([todo_str for todo_str, _ in rendered], prompt='🍅')
+    selection = selector.select([todo_str for _, todo_str in rendered], prompt='🍅')
 
     match selection:
         case SelectionNewItem():
