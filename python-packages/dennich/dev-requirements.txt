@@ -140,7 +140,7 @@ stack-data==0.6.3
     # via ipython
 structlog==23.2.0
     # via dennich (pyproject.toml)
-tqdm==4.66.1
+tqdm==4.66.3
     # via openai
 traitlets==5.13.0
     # via
