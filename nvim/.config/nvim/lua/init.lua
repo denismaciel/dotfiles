@@ -144,7 +144,27 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 vim.opt.runtimepath:prepend(lazypath)
+
+-- ============================
+-- Plugins
+-- ============================
 require('lazy').setup({
+    {
+        'frankroeder/parrot.nvim',
+        dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim' },
+        config = function()
+            require('parrot').setup({
+                providers = {
+                    -- openai = {
+                    --     api_key = os.getenv('OPENAI_API_KEY'),
+                    -- },
+                    anthropic = {
+                        api_key = os.getenv('ANTHROPIC_API_KEY'),
+                    },
+                },
+            })
+        end,
+    },
     {
         'preservim/vim-pencil',
     },

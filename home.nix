@@ -332,7 +332,25 @@
           };
         };
       };
-
+      "home-horizontal" = {
+        fingerprint = {
+          "DP-3" = dell;
+          "eDP-1" = laptop;
+        };
+        config = {
+          DP-3 = {
+            mode = "2560x1440";
+            position = "1680x0";
+            rotate = "normal";
+            primary = true;
+          };
+          eDP-1 = {
+            mode = "1680x1050";
+            position = "0x599";
+            rotate = "normal";
+          };
+        };
+      };
       "home" = {
         fingerprint = {
           "DP-3" = dell;
@@ -345,7 +363,6 @@
             rotate = "left";
             primary = true;
           };
-
           eDP-1 = {
             mode = "1680x1050";
             position = "0x599";
