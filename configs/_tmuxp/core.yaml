@@ -45,23 +45,13 @@ windows:
     panes:
       -
       -
-  - window_name: self-destructing-meetings
-    start_directory: "~/github.com/denismaciel/self-destructing-meetings"
-    panes:
-      -
-      -
   - window_name: dennich
     start_directory: "~/dotfiles/python-packages/dennich"
     panes:
       -
       -
-  - window_name: downloads
-    start_directory: "~/Downloads"
-    panes:
-      -
-      -
   - window_name: lighthouse
-    start_directory: "~/me/lighthouse"
+    start_directory: "~/github.com/monasticai/lighthouse/"
     panes:
       -
       -

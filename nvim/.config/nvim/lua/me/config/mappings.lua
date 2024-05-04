@@ -347,3 +347,5 @@ local function open_test_file()
 end
 
 vim.keymap.set('n', '<leader>ro', open_test_file)
+vim.keymap.set('n', '<leader>gg', '<cmd>PrtChatToggle<cr>')
+vim.keymap.set('n', '<leader>gn', '<cmd>PrtChatNew<cr>')
