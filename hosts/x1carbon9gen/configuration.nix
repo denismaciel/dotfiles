@@ -53,17 +53,16 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  services.displayManager = {
+    sddm.enable = true;
+    defaultSession = "none+awesome";
+  };
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
 
     autoRepeatDelay = 200;
     autoRepeatInterval = 40;
-
-    displayManager = {
-      sddm.enable = true;
-      defaultSession = "none+awesome";
-    };
 
     windowManager.awesome = {
       enable = true;
@@ -119,7 +118,7 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.denis = {
