@@ -24,10 +24,11 @@ require('awful.hotkeys_popup.keys')
 -- local debian = require 'debian.menu'
 local has_fdo, freedesktop = pcall(require, 'freedesktop')
 
-beautiful.wallpaper = '/user/denis/Downloads/wallpaper.jpg'
-
-function debug_log(obj)
+local function debug_log(obj)
     local f = io.open('/tmp/awesome-debug.log', 'w')
+    if f == nil then
+        return
+    end
     f:write(obj .. '\n')
     f:close()
 end
@@ -280,7 +281,7 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey }, 'd', function()
         utils.getenv('work_mode')
-        utils.focus_or_spawn(
+        utils.toggle_or_spawn(
             'Notebook',
             [[ alacritty --class Notebook -e /home/denis/dotfiles/scripts/daily_note  ]]
         )
@@ -292,6 +293,13 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey }, 'f', function()
         utils.focus_or_spawn('Code', 'alacritty --class Code')
+    end),
+
+    awful.key({ modkey }, 'p', function()
+        utils.toggle_or_spawn(
+            'Chat',
+            'alacritty --class Chat -e "nvim" "-c" "PrtChatNew"'
+        )
     end),
 
     awful.key({ modkey }, 'g', function()
@@ -454,6 +462,16 @@ clientbuttons = gears.table.join(
 root.keys(globalkeys)
 -- }}}
 
+function awful.rules.delayed_properties.delayed_placement(c, value, props) --luacheck: no unused
+    if props.delayed_placement then
+        awful.rules.extra_properties.placement(
+            c,
+            props.delayed_placement,
+            props
+        )
+    end
+end
+
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
@@ -510,16 +528,47 @@ awful.rules.rules = {
         },
         properties = { floating = true, placement = awful.placement.centered },
     },
+    {
+
+        rule_any = {
+            class = {
+                'Zenity',
+                'Scratchpad',
+                'zenity',
+                'Dragon',
+            },
+        },
+        properties = {
+            ontop = true,
+        },
+    },
+    {
+        rule_any = { class = { 'Notebook', 'Anki', 'Chat' } },
+        properties = {
+            floating = true,
+            width = 1200,
+            height = 1000,
+            -- placement = awful.placement.centered,
+            delayed_placement = awful.placement.centered,
+        },
+    },
+    {
+        rule_any = { class = { 'KeePassXC' } },
+        properties = {
+            floating = true,
+            width = 1200,
+            height = 1000,
+            ontop = false,
+            -- placement = awful.placement.centered,
+            delayed_placement = awful.placement.centered,
+        },
+    },
 
     -- Add titlebars to normal clients and dialogs
     {
         rule_any = { type = { 'normal', 'dialog' } },
         properties = { titlebars_enabled = true },
     },
-
-    -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = "2" } },
 }
 -- }}}
 
@@ -538,21 +587,6 @@ client.connect_signal('manage', function(c)
         -- Prevent clients from being unreachable after screen count changes.
         awful.placement.no_offscreen(c)
     end
-    if
-        c.class == 'Zenity'
-        or c.class == 'Scratchpad'
-        or c.class == 'zenity'
-        or c.class == 'Dragon'
-    then
-        c.ontop = true
-    end
-
-    if c.class == 'Anki' then
-        c.floating = true
-        c.width = 800
-        c.height = 600
-        c.centered = true
-    end
 
     -- Rounded corners
     c.shape = function(cr, w, h)
@@ -570,7 +604,4 @@ end)
 
 -- Gaps
 beautiful.useless_gap = 3
-
 awful.spawn.with_shell('syncthing')
--- awful.spawn.with_shell('/home/denis/dotfiles/scripts/laptop-dell-vertical.sh')
--- awful.spawn.with_shell '/home/denis/.config/polybar/launch.sh'

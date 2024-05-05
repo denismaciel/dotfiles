@@ -4,6 +4,7 @@
   ...
 }: {
   home.packages = with pkgs; [
+    aws-sam-cli
     pocketbase
     dig
     appimage-run
@@ -177,9 +178,6 @@
   home.file = {
     ".npmrc".source = ./configs/_npmrc;
     ".ipython/profile_default/ipython_config.py".source = ./configs/_ipython/profile_default/ipython_config.py;
-    ".config/awesome/rc.lua".source = ./configs/awesome/rc.lua;
-    ".config/awesome/main/utils.lua".source = ./configs/awesome/main/utils.lua;
-    ".config/awesome/main/dkjson.lua".source = ./configs/awesome/main/dkjson.lua;
     ".config/direnv/direnv.toml".source = ./configs/direnv/direnv.toml;
     ".config/fd/ignore".source = ./configs/fd/ignore;
     ".config/greenclip.toml".source = ./configs/greenclip.toml;

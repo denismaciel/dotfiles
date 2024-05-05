@@ -145,6 +145,24 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.runtimepath:prepend(lazypath)
 
+local function read_file(file_path)
+    local file, error_message = io.open(file_path, 'r')
+    if file then
+        local content = file:read('*all')
+        -- trim trailing and
+        content = content:gsub('^%s+', ''):gsub('%s+$', '')
+        file:close()
+        return content
+    else
+        error(
+            'Unable to open the file: '
+                .. file_path
+                .. '\nError: '
+                .. error_message
+        )
+    end
+end
+
 -- ============================
 -- Plugins
 -- ============================
@@ -159,7 +177,9 @@ require('lazy').setup({
                     --     api_key = os.getenv('OPENAI_API_KEY'),
                     -- },
                     anthropic = {
-                        api_key = os.getenv('ANTHROPIC_API_KEY'),
+                        api_key = read_file(
+                            '/home/denis/credentials/anthropic-api-key'
+                        ),
                     },
                 },
             })

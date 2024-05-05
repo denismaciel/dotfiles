@@ -11,20 +11,25 @@ local print = function(text)
         text = text,
     })
 end
---
--- -- Function to list all clients
--- local function list_clients()
---     local clients = client.get() -- Fetches all clients
---
---     for _, c in pairs(clients) do
---         if c.name then
---             print('Client Name: ' .. c.name .. ' ' .. c.class)
---         end
---     end
--- end
 
--- Call the function
--- list_clients()
+-- -- Function to list all clients
+local function list_clients()
+    local clients = client.get() -- Fetches all clients
+
+    for _, c in pairs(clients) do
+        if c.name then
+            print(
+                'Client Name: '
+                    .. c.name
+                    .. ' -- '
+                    .. c.class
+                    .. ' -- '
+                    .. tostring(c.ontop)
+            )
+        end
+    end
+end
+list_clients()
 
 -- -- Function to minimize all clients except the currently active one
 -- local function minimize_except_focused()
@@ -43,10 +48,10 @@ end
 --
 -- minimize_except_focused()
 
-local awful = require('awful')
-print(awful.client.name)
-print(awful.client.class)
-print(awful.client.focus.history.previous())
-print(awful.client.name)
-print(awful.client.class)
-print('here')
+-- local awful = require('awful')
+-- print(awful.client.name)
+-- print(awful.client.class)
+-- print(awful.client.focus.history.previous())
+-- print(awful.client.name)
+-- print(awful.client.class)
+-- print('here')
