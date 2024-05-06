@@ -1,15 +1,8 @@
-local group = vim.api.nvim_create_augroup('CustomizeGo', { clear = true })
-vim.api.nvim_create_autocmd('BufEnter', {
-    callback = function()
-        vim.bo.shiftwidth = 6
-        vim.bo.expandtab = false
-        vim.bo.tabstop = 6
-        vim.opt.list = true
-        vim.opt.listchars =
-            'tab:▸ ,trail:·,nbsp:␣,extends:❯,precedes:❮'
-    end,
-    group = group,
-})
+vim.bo.shiftwidth = 6
+vim.bo.expandtab = false
+vim.bo.tabstop = 6
+vim.opt.list = true
+vim.opt.listchars = 'tab:▸ ,trail:·,nbsp:␣,extends:❯,precedes:❮'
 
 local function org_imports()
     local params = vim.lsp.util.make_range_params()

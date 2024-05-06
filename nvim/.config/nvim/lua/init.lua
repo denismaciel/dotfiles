@@ -173,9 +173,11 @@ require('lazy').setup({
         config = function()
             require('parrot').setup({
                 providers = {
-                    -- openai = {
-                    --     api_key = os.getenv('OPENAI_API_KEY'),
-                    -- },
+                    openai = {
+                        api_key = read_file(
+                            '/home/denis/credentials/openai-api-key'
+                        ),
+                    },
                     anthropic = {
                         api_key = read_file(
                             '/home/denis/credentials/anthropic-api-key'
