@@ -1046,7 +1046,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     group = vim.api.nvim_create_augroup('CustomizeWebDev', { clear = true }),
     pattern = { '*.js', '*.jsx', '*.ts', '*.tsx', '*.html', '*.css', '*.scss' },
     callback = function()
-        vim.bo.shiftwidth = 2
+        vim.api.nvim_buf_set_option(0, 'shiftwidth', 2)
     end,
 })
 
