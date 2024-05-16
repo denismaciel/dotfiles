@@ -4,14 +4,13 @@ vim.cmd('SoftPencil')
 
 me.highlight_markdown_titles()
 
-local group = vim.api.nvim_create_augroup('CustomizeNix', { clear = true })
 vim.api.nvim_create_autocmd('BufEnter', {
     callback = function()
         vim.api.nvim_win_set_option(0, 'wrap', true)
-        vim.api.nvim_buf_set_option(0, 'shiftwidth', 2)
         vim.api.nvim_buf_set_option(0, 'conceallevel', 0)
     end,
-    group = group,
+    group = vim.api.nvim_create_augroup('CustomizeMarkdown', { clear = true }),
+    pattern = { '*.md', '*.txt' },
 })
 
 vim.keymap.set('n', '<C-N>', function()

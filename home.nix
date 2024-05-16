@@ -4,6 +4,8 @@
   ...
 }: {
   home.packages = with pkgs; [
+    jsonnet-language-server
+    cloudflare-warp
     aws-sam-cli
     pocketbase
     dig
@@ -18,7 +20,6 @@
     markdownlint-cli
     hyperfine
     graphviz
-    sqlcipher
     python312
     slides
     skim
@@ -283,6 +284,12 @@
       bind-key -r j resize-pane -D 5
       bind-key -r h resize-pane -L 5
       bind-key -r l resize-pane -R 5
+
+      # # Autozoom when moving to nvim pane.
+      # bind-key -n C-l run "tmux-select-pane.sh -L"
+      # bind-key -n C-k run "tmux-select-pane.sh -U"
+      # bind-key -n C-j run "tmux-select-pane.sh -D"
+      # bind-key -n C-h run "tmux-select-pane.sh -R"
 
       ######################
       ### DESIGN CHANGES ###
