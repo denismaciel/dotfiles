@@ -341,7 +341,8 @@ require('lazy').setup({
                 width = 70,
             },
             filters = {
-                dotfiles = true,
+                dotfiles = false,
+                git_ignored = false,
             },
         },
         dependencies = {
