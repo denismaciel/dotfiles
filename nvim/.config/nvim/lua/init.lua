@@ -343,6 +343,11 @@ require('lazy').setup({
             filters = {
                 dotfiles = false,
                 git_ignored = false,
+                custom = {
+                    '^\\.git',
+                    '__pycache__',
+                    '\\.egg-info$',
+                },
             },
         },
         dependencies = {
