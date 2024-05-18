@@ -45,13 +45,14 @@ windows:
     panes:
       -
       -
-  - window_name: dennich
-    start_directory: "~/dotfiles/python-packages/dennich"
+  - window_name: lighthouse
+    start_directory: "~/github.com/monasticai/lighthouse/"
     panes:
       -
       -
-  - window_name: lighthouse
-    start_directory: "~/github.com/monasticai/lighthouse/"
+
+  - window_name: ai
+    start_directory: "~/github.com/denismaciel/ai"
     panes:
       -
       -
