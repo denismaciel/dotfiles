@@ -187,7 +187,7 @@
     ".config/lf/lfrc".source = ./configs/lf/lfrc;
     ".config/pgcli/config".source = ./configs/pgcli/config;
     ".config/redshift/redshift.conf".source = ./configs/redshift/redshift.conf;
-    ".config/rofi/config.rasi".source = ./configs/rofi/config.rasi;
+    # ".config/rofi/config.rasi".source = ./configs/rofi/config.rasi;
     ".config/sioyek/prefs_user.config".source = ./configs/sioyek/prefs_user.config;
     ".ctags.d/default.ctags".source = ./configs/_ctags.d/default.ctags;
     ".newsboat/config".source = ./configs/_newsboat/config;
@@ -551,33 +551,33 @@
   };
 
   # Theme GTK
-  gtk = {
-    enable = true;
-    font = {
-      name = "Poppins";
-      size = 9;
-      # package = pkgs.ubuntu_font_family;
-      package = pkgs.google-fonts.override {fonts = ["Poppins"];};
-    };
-    iconTheme = {
-      name = "Papirus";
-      package = pkgs.papirus-icon-theme;
-    };
-
-    theme = {
-      name = "Catppuccin-Orange-Dark-Compact";
-      package = pkgs.catppuccin-gtk.override {
-        size = "compact";
-        variant = "frappe";
-      };
-    };
-    cursorTheme = {
-      package = pkgs.catppuccin-cursors.frappeDark;
-      name = "Catppuccin-Frappe-Dark-Cursors";
-    };
-    gtk3.extraConfig = {gtk-application-prefer-dark-theme = 1;};
-    gtk4.extraConfig = {gtk-application-prefer-dark-theme = 1;};
-  };
+  # gtk = {
+  #   enable = true;
+  #   font = {
+  #     name = "Poppins";
+  #     size = 9;
+  #     # package = pkgs.ubuntu_font_family;
+  #     package = pkgs.google-fonts.override {fonts = ["Poppins"];};
+  #   };
+  #   iconTheme = {
+  #     name = "Papirus";
+  #     package = pkgs.papirus-icon-theme;
+  #   };
+  #
+  #   theme = {
+  #     name = "Catppuccin-Orange-Dark-Compact";
+  #     package = pkgs.catppuccin-gtk.override {
+  #       size = "compact";
+  #       variant = "frappe";
+  #     };
+  #   };
+  #   cursorTheme = {
+  #     package = pkgs.catppuccin-cursors.frappeDark;
+  #     name = "Catppuccin-Frappe-Dark-Cursors";
+  #   };
+  #   gtk3.extraConfig = {gtk-application-prefer-dark-theme = 1;};
+  #   gtk4.extraConfig = {gtk-application-prefer-dark-theme = 1;};
+  # };
 
   # Theme QT -> GTK
   qt = {
@@ -649,18 +649,18 @@
     };
   };
 
-  systemd.user.services.feh = {
-    Unit = {
-      Description = "Feh";
-    };
-    Install = {
-      WantedBy = ["graphical-session.target"];
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.feh}/bin/feh --bg-fill --no-xinerama /home/denis/dotfiles/assets/wallpaper.jpg";
-    };
-  };
+  # systemd.user.services.feh = {
+  #   Unit = {
+  #     Description = "Feh";
+  #   };
+  #   Install = {
+  #     WantedBy = ["graphical-session.target"];
+  #   };
+  #   Service = {
+  #     Type = "oneshot";
+  #     ExecStart = "${pkgs.feh}/bin/feh --bg-fill --no-xinerama /home/denis/dotfiles/assets/wallpaper.jpg";
+  #   };
+  # };
 
   systemd.user.services.greenclip = {
     Unit = {
@@ -693,9 +693,9 @@
       default-zoom-level = "standard";
     };
 
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-    };
+    # "org/gnome/desktop/interface" = {
+    #   color-scheme = "prefer-dark";
+    # };
 
     "org/gnome/nautilus/preferences" = {
       default-folder-viewer = "icon-view";

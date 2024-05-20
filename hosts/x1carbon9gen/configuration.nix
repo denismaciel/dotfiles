@@ -227,11 +227,42 @@
   };
   services.fprintd.enable = true;
   security.pam.services = {
-    login.unixAuth = true;
+    login.unixAuth = false;
     # fprint is not stable, locked sometimes after suspend
     login.fprintAuth = false;
     sddm.fprintAuth = true;
     xscreensaver.fprintAuth = true;
     kwallet.fprintAuth = true;
+  };
+
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
+  stylix.image = /home/denis/dotfiles/assets/wallpaper.jpg;
+  stylix.fonts = {
+    serif = {
+      name = "Poppins";
+      package = pkgs.google-fonts.override {fonts = ["Poppins"];};
+    };
+
+    sansSerif = {
+      name = "Poppins";
+      package = pkgs.google-fonts.override {fonts = ["Poppins"];};
+    };
+
+    monospace = {
+      package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
+      name = "JetBrainsMono Nerd Font Mono";
+    };
+
+    emoji = {
+      package = pkgs.noto-fonts-emoji;
+      name = "Noto Color Emoji";
+    };
+  };
+
+  stylix.fonts.sizes = {
+    applications = 9;
+    terminal = 15;
+    desktop = 9;
+    popups = 9;
   };
 }

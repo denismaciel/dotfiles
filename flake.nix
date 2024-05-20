@@ -32,6 +32,7 @@
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     alejandra.url = "github:kamadorueda/alejandra/3.0.0";
     alejandra.inputs.nixpkgs.follows = "nixpkgs";
+    stylix.url = "github:danth/stylix";
   };
 
   outputs = inputs @ {
@@ -55,6 +56,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/x1carbon9gen/configuration.nix
+          inputs.stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
             home-manager.useUserPackages = true;
