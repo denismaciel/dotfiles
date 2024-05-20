@@ -1,0 +1,15 @@
+#! /usr/bin/env bash
+
+function act() {
+    if [ -d "venv" ]; then
+        source venv/bin/activate
+        echo "Activated virtual environment in ./venv"
+    elif [ -d ".venv" ]; then
+        source .venv/bin/activate
+        echo "Activated virtual environment in ./.venv"
+    else
+        echo "No virtual environment found in ./venv or ./.venv"
+    fi
+}
+
+act
