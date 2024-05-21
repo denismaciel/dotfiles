@@ -26,7 +26,6 @@
     rust-analyzer
     xdragon
     openai-whisper
-    alacritty
     anki
     arandr
     arp-scan
@@ -248,6 +247,21 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      env = {
+        TERM = "xterm-256color";
+      };
+      font = {
+      };
+    };
+    # cursor = {
+    #   style = "Underline";
+    #   unfocused_hollow = true;
+    # };
+  };
   programs.tmux = {
     enable = true;
     tmuxp.enable = true;
@@ -551,43 +565,43 @@
   };
 
   # Theme GTK
-  # gtk = {
-  #   enable = true;
-  #   font = {
-  #     name = "Poppins";
-  #     size = 9;
-  #     # package = pkgs.ubuntu_font_family;
-  #     package = pkgs.google-fonts.override {fonts = ["Poppins"];};
-  #   };
-  #   iconTheme = {
-  #     name = "Papirus";
-  #     package = pkgs.papirus-icon-theme;
-  #   };
-  #
-  #   theme = {
-  #     name = "Catppuccin-Orange-Dark-Compact";
-  #     package = pkgs.catppuccin-gtk.override {
-  #       size = "compact";
-  #       variant = "frappe";
-  #     };
-  #   };
-  #   cursorTheme = {
-  #     package = pkgs.catppuccin-cursors.frappeDark;
-  #     name = "Catppuccin-Frappe-Dark-Cursors";
-  #   };
-  #   gtk3.extraConfig = {gtk-application-prefer-dark-theme = 1;};
-  #   gtk4.extraConfig = {gtk-application-prefer-dark-theme = 1;};
-  # };
-
-  # Theme QT -> GTK
-  qt = {
-    enable = true;
-    platformTheme.name = "qtct";
-    style = {
-      name = "adwaita-dark";
-      package = pkgs.adwaita-qt;
+  gtk = {
+    #   enable = true;
+    #   font = {
+    #     name = "Poppins";
+    #     size = 9;
+    #     # package = pkgs.ubuntu_font_family;
+    #     package = pkgs.google-fonts.override {fonts = ["Poppins"];};
+    #   };
+    iconTheme = {
+      name = "Papirus";
+      package = pkgs.papirus-icon-theme;
     };
+    #
+    #   theme = {
+    #     name = "Catppuccin-Orange-Dark-Compact";
+    #     package = pkgs.catppuccin-gtk.override {
+    #       size = "compact";
+    #       variant = "frappe";
+    #     };
+    #   };
+    #   cursorTheme = {
+    #     package = pkgs.catppuccin-cursors.frappeDark;
+    #     name = "Catppuccin-Frappe-Dark-Cursors";
+    #   };
+    #   gtk3.extraConfig = {gtk-application-prefer-dark-theme = 1;};
+    #   gtk4.extraConfig = {gtk-application-prefer-dark-theme = 1;};
   };
+
+  # # Theme QT -> GTK
+  # qt = {
+  #   enable = true;
+  #   platformTheme.name = "qtct";
+  #   style = {
+  #     name = "adwaita-dark";
+  #     package = pkgs.adwaita-qt;
+  #   };
+  # };
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.0" "electron-25.9.0"];
