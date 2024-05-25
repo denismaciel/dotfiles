@@ -188,9 +188,6 @@ require('lazy').setup({
         end,
     },
     {
-        'preservim/vim-pencil',
-    },
-    {
         'NvChad/nvim-colorizer.lua',
         config = function()
             require('colorizer').setup({
@@ -365,6 +362,7 @@ require('lazy').setup({
     },
     -- Colors
     'folke/tokyonight.nvim',
+    'ellisonleao/gruvbox.nvim',
     {
         -- local
         dir = '~/github.com/denismaciel/no-clown-fiesta.nvim',
