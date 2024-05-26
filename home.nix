@@ -2,7 +2,22 @@
   inputs,
   pkgs,
   ...
-}: {
+}: let
+  # The completion script must be in a directory to work
+  dockerCompletions = pkgs.stdenv.mkDerivation {
+    name = "docker-completions";
+    src = pkgs.fetchurl {
+      url = "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker";
+      sha256 = "sha256-wsuSNFsCDZF7VI9Sjshmf0Hr4bJUmq/Sh9b7EqOzA9A=";
+    };
+
+    phases = ["installPhase"];
+    installPhase = ''
+      mkdir -p $out/
+      cp $src $out/_docker
+    '';
+  };
+in {
   home.packages = with pkgs; [
     jsonnet-language-server
     cloudflare-warp
@@ -397,6 +412,8 @@
     defaultKeymap = "viins";
     dotDir = ".config/zsh";
     initExtra = builtins.readFile ./configs/_zshrc;
+    enableCompletion = true;
+    completionInit = "autoload -Uz compinit && compinit -C";
     plugins = [
       {
         name = "zsh-defer";
@@ -410,12 +427,12 @@
       {
         name = "zsh-completions";
         src = pkgs.zsh-completions;
-        file = "zsh-completions.plugin.zsh";
+        # file = "zsh-completions.plugin.zsh";
       }
       {
-        name = "zsh-fzf-tab";
-        file = "fzf-tab.plugin.zsh";
-        src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
+        name = "fzf-tab";
+        src = pkgs.zsh-fzf-tab;
+        file = "share/fzf-tab/fzf-tab.plugin.zsh";
       }
       {
         name = "zsh-autopair";
@@ -431,6 +448,10 @@
         name = "zsh-syntax-highlighting";
         file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
         src = pkgs.zsh-syntax-highlighting;
+      }
+      {
+        name = "docker-completions";
+        src = dockerCompletions;
       }
     ];
   };
