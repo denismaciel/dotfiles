@@ -219,18 +219,18 @@
     };
   };
 
-  systemd.services.cloudflare-warp = {
-    enable = true;
-    description = "Warp server";
-    path = [pkgs.cloudflare-warp];
-    unitConfig = {
-      Type = "simple";
-    };
-    serviceConfig = {
-      ExecStart = "${pkgs.cloudflare-warp}/bin/warp-svc";
-    };
-    wantedBy = ["multi-user.target"];
-  };
+  # systemd.services.cloudflare-warp = {
+  #   enable = true;
+  #   description = "Warp server";
+  #   path = [pkgs.cloudflare-warp];
+  #   unitConfig = {
+  #     Type = "simple";
+  #   };
+  #   serviceConfig = {
+  #     ExecStart = "${pkgs.cloudflare-warp}/bin/warp-svc";
+  #   };
+  #   wantedBy = ["multi-user.target"];
+  # };
   # services.fprintd.enable = true;
   # security.pam.services = {
   #   login.unixAuth = false;
