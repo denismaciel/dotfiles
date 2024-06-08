@@ -211,7 +211,6 @@ require('lazy').setup({
             })
         end,
     },
-    { 'akinsho/toggleterm.nvim', version = '*', opts = {} },
     {
         'nvim-telescope/telescope.nvim',
         dependencies = { 'nvim-lua/plenary.nvim' },
@@ -229,7 +228,6 @@ require('lazy').setup({
             })
         end,
     },
-
     { 'kylechui/nvim-surround', opts = {} },
     'nvimtools/none-ls.nvim',
     {
@@ -306,21 +304,6 @@ require('lazy').setup({
             require('leap').set_default_keymaps()
         end,
     },
-    --    {
-    --        'utilyre/barbecue.nvim',
-    --        opts = {
-    --            show_modified = true,
-    --            theme = {
-    --                dirname = { fg = '#737aa2' },
-    --            },
-    --        },
-    --        name = 'barbecue',
-    --        version = '*',
-    --        dependencies = {
-    --            'SmiteshP/nvim-navic',
-    --            'nvim-tree/nvim-web-devicons',
-    --        },
-    --    },
     'christoomey/vim-tmux-navigator',
     {
         'numToStr/Comment.nvim',
@@ -362,7 +345,6 @@ require('lazy').setup({
     },
     -- Colors
     'folke/tokyonight.nvim',
-    'ellisonleao/gruvbox.nvim',
     {
         -- local
         dir = '~/github.com/denismaciel/no-clown-fiesta.nvim',
@@ -612,6 +594,9 @@ require('lazy').setup({
                 },
             }
             lspc.gopls.setup({
+                capabilities = capabilities,
+            })
+            lspc.vtsls.setup({
                 capabilities = capabilities,
             })
             lspc.prismals.setup({
@@ -992,15 +977,15 @@ require('lazy').setup({
                 { '--tag-relative=yes', '--fields=+ailmnS' }
         end,
     },
-    {
-        'pmizio/typescript-tools.nvim',
-        event = 'BufReadPre',
-        dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-        opts = {},
-        config = function()
-            require('typescript-tools').setup({})
-        end,
-    },
+    -- {
+    --     'pmizio/typescript-tools.nvim',
+    --     event = 'BufReadPre',
+    --     dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    --     opts = {},
+    --     config = function()
+    --         require('typescript-tools').setup({})
+    --     end,
+    -- },
 })
 -- require('lazy').setup('plugins')
 require('me.config.mappings')
@@ -1056,9 +1041,10 @@ vim.api.nvim_create_autocmd('BufEnter', {
 
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
     group = vim.api.nvim_create_augroup('CustomizeEnv', { clear = true }),
-    pattern = { '.env.*' },
+    pattern = { '.env.*', '*.env' },
     callback = function()
         vim.bo.filetype = 'sh'
+        vim.lsp.buf_detach_client(0, 1) -- 0: current buffer, 1: bash clients (the only lsp running)
     end,
 })
 

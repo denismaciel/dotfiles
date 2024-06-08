@@ -19,6 +19,9 @@
   };
 in {
   home.packages = with pkgs; [
+    pqrs
+    dockerfile-language-server-nodejs
+    csvlens
     jsonnet-language-server
     cloudflare-warp
     aws-sam-cli
@@ -29,7 +32,6 @@ in {
     eza
     pkg-config
     openssl
-    dbeaver
     feh
     droidcam
     markdownlint-cli
@@ -68,7 +70,6 @@ in {
     fzf
     gcc
     gh
-    gimp
     glow
     gnome.nautilus
     gnome.zenity
@@ -104,7 +105,6 @@ in {
     lua
     mpv
     mycli
-    neovim-nightly
     newsboat
     ngrok
     nil
@@ -262,6 +262,11 @@ in {
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  programs.neovim = {
+    enable = true;
+    package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+  };
 
   programs.alacritty = {
     enable = true;
@@ -628,7 +633,7 @@ in {
   nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.0" "electron-25.9.0"];
   nixpkgs = {
     overlays = [
-      inputs.neovim-nightly-overlay.overlay
+      inputs.neovim-nightly-overlay.overlays.default
     ];
   };
   systemd.user.startServices = true;
@@ -684,18 +689,18 @@ in {
     };
   };
 
-  # systemd.user.services.feh = {
-  #   Unit = {
-  #     Description = "Feh";
-  #   };
-  #   Install = {
-  #     WantedBy = ["graphical-session.target"];
-  #   };
-  #   Service = {
-  #     Type = "oneshot";
-  #     ExecStart = "${pkgs.feh}/bin/feh --bg-fill --no-xinerama /home/denis/dotfiles/assets/wallpaper.jpg";
-  #   };
-  # };
+  systemd.user.services.feh = {
+    Unit = {
+      Description = "Feh";
+    };
+    Install = {
+      WantedBy = ["graphical-session.target"];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.feh}/bin/feh --bg-fill --no-xinerama /home/denis/dotfiles/assets/wallpaper.jpg";
+    };
+  };
 
   systemd.user.services.greenclip = {
     Unit = {

@@ -24,7 +24,7 @@ fn main() -> io::Result<()> {
 
     write_config(&config_path, &config)?; // Write the updated configuration back to the file
     println!("Toggled work_mode to {}", config.work_mode);
-    Ok(())
+    return Ok(())
 }
 
 fn get_config_path() -> io::Result<PathBuf> {
