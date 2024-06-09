@@ -95,41 +95,23 @@ function! RenameFile()
 endfunction
 ]])
 
-local signs = { Error = '•', Warn = '•', Hint = '•', Info = '•' }
-for type, icon in pairs(signs) do
-    local hl = 'DiagnosticSign' .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
-end
+vim.diagnostic.config({
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = '•',
+            [vim.diagnostic.severity.WARN] = '•',
+            [vim.diagnostic.severity.HINT] = '•',
+            [vim.diagnostic.severity.INFO] = '•',
+            ['DapBreakpoint'] = '•',
+        },
+    },
+})
 
 vim.api.nvim_create_autocmd('ExitPre', {
     group = vim.api.nvim_create_augroup('Exit', { clear = true }),
     command = 'set guicursor=a:hor20',
     desc = 'Set cursor back to beam when leaving Neovim.',
 })
-
--- -- Remove cursorline and cursorcolumn when when window is unfocused
--- local function autocmd(events, ...)
---     vim.api.nvim_create_autocmd(events, { callback = ... })
--- end
---
--- local old_guicursor, old_cursorline, old_cursorcolumn
--- autocmd('VimEnter', function()
---     old_guicursor = o.guicursor
---     old_cursorline = o.cursorline
---     old_cursorcolumn = o.cursorcolumn
--- end)
---
--- autocmd({ 'WinLeave', 'FocusLost' }, function()
---     vim.opt.guicursor = 'a:noCursor'
---     vim.opt.cursorline = false
---     vim.opt.cursorcolumn = false
--- end)
---
--- autocmd({ 'WinEnter', 'FocusGained' }, function()
---     vim.opt.guicursor = old_guicursor
---     vim.opt.cursorline = old_cursorline
---     vim.opt.cursorcolumn = old_cursorcolumn
--- end)
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -479,16 +461,11 @@ require('lazy').setup({
                         cmp.mapping.scroll_docs(4),
                         { 'i', 'c' }
                     ),
-                    -- ['<C-Space>'] = cmp.mapping(
-                    --     cmp.mapping.complete(),
-                    --     { 'i', 'c' }
-                    -- ),
                     ['<C-e>'] = cmp.mapping({
                         i = cmp.mapping.abort(),
                         c = cmp.mapping.close(),
                     }),
                     ['<C-y>'] = cmp.mapping.confirm({ select = false }),
-                    -- ['<C-n>'] = cmp.mapping.select_next_item(),
                     ['<C-n>'] = cmp.mapping({
                         i = function(fallback)
                             if cmp.visible() then
