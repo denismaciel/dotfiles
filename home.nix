@@ -266,6 +266,9 @@ in {
   programs.neovim = {
     enable = true;
     package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+    extraLuaConfig = ''
+      require('init')
+    '';
   };
 
   programs.alacritty = {
@@ -277,10 +280,6 @@ in {
       font = {
       };
     };
-    # cursor = {
-    #   style = "Underline";
-    #   unfocused_hollow = true;
-    # };
   };
   programs.tmux = {
     enable = true;
@@ -331,8 +330,6 @@ in {
       set-option -g status-position top
       set -g status-bg colour234
       set -g status-fg colour255
-      # set -g status-right '#[fg=colour233,bg=colour241,bold] %d/%m #[fg=colour233,bg=colour245,bold] %H:%M:%S '
-      # set -g status-right "#(pmd)"
       set -g status-right ""
       set -g status-left ""
       set -g status-justify left
@@ -432,7 +429,6 @@ in {
       {
         name = "zsh-completions";
         src = pkgs.zsh-completions;
-        # file = "zsh-completions.plugin.zsh";
       }
       {
         name = "fzf-tab";
@@ -503,7 +499,7 @@ in {
       character = {
         success_symbol = "[\\$](white)";
         error_symbol = "[●](red)";
-        vicmd_symbol = "[\\$](blue)";
+        vicmd_symbol = "[_](blue)";
       };
       env_var = {
         variable = "ENV";
@@ -524,7 +520,7 @@ in {
         disabled = true;
       };
       git_branch = {
-        style = "white";
+        style = "blue";
         format = "[$symbol$branch(:$remote_branch)]($style) ";
       };
       git_status = {
@@ -542,8 +538,12 @@ in {
       };
       golang = {
         disabled = true;
-        symbol = "";
-        format = "[$symbol($version )]($style)";
+      };
+      lua = {
+        disabled = true;
+      };
+      nodejs = {
+        disabled = true;
       };
     };
   };

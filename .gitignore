@@ -8,7 +8,6 @@ cache.db
 tools/bin/ngrok
 tools/bin/greenclip
 
-
 tools/.newsboat/cache.db.lock
 tools/.config/pgcli/history
 tools/.config/pgcli/log
@@ -16,10 +15,6 @@ tools/.config/pgcli/log
 tools/.newsboat/history.cmdline
 tools/.newsboat/history.search
 tools/bin/gh
-
-
-nvim/.config/nvim/init-home-manager.vim
-nvim/.config/nvim/init.lua
 
 # Files automatically created by home-manager
 nvim/.config/nvim/init.lua
