@@ -266,9 +266,7 @@ in {
   programs.neovim = {
     enable = true;
     package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
-    extraLuaConfig = ''
-      require('init')
-    '';
+    extraLuaConfig = "require('init')";
   };
 
   programs.alacritty = {
@@ -276,8 +274,6 @@ in {
     settings = {
       env = {
         TERM = "xterm-256color";
-      };
-      font = {
       };
     };
   };
