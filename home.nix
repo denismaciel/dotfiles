@@ -356,6 +356,19 @@ in {
   in {
     enable = true;
     profiles = {
+      "monitor-only" = {
+        fingerprint = {
+          "DP-3" = dell;
+        };
+        config = {
+          DP-3 = {
+            mode = "2560x1440";
+            position = "1680x0";
+            rotate = "normal";
+            primary = true;
+          };
+        };
+      };
       "away" = {
         fingerprint = {
           "eDP-1" = laptop;

@@ -2,11 +2,8 @@
 *.sqlite
 bq_tables_list.txt
 recap-cli
-nvim/.config/nvim/plugin/
 duckdb
 cache.db
-tools/bin/ngrok
-tools/bin/greenclip
 
 tools/.newsboat/cache.db.lock
 tools/.config/pgcli/history
@@ -17,6 +14,7 @@ tools/.newsboat/history.search
 tools/bin/gh
 
 # Files automatically created by home-manager
+nvim/.config/nvim/init.lua
 nvim/.config/nvim/init.lua
 nvim/.config/nvim/init-home-manager.vim
 
