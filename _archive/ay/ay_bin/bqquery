@@ -1,8 +1,0 @@
-#! /bin/bash
-
-tbl_path=$HOME/ay_bin/bq_tables_list.txt
-
-tbl=$(cat $tbl_path | fzf)
-q="SELECT * FROM \`${tbl/:/.}\` LIMIT 10;"
-
-printf "$q" | bq query --nouse_legacy_sql
