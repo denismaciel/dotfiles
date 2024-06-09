@@ -499,7 +499,7 @@ in {
       character = {
         success_symbol = "[\\$](white)";
         error_symbol = "[●](red)";
-        vicmd_symbol = "[_](blue)";
+        vicmd_symbol = "[●](blue)";
       };
       env_var = {
         variable = "ENV";
@@ -520,7 +520,7 @@ in {
         disabled = true;
       };
       git_branch = {
-        style = "blue";
+        style = "dimmed white";
         format = "[$symbol$branch(:$remote_branch)]($style) ";
       };
       git_status = {
