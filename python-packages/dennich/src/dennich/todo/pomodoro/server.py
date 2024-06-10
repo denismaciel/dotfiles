@@ -1,6 +1,7 @@
 import asyncio
 import datetime as dt
 import json
+import os
 import socket
 import subprocess
 import typing
@@ -22,9 +23,10 @@ from dennich.todo.models import Response
 from dennich.todo.models import Todo
 
 
-logger = structlog.get_logger()
+log = structlog.get_logger()
 
-MAX_NUMBER_OF_ZENITY_WINDOWS = 20
+MAX_NUMBER_OF_ZENITY_WINDOWS = 15
+NAGGING_INTERVAL_SECONDS = 60
 
 
 @dataclass
@@ -44,7 +46,7 @@ async def pomodoro_task(duration: float, callback: Callable[[], Any]) -> None:
 
 def task_completed_callback() -> None:
     assert RUNNING is not None
-    logger.info('Pomodoro completed.', todo=RUNNING.todo, pomodoro=RUNNING.pomodoro)
+    log.info('Pomodoro completed.', todo=RUNNING.todo, pomodoro=RUNNING.pomodoro)
     assert RUNNING is not None
 
     sess = get_session()
@@ -63,7 +65,7 @@ def task_completed_callback() -> None:
         ],
         capture_output=True,
     )
-    logger.info(
+    log.info(
         'Pomodoro completed.',
         alarm_stderr=proc.stderr.decode('utf-8'),
         alarm_stdout=proc.stdout.decode('utf-8'),
@@ -80,7 +82,7 @@ async def handle_client(client_socket: socket.socket) -> None:
         request_data = await loop.sock_recv(client_socket, 1024)
         request: Request = json.loads(request_data.decode('utf-8'))
 
-        logger.info('Received request.', request=request)
+        log.info('Received request.', request=request)
 
         match request:
             case {'action': 'start'}:
@@ -104,10 +106,9 @@ async def handle_client(client_socket: socket.socket) -> None:
             case _:
                 response = Response(status_code=400, message='Invalid request.')
                 respond(response, client_socket)
-                # typing.assert_never(request)
 
     except Exception as e:
-        logger.exception('Error while handling client request.', exc_info=e)
+        log.exception('Error while handling client request.', exc_info=e)
     finally:
         client_socket.close()
 
@@ -192,13 +193,13 @@ async def server() -> None:
     import atexit
 
     loop = asyncio.get_running_loop()
-    logger.info('Pomodoro server started.')
+    log.info('Pomodoro server started.')
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(('0.0.0.0', 12347))
     atexit.register(server_socket.close)
     server_socket.listen(5)
     server_socket.setblocking(False)
-    logger.info('Pomodoro server started, waiting for connections...')
+    log.info('Pomodoro server started, waiting for connections...')
 
     loop.create_task(nag())
 
@@ -207,35 +208,38 @@ async def server() -> None:
         loop.create_task(handle_client(client_socket))
 
 
-def count_zenity_windows() -> int:
+def count_zenity_notifications():
     try:
-        # Command to count Zenity windows
-        command = ['pgrep', '-c', 'zenity']
+        # Path to the /proc directory where process information is kept
+        proc_dir = '/proc'
 
-        # Run the command and capture the output
-        process = subprocess.run(
-            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-        )
+        # List all entries in the /proc directory (these are process IDs or other system files)
+        dirs = [d for d in os.listdir(proc_dir) if d.isdigit()]
 
-        # Check if the command was executed successfully
-        if process.returncode == 0:
-            # Return the count as an integer
-            return int(process.stdout.strip())
-        else:
-            # If the command failed, return 0 assuming no Zenity windows are open
-            return 0
+        zenity_count = 0
+        for pid in dirs:
+            try:
+                cmd_path = os.path.join(proc_dir, pid, 'cmdline')
+                with open(cmd_path, 'r') as f:
+                    cmdline = f.read()
+                    if 'zenity' in cmdline:
+                        zenity_count += 1
+            except (FileNotFoundError, ProcessLookupError):
+                # The process might have ended before we could read its cmdline
+                continue
+
+        return zenity_count
     except Exception as e:
-        # Handle any exceptions that occur
-        logger.exception('Error while counting Zenity windows.', exc_info=e)
+        log.error(f'An error occurred: {e}')
         return 0
 
 
 async def nag() -> None:
     while True:
-        logger.info('Will I nag?', running_task=RUNNING)
-        await asyncio.sleep(60)
+        log.info('Will I nag?', running_task=RUNNING)
+        await asyncio.sleep(NAGGING_INTERVAL_SECONDS)
         if RUNNING is None:
-            logger.info('Nagging for Pomodoro')
+            log.info('Nagging for Pomodoro')
             cmd = [
                 '/etc/profiles/per-user/denis/bin/zenity',
                 '--error',
@@ -243,17 +247,21 @@ async def nag() -> None:
                 "'Track your time!'",
             ]
 
-            zenity_windows = count_zenity_windows()
-            logger.info('Zenity windows open', zenity_windows=zenity_windows)
+            zenity_windows = count_zenity_notifications()
+            log.info(
+                'Zenity windows open',
+                zenity_windows=zenity_windows,
+                max_number_of_zenity_windows=MAX_NUMBER_OF_ZENITY_WINDOWS,
+            )
             if zenity_windows <= MAX_NUMBER_OF_ZENITY_WINDOWS:
                 try:
-                    proc = await asyncio.create_subprocess_shell(
+                    _ = await asyncio.create_subprocess_shell(
                         ' '.join(cmd),
                         stdout=asyncio.subprocess.PIPE,
                         stderr=asyncio.subprocess.PIPE,
                     )
 
-                    # Commented out becasue we don't want to wait for the Zenity process to complete.
+                    # Commented out because we don't want to wait for the Zenity process to complete.
                     # That is, we don't wanna wait for the user to click on the notification.
                     # Because we want' to be really annoying an trigger mutliple notifications.
                     # Yeah, that's how annoying we are.
@@ -265,16 +273,19 @@ async def nag() -> None:
                     #     nag_stdout=stdout.decode('utf-8'),
                     # )
                 except Exception as e:
-                    logger.error(f'Error executing zenity command: {e}')
+                    log.error(f'Error executing zenity command: {e}')
             else:
-                logger.info('Not nagging, too many Zenity windows open.')
+                log.info('Not nagging, too many Zenity windows open.')
 
 
 def serve() -> int:
     import getpass
 
     user = getpass.getuser()
-    print(f'Starting Pomodoro server for user {user}.')
+    log.info(
+        f'Starting Pomodoro server for user {user}.',
+        max_number_of_zenity_windows=MAX_NUMBER_OF_ZENITY_WINDOWS,
+    )
 
     loop = asyncio.get_event_loop()
     try:
