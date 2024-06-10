@@ -82,8 +82,7 @@ end
 
 M.center_and_change_colorscheme = function()
     vim.cmd([[ normal Gzz ]])
-    vim.cmd([[ colorscheme no-clown-fiesta ]])
-    vim.cmd([[ ZenMode ]])
+    vim.cmd([[ colorscheme tokyonight ]])
     M.highlight_markdown_titles()
 end
 

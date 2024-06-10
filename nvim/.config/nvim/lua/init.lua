@@ -200,16 +200,16 @@ require('lazy').setup({
     'nvim-telescope/telescope-ui-select.nvim',
     { 'folke/which-key.nvim', opts = {} },
     { 'folke/neodev.nvim', opts = {} },
-    {
-        'folke/zen-mode.nvim',
-        opts = function()
-            require('zen-mode').setup({
-                window = {
-                    width = 120,
-                },
-            })
-        end,
-    },
+    -- {
+    --     'folke/zen-mode.nvim',
+    --     opts = function()
+    --         require('zen-mode').setup({
+    --             window = {
+    --                 width = 120,
+    --             },
+    --         })
+    --     end,
+    -- },
     { 'kylechui/nvim-surround', opts = {} },
     'nvimtools/none-ls.nvim',
     {
