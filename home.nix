@@ -39,7 +39,6 @@ in {
     hyperfine
     graphviz
     python312
-    slides
     skim
     rust-analyzer
     xdragon
@@ -110,7 +109,7 @@ in {
     ngrok
     nil
     nodePackages_latest.prettier
-    nodePackages_latest.pyright
+    pyright
     nodePackages_latest.bash-language-server
     nodePackages_latest.typescript-language-server
     nodejs-18_x
@@ -123,7 +122,6 @@ in {
     pasystray
     pgcli
     picom
-    polybar
     postgresql
     pulseaudio
     pulsemixer
@@ -167,9 +165,6 @@ in {
     zathura
     zk
     zoxide
-    zsh
-    zsh-fzf-tab
-    zsh-syntax-highlighting
     # (pkgs.callPackage ./dennich.nix {})
     (rofi.override {plugins = [pkgs.rofi-emoji pkgs.rofi-calc];})
     (google-fonts.override {fonts = ["Poppins"];})
@@ -201,7 +196,6 @@ in {
     ".config/lf/lfrc".source = ./configs/lf/lfrc;
     ".config/pgcli/config".source = ./configs/pgcli/config;
     ".config/redshift/redshift.conf".source = ./configs/redshift/redshift.conf;
-    # ".config/rofi/config.rasi".source = ./configs/rofi/config.rasi;
     ".config/sioyek/prefs_user.config".source = ./configs/sioyek/prefs_user.config;
     ".ctags.d/default.ctags".source = ./configs/_ctags.d/default.ctags;
     ".newsboat/config".source = ./configs/_newsboat/config;
@@ -274,6 +268,10 @@ in {
     settings = {
       env = {
         TERM = "xterm-256color";
+      };
+      font = {
+        normal.family = "Blex Mono Nerd Font";
+        size = 9;
       };
     };
   };
@@ -568,7 +566,7 @@ in {
 
   services.screen-locker = {
     enable = true;
-    inactiveInterval = 5;
+    inactiveInterval = 10;
     lockCmd = "${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 10 15";
   };
 

@@ -329,7 +329,8 @@ require('lazy').setup({
     'folke/tokyonight.nvim',
     {
         -- local
-        dir = '~/github.com/denismaciel/no-clown-fiesta.nvim',
+        -- dir = '~/github.com/denismaciel/no-clown-fiesta.nvim',
+        'aktersnurra/no-clown-fiesta.nvim',
         opts = {
             styles = { type = { bold = true }, comments = { italic = true } },
         },
