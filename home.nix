@@ -19,6 +19,7 @@
   };
 in {
   home.packages = with pkgs; [
+    i3lock-fancy-rapid
     pqrs
     dockerfile-language-server-nodejs
     csvlens
@@ -108,8 +109,8 @@ in {
     newsboat
     ngrok
     nil
-    nodePackages.prettier
-    nodePackages.pyright
+    nodePackages_latest.prettier
+    nodePackages_latest.pyright
     nodePackages_latest.bash-language-server
     nodePackages_latest.typescript-language-server
     nodejs-18_x
@@ -138,7 +139,6 @@ in {
     sqlite
     sqlitebrowser
     ssm-session-manager-plugin # Aws Session Manager for executing commands on Fargate tasks
-    starship
     statix
     stow
     stylua
@@ -235,6 +235,10 @@ in {
   };
   targets.genericLinux.enable = true;
   xsession = {
+    enable = true;
+    windowManager.awesome = {
+      enable = true;
+    };
     # These two lines are needed so xdg-open doesn't
     # get confused and can correctly open links in a browser
     # Source: https://discourse.nixos.org/t/clicked-links-in-desktop-apps-not-opening-browers/29114/3
@@ -243,10 +247,6 @@ in {
       unset DESKTOP_SESSION
       export NODE_OPTIONS="--max-old-space-size=8192"
     '';
-    enable = true;
-    windowManager.awesome = {
-      enable = true;
-    };
   };
 
   # This value determines the Home Manager release that your
@@ -277,6 +277,7 @@ in {
       };
     };
   };
+
   programs.tmux = {
     enable = true;
     tmuxp.enable = true;
@@ -346,6 +347,7 @@ in {
     '';
   };
 
+  services.autorandr.enable = true;
   programs.autorandr = let
     dell = "00ffffffffffff0010acc2d0545135302c1d010380351e78eaad75a9544d9d260f5054a54b008100b300d100714fa9408180d1c00101565e00a0a0a02950302035000e282100001a000000ff004d59334e44394232303551540a000000fc0044454c4c205032343138440a20000000fd0031561d711c000a202020202020012702031bb15090050403020716010611121513141f2065030c001000023a801871382d40582c45000e282100001e011d8018711c1620582c25000e282100009ebf1600a08038134030203a000e282100001a7e3900a080381f4030203a000e282100001a00000000000000000000000000000000000000000000000000000000d8";
     laptop = "00ffffffffffff000e6f041400000000001e0104a51e1378034a6ca4554c9b240d4f5500000001010101010101010101010101010101353c80a070b02340302036002ebd10000018000000fd00303c4a4a0f010a202020202020000000fe0043534f542054330a2020202020000000fe004d4e453030374a41312d310a2000bd";
@@ -514,7 +516,7 @@ in {
         variable = "ENV";
         format = "[$env_value]($style) ";
         symbol = " ";
-        style = "white";
+        style = "dimmed white";
       };
       directory = {
         style = "white";
@@ -541,6 +543,7 @@ in {
         format = "[$duration]($style) ";
       };
       python = {
+        disabled = true;
         symbol = " ";
         format = "[\${symbol}\${pyenv_prefix}(\${version} )(\($virtualenv\) )]($style)";
         style = "white";
@@ -562,6 +565,14 @@ in {
     extraConfig = builtins.readFile ./configs/polybar/config.ini;
     script = builtins.readFile ./configs/polybar/launch.sh;
   };
+
+  services.screen-locker = {
+    enable = true;
+    inactiveInterval = 5;
+    lockCmd = "${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 10 15";
+  };
+
+  services.udiskie.enable = true; # Auto mount devices
 
   programs.git = {
     enable = true;
@@ -599,47 +610,15 @@ in {
     };
   };
 
-  # Theme GTK
   gtk = {
-    #   enable = true;
-    #   font = {
-    #     name = "Poppins";
-    #     size = 9;
-    #     # package = pkgs.ubuntu_font_family;
-    #     package = pkgs.google-fonts.override {fonts = ["Poppins"];};
-    #   };
     iconTheme = {
       name = "Papirus";
       package = pkgs.papirus-icon-theme;
     };
-    #
-    #   theme = {
-    #     name = "Catppuccin-Orange-Dark-Compact";
-    #     package = pkgs.catppuccin-gtk.override {
-    #       size = "compact";
-    #       variant = "frappe";
-    #     };
-    #   };
-    #   cursorTheme = {
-    #     package = pkgs.catppuccin-cursors.frappeDark;
-    #     name = "Catppuccin-Frappe-Dark-Cursors";
-    #   };
-    #   gtk3.extraConfig = {gtk-application-prefer-dark-theme = 1;};
-    #   gtk4.extraConfig = {gtk-application-prefer-dark-theme = 1;};
   };
 
-  # # Theme QT -> GTK
-  # qt = {
-  #   enable = true;
-  #   platformTheme.name = "qtct";
-  #   style = {
-  #     name = "adwaita-dark";
-  #     package = pkgs.adwaita-qt;
-  #   };
-  # };
-
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.0" "electron-25.9.0"];
+  nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
   nixpkgs = {
     overlays = [
       inputs.neovim-nightly-overlay.overlays.default
@@ -673,6 +652,7 @@ in {
       RestartSec = 3;
     };
   };
+
   systemd.user.services.pasystray = {
     Install = {
       WantedBy = ["graphical-session.target"];
@@ -731,6 +711,7 @@ in {
       ExecStart = "/home/denis/.local/bin/dennich-danki dump";
     };
   };
+
   systemd.user.timers.dump-anki = {
     Timer.OnCalendar = "*:0/2";
     Timer.Persistent = true;

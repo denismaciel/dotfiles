@@ -36,6 +36,13 @@ windows:
       -
       -
 
+
+  - window_name: praisepenguin-web
+    start_directory: "~/github.com/denismaciel/praise-penguin/web"
+    panes:
+      -
+      -
+
   - window_name: dotfiles
     start_directory: "~/dotfiles"
     panes:

@@ -233,7 +233,7 @@ globalkeys = gears.table.join(
     ),
 
     awful.key({ modkey, 'Shift' }, 's', function()
-        awful.spawn.with_shell('systemctl suspend && i3lock -c 000000')
+        awful.spawn.with_shell('systemctl suspend && i3lock-fancy-rapid 10 15')
     end, { description = 'sleep & lock', group = 'awesome' }),
 
     awful.key({ modkey }, 'l', function()
