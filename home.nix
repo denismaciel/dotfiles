@@ -269,10 +269,6 @@ in {
       env = {
         TERM = "xterm-256color";
       };
-      font = {
-        normal.family = "Blex Mono Nerd Font";
-        size = 9;
-      };
     };
   };
 

@@ -241,6 +241,7 @@
   #   kwallet.fprintAuth = true;
   # };
 
+  stylix.enable = true;
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
   # stylix.base16Scheme = {
   #   base00 = "151515";
@@ -260,7 +261,7 @@
   #   base0E = "d3869b";
   #   base0F = "d65d0e";
   # };
-  stylix.image = ./assets/wallpaper.jpg;
+  stylix.image = /home/denis/dotfiles/assets/wallpaper.jpg;
 
   stylix.fonts = {
     serif = {
@@ -274,7 +275,7 @@
     };
 
     monospace = {
-      name = "IBMPlexMono";
+      name = "Blex Mono Nerd Font";
       package = pkgs.nerdfonts.override {fonts = ["IBMPlexMono"];};
     };
 
@@ -286,7 +287,7 @@
 
   stylix.fonts.sizes = {
     applications = 9;
-    terminal = 6;
+    terminal = 9;
     desktop = 9;
     popups = 9;
   };
