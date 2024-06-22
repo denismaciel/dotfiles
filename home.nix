@@ -541,10 +541,9 @@ in {
         format = "[$duration]($style) ";
       };
       python = {
-        disabled = true;
         symbol = " ";
-        format = "[\${symbol}\${pyenv_prefix}(\${version} )(\($virtualenv\) )]($style)";
-        style = "white";
+        format = "[\${symbol}(\($virtualenv\) )]($style)";
+        style = "dimmed white";
       };
       golang = {
         disabled = true;
