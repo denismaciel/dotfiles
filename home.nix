@@ -19,6 +19,7 @@
   };
 in {
   home.packages = with pkgs; [
+    yt-dlp
     i3lock-fancy-rapid
     pqrs
     dockerfile-language-server-nodejs
