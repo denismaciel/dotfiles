@@ -294,7 +294,16 @@ require('lazy').setup({
     },
     'mbbill/undotree',
     'windwp/nvim-autopairs',
-    'windwp/nvim-ts-autotag',
+    {
+        'windwp/nvim-ts-autotag',
+        opts = {
+            opts = {
+                enable_close = true,
+                enable_rename = true,
+                enable_close_on_slash = true,
+            },
+        },
+    },
     'APZelos/blamer.nvim',
     {
         'nvim-tree/nvim-tree.lua',
@@ -584,6 +593,9 @@ require('lazy').setup({
                 capabilities = capabilities,
                 filetypes = { 'terraform', 'hcl' },
             })
+            lspc.biome.setup({
+                capabilities = capabilities,
+            })
             lspc.lua_ls.setup({
                 capabilities = capabilities,
                 settings = {
@@ -626,7 +638,7 @@ require('lazy').setup({
                 },
             })
             lspc.cssls.setup({ capabilities = capabilities })
-            lspc.eslint.setup({ capabilities = capabilities })
+            -- lspc.eslint.setup({ capabilities = capabilities })
             -- lspc.jedi_language_server.setup({
             --     capabilities = capabilities,
             -- })
@@ -822,9 +834,6 @@ require('lazy').setup({
                         ['h5'] = 'h5',
                         ['_h5'] = '_h5',
                     },
-                },
-                autotag = {
-                    enable = true,
                 },
                 textobjects = {
                     move = {

@@ -113,11 +113,9 @@ in {
     pyright
     nodePackages_latest.bash-language-server
     nodePackages_latest.typescript-language-server
+    biome
     nodejs-18_x
-    notion-app-enhanced
     obs-studio
-    obsidian
-    okular
     pandoc
     papirus-icon-theme
     pasystray
@@ -126,7 +124,7 @@ in {
     postgresql
     pulseaudio
     pulsemixer
-    python311Packages.cfn-lint
+    python312Packages.cfn-lint
     qutebrowser
     redshift
     ripgrep
