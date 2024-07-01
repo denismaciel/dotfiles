@@ -107,12 +107,6 @@ vim.diagnostic.config({
     },
 })
 
-vim.api.nvim_create_autocmd('ExitPre', {
-    group = vim.api.nvim_create_augroup('Exit', { clear = true }),
-    command = 'set guicursor=a:hor20',
-    desc = 'Set cursor back to beam when leaving Neovim.',
-})
-
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
@@ -293,7 +287,6 @@ require('lazy').setup({
         lazy = false,
     },
     'mbbill/undotree',
-    'windwp/nvim-autopairs',
     {
         'windwp/nvim-ts-autotag',
         opts = {
@@ -964,17 +957,7 @@ require('lazy').setup({
                 { '--tag-relative=yes', '--fields=+ailmnS' }
         end,
     },
-    -- {
-    --     'pmizio/typescript-tools.nvim',
-    --     event = 'BufReadPre',
-    --     dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-    --     opts = {},
-    --     config = function()
-    --         require('typescript-tools').setup({})
-    --     end,
-    -- },
 })
--- require('lazy').setup('plugins')
 require('me.config.mappings')
 local palette = require('no-clown-fiesta.palette')
 
@@ -1007,16 +990,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     end,
 })
 
-vim.cmd('colorscheme no-clown-fiesta')
-
--- vim.api.nvim_create_autocmd('ExitPre', {
---     group = vim.api.nvim_create_augroup('Exit', { clear = true }),
---     command = 'set guicursor=a:hor20',
---     desc = 'Set cursor back to beam when leaving Neovim.',
--- })
---
--- vim.opt.guicursor = "n-v-i-c:block-Cursor"
-vim.opt.guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20'
+-- vim.cmd('colorscheme no-clown-fiesta')
 
 vim.api.nvim_create_autocmd('BufEnter', {
     group = vim.api.nvim_create_augroup('CustomizeWebDev', { clear = true }),

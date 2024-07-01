@@ -46,9 +46,10 @@ M.insert_text = function(opts)
                         content = {
                             '## Daily todos',
                             '',
+                            'TODO Plan the day',
                             'TODO Anki',
-                            'TODO Notion BOD',
-                            'TODO Notion EOD',
+                            -- 'TODO Notion BOD',
+                            -- 'TODO Notion EOD',
                         },
                     },
                 },
