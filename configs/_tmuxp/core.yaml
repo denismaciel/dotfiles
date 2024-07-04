@@ -37,12 +37,6 @@ windows:
       -
       -
 
-  - window_name: samwise-backend
-    start_directory: "~/github.com/monasticventures/samwise/backend"
-    panes:
-      -
-      -
-
   - window_name: praisepenguin
     start_directory: "~/github.com/denismaciel/praise-penguin"
     panes:

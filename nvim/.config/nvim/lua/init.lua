@@ -1,4 +1,5 @@
 vim.g.python3_host_prog = os.getenv('HOME') .. '/venvs/neovim/bin/python'
+
 vim.g.mapleader = ' '
 
 local o = vim.opt
@@ -579,9 +580,6 @@ require('lazy').setup({
             lspc.vtsls.setup({
                 capabilities = capabilities,
             })
-            lspc.prismals.setup({
-                capabilities = capabilities,
-            })
             lspc.terraformls.setup({
                 capabilities = capabilities,
                 filetypes = { 'terraform', 'hcl' },
@@ -631,13 +629,8 @@ require('lazy').setup({
                 },
             })
             lspc.cssls.setup({ capabilities = capabilities })
-            -- lspc.eslint.setup({ capabilities = capabilities })
-            -- lspc.jedi_language_server.setup({
-            --     capabilities = capabilities,
-            -- })
             lspc.pyright.setup({
-                -- capabilities = capabilities,
-                -- autostart = false,
+                capabilities = capabilities,
                 settings = {
                     python = {
                         stubPath = vim.fn.stdpath('data')
@@ -659,7 +652,6 @@ require('lazy').setup({
             -- lspc.rnix.setup({ capabilities = capabilities })
             lspc.rust_analyzer.setup({ capabilities = capabilities })
             lspc.bashls.setup({ capabilities = capabilities })
-            -- lspc.tsserver.setup({ capabilities = capabilities })
             lspc.yamlls.setup({
                 capabilities = capabilities,
                 settings = {
@@ -774,6 +766,60 @@ require('lazy').setup({
                     end
                 end,
             })
+        end,
+    },
+    {
+        'Vigemus/iron.nvim',
+        config = function()
+            local iron = require('iron.core')
+            iron.setup({
+                config = {
+                    -- Whether a repl should be discarded or not
+                    scratch_repl = true,
+                    -- Your repl definitions come here
+                    repl_definition = {
+                        sh = {
+                            -- Can be a table or a function that
+                            -- returns a table (see below)
+                            command = { 'zsh' },
+                        },
+                        python = {
+                            command = { 'ipython' },
+                        },
+                    },
+                    -- How the repl window will be displayed
+                    -- See below for more information
+                    repl_open_cmd = require('iron.view').bottom(20),
+                },
+                -- Iron doesn't set keymaps by default anymore.
+                -- You can set them here or manually add keymaps to the functions in iron.core
+                keymaps = {
+                    send_motion = '<space>sc',
+                    visual_send = '<space>sc',
+                    send_file = '<space>sf',
+                    send_line = '<space>sl',
+                    send_paragraph = '<space>sp',
+                    send_until_cursor = '<space>su',
+                    send_mark = '<space>sm',
+                    mark_motion = '<space>mc',
+                    mark_visual = '<space>mc',
+                    remove_mark = '<space>md',
+                    cr = '<space>s<cr>',
+                    interrupt = '<space>s<space>',
+                    exit = '<space>sq',
+                    clear = '<space>cl',
+                },
+                -- If the highlight is on, you can change how it looks
+                -- For the available options, check nvim_set_hl
+                highlight = {
+                    italic = true,
+                },
+                ignore_blank_lines = true, -- ignore blank lines when sending visual select lines
+            })
+            vim.keymap.set('n', '<space>rs', '<cmd>IronRepl<cr>')
+            vim.keymap.set('n', '<space>rr', '<cmd>IronRestart<cr>')
+            vim.keymap.set('n', '<space>rf', '<cmd>IronFocus<cr>')
+            vim.keymap.set('n', '<space>rh', '<cmd>IronHide<cr>')
         end,
     },
     {
