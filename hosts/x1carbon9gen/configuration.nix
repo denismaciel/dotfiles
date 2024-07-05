@@ -160,7 +160,7 @@
   environment.systemPackages = with pkgs; [
     firefox
     git
-    gnome.zenity
+    zenity
     groff
     neovim
     wget

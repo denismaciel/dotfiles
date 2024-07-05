@@ -65,7 +65,7 @@ o.splitright = true
 o.completeopt = { 'menu', 'menuone', 'noselect' }
 
 o.laststatus = 3
-o.winbar = '%=%m %f'
+-- o.winbar = '%=%m %f'
 o.showmode = false
 o.ruler = false
 o.showcmd = false
@@ -154,6 +154,13 @@ require('lazy').setup({
                         api_key = read_file(
                             '/home/denis/credentials/openai-api-key'
                         ),
+                    },
+                    mistral = {
+                        api_key = 'lskjdf',
+                        endpoint = 'slkjd',
+                    },
+                    pplx = {
+                        api_key = 'lskjdf',
                     },
                     anthropic = {
                         api_key = read_file(

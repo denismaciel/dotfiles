@@ -125,36 +125,24 @@ vim.keymap.set(
     ':call RenameFile()<CR>',
     { desc = 'Rename file' }
 )
-vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>', { desc = 'Toggle' })
 vim.keymap.set(
     'n',
-    '<leader>xw',
-    '<cmd>TroubleToggle workspace_diagnostics<cr>',
-    { desc = 'Workspace Diagnostics' }
+    '<leader>xx',
+    '<cmd>Trouble diagnostic toggle<cr>',
+    { desc = 'Diagnostics (Trouble)' }
 )
 vim.keymap.set(
     'n',
     '<leader>xd',
-    '<cmd>TroubleToggle document_diagnostics<cr>',
+    '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
     { desc = 'Document Diagnostics' }
 )
+
 vim.keymap.set(
     'n',
-    '<leader>xl',
-    '<cmd>TroubleToggle loclist<cr>',
-    { desc = 'Loclist' }
-)
-vim.keymap.set(
-    'n',
-    '<leader>xq',
-    '<cmd>TroubleToggle quickfix<cr>',
-    { desc = 'Quickfix' }
-)
-vim.keymap.set(
-    'n',
-    '<leader>xk',
-    vim.diagnostic.open_float,
-    { desc = 'Floating Diagnostics' }
+    '<leader>cs',
+    '<cmd>Trouble symbols toggle focus=false<cr>',
+    { desc = 'Symbols (Trouble)' }
 )
 
 vim.keymap.set(
@@ -285,7 +273,6 @@ vim.keymap.set(
 )
 vim.keymap.set('n', '<leader>rg', require('telescope.builtin').live_grep)
 vim.keymap.set('n', '<leader>/', require('telescope.builtin').treesitter)
-vim.keymap.set('n', '<leader>o', '<cmd>SymbolsOutline<enter>')
 
 local function go()
     -- Opens the test file for the current Go file

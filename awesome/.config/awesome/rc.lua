@@ -318,6 +318,10 @@ globalkeys = gears.table.join(
         awful.spawn.with_shell('rofi -combi-modi window,run -show combi')
     end),
 
+    awful.key({ modkey }, 'a', function()
+        awful.spawn.with_shell('polybar-msg cmd toggle')
+    end),
+
     awful.key({ modkey }, 'c', function()
         awful.util.spawn(
             [[rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}']]

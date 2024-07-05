@@ -72,8 +72,7 @@ in {
     gcc
     gh
     glow
-    gnome.nautilus
-    gnome.zenity
+    nautilus
     gnumake
     go-swagger
     go_1_21
@@ -279,65 +278,7 @@ in {
       yank
       tmux-fzf
     ];
-    extraConfig = ''
-      set -g mouse on
-      set -sg escape-time 1
-      setw -g mode-keys vi
-      # Get rid of confimation
-      bind w run "bash ~/dotfiles/scripts/capture"
-      bind-key & kill-window
-      bind-key x kill-pane
-      bind-key f last-window
-      bind-key a display-popup -h 90% -w 90% -E "~/.local/bin/apy add -d default; sleep 1"
-      bind-key m run-shell -b tmux-switch.sh
-      # Open new windows in the current path
-      bind-key a display-popup -h 90% -w 90% -E "~/.local/bin/apy add -d default; sleep 1"
-      bind c new-window -c "$HOME"
-      bind \\ split-window -h -c '#{pane_current_path}'  # Split panes horizontal
-      bind \' split-window -h -c '#{pane_current_path}'  # Split panes horizontal
-      bind - split-window -v -c '#{pane_current_path}'  # Split panes vertically
-      bind-key e command-prompt -p "Command:" \
-               "run \"tmux list-panes -F '##{session_name}:##{window_index}.##{pane_index}' \
-                      | xargs -I PANE tmux send-keys -t PANE '%1' Enter\""
-      bind-key b resize-pane -Z
-      bind-key r source-file ~/.config/tmux/tmux.conf; display "Config reloaded!"
-      set -g default-terminal "tmux-256color"
-      set -ag terminal-overrides ",xterm-256color:RGB"
-      bind-key -r k resize-pane -U 5
-      bind-key -r j resize-pane -D 5
-      bind-key -r h resize-pane -L 5
-      bind-key -r l resize-pane -R 5
-
-      # # Autozoom when moving to nvim pane.
-      # bind-key -n C-l run "tmux-select-pane.sh -L"
-      # bind-key -n C-k run "tmux-select-pane.sh -U"
-      # bind-key -n C-j run "tmux-select-pane.sh -D"
-      # bind-key -n C-h run "tmux-select-pane.sh -R"
-
-      ######################
-      ### DESIGN CHANGES ###
-      ######################
-      set-option -g status-position top
-      set -g status-bg colour234
-      set -g status-fg colour255
-      set -g status-right ""
-      set -g status-left ""
-      set -g status-justify left
-      set -g status-right-length 500
-      set -g status-left-length 0
-      set -g status-interval 1
-
-      # #{?window_zoomed_flag,#[fg=red](,}#W#{?window_zoomed_flag,#[fg=red]),}
-      setw -g window-status-current-format '#{?window_zoomed_flag,#[fg=colour240] 📺 #W,#[fg=colour240]#W}'
-
-      # setw -g window-status-format ' #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F '
-      setw -g window-status-format ""
-
-      set -g pane-active-border-style fg=colour188
-      set -g pane-border-style fg=colour240
-      set -g window-style bg=default
-      set -g window-active-style bg=default
-    '';
+    extraConfig = builtins.readFile ./configs/.tmux.conf;
   };
 
   services.autorandr.enable = true;
