@@ -19,6 +19,7 @@
   };
 in {
   home.packages = with pkgs; [
+    zenity
     yt-dlp
     i3lock-fancy-rapid
     pqrs
@@ -26,7 +27,7 @@ in {
     csvlens
     jsonnet-language-server
     cloudflare-warp
-    aws-sam-cli
+    # aws-sam-cli
     pocketbase
     dig
     appimage-run
@@ -91,7 +92,7 @@ in {
     jdk17
     jq
     jsonnet
-    just
+    # just
     keepassxc
     keyd
     kubectl

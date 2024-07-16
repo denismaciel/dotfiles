@@ -68,7 +68,7 @@ def report(since: int, report_type: str) -> int:
 
     tag_per_day = (
         df.with_columns(tag=pl.col('tags').explode())
-        .groupby(['tag', 'start_date'])
+        .group_by(['tag', 'start_date'])
         .agg(pl.sum('duration').alias('duration'))
         .filter(pl.col('tag').is_not_null())
         .with_columns(start_date=pl.col('start_date').cast(str))
@@ -92,7 +92,7 @@ def report(since: int, report_type: str) -> int:
     )
 
     wide = (
-        tag_per_day.filter(pl.col('tag').is_in(['recap', 'biz']))
+        tag_per_day.filter(pl.col('tag').is_in(['recap', 'biz', 'samwise']))
         .sort(by='start_date')
         .pivot(
             values='duration',
@@ -106,11 +106,11 @@ def report(since: int, report_type: str) -> int:
     tbl.add_column('date')
     tbl.add_column('re:cap')
     tbl.add_column('biz')
-    tbl.add_column('monastic')
+    tbl.add_column('samwise')
     for row in wide.rows(named=True):
         recap = row.get('recap') or dt.timedelta()
         biz = row.get('biz') or dt.timedelta()
-        monastic = row.get('monastic') or dt.timedelta()
+        monastic = row.get('samwise') or dt.timedelta()
 
         tbl.add_row(
             str(row['start_date']),

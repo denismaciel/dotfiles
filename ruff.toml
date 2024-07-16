@@ -66,4 +66,4 @@ max-complexity = 10
 [format]
 quote-style = "single"
 indent-style = "space"
-docstring-code-format = true
+# docstring-code-format = true

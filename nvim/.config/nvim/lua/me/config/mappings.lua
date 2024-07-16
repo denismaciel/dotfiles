@@ -36,14 +36,6 @@ local implementation = function()
 end
 
 wk.setup({})
-wk.register({
-    ['t'] = { name = 'Telescope' },
-    ['<leader>f'] = { name = 'File' },
-    ['<leader>x'] = { name = 'Trouble' },
-    ['<leader>s'] = { name = 'SQL' },
-    ['<leader>t'] = { name = 'Date' },
-    ['<leader>a'] = { name = 'Anki' },
-})
 
 vim.keymap.set('n', '<leader>tt', function()
     package.loaded['me'] = nil
@@ -128,7 +120,7 @@ vim.keymap.set(
 vim.keymap.set(
     'n',
     '<leader>xx',
-    '<cmd>Trouble diagnostic toggle<cr>',
+    '<cmd>Trouble diagnostics toggle<cr>',
     { desc = 'Diagnostics (Trouble)' }
 )
 vim.keymap.set(
@@ -136,6 +128,12 @@ vim.keymap.set(
     '<leader>xd',
     '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
     { desc = 'Document Diagnostics' }
+)
+vim.keymap.set(
+    'n',
+    '<leader>xk',
+    vim.diagnostic.open_float,
+    { desc = 'Line Diagnostics (floating)' }
 )
 
 vim.keymap.set(

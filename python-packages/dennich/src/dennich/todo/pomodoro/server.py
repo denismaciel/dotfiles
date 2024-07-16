@@ -59,8 +59,7 @@ def task_completed_callback() -> None:
 
     proc = subprocess.run(
         [
-            '/usr/bin/env',
-            'mpv',
+            '/etc/profiles/per-user/denis/bin/mpv',
             '/home/denis/dotfiles/scripts/assets/win95.ogg',
         ],
         capture_output=True,
@@ -201,11 +200,11 @@ async def server() -> None:
     server_socket.setblocking(False)
     log.info('Pomodoro server started, waiting for connections...')
 
-    loop.create_task(nag())
+    _ = loop.create_task(nag())
 
     while True:
         client_socket, _ = await loop.sock_accept(server_socket)
-        loop.create_task(handle_client(client_socket))
+        _ = loop.create_task(handle_client(client_socket))
 
 
 def count_zenity_notifications():
@@ -220,7 +219,7 @@ def count_zenity_notifications():
         for pid in dirs:
             try:
                 cmd_path = os.path.join(proc_dir, pid, 'cmdline')
-                with open(cmd_path, 'r') as f:
+                with open(cmd_path) as f:
                     cmdline = f.read()
                     if 'zenity' in cmdline:
                         zenity_count += 1
