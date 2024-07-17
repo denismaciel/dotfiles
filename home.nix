@@ -19,53 +19,39 @@
   };
 in {
   home.packages = with pkgs; [
-    zenity
-    yt-dlp
-    i3lock-fancy-rapid
-    pqrs
-    dockerfile-language-server-nodejs
-    csvlens
-    jsonnet-language-server
-    cloudflare-warp
     # aws-sam-cli
-    pocketbase
-    dig
-    appimage-run
-    rclone
-    eza
-    pkg-config
-    openssl
-    feh
-    droidcam
-    markdownlint-cli
-    hyperfine
-    graphviz
-    python312
-    skim
-    rust-analyzer
-    xdragon
-    openai-whisper
+    # just
     anki
+    appimage-run
     arandr
     arp-scan
     awesome
+    biome
     brave
     brightnessctl
     btop
     bun
     calibre
     cargo
+    cloudflare-warp
     comic-mono
+    csvlens
     dbmate
     delta
     delve
     difftastic
+    dig
     direnv
     discord
     docker
+    dockerfile-language-server-nodejs
+    droidcam
+    duckdb
     element-desktop
     exercism
+    eza
     fd
+    feh
     ffmpeg
     firefox
     flameshot
@@ -73,7 +59,6 @@ in {
     gcc
     gh
     glow
-    nautilus
     gnumake
     go-swagger
     go_1_21
@@ -85,14 +70,17 @@ in {
     google-cloud-sdk
     gopls
     gotools # for goimports
+    graphviz
     haskellPackages.greenclip
     htop
+    hyperfine
+    i3lock-fancy-rapid
     imagemagick
     imwheel
     jdk17
     jq
     jsonnet
-    # just
+    jsonnet-language-server
     keepassxc
     keyd
     kubectl
@@ -104,33 +92,43 @@ in {
     litecli
     lsof
     lua
+    markdownlint-cli
     mpv
     mycli
+    nautilus
     newsboat
     ngrok
     nil
-    nodePackages_latest.prettier
-    pyright
     nodePackages_latest.bash-language-server
+    nodePackages_latest.prettier
     nodePackages_latest.typescript-language-server
-    biome
     nodejs-18_x
     obs-studio
+    openai-whisper
+    openssl
     pandoc
     papirus-icon-theme
     pasystray
     pgcli
     picom
+    pkg-config
+    pocketbase
     postgresql
+    pqrs
     pulseaudio
     pulsemixer
+    pyright
+    python312
     python312Packages.cfn-lint
     qutebrowser
+    rclone
     redshift
     ripgrep
+    rust-analyzer
     rustc
     scmpuff
     sioyek
+    skim
     slack
     spotify-unwrapped
     sqlite
@@ -157,11 +155,14 @@ in {
     wezterm
     xclip
     xdotool
+    xdragon
     xorg.xbacklight
     xorg.xev
     yaml-language-server
     yq-go
+    yt-dlp
     zathura
+    zenity
     zk
     zoxide
     # (pkgs.callPackage ./dennich.nix {})
