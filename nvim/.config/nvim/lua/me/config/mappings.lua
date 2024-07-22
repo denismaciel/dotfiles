@@ -78,6 +78,7 @@ vim.keymap.set('n', 'gtt', function()
             end,
         },
     })
+    opts.ctags_file = vim.fn.getcwd() .. '/tags'
     require('telescope.builtin').tags(opts)
 end, { desc = 'Tags' })
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
