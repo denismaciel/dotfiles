@@ -5,5 +5,5 @@ docker
 *.twb 
 __pycache__
 *.egg-info
-
+.git
 .stack-work

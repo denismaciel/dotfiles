@@ -269,7 +269,11 @@ vim.keymap.set(
     require('telescope.builtin').current_buffer_fuzzy_find,
     { desc = '[T]elescope [B]uffers' }
 )
-vim.keymap.set('n', '<leader>rg', require('telescope.builtin').live_grep)
+vim.keymap.set(
+    'n',
+    '<leader>rg',
+    require('telescope').extensions.egrepify.egrepify
+)
 vim.keymap.set('n', '<leader>/', require('telescope.builtin').treesitter)
 
 local function go()

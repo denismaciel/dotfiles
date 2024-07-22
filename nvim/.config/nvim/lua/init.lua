@@ -155,13 +155,6 @@ require('lazy').setup({
                             '/home/denis/credentials/openai-api-key'
                         ),
                     },
-                    mistral = {
-                        api_key = 'lskjdf',
-                        endpoint = 'slkjd',
-                    },
-                    pplx = {
-                        api_key = 'lskjdf',
-                    },
                     anthropic = {
                         api_key = read_file(
                             '/home/denis/credentials/anthropic-api-key'
@@ -195,23 +188,8 @@ require('lazy').setup({
             })
         end,
     },
-    {
-        'nvim-telescope/telescope.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-    },
-    'nvim-telescope/telescope-ui-select.nvim',
     { 'folke/which-key.nvim', opts = {} },
     { 'folke/neodev.nvim', opts = {} },
-    -- {
-    --     'folke/zen-mode.nvim',
-    --     opts = function()
-    --         require('zen-mode').setup({
-    --             window = {
-    --                 width = 120,
-    --             },
-    --         })
-    --     end,
-    -- },
     { 'kylechui/nvim-surround', opts = {} },
     'nvimtools/none-ls.nvim',
     {
@@ -347,7 +325,11 @@ require('lazy').setup({
     },
     {
         'nvim-telescope/telescope.nvim',
-        dependencies = {},
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'fdschmidt93/telescope-egrepify.nvim',
+            'nvim-telescope/telescope-ui-select.nvim',
+        },
         config = function()
             local actions = require('telescope.actions')
             local actions_layout = require('telescope.actions.layout')
@@ -380,7 +362,6 @@ require('lazy').setup({
                     },
                 },
                 defaults = {
-
                     mappings = {
                         n = {
                             ['h'] = actions_layout.toggle_preview,
@@ -445,6 +426,7 @@ require('lazy').setup({
                 },
             })
             require('telescope').load_extension('ui-select')
+            require('telescope').load_extension('egrepify')
         end,
     },
     {
