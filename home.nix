@@ -188,6 +188,7 @@ in {
   home.file = {
     ".npmrc".source = ./configs/_npmrc;
     ".ipython/profile_default/ipython_config.py".source = ./configs/_ipython/profile_default/ipython_config.py;
+    ".ipython/profile_default/custom_init.py".source = ./configs/_ipython/profile_default/custom_init.py;
     ".config/direnv/direnv.toml".source = ./configs/direnv/direnv.toml;
     ".config/fd/ignore".source = ./configs/fd/ignore;
     ".config/greenclip.toml".source = ./configs/greenclip.toml;

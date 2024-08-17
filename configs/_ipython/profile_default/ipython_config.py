@@ -26,7 +26,10 @@ c.InlineBackend.figure_formats = ['retina']
 ## Run the file referenced by the PYTHONSTARTUP environment variable at IPython
 #  startup.
 ## List of files to run at IPython startup.
-c.InteractiveShellApp.exec_files = ['/home/denis/dotfiles/i.py']
+import os
+
+path = os.path.dirname(os.path.abspath(__file__))
+c.InteractiveShellApp.exec_files = [f"{path}/custom_init.py"]
 
 ## lines of code to run at IPython startup.
 c.InteractiveShellApp.exec_lines = ['%autoreload 2']
