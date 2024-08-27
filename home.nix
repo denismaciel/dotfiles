@@ -21,6 +21,8 @@ in {
   home.packages = with pkgs; [
     # aws-sam-cli
     # just
+    zed-editor
+    inetutils
     anki
     appimage-run
     arandr

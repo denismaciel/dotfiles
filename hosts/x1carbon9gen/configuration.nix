@@ -26,7 +26,6 @@
     hostName = "nixos-x1carbon-9gen"; # Define your hostname.
     networkmanager.enable = true;
     extraHosts = ''
-      192.168.0.70 nixos-macbookair
       127.0.0.1 youtube.com
       127.0.0.1 www.youtube.com
       127.0.0.1 twitter.com
