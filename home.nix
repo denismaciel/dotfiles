@@ -19,39 +19,25 @@
   };
 in {
   home.packages = with pkgs; [
-    # aws-sam-cli
-    # just
     zed-editor
-    inetutils
     anki
     appimage-run
     arandr
-    arp-scan
     awesome
     biome
-    brave
-    brightnessctl
     btop
     bun
     calibre
     cargo
     cloudflare-warp
-    comic-mono
     csvlens
     dbmate
-    delta
     delve
     difftastic
     dig
     direnv
-    discord
-    docker
     dockerfile-language-server-nodejs
-    droidcam
     duckdb
-    element-desktop
-    exercism
-    eza
     fd
     feh
     ffmpeg
@@ -59,8 +45,6 @@ in {
     flameshot
     fzf
     gcc
-    gh
-    glow
     gnumake
     go-swagger
     go_1_21
@@ -77,48 +61,34 @@ in {
     htop
     hyperfine
     i3lock-fancy-rapid
-    imagemagick
-    imwheel
-    jdk17
     jq
     jsonnet
     jsonnet-language-server
     keepassxc
     keyd
     kubectl
-    kubernetes-helm
     lazygit
     lf
     libinput
     libreoffice
     litecli
-    lsof
     lua
     markdownlint-cli
     mpv
-    mycli
-    nautilus
-    newsboat
     ngrok
-    nil
+    # nil
     nodePackages_latest.bash-language-server
     nodePackages_latest.prettier
     nodePackages_latest.typescript-language-server
     nodejs-18_x
     obs-studio
-    openai-whisper
     openssl
     pandoc
     papirus-icon-theme
     pasystray
     pgcli
-    picom
-    pkg-config
-    pocketbase
     postgresql
     pqrs
-    pulseaudio
-    pulsemixer
     pyright
     python312
     python312Packages.cfn-lint
@@ -142,7 +112,6 @@ in {
     sumneko-lua-language-server
     syncthing
     tailwindcss-language-server
-    termusic
     terraform
     terraform-ls
     texlive.combined.scheme-medium
@@ -154,7 +123,6 @@ in {
     vlc
     vscode
     vscode-langservers-extracted
-    wezterm
     xclip
     xdotool
     xdragon
@@ -163,7 +131,6 @@ in {
     yaml-language-server
     yq-go
     yt-dlp
-    zathura
     zenity
     zk
     zoxide

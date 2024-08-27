@@ -1063,7 +1063,7 @@ require('lazy').setup({
                 { '--tag-relative=yes', '--fields=+ailmnS' }
         end,
     },
-})
+}, { performance = { reset_packpath = false } })
 require('me.config.mappings')
 local palette = require('no-clown-fiesta.palette')
 

@@ -105,21 +105,9 @@
   };
 
   # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  hardware.pulseaudio.package = pkgs.pulseaudioFull;
-  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -241,25 +229,7 @@
   # };
 
   stylix.enable = true;
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
-  # stylix.base16Scheme = {
-  #   base00 = "151515";
-  #   base01 = "3c3836";
-  #   base02 = "504945";
-  #   base03 = "665c54";
-  #   base04 = "bdae93";
-  #   base05 = "d5c4a1";
-  #   base06 = "ebdbb2";
-  #   base07 = "fbf1c7";
-  #   base08 = "fb4934";
-  #   base09 = "fe8019";
-  #   base0A = "fabd2f";
-  #   base0B = "b8bb26";
-  #   base0C = "8ec07c";
-  #   base0D = "83a598";
-  #   base0E = "d3869b";
-  #   base0F = "d65d0e";
-  # };
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-soft.yaml";
   stylix.image = /home/denis/dotfiles/assets/wallpaper.jpg;
 
   stylix.fonts = {
