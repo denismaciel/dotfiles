@@ -6,6 +6,7 @@ import datetime as dt
 import enum
 import logging
 import re
+import readline
 import sys
 import typing
 from collections.abc import Iterable
@@ -82,7 +83,7 @@ def start_pomodoro(selector: Selector) -> int:
         case _:
             typing.assert_never(selection)
 
-    POMODORO_DURATIONS = [25, 20, 15, 10, 5, 1, 'done']
+    POMODORO_DURATIONS = [25, 20, 15, 10, 5, 1, 'done', 'edit']
     selection_pomo = selector.select([str(d) for d in POMODORO_DURATIONS])
 
     match selection_pomo:
@@ -102,6 +103,13 @@ def start_pomodoro(selector: Selector) -> int:
         logger.debug('Completing todo', todo=todo)
         todo.completed_at = dt.datetime.now()
         todo.order = dt.datetime.now()
+        upsert_todo(sess, todo)
+    elif duration == 'edit':
+        logger.debug('Completing todo', todo=todo)
+        new_name = prefill_input('New todo name: ', todo.name)
+        new_todo = Todo.from_text_prompt(new_name)
+        todo.name = new_todo.name
+        todo.tags = new_todo.tags
         upsert_todo(sess, todo)
     else:
         todo.order = dt.datetime.now()
@@ -128,6 +136,14 @@ class ReportType(enum.StrEnum):
     tags = 'tags'
 
 
+def prefill_input(prompt, prefill=''):
+    readline.set_startup_hook(lambda: readline.insert_text(prefill))
+    try:
+        return input(prompt)
+    finally:
+        readline.set_startup_hook()
+
+
 def main() -> int:
     argv = sys.argv[1:]
     parser = argparse.ArgumentParser(prog='todos')
@@ -145,7 +161,6 @@ def main() -> int:
     selector = Fzf()
 
     args = parser.parse_args(argv)
-
     if args.command == 'start-pomodoro':
         start_pomodoro(selector)
         return 0

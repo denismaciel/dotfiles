@@ -1,6 +1,6 @@
 setup-dev:
 	@ echo "Setting up development environment..."
-	python3.11 -m venv venv
+	python3.12 -m venv venv
 	./venv/bin/pip install -r dev-requirements.txt
 	./venv/bin/pip install -e .
 
