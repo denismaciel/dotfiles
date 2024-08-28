@@ -94,7 +94,6 @@ in {
     python312Packages.cfn-lint
     qutebrowser
     rclone
-    redshift
     ripgrep
     rust-analyzer
     rustc
@@ -165,7 +164,6 @@ in {
     ".config/lf/icons".source = ./configs/lf/icons;
     ".config/lf/lfrc".source = ./configs/lf/lfrc;
     ".config/pgcli/config".source = ./configs/pgcli/config;
-    ".config/redshift/redshift.conf".source = ./configs/redshift/redshift.conf;
     ".config/sioyek/prefs_user.config".source = ./configs/sioyek/prefs_user.config;
     ".ctags.d/default.ctags".source = ./configs/_ctags.d/default.ctags;
     ".newsboat/config".source = ./configs/_newsboat/config;
@@ -530,22 +528,6 @@ in {
     ];
   };
   systemd.user.startServices = true;
-  systemd.user.services.redshift = {
-    Unit = {
-      Description = "Redshift colour temperature adjuster";
-    };
-
-    Install = {
-      WantedBy = ["graphical-session.target"];
-    };
-
-    Service = {
-      ExecStart = "${pkgs.redshift}/bin/redshift-gtk";
-      RestartSec = 3;
-      Restart = "always";
-    };
-  };
-
   systemd.user.services.flameshot = {
     Install = {
       WantedBy = ["graphical-session.target"];

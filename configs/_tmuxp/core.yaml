@@ -30,50 +30,19 @@ windows:
   #   panes:
   #     -
   #     -
-  #
+
   - window_name: samwise-top
     start_directory: "~/github.com/monasticventures/samwise"
     panes:
       -
       -
-
-  - window_name: praisepenguin
-    start_directory: "~/github.com/denismaciel/praise-penguin"
-    panes:
-      -
-      -
-
-  - window_name: praisepenguin-web
-    start_directory: "~/github.com/denismaciel/praise-penguin/web"
-    panes:
-      -
-      -
-
   - window_name: dotfiles
     start_directory: "~/dotfiles"
     panes:
       -
       -
-
-  - window_name: newsboat
-    start_directory: "~/dotfiles"
-    panes:
-      - newsboat
-
   - window_name: blog
     start_directory: "~/github.com/denismaciel/denismaciel.com"
-    panes:
-      -
-      -
-
-  - window_name: lighthouse
-    start_directory: "~/github.com/monasticai/lighthouse/"
-    panes:
-      -
-      -
-
-  - window_name: ai
-    start_directory: "~/github.com/denismaciel/ai"
     panes:
       -
       -

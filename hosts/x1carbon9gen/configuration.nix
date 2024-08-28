@@ -260,4 +260,17 @@
     desktop = 9;
     popups = 9;
   };
+
+  location.provider = "geoclue2";
+  services.redshift = {
+    enable = true;
+    temperature = {
+      day = 6000;
+      night = 4000;
+    };
+    brightness = {
+      day = "0.9";
+      night = "0.9";
+    };
+  };
 }
