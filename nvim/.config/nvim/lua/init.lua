@@ -144,63 +144,67 @@ end
 -- Plugins
 -- ============================
 require('lazy').setup({
-    {
-        'yacineMTB/dingllm.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        config = function()
-            local SYSTEM_PROMPT =
-                'You should replace the code that you are sent, only following the comments. Do not talk at all. Only output valid code. Do not provide any backticks that surround the code. Never ever output backticks like this ```. Any comment that is asking you for something should be removed after you satisfy them. Other comments should left alone. Do not output backticks'
-            local HELPFUL_PROMPT =
-                'You are a helpful assistant. What I have sent are my notes so far.'
-            local dingllm = require('dingllm')
-
-            local function anthropic_help()
-                dingllm.invoke_llm_and_stream_into_editor(
-                    {
-                        url = 'https://api.anthropic.com/v1/messages',
-                        model = 'claude-3-5-sonnet-20240620',
-                        api_key_name = 'ANTHROPIC_API_KEY',
-                        system_prompt = HELPFUL_PROMPT,
-                        replace = false,
-                    },
-                    dingllm.make_anthropic_spec_curl_args,
-                    dingllm.handle_anthropic_spec_data
-                )
-            end
-
-            local function anthropic_replace()
-                dingllm.invoke_llm_and_stream_into_editor(
-                    {
-                        url = 'https://api.anthropic.com/v1/messages',
-                        model = 'claude-3-5-sonnet-20240620',
-                        api_key_name = 'ANTHROPIC_API_KEY',
-                        system_prompt = SYSTEM_PROMPT,
-                        replace = true,
-                    },
-                    dingllm.make_anthropic_spec_curl_args,
-                    dingllm.handle_anthropic_spec_data
-                )
-            end
-
-            vim.keymap.set(
-                { 'n', 'v' },
-                '<leader>I',
-                anthropic_help,
-                { desc = 'llm anthropic_help' }
-            )
-            vim.keymap.set(
-                { 'n', 'v' },
-                '<leader>i',
-                anthropic_replace,
-                { desc = 'llm anthropic' }
-            )
-        end,
-    },
+    -- {
+    --     'yacineMTB/dingllm.nvim',
+    --     dependencies = { 'nvim-lua/plenary.nvim' },
+    --     config = function()
+    --         local SYSTEM_PROMPT =
+    --         'You should replace the code that you are sent, only following the comments. Do not talk at all. Only output valid code. Do not provide any backticks that surround the code. Never ever output backticks like this ```. Any comment that is asking you for something should be removed after you satisfy them. Other comments should left alone. Do not output backticks'
+    --         local HELPFUL_PROMPT =
+    --         'You are a helpful assistant. What I have sent are my notes so far.'
+    --         local dingllm = require('dingllm')
+    --
+    --         local function anthropic_help()
+    --             dingllm.invoke_llm_and_stream_into_editor(
+    --                 {
+    --                     url = 'https://api.anthropic.com/v1/messages',
+    --                     model = 'claude-3-5-sonnet-20240620',
+    --                     api_key_name = 'ANTHROPIC_API_KEY',
+    --                     system_prompt = HELPFUL_PROMPT,
+    --                     replace = false,
+    --                 },
+    --                 dingllm.make_anthropic_spec_curl_args,
+    --                 dingllm.handle_anthropic_spec_data
+    --             )
+    --         end
+    --
+    --         local function anthropic_replace()
+    --             dingllm.invoke_llm_and_stream_into_editor(
+    --                 {
+    --                     url = 'https://api.anthropic.com/v1/messages',
+    --                     model = 'claude-3-5-sonnet-20240620',
+    --                     api_key_name = 'ANTHROPIC_API_KEY',
+    --                     system_prompt = SYSTEM_PROMPT,
+    --                     replace = true,
+    --                 },
+    --                 dingllm.make_anthropic_spec_curl_args,
+    --                 dingllm.handle_anthropic_spec_data
+    --             )
+    --         end
+    --
+    --         vim.keymap.set(
+    --             { 'n', 'v' },
+    --             '<leader>I',
+    --             anthropic_help,
+    --             { desc = 'llm anthropic_help' }
+    --         )
+    --         vim.keymap.set(
+    --             { 'n', 'v' },
+    --             '<leader>i',
+    --             anthropic_replace,
+    --             { desc = 'llm anthropic' }
+    --         )
+    --     end,
+    -- },
     {
         'yetone/avante.nvim',
         event = 'VeryLazy',
         build = 'make lua51',
         opts = {
+            provider = 'claude',
+            claude = {
+                api_key_name = 'cmd:cat /home/denis/credentials/anthropic-api-key',
+            },
             -- add any opts here
         },
         dependencies = {
@@ -1063,7 +1067,7 @@ require('lazy').setup({
                 { '--tag-relative=yes', '--fields=+ailmnS' }
         end,
     },
-}, { performance = { reset_packpath = false } })
+})
 require('me.config.mappings')
 local palette = require('no-clown-fiesta.palette')
 
@@ -1096,7 +1100,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     end,
 })
 
--- vim.cmd('colorscheme no-clown-fiesta')
+vim.cmd('colorscheme no-clown-fiesta')
 
 vim.api.nvim_create_autocmd('BufEnter', {
     group = vim.api.nvim_create_augroup('CustomizeWebDev', { clear = true }),
@@ -1123,3 +1127,5 @@ vim.api.nvim_create_autocmd('BufEnter', {
         end
     end,
 })
+
+vim.cmd([[ colorscheme default ]])

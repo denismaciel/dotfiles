@@ -151,6 +151,7 @@ in {
       ];
     })
   ];
+  stylix.targets.neovim.enable = false;
   home.username = "denis";
   home.homeDirectory = "/home/denis";
   home.file = {
