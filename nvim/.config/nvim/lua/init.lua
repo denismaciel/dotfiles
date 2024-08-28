@@ -1024,28 +1024,22 @@ vim.api.nvim_create_autocmd({ 'WinEnter', 'VimEnter' }, {
     group = augroup_highlight_todo,
     pattern = '*',
     callback = function()
-        vim.fn.matchadd(highlight_group_done, 'DONE', -1)
+        vim.fn.matchadd(highlight_group_done, '^DONE', -1)
         -- `Todo` is a prexisting highlight group that we leverage to highlight
         -- `TODO`.
         -- For `DONE`, we create need a new highlight group and set the `strikethrough`
-        vim.fn.matchadd('Todo', 'TODO', -1)
+        vim.fn.matchadd('Todo', '^TODO', -1)
     end,
 })
 vim.api.nvim_create_autocmd('ColorScheme', {
     pattern = '*',
     group = augroup_highlight_todo,
     callback = function()
-        vim.api.nvim_set_hl(
-            0,
-            highlight_group_done,
-            { strikethrough = true, fg = 'gray' }
-        )
-        vim.api.nvim_set_hl(0, 'Todo', { bold = true, fg = palette.roxo })
+        vim.api.nvim_set_hl(0, highlight_group_done, { strikethrough = true })
+        vim.api.nvim_set_hl(0, 'Todo', { bold = true })
         vim.api.nvim_set_hl(0, 'CodeBlock', { bg = palette.accent })
     end,
 })
-
-vim.cmd('colorscheme no-clown-fiesta')
 
 vim.api.nvim_create_autocmd('BufEnter', {
     group = vim.api.nvim_create_augroup('CustomizeWebDev', { clear = true }),
