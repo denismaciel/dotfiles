@@ -100,10 +100,11 @@ vim.keymap.set('v', '>', '>gv')
 vim.keymap.set('v', '//', [[ y/\V<C-R>=escape(@",'/\')<CR><CR> ]]) --- Search currenlty selected text
 vim.cmd('command Bd bp | sp | bn | bd')
 vim.cmd('command Bdd bp! | sp! | bn! | bd!')
+
 vim.keymap.set(
     'n',
     '<leader>fc',
-    ':!echo -n % | xclip -selection clipboard<CR>',
+    require('me').copy_file_path_to_clipboard,
     { desc = 'Copy file path to clipboard' }
 )
 vim.keymap.set(
@@ -299,38 +300,12 @@ local function go()
     vim.cmd('edit ' .. test_file_path)
 end
 
-local function python()
-    -- Opens the test file for the current file
-    --
-    -- Get relative path of the current file
-    local current_file_path = vim.fn.expand('%:p')
-    -- remove the root directory from the path
-    current_file_path = string.gsub(current_file_path, vim.fn.getcwd(), '')
-
-    local parts = vim.fn.split(current_file_path, '/')
-    table.remove(parts, 1) -- remove src
-    table.remove(parts, 1) -- remove pkg_name
-
-    -- replace the file name with "_test.py"
-    parts[#parts] = string.gsub(parts[#parts], '.py', '_test.py')
-
-    -- create directory structure if it doesn't exist
-    local test_file_path = './tests'
-    for i = 1, #parts - 1 do
-        test_file_path = test_file_path .. '/' .. parts[i]
-        vim.fn.mkdir(test_file_path, 'p')
-    end
-
-    test_file_path = test_file_path .. '/' .. parts[#parts]
-    vim.cmd('edit ' .. test_file_path)
-end
-
 local function open_test_file()
     local ft = vim.bo.filetype
     if ft == 'go' then
         go()
     elseif ft == 'python' then
-        python()
+        require('me').python_test_file()
     else
         print('No implementation for filetype: ' .. ft)
     end
@@ -339,3 +314,12 @@ end
 vim.keymap.set('n', '<leader>ro', open_test_file)
 vim.keymap.set('n', '<leader>gg', '<cmd>PrtChatToggle<cr>')
 vim.keymap.set('n', '<leader>gn', '<cmd>PrtChatNew<cr>')
+
+local function run()
+    print('run!')
+end
+vim.keymap.set('n', '<leader>rr', function()
+    package.loaded['me'] = nil
+    vim.api.nvim_command([[ source $MYVIMRC ]])
+    print(require('me').copy_file_path_to_clipboard())
+end)

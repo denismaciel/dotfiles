@@ -84,7 +84,7 @@ end
 M.center_and_change_colorscheme = function()
     vim.cmd([[ normal Gzz ]])
     -- vim.cmd([[ colorscheme tokyonight ]])
-    M.highlight_markdown_titles()
+    -- M.highlight_markdown_titles()
 end
 
 M.is_shorts_mode = function()
@@ -280,5 +280,60 @@ end
 -- assert(slugify("Already-Has-Hyphens") == "already-has-hyphens", "Test case 10 failed")
 --
 -- print("All test cases passed!")
+
+M.python_test_file = function()
+    -- Get relative path of the current file
+    local current_file_path = vim.fn.expand('%:p')
+    -- Find the Python project folder by:
+    --  - splitting the file path on `/`
+    --  - finding the position of `src`
+    --  - the project folder is the right above `src`.
+    -- Then remove from the path everything that's before the file path
+    local parts = vim.fn.split(current_file_path, '/')
+    local src_index = vim.fn.index(parts, 'src')
+    if src_index == -1 then
+        print('Error: \'src\' directory not found in the file path.')
+        return
+    end
+    local project_path = '/' .. table.concat(parts, '/', 1, src_index)
+
+    local fpath = string.gsub(current_file_path, project_path, '')
+    parts = vim.fn.split(fpath, '/')
+    table.remove(parts, 1) -- remove src
+    table.remove(parts, 1) -- remove pkg_name
+
+    -- replace the file name with "_test.py"
+    parts[#parts] = string.gsub(parts[#parts], '.py', '_test.py')
+
+    -- create directory structure if it doesn't exist
+    local test_file_path = project_path .. '/src/tests'
+    for i = 1, #parts - 1 do
+        test_file_path = test_file_path .. '/' .. parts[i]
+        vim.fn.mkdir(test_file_path, 'p')
+    end
+    test_file_path = test_file_path .. '/' .. parts[#parts]
+    vim.cmd('edit ' .. test_file_path)
+end
+
+M.copy_file_path_to_clipboard = function()
+    local cfile = vim.api.nvim_buf_get_name(0)
+    local relative_path = vim.fn.fnamemodify(cfile, ':.')
+    local path_parts = vim.split(relative_path, '/')
+
+    -- To locate the project path, either find `src` or `tests`.
+    -- The project directory must be the one above.
+    local src_index = vim.fn.index(path_parts, 'src')
+
+    local result
+    if src_index ~= -1 and src_index > 1 then
+        result = table.concat(path_parts, '/', src_index + 1)
+    else
+        result = relative_path
+    end
+
+    vim.fn.setreg('+', result)
+    print('Copying to clipboard: ' .. result)
+    return result
+end
 
 return M

@@ -199,18 +199,18 @@ require('lazy').setup({
     {
         'yetone/avante.nvim',
         event = 'VeryLazy',
-        build = 'make lua51',
+        build = 'make',
         opts = {
             provider = 'claude',
             claude = {
                 api_key_name = 'cmd:cat /home/denis/credentials/anthropic-api-key',
             },
-            -- add any opts here
         },
         dependencies = {
             'nvim-tree/nvim-web-devicons',
             'stevearc/dressing.nvim',
             'nvim-lua/plenary.nvim',
+            'HakonHarnes/img-clip.nvim',
             {
                 'grapp-dev/nui-components.nvim',
                 dependencies = {
