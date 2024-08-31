@@ -157,7 +157,6 @@
   ];
   environment.extraInit = ''
     export PATH=$PATH:$HOME/.local/bin
-    export PATH=$PATH:$HOME/venvs/default/bin
   '';
 
   programs.dconf.enable = true;

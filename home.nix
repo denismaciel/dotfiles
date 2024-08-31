@@ -2,22 +2,7 @@
   inputs,
   pkgs,
   ...
-}: let
-  # The completion script must be in a directory to work
-  dockerCompletions = pkgs.stdenv.mkDerivation {
-    name = "docker-completions";
-    src = pkgs.fetchurl {
-      url = "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker";
-      sha256 = "sha256-wsuSNFsCDZF7VI9Sjshmf0Hr4bJUmq/Sh9b7EqOzA9A=";
-    };
-
-    phases = ["installPhase"];
-    installPhase = ''
-      mkdir -p $out/
-      cp $src $out/_docker
-    '';
-  };
-in {
+}: {
   home.packages = with pkgs; [
     zed-editor
     anki
@@ -91,7 +76,6 @@ in {
     pqrs
     pyright
     python312
-    python312Packages.cfn-lint
     qutebrowser
     rclone
     ripgrep
@@ -365,10 +349,6 @@ in {
         name = "zsh-syntax-highlighting";
         file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
         src = pkgs.zsh-syntax-highlighting;
-      }
-      {
-        name = "docker-completions";
-        src = dockerCompletions;
       }
     ];
   };

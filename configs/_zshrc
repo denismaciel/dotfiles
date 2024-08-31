@@ -1,26 +1,14 @@
 export PATH=$HOME/dotfiles/scripts:$PATH
-export PATH=$PATH:/usr/local/go/bin
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/go/bin/:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/node/bin:$PATH"
-export PATH="$HOME/venvs/default/bin:$PATH"
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="$PATH:/home/denis/.local/bin"
-export PATH="$PATH:/home/denis/.ghcup/bin"
 export GOPATH=$(go env GOPATH)
 export PATH=$GOROOT/bin:$PATH
-export R_LIBS_USER="$HOME/r/x86_64-pc-linux-gnu-library/4.1" # Custom location for R packages
-export LC_ALL=en_US.UTF-8 # Fix problem when opening nvim
 export VISUAL=nvim
 export EDITOR=nvim
 export PYTHONBREAKPOINT=ipdb.set_trace
-# Fix annoying warning: 
-#     - https://nixos.wiki/wiki/Locales
-#     - https://www.reddit.com/r/NixOS/comments/oj4kmd/every_time_i_run_a_program_installed_with_nix_i/
-export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
-export XDG_CONFIG_HOME=$HOME/.config
 
 export COLORSCHEME=dark
 export ZK_NOTEBOOK_DIR="$HOME/Sync/notes/current"
@@ -30,12 +18,6 @@ export ZK_NOTEBOOK_DIR="$HOME/Sync/notes/current"
 export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
 
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
-
-export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
-
-if [[ -f /home/denis/.nix-profile/etc/profile.d/nix.sh ]]; then
-    source /home/denis/.nix-profile/etc/profile.d/nix.sh
-fi
 
 # ---------------------------
 # --------- fzf -------------
@@ -49,7 +31,6 @@ function _fzf_compgen_dir() {
 function  _fzf_compgen_path() {
   fd --hidden --follow --exclude ".git" --exclude "venv" . "$1"
 }
-
 
 function act() {
     if [ -d "venv" ]; then
