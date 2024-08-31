@@ -120,16 +120,12 @@ class Pomodoro(Base):
 
 
 def load_todos(sess: Session) -> list[Todo]:
-    # TODO: find out why the `where` clause is not working
-    # return (
-    #     sess.query(Todo)
-    #     .where(Todo.completed_at is None)
-    #     .order_by(Todo.order.desc())
-    #     .all()
-    # )
-    todos = sess.query(Todo).order_by(Todo.order.desc()).all()
-    todos = [todo for todo in todos if todo.completed_at is None]
-    return todos
+    return (
+        sess.query(Todo)
+        .where(Todo.completed_at == None)  # noqa: E711
+        .order_by(Todo.order.desc())
+        .all()
+    )
 
 
 def sort_todos(todos: list[Todo]) -> list[Todo]:

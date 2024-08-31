@@ -119,6 +119,4 @@ class Fzf:
             fzf_options=' '.join(options),
         )
 
-        print(selection)
-
         return define_select_kind_from_fzf(selection)
