@@ -1068,3 +1068,50 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 vim.cmd([[ colorscheme default ]])
+
+local actions = require('telescope.actions')
+local action_state = require('telescope.actions.state')
+
+local create_import_statement = function(prompt_bufnr)
+    local selection = action_state.get_selected_entry()
+    if selection == nil then
+        print('No file selected')
+        return
+    end
+
+    local file_path = selection.value
+    if file_path == nil then
+        print('Invalid file path')
+        return
+    end
+
+    local parts = vim.fn.split(selection.value, '/')
+    local src_index = vim.fn.index(parts, 'src')
+    if src_index == -1 then
+        print('Error: \'src\' directory not found in the file path.')
+        return
+    end
+
+    table.remove(parts, 1) -- remove src
+    parts[#parts] = string.gsub(parts[#parts], '.py', '')
+
+    local import_path = table.concat(parts, '.')
+    local import_statement = string.format('from %s import ', import_path)
+
+    -- vim.api.nvim_put({ 'lskjd' }, '', false, true)
+
+    vim.fn.setreg('+', import_statement) -- '+' is often the primary clipboard register
+
+    -- Close the Telescope window
+    actions.close(prompt_bufnr)
+end
+
+vim.keymap.set({ 'i' }, '<C-I>', function()
+    require('telescope.builtin').find_files({
+        attach_mappings = function(_, map)
+            -- map('n', '<cr>', print_selected_entry)
+            map('i', '<cr>', create_import_statement)
+            return true
+        end,
+    })
+end, { desc = 'LSP: ' })

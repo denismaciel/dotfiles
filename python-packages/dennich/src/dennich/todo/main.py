@@ -106,7 +106,9 @@ def start_pomodoro(selector: Selector) -> int:
         upsert_todo(sess, todo)
     elif duration == 'edit':
         logger.debug('Completing todo', todo=todo)
-        new_name = prefill_input('New todo name: ', todo.name)
+        with_hashbang = [f"#{tag}" for tag in todo.tags]
+        prefilled = ' '.join([' '.join(with_hashbang), todo.name])
+        new_name = prefill_input('New todo name: ', prefilled)
         new_todo = Todo.from_text_prompt(new_name)
         todo.name = new_todo.name
         todo.tags = new_todo.tags
