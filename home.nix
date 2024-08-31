@@ -4,6 +4,7 @@
   ...
 }: {
   home.packages = with pkgs; [
+    eog
     zed-editor
     anki
     appimage-run
@@ -75,8 +76,7 @@
     postgresql
     pqrs
     pyright
-    python312
-    qutebrowser
+    python312Full
     rclone
     ripgrep
     rust-analyzer

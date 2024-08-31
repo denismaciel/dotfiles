@@ -1,14 +1,16 @@
+export PATH=$GOROOT/bin:$PATH
+export PATH="$HOME/node/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 export PATH=$HOME/dotfiles/scripts:$PATH
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/node/bin:$PATH"
-export PATH="$PATH:/home/denis/.local/bin"
-export GOPATH=$(go env GOPATH)
-export PATH=$GOROOT/bin:$PATH
-export VISUAL=nvim
-export EDITOR=nvim
-export PYTHONBREAKPOINT=ipdb.set_trace
+
+export PATH=/etc/profiles/per-user/denis/bin/:$PATH # so that the default Python is the one from Home Manager
+
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
+export EDITOR=nvim
+export GOPATH=$(go env GOPATH)
+export PYTHONBREAKPOINT=ipdb.set_trace
+export VISUAL=nvim
 
 export COLORSCHEME=dark
 export ZK_NOTEBOOK_DIR="$HOME/Sync/notes/current"
