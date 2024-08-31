@@ -302,8 +302,7 @@ M.python_test_file = function()
     table.remove(parts, 1) -- remove src
     table.remove(parts, 1) -- remove pkg_name
 
-    -- replace the file name with "_test.py"
-    parts[#parts] = string.gsub(parts[#parts], '.py', '')
+    parts[#parts] = string.gsub(parts[#parts], '.py', '_test.py')
 
     -- create directory structure if it doesn't exist
     local test_file_path = project_path .. '/src/tests'
