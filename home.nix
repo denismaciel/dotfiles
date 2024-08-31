@@ -512,6 +512,20 @@ in {
       '';
       lastco = "!git last | fzf | awk '{print $1}' | xargs git checkout";
     };
+    extraConfig = {
+      diff = {
+        tool = "difftastic";
+      };
+      difftool = {
+        prompt = false;
+      };
+      difftool.difftastic = {
+        cmd = "difft \"$LOCAL\" \"$REMOTE\"";
+      };
+      pager = {
+        difftool = true;
+      };
+    };
   };
 
   gtk = {
