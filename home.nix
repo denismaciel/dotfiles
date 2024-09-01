@@ -4,6 +4,7 @@
   ...
 }: {
   home.packages = with pkgs; [
+    circumflex
     eog
     zed-editor
     anki
