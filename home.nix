@@ -4,6 +4,9 @@
   ...
 }: {
   home.packages = with pkgs; [
+    nixfmt-rfc-style
+    nil
+    python312Packages.mdformat
     circumflex
     eog
     zed-editor

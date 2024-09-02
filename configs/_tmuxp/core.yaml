@@ -1,35 +1,35 @@
 session_name: core
 windows:
-  # - window_name: top
-  #   start_directory: "~/work/core"
-  #   panes:
-  #     -
-  #     -
-  # - window_name: github-actions
-  #   start_directory: "~/work/core/.github"
-  #   panes:
-  #     -
-  #     -
-  # - window_name: pycap
-  #   start_directory: "~/work/core/pycap"
-  #   panes:
-  #     -
-  #     -
-  # - window_name: dwh
-  #   start_directory: "~/work/core/dwh"
-  #   panes:
-  #     -
-  #     -
-  # - window_name: backend
-  #   start_directory: "~/work/core/backend"
-  #   panes:
-  #     -
-  #     -
-  # - window_name: frontend
-  #   start_directory: "~/work/core/recap-app"
-  #   panes:
-  #     -
-  #     -
+  - window_name: top
+    start_directory: "~/work/core"
+    panes:
+      -
+      -
+  - window_name: github-actions
+    start_directory: "~/work/core/.github"
+    panes:
+      -
+      -
+  - window_name: pycap
+    start_directory: "~/work/core/pycap"
+    panes:
+      -
+      -
+  - window_name: dwh
+    start_directory: "~/work/core/dwh"
+    panes:
+      -
+      -
+  - window_name: backend
+    start_directory: "~/work/core/backend"
+    panes:
+      -
+      -
+  - window_name: frontend
+    start_directory: "~/work/core/recap-app"
+    panes:
+      -
+      -
 
   - window_name: samwise-top
     start_directory: "~/github.com/monasticventures/samwise"
