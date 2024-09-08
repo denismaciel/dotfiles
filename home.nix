@@ -125,7 +125,6 @@
     zenity
     zk
     zoxide
-    # (pkgs.callPackage ./dennich.nix {})
     (rofi.override {plugins = [pkgs.rofi-emoji pkgs.rofi-calc];})
     (google-fonts.override {fonts = ["Poppins"];})
     (nerdfonts.override {
