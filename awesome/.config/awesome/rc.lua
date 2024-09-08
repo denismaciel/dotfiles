@@ -608,4 +608,4 @@ end)
 
 -- Gaps
 beautiful.useless_gap = 3
-awful.spawn.with_shell('syncthing')
+-- awful.spawn.with_shell('syncthing')

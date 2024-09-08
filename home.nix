@@ -9,7 +9,7 @@
     python312Packages.mdformat
     circumflex
     eog
-    zed-editor
+    # zed-editor
     anki
     appimage-run
     arandr
@@ -97,7 +97,6 @@
     stow
     stylua
     sumneko-lua-language-server
-    syncthing
     tailwindcss-language-server
     terraform
     terraform-ls
@@ -239,6 +238,9 @@
     ];
     extraConfig = builtins.readFile ./configs/.tmux.conf;
   };
+
+  # services.syncthing.enable = true;
+  # services.syncthing.tray.enable = true;
 
   services.autorandr.enable = true;
   programs.autorandr = let
