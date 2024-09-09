@@ -32,6 +32,7 @@
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     alejandra.url = "github:kamadorueda/alejandra/3.0.0";
     alejandra.inputs.nixpkgs.follows = "nixpkgs";
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     stylix.url = "github:danth/stylix";
   };
 
@@ -40,6 +41,7 @@
     home-manager,
     nixos-hardware,
     alejandra,
+    hyprland,
     ...
   }: {
     homeConfigurations = {
@@ -67,20 +69,6 @@
           }
           {
             environment.systemPackages = [alejandra.defaultPackage.${system}];
-          }
-        ];
-      };
-      laptop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./home.nix;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
           }
         ];
       };

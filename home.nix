@@ -9,6 +9,7 @@
 
   autorandr.enable = true;
   home.packages = with pkgs; [
+    kitty
     nixfmt-rfc-style
     nil
     python312Packages.mdformat
@@ -216,6 +217,11 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  # wayland.windowManager.hyprland = {
+  #   enable = true;
+  #   package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+  # };
 
   programs.neovim = {
     enable = true;

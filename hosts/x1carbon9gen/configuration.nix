@@ -82,6 +82,8 @@
     };
   };
 
+  programs.hyprland.enable = true;
+
   services.keyd = {
     enable = true;
     keyboards = {
@@ -147,6 +149,9 @@
     ];
   };
   environment.systemPackages = with pkgs; [
+    wofi
+    dolphin
+    kitty
     firefox
     git
     zenity
