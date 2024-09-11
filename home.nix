@@ -43,7 +43,7 @@
     gcc
     gnumake
     go-swagger
-    go_1_21
+    go_1_23
     gofumpt
     golangci-lint
     golden-cheetah

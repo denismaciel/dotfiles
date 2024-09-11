@@ -390,6 +390,8 @@ require('lazy').setup({
     },
     -- Colors
     'folke/tokyonight.nvim',
+
+    'rebelot/kanagawa.nvim',
     {
         -- local
         -- dir = '~/github.com/denismaciel/no-clown-fiesta.nvim',
