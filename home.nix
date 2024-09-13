@@ -20,7 +20,7 @@
     appimage-run
     arandr
     awesome
-    biome
+    # biome
     btop
     bun
     calibre

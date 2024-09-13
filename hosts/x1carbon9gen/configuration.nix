@@ -263,52 +263,6 @@
     desktop = 9;
     popups = 9;
   };
-  programs.keepassxc = {
-    enable = true;
-    browserIntegration.firefox = true;
-
-    defaultDatabase = "/home/upidapi/persist/keepass-db.kdbx";
-
-    settings = {
-      General = {
-        ConfigVersion = 2;
-        UseAtomicSaves = true;
-      };
-      Browser = {
-        Enabled = true;
-        SearchInAllDatabases = true;
-      };
-      FdoSecrets = {
-        Enabled = true;
-      };
-      GUI = {
-        ApplicationTheme = "dark";
-        ColorPasswords = true;
-        MinimizeOnClose = true;
-        # MinimizeOnStartup = true;
-        # MinimizeToTray = true;
-        MonospaceNotes = true;
-        ShowTrayIcon = true;
-        # TrayIconAppearance = "monochrome-light";
-      };
-      PasswordGenerator = {
-        AdditionalChars = "";
-        ExcludedChars = "";
-        Length = 64;
-      };
-      SSHAgent = {
-        Enabled = true;
-      };
-      Security = {
-        ClearClipboardTimeout = 30;
-        EnableCopyOnDoubleClick = true;
-        IconDownloadFallback = true;
-        LockDatabaseIdle = true;
-        LockDatabaseIdleSeconds = 10 * 60;
-      };
-    };
-  };
-
   location.provider = "geoclue2";
   services.redshift = {
     enable = true;
