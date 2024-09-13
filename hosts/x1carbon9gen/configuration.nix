@@ -26,8 +26,8 @@
     hostName = "nixos-x1carbon-9gen"; # Define your hostname.
     networkmanager.enable = true;
     extraHosts = ''
-      127.0.0.1 linkedin.com
-      127.0.0.1 www.linkedin.com
+      # 127.0.0.1 linkedin.com
+      # 127.0.0.1 www.linkedin.com
       127.0.0.1 youtube.com
       127.0.0.1 www.youtube.com
       127.0.0.1 twitter.com
@@ -262,6 +262,51 @@
     terminal = 9;
     desktop = 9;
     popups = 9;
+  };
+  programs.keepassxc = {
+    enable = true;
+    browserIntegration.firefox = true;
+
+    defaultDatabase = "/home/upidapi/persist/keepass-db.kdbx";
+
+    settings = {
+      General = {
+        ConfigVersion = 2;
+        UseAtomicSaves = true;
+      };
+      Browser = {
+        Enabled = true;
+        SearchInAllDatabases = true;
+      };
+      FdoSecrets = {
+        Enabled = true;
+      };
+      GUI = {
+        ApplicationTheme = "dark";
+        ColorPasswords = true;
+        MinimizeOnClose = true;
+        # MinimizeOnStartup = true;
+        # MinimizeToTray = true;
+        MonospaceNotes = true;
+        ShowTrayIcon = true;
+        # TrayIconAppearance = "monochrome-light";
+      };
+      PasswordGenerator = {
+        AdditionalChars = "";
+        ExcludedChars = "";
+        Length = 64;
+      };
+      SSHAgent = {
+        Enabled = true;
+      };
+      Security = {
+        ClearClipboardTimeout = 30;
+        EnableCopyOnDoubleClick = true;
+        IconDownloadFallback = true;
+        LockDatabaseIdle = true;
+        LockDatabaseIdleSeconds = 10 * 60;
+      };
+    };
   };
 
   location.provider = "geoclue2";
