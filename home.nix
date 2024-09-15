@@ -9,6 +9,7 @@
 
   autorandr.enable = true;
   home.packages = with pkgs; [
+    chromium
     kitty
     nixfmt-rfc-style
     nil

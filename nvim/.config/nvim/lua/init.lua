@@ -236,6 +236,65 @@ require('lazy').setup({
                         ),
                     },
                 },
+                hooks = {
+                    WriteCode = function(prt, params)
+                        local chat_prompt = [[
+                        When writing code, return only the code.
+                        Never explain the code unless explicitly asked.
+
+                        Rules for Python code:
+
+                        - You're writing Python 3.12.
+                        - File-based operations should done using pathlib instead of os module.
+                        - Always type-annotate your functions and methods.
+                        - Your code will run against mypy in strict mode.
+                        - When typing-annotating the code:
+                            - use `list` instead of `typing.List`
+                            - use `dict` instead of `typing.Dict`
+                            - use `tuple` instead of `typing.Tuple`
+                            - be as specific as possible with your typing.
+                            - avoid using `typing.Any`
+                            - always use specific and concrete type annotations rather than generic ones including nested types.
+                              For example, use
+                                - `dict[str, list[int\]\]` instead of `dict` or `dict[str, list]`,
+                                - `list[float]` instead of just `list`,
+                                -  `set[str]` instead of just `set`
+                        - Use Pydantic BaseModel liberally.
+
+                        Return only the code.
+                        If anything other than code is returned a puppy dies.
+                        An explanation can be returned without harm to puppies if explicitly asked for.
+                        Take care of the puppies.
+                        This is very important.
+        ]]
+                        prt.ChatNew(params, chat_prompt)
+                    end,
+                    CompleteFullContext = function(prt, params)
+                        local template = [[
+        I have the following code from {{filename}}:
+
+        ```{{filetype}}
+        {filecontent}}
+        ```
+
+        Please look at the following section specifically:
+        ```{{filetype}}
+        {{selection}}
+        ```
+
+        Please finish the code above carefully and logically.
+        Respond just with the snippet of code that should be inserted, otherwise a puppy will die!!!"
+        ]]
+                        local model_obj = prt.get_model('command')
+                        prt.Prompt(
+                            params,
+                            prt.ui.Target.append,
+                            model_obj,
+                            nil,
+                            template
+                        )
+                    end,
+                },
             })
         end,
     },
