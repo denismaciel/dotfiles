@@ -9,6 +9,7 @@
 
   autorandr.enable = true;
   home.packages = with pkgs; [
+    lazydocker
     chromium
     kitty
     nixfmt-rfc-style
