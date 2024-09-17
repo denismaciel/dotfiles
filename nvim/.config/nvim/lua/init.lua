@@ -298,30 +298,30 @@ require('lazy').setup({
             })
         end,
     },
-    {
-        'NvChad/nvim-colorizer.lua',
-        config = function()
-            require('colorizer').setup({
-                filetypes = {
-                    'html',
-                    'css',
-                    'sass',
-                    'scss',
-                    'javascript',
-                    'javascriptreact',
-                    'typescript',
-                    'typescriptreact',
-                    'vue',
-                    'svelte',
-                    'lua',
-                },
-                user_default_options = {
-                    mode = 'virtualtext',
-                    names = false,
-                },
-            })
-        end,
-    },
+    -- {
+    --     'NvChad/nvim-colorizer.lua',
+    --     config = function()
+    --         require('colorizer').setup({
+    --             filetypes = {
+    --                 'html',
+    --                 'css',
+    --                 'sass',
+    --                 'scss',
+    --                 'javascript',
+    --                 'javascriptreact',
+    --                 'typescript',
+    --                 'typescriptreact',
+    --                 'vue',
+    --                 'svelte',
+    --                 'lua',
+    --             },
+    --             user_default_options = {
+    --                 mode = 'virtualtext',
+    --                 names = false,
+    --             },
+    --         })
+    --     end,
+    -- },
     { 'folke/which-key.nvim', opts = {} },
     { 'folke/neodev.nvim', opts = {} },
     { 'kylechui/nvim-surround', opts = {} },
