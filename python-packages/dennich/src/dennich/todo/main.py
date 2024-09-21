@@ -83,7 +83,7 @@ def start_pomodoro(selector: Selector) -> int:
         case _:
             typing.assert_never(selection)
 
-    POMODORO_DURATIONS = [25, 20, 15, 10, 5, 1, 'done', 'edit']
+    POMODORO_DURATIONS = [10, 25, 20, 15, 5, 1, 'done', 'edit']
     selection_pomo = selector.select([str(d) for d in POMODORO_DURATIONS])
 
     match selection_pomo:

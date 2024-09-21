@@ -312,19 +312,21 @@ local function open_test_file()
 end
 
 vim.keymap.set('n', '<leader>ro', open_test_file)
-vim.keymap.set('n', '<leader>gg', '<cmd>PrtChatToggle<cr>')
 
-local function open_parrot()
+local function open_parrot_code()
     vim.cmd('PrtWriteCode')
     vim.cmd('only')
 end
+vim.api.nvim_create_user_command('OpenParrot', open_parrot_code, {})
+
+vim.keymap.set('n', '<leader>gg', '<cmd>PrtChatToggle<cr>')
+vim.keymap.set('n', '<leader>gn', '<cmd>PrtChatNew<cr>')
 vim.keymap.set(
     'n',
-    '<leader>gn',
-    open_parrot,
+    '<leader>gc',
+    open_parrot_code,
     { noremap = true, silent = true }
 )
-vim.api.nvim_create_user_command('OpenParrot', open_parrot, {})
 
 local function run()
     print('run!')
