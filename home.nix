@@ -84,7 +84,7 @@
     pandoc
     papirus-icon-theme
     pasystray
-    pgcli
+    # pgcli
     postgresql
     pqrs
     pyright
@@ -252,8 +252,8 @@
     extraConfig = builtins.readFile ./configs/.tmux.conf;
   };
 
-  # services.syncthing.enable = true;
-  # services.syncthing.tray.enable = true;
+  services.syncthing.enable = true;
+  services.syncthing.tray.enable = true;
 
   programs.zsh = {
     enable = true;

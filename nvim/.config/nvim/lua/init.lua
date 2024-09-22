@@ -237,6 +237,19 @@ require('lazy').setup({
                     },
                 },
                 hooks = {
+                    ChatFile = function(prt, params)
+                        local chat_prompt = [[
+
+          Given the following file:
+
+          ```{{filetype}}
+          {{filecontent}}
+          ```
+
+          Try to answer the questions to the best of your knowledge.
+          ]]
+                        prt.ChatNew(params, chat_prompt)
+                    end,
                     WriteCode = function(prt, params)
                         local chat_prompt = [[
                         When writing code, return only the code.
@@ -266,6 +279,7 @@ require('lazy').setup({
                         An explanation can be returned without harm to puppies if explicitly asked for.
                         Take care of the puppies.
                         This is very important.
+
         ]]
                         prt.ChatNew(params, chat_prompt)
                     end,
@@ -274,7 +288,7 @@ require('lazy').setup({
         I have the following code from {{filename}}:
 
         ```{{filetype}}
-        {filecontent}}
+        {{filecontent}}
         ```
 
         Please look at the following section specifically:
