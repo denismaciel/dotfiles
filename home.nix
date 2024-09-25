@@ -27,7 +27,6 @@
     bun
     calibre
     cargo
-    cloudflare-warp
     csvlens
     dbmate
     delve
