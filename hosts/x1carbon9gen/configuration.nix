@@ -82,7 +82,7 @@
     };
   };
 
-  programs.hyprland.enable = true;
+  # programs.hyprland.enable = true;
 
   services.keyd = {
     enable = true;

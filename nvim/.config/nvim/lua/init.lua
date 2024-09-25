@@ -224,6 +224,7 @@ require('lazy').setup({
         dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim' },
         config = function()
             require('parrot').setup({
+                toggle_target = 'buffer',
                 providers = {
                     openai = {
                         api_key = read_file(

@@ -298,7 +298,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, 'p', function()
         utils.toggle_or_spawn(
             'Chat',
-            'alacritty --class Chat -e "nvim" "-c" "OpenParrot"'
+            'alacritty --class Chat -e "nvim" "-c" "PrtChatNew"'
         )
     end),
 

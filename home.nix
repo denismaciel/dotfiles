@@ -39,7 +39,6 @@
     fd
     feh
     ffmpeg
-    firefox
     flameshot
     fzf
     gcc
@@ -84,7 +83,7 @@
     pandoc
     papirus-icon-theme
     pasystray
-    # pgcli
+    pgcli
     postgresql
     pqrs
     pyright
