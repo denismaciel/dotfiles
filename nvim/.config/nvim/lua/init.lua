@@ -205,6 +205,22 @@ require('lazy').setup({
             claude = {
                 api_key_name = 'cmd:cat /home/denis/credentials/anthropic-api-key',
             },
+            windows = {
+                position = 'right', -- the position of the sidebar
+                wrap = true, -- similar to vim.o.wrap
+                width = 60, -- default % based on available width
+                sidebar_header = {
+                    align = 'center', -- left, center, right for title
+                    rounded = true,
+                },
+            },
+            behaviour = {
+                -- auto_suggestions = true, -- Experimental stage
+                auto_set_highlight_group = true,
+                auto_set_keymaps = true,
+                auto_apply_diff_after_generation = true,
+                support_paste_from_clipboard = false,
+            },
         },
         dependencies = {
             'nvim-tree/nvim-web-devicons',

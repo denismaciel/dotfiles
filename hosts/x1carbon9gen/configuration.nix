@@ -29,8 +29,8 @@
     hostName = "nixos-x1carbon-9gen"; # Define your hostname.
     networkmanager.enable = true;
     extraHosts = ''
-      # 127.0.0.1 linkedin.com
-      # 127.0.0.1 www.linkedin.com
+      127.0.0.1 linkedin.com
+      127.0.0.1 www.linkedin.com
       127.0.0.1 youtube.com
       127.0.0.1 www.youtube.com
       127.0.0.1 twitter.com
@@ -63,6 +63,7 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  services.gnome.gnome-keyring.enable = true;
   services.displayManager = {
     sddm.enable = true;
     defaultSession = "none+awesome";
