@@ -75,11 +75,10 @@
       anton = nixpkgs.lib.nixosSystem {
         modules = [
           ./hosts/anton/configuration.nix
-          inputs.stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
             home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./home.nix;
+            home-manager.users.denis = import ./home-anton.nix;
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };
