@@ -72,6 +72,24 @@
           }
         ];
       };
+      anton = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/anton/configuration.nix
+          inputs.stylix.nixosModules.stylix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useUserPackages = true;
+            home-manager.users.denis = import ./home.nix;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
+          }
+          {
+            environment.systemPackages = [alejandra.defaultPackage.${system}];
+          }
+        ];
+      };
     };
   };
 }
