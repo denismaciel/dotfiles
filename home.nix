@@ -13,6 +13,8 @@
     # terraform
     # duckdb
     # zed-editor
+    gh
+    harper
     nil
     anki
     appimage-run

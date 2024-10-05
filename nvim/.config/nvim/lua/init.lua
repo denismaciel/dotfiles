@@ -744,6 +744,10 @@ require('lazy').setup({
                 capabilities = capabilities,
                 filetypes = { 'terraform', 'hcl' },
             })
+            -- lspc.harper_ls.setup({
+            --     capabilities = capabilities,
+            --     -- filetypes = { 'terraform', 'hcl' },
+            -- })
             lspc.biome.setup({
                 capabilities = capabilities,
             })
