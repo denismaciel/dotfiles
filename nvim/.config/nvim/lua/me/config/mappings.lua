@@ -319,7 +319,6 @@ local function open_parrot_code()
 end
 vim.api.nvim_create_user_command('OpenParrot', open_parrot_code, {})
 
-vim.keymap.set('n', '<leader>gg', '<cmd>PrtChatToggle<cr>')
 vim.keymap.set('n', '<leader>gn', '<cmd>PrtChatNew<cr>')
 vim.keymap.set(
     'n',
@@ -327,6 +326,8 @@ vim.keymap.set(
     open_parrot_code,
     { noremap = true, silent = true, desc = 'PrtWriteCode' }
 )
+vim.keymap.set('n', '<leader>gf', '<cmd>PrtChatFile<cr>', {})
+vim.keymap.set('n', '<leader>go', '<cmd>PrtCompleteFullContext<cr>', {})
 
 local function run()
     print('run!')

@@ -218,7 +218,7 @@ require('lazy').setup({
                 -- auto_suggestions = true, -- Experimental stage
                 auto_set_highlight_group = true,
                 auto_set_keymaps = true,
-                auto_apply_diff_after_generation = true,
+                -- auto_apply_diff_after_generation = true,
                 support_paste_from_clipboard = false,
             },
         },
@@ -1120,11 +1120,11 @@ vim.api.nvim_create_autocmd({ 'WinEnter', 'VimEnter' }, {
     group = augroup_highlight_todo,
     pattern = '*',
     callback = function()
-        vim.fn.matchadd(highlight_group_done, '^DONE', -1)
+        vim.fn.matchadd(highlight_group_done, 'DONE.*', -1)
         -- `Todo` is a prexisting highlight group that we leverage to highlight
         -- `TODO`.
         -- For `DONE`, we create need a new highlight group and set the `strikethrough`
-        vim.fn.matchadd('Todo', '^TODO', -1)
+        vim.fn.matchadd('Todo', 'TODO', -1)
     end,
 })
 vim.api.nvim_create_autocmd('ColorScheme', {

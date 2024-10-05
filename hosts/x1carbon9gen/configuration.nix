@@ -9,10 +9,10 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ../../nixosModules/warp.nix
+    ../../modules/warp.nix
   ];
 
-  warp.enable = false;
+  warp.enable = true;
 
   # DroidCamX
   boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];

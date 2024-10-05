@@ -4,37 +4,34 @@
   ...
 }: {
   imports = [
-    ./nixosModules/autorandr.nix
+    ./modules/autorandr.nix
+    ./modules/go.nix
   ];
-
+  go.enable = true;
   autorandr.enable = true;
   home.packages = with pkgs; [
-    lazydocker
-    chromium
-    kitty
-    nixfmt-rfc-style
-    nil
-    python312Packages.mdformat
-    circumflex
-    eog
+    # terraform
+    # duckdb
     # zed-editor
+    nil
     anki
     appimage-run
     arandr
     awesome
-    # biome
+    biome
     btop
     bun
     calibre
     cargo
+    chromium
+    circumflex
     csvlens
     dbmate
-    delve
     difftastic
     dig
     direnv
     dockerfile-language-server-nodejs
-    duckdb
+    eog
     fd
     feh
     ffmpeg
@@ -42,16 +39,11 @@
     fzf
     gcc
     gnumake
-    go-swagger
-    go_1_23
     gofumpt
-    golangci-lint
     golden-cheetah
     gomi
     google-chrome
     google-cloud-sdk
-    gopls
-    gotools # for goimports
     graphviz
     haskellPackages.greenclip
     htop
@@ -62,17 +54,21 @@
     jsonnet-language-server
     keepassxc
     keyd
+    kitty
     kubectl
+    lazydocker
     lazygit
     lf
     libinput
     libreoffice
     litecli
+    lsof
     lua
     markdownlint-cli
     mpv
     ngrok
-    # nil
+    nil
+    nixfmt-rfc-style
     nodePackages_latest.bash-language-server
     nodePackages_latest.prettier
     nodePackages_latest.typescript-language-server
@@ -87,6 +83,7 @@
     pqrs
     pyright
     python312Full
+    python312Packages.mdformat
     rclone
     ripgrep
     rust-analyzer
@@ -104,7 +101,6 @@
     stylua
     sumneko-lua-language-server
     tailwindcss-language-server
-    terraform
     terraform-ls
     texlive.combined.scheme-medium
     tor-browser-bundle-bin
@@ -436,6 +432,7 @@
             }; f
       '';
       lastco = "!git last | fzf | awk '{print $1}' | xargs git checkout";
+      please = "push origin HEAD --force-with-lease";
     };
     extraConfig = {
       diff = {
