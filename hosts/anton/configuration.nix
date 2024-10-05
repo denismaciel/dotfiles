@@ -93,7 +93,6 @@
       awscli
       btop
       direnv
-      neovim
       nodePackages.dotenv-cli
       tmux
       zip
