@@ -72,8 +72,7 @@
           }
         ];
       };
-      anton = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
+      anton = nixpkgs.lib.nixosSystem {
         modules = [
           ./hosts/anton/configuration.nix
           inputs.stylix.nixosModules.stylix
@@ -84,9 +83,6 @@
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };
-          }
-          {
-            environment.systemPackages = [alejandra.defaultPackage.${system}];
           }
         ];
       };
