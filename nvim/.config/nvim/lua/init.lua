@@ -353,7 +353,7 @@ require('lazy').setup({
     --         })
     --     end,
     -- },
-    { 'folke/which-key.nvim', opts = {} },
+    { 'folke/which-key.nvim', opts = { icons = { mappings = false } } },
     { 'folke/neodev.nvim', opts = {} },
     { 'kylechui/nvim-surround', opts = {} },
     'nvimtools/none-ls.nvim',
@@ -1168,46 +1168,56 @@ vim.cmd([[ colorscheme default ]])
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 
-local create_import_statement = function(prompt_bufnr)
+local create_python_import_statement = function(prompt_bufnr)
     local selection = action_state.get_selected_entry()
     if selection == nil then
-        print('No file selected')
+        error('No file selected')
         return
     end
 
     local file_path = selection.value
     if file_path == nil then
-        print('Invalid file path')
+        error('Invalid file path')
         return
     end
 
     local parts = vim.fn.split(selection.value, '/')
     local src_index = vim.fn.index(parts, 'src')
     if src_index == -1 then
-        print('Error: \'src\' directory not found in the file path.')
+        error('Error: \'src\' directory not found in the file path.')
         return
     end
 
-    table.remove(parts, 1) -- remove src
+    -- Find the index of 'src' in the table and remove every element before
+    -- 'src' including 'src' itself.
+    for i = 1, #parts do
+        if parts[i] == 'src' then
+            for j = 1, i do
+                table.remove(parts, 1)
+            end
+            break
+        end
+    end
+
+    -- remove .py
     parts[#parts] = string.gsub(parts[#parts], '.py', '')
 
     local import_path = table.concat(parts, '.')
     local import_statement = string.format('from %s import ', import_path)
 
-    -- vim.api.nvim_put({ 'lskjd' }, '', false, true)
-
-    vim.fn.setreg('+', import_statement) -- '+' is often the primary clipboard register
+    vim.fn.setreg('+', import_statement)
+    print('statement avilable in the clipboard: ' .. import_statement)
 
     -- Close the Telescope window
     actions.close(prompt_bufnr)
 end
 
-vim.keymap.set({ 'i' }, '<C-I>', function()
+vim.keymap.set({ 'n' }, '<leader>i', function()
     require('telescope.builtin').find_files({
         attach_mappings = function(_, map)
             -- map('n', '<cr>', print_selected_entry)
-            map('i', '<cr>', create_import_statement)
+            map('i', '<cr>', create_python_import_statement)
             return true
         end,
     })
-end, { desc = 'LSP: ' })
+end, { desc = 'Python import statement' })

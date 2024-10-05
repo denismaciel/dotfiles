@@ -325,7 +325,7 @@ vim.keymap.set(
     'n',
     '<leader>gc',
     open_parrot_code,
-    { noremap = true, silent = true }
+    { noremap = true, silent = true, desc = 'PrtWriteCode' }
 )
 
 local function run()
