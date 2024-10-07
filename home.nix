@@ -10,7 +10,7 @@
   go.enable = true;
   autorandr.enable = true;
   home.packages = with pkgs; [
-    # terraform
+    terraform
     # duckdb
     # zed-editor
     gh

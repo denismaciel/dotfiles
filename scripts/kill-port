@@ -1,10 +1,12 @@
 #! /usr/bin/env bash
 
-# Check if PORT is provided
-if [ -z "$PORT" ]; then
+# Check if port number is provided as command-line argument
+if [ $# -eq 0 ]; then
     echo "Usage: $0 <port_number>"
     exit 1
 fi
+
+PORT=$1
 
 # Find the process ID listening on the specified port
 PID=$(sudo lsof -t -i:$PORT)
@@ -13,6 +15,19 @@ if [ -z "$PID" ]; then
     echo "No process found listening on port $PORT"
     exit 0
 fi
+
+# Get process details
+PROCESS_INFO=$(ps -p $PID -o pid,user,lstart,cmd --no-headers)
+PID=$(echo $PROCESS_INFO | awk '{print $1}')
+USER=$(echo $PROCESS_INFO | awk '{print $2}')
+START_TIME=$(echo $PROCESS_INFO | awk '{print $3, $4, $5, $6, $7}')
+COMMAND=$(echo $PROCESS_INFO | awk '{$1=$2=$3=$4=$5=$6=$7=""; print $0}' | xargs)
+
+echo "Process details:"
+echo "  PID: $PID"
+echo "  User: $USER"
+echo "  Start time: $START_TIME"
+echo "  Command: $COMMAND"
 
 # Kill the process
 echo "Killing process $PID listening on port $PORT"
