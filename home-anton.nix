@@ -4,6 +4,8 @@
   ...
 }: {
   home.packages = with pkgs; [
+    go_1_22
+    uv
     btop
     cargo
     dbmate
