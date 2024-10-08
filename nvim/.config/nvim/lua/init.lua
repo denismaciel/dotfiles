@@ -110,7 +110,6 @@ vim.diagnostic.config({
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-print(lazypath)
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
         'git',
@@ -663,6 +662,15 @@ require('lazy').setup({
         end,
     },
     {
+        'stevearc/conform.nvim',
+        opts = {
+            formatters_by_ft = {
+                lua = { 'stylua' },
+                python = { 'ruff_fix', 'ruff_format' },
+            },
+        },
+    },
+    {
         'neovim/nvim-lspconfig',
         dependencies = {
             {
@@ -685,31 +693,7 @@ require('lazy').setup({
 
             null_ls.setup({
                 sources = {
-                    null_ls.builtins.formatting.black.with({
-                        args = {
-                            '--stdin-filename',
-                            '$FILENAME',
-                            '--skip-string-normalization',
-                            '--quiet',
-                            '-',
-                        },
-                    }),
                     null_ls.builtins.formatting.stylua,
-                    null_ls.builtins.formatting.prettier.with({
-                        filetypes = {
-                            'css',
-                            'html',
-                            'javascript',
-                            'javascriptreact',
-                            'json',
-                            'scss',
-                            'toml',
-                            'typescript',
-                            'typescriptreact',
-                            'vue',
-                            'yaml',
-                        },
-                    }),
                     null_ls.builtins.diagnostics.cfn_lint,
                     null_ls.builtins.diagnostics.statix.with({
                         filetypes = { 'nix' },
@@ -752,6 +736,12 @@ require('lazy').setup({
             lspc.biome.setup({
                 capabilities = capabilities,
             })
+            -- lspc.ruff_lsp.setup({
+            --     capabilities = capabilities,
+            --     root_dir = require('lspconfig.util').root_pattern(unpack({
+            --         'ruff.toml',
+            --     })),
+            -- })
             lspc.lua_ls.setup({
                 capabilities = capabilities,
                 settings = {

@@ -107,12 +107,10 @@ vim.keymap.set(
     require('me').copy_file_path_to_clipboard,
     { desc = 'Copy file path to clipboard' }
 )
-vim.keymap.set(
-    'n',
-    '<leader>ff',
-    vim.lsp.buf.format,
-    { desc = 'Format current buffer' }
-)
+vim.keymap.set('n', '<leader>ff', function()
+    vim.lsp.buf.format()
+    require('conform').format()
+end, { desc = 'Format current buffer' })
 vim.keymap.set(
     'n',
     '<leader>fn',
