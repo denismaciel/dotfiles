@@ -463,7 +463,7 @@
 
   home.file.".git-templates/hooks/prepare-commit-msg" = {
     text = ''
-      #! /usr/bin/env bash
+      #!/bin/sh
 
       # Get the current branch name
       BRANCH_NAME=$(git symbolic-ref --short HEAD)
