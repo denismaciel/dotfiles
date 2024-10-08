@@ -128,6 +128,16 @@
   services.openssh.ports = [22 443 2222 7422];
   services.openssh.settings.PasswordAuthentication = true;
 
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+  };
+
   # networking = {
   #   firewall = {
   #     enable = true;
