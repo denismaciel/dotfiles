@@ -20,7 +20,7 @@
   systemd.targets.hibernate.enable = false;
   systemd.targets.hybrid-sleep.enable = false;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "sam"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -130,7 +130,7 @@
 
   services.avahi = {
     enable = true;
-    # nssmdns = true;
+    nssmdns = true;
     publish = {
       enable = true;
       addresses = true;
@@ -138,18 +138,19 @@
     };
   };
 
-  # networking = {
-  #   firewall = {
-  #     enable = true;
-  #     allowedTCPPorts = [ 22 2222 ];
-  #   };
-  # };
+  networking = {
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [22 443 2222 7422];
+      allowedUDPPorts = [5353];
+    };
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  networking.firewall.enable = false;
+  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
