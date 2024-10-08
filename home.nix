@@ -436,7 +436,16 @@
       lastco = "!git last | fzf | awk '{print $1}' | xargs git checkout";
       please = "push origin HEAD --force-with-lease";
     };
+
+    includes = [
+      {
+        path = "~/.gitconfig.local";
+      }
+    ];
     extraConfig = {
+      init = {
+        templatedir = "~/.git-templates";
+      };
       diff = {
         tool = "difftastic";
       };
@@ -450,6 +459,26 @@
         difftool = true;
       };
     };
+  };
+
+  home.file.".git-templates/hooks/prepare-commit-msg" = {
+    text = ''
+      #!/bin/sh
+
+      # Get the current branch name
+      BRANCH_NAME=$(git symbolic-ref --short HEAD)
+
+      # Read the commit message from the file
+      COMMIT_MSG_FILE=$1
+      COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+      # Check if the commit message already starts with the branch name
+      if [[ $COMMIT_MSG != "$BRANCH_NAME"* ]]; then
+          # Prefix the commit message with the branch name
+          echo "$BRANCH_NAME: $COMMIT_MSG" > "$COMMIT_MSG_FILE"
+      fi
+    '';
+    executable = true;
   };
 
   gtk = {
