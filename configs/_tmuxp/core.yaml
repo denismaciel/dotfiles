@@ -15,11 +15,6 @@ windows:
     panes:
       -
       -
-  - window_name: dwh
-    start_directory: "~/work/core/dwh"
-    panes:
-      -
-      -
   - window_name: backend
     start_directory: "~/work/core/backend"
     panes:
