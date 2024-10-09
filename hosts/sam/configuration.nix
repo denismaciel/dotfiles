@@ -113,6 +113,40 @@
     git
   ];
 
+  systemd.services.poll-samwise = {
+    description = "Poll GitHub repository for updates";
+    environment = {
+      REPO_PATH = "/home/denis/samwise";
+    };
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = ''
+        ${pkgs.bash}/bin/bash -c '
+          cd "$REPO_PATH"
+          ${pkgs.git}/bin/git fetch
+          if [ "$(${pkgs.git}/bin/git rev-parse HEAD)" != "$(${pkgs.git}/bin/git rev-parse @{u})" ]; then
+            ${pkgs.git}/bin/git pull
+            echo "New changes detected and pulled from the repository."
+            # Add your action here, e.g., restart a service or run a script
+          else
+            echo "No new changes in the repository."
+          fi
+        '
+      '';
+      User = "denis";
+    };
+  };
+
+  systemd.timers.github-poller = {
+    wantedBy = ["timers.target"];
+    partOf = ["github-poller.service"];
+    timerConfig = {
+      OnBootSec = "5m";
+      OnUnitActiveSec = "5m";
+      Unit = "github-poller.service";
+    };
+  };
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
