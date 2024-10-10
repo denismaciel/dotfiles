@@ -353,7 +353,10 @@ require('lazy').setup({
     --         })
     --     end,
     -- },
-    { 'folke/which-key.nvim', opts = { icons = { mappings = false } } },
+    {
+        'folke/which-key.nvim',
+        opts = { icons = { mappings = false } },
+    },
     { 'folke/neodev.nvim', opts = {} },
     { 'kylechui/nvim-surround', opts = {} },
     'nvimtools/none-ls.nvim',
