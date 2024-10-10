@@ -13,6 +13,7 @@
     terraform
     # duckdb
     # zed-editor
+    # clang
     gh
     harper
     nil

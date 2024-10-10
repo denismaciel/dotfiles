@@ -4,7 +4,7 @@
   ...
 }: {
   home.packages = with pkgs; [
-    go_1_22
+    scmpuff
     uv
     btop
     cargo
