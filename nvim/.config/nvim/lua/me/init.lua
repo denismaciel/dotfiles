@@ -52,6 +52,12 @@ M.insert_text = function(opts)
                             -- 'TODO Notion EOD',
                         },
                     },
+                    {
+                        title = 'LLM: only code',
+                        content = {
+                            'Output only the command, do not write any explanation.',
+                        },
+                    },
                 },
                 entry_maker = function(entry)
                     return {

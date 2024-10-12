@@ -1121,7 +1121,7 @@ vim.api.nvim_create_autocmd({ 'WinEnter', 'VimEnter' }, {
         vim.fn.matchadd(highlight_group_done, 'DONE.*', -1)
         -- `Todo` is a prexisting highlight group that we leverage to highlight
         -- `TODO`.
-        -- For `DONE`, we create need a new highlight group and set the `strikethrough`
+        -- For `DONE`, we need a new highlight group and set the `strikethrough`
         vim.fn.matchadd('Todo', 'TODO', -1)
     end,
 })
@@ -1129,7 +1129,11 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     pattern = '*',
     group = augroup_highlight_todo,
     callback = function()
-        vim.api.nvim_set_hl(0, highlight_group_done, { strikethrough = true })
+        vim.api.nvim_set_hl(
+            0,
+            highlight_group_done,
+            { strikethrough = true, fg = 'gray' }
+        )
         vim.api.nvim_set_hl(0, 'Todo', { bold = true })
         vim.api.nvim_set_hl(0, 'CodeBlock', { bg = palette.accent })
     end,
@@ -1229,12 +1233,14 @@ end, { desc = 'Python import statement' })
 vim.api.nvim_set_hl(0, 'RecapTag', { fg = '#D4AF37' })
 vim.api.nvim_set_hl(0, 'SamTag', { fg = '#90EE90' })
 vim.api.nvim_set_hl(0, 'HomeTag', { fg = '#87CEFA' })
+vim.api.nvim_set_hl(0, 'HoyTag', { fg = '#DDA0DD' })
 
 -- Lua function to add match highlighting
 local function highlight_tags()
     vim.fn.matchadd('RecapTag', '#recap')
     vim.fn.matchadd('SamTag', '#sam')
     vim.fn.matchadd('HomeTag', '#home')
+    vim.fn.matchadd('HoyTag', '#hoy')
 end
 
 -- Apply the highlighting on buffer read and window enter

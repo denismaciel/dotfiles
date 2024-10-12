@@ -3,7 +3,6 @@ export PATH="$HOME/node/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH=$HOME/dotfiles/scripts:$PATH
 export PATH="$HOME/.local/bin:$PATH"
-
 export PATH=/etc/profiles/per-user/denis/bin/:$PATH # so that the default Python is the one from Home Manager
 
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
@@ -11,13 +10,7 @@ export EDITOR=nvim
 export GOPATH=$(go env GOPATH)
 export PYTHONBREAKPOINT=ipdb.set_trace
 export VISUAL=nvim
-
-export COLORSCHEME=dark
-export ZK_NOTEBOOK_DIR="$HOME/Sync/notes/current"
-
-# Fixes dynamically linked binaries in NixOS
-# `import numpy as np` just works
-export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH # Fixes dynamically linked binaries in NixOS: `import numpy as np` just works
 
 [[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
 
@@ -27,9 +20,11 @@ export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
 export FZF_DEFAULT_OPTS="--height 100%"
 export FZF_DEFAULT_COMmAND="rg --files --no-ignore-vcs --ignore-file ~/.ripgrep_ignore"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
 function _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" --exclude "venv" . "$1"
 }
+
 function  _fzf_compgen_path() {
   fd --hidden --follow --exclude ".git" --exclude "venv" . "$1"
 }
@@ -71,8 +66,10 @@ alias kz="pkill zenity"
 
 setopt autocd # .. is shortcut for cd .. 
 
-# vi mode
 
+# ---------------------------
+# --------- vi mode ---------
+# ---------------------------
 export KEYTIMEOUT=1
 bindkey -v '^?' backward-delete-char
 bindkey "^E" backward-word
@@ -238,7 +235,6 @@ function gh-gco() {
 }
 
 # Copied from https://github.com/jordanlewis/config/blob/master/zshrc
-# {{{ GIT heart FZF
 function is_in_git_repo() {
     git rev-parse HEAD > /dev/null 2>&1
 }
@@ -261,4 +257,3 @@ function gf() {
         --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
         cut -c4- | sed 's/.* -> //'
 }
-    # }}}
