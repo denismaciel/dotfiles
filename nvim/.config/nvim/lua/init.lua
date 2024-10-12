@@ -1225,3 +1225,19 @@ vim.keymap.set({ 'n' }, '<leader>if', function()
         end,
     })
 end, { desc = 'Python import statement' })
+
+vim.api.nvim_set_hl(0, 'RecapTag', { fg = '#D4AF37' })
+vim.api.nvim_set_hl(0, 'SamTag', { fg = '#90EE90' })
+vim.api.nvim_set_hl(0, 'HomeTag', { fg = '#87CEFA' })
+
+-- Lua function to add match highlighting
+local function highlight_tags()
+    vim.fn.matchadd('RecapTag', '#recap')
+    vim.fn.matchadd('SamTag', '#sam')
+    vim.fn.matchadd('HomeTag', '#home')
+end
+
+-- Apply the highlighting on buffer read and window enter
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWinEnter' }, {
+    callback = highlight_tags,
+})
