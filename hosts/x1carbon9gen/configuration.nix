@@ -12,7 +12,7 @@
     ../../modules/warp.nix
   ];
 
-  warp.enable = true;
+  warp.enable = false;
 
   # DroidCamX
   boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
@@ -31,8 +31,8 @@
     extraHosts = ''
       127.0.0.1 linkedin.com
       127.0.0.1 www.linkedin.com
-      127.0.0.1 youtube.com
-      127.0.0.1 www.youtube.com
+      # 127.0.0.1 youtube.com
+      # 127.0.0.1 www.youtube.com
       127.0.0.1 twitter.com
       127.0.0.1 www.twitter.com
       127.0.0.1 x.com
@@ -108,7 +108,7 @@
 
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
     # openFirewall = true;
     publish = {
       enable = true;
@@ -217,28 +217,6 @@
       defaultNetwork.settings.dns_enabled = true;
     };
   };
-
-  # systemd.services.cloudflare-warp = {
-  #   enable = true;
-  #   description = "Warp server";
-  #   path = [pkgs.cloudflare-warp];
-  #   unitConfig = {
-  #     Type = "simple";
-  #   };
-  #   serviceConfig = {
-  #     ExecStart = "${pkgs.cloudflare-warp}/bin/warp-svc";
-  #   };
-  #   wantedBy = ["multi-user.target"];
-  # };
-  # services.fprintd.enable = true;
-  # security.pam.services = {
-  #   login.unixAuth = false;
-  #   # fprint is not stable, locked sometimes after suspend
-  #   login.fprintAuth = false;
-  #   sddm.fprintAuth = true;
-  #   xscreensaver.fprintAuth = true;
-  #   kwallet.fprintAuth = true;
-  # };
 
   stylix.enable = true;
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-soft.yaml";

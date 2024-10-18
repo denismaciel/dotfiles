@@ -161,7 +161,7 @@
   services.openssh.enable = true;
   services.openssh.ports = [22 443 2222 7422];
   services.openssh.settings.PasswordAuthentication = true;
-    programs.ssh = {
+  programs.ssh = {
     startAgent = true;
     extraConfig = ''
       AddKeysToAgent yes
@@ -171,7 +171,7 @@
 
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
     publish = {
       enable = true;
       addresses = true;
@@ -185,6 +185,14 @@
       allowedTCPPorts = [22 443 2222 7422];
       allowedUDPPorts = [5353];
     };
+  };
+
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc.lib
+      zlib # numpy
+    ];
   };
 
   # Open ports in the firewall.

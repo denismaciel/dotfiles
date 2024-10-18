@@ -48,8 +48,8 @@ M.insert_text = function(opts)
                             '',
                             'TODO Plan the day',
                             'TODO Anki',
-                            -- 'TODO Notion BOD',
-                            -- 'TODO Notion EOD',
+                            'TODO Notion BOD',
+                            'TODO Notion EOD',
                         },
                     },
                     {
@@ -197,7 +197,7 @@ M.find_anki_notes = function(opts)
             finder = finders.new_table({
                 results = (function()
                     local notes_index = load_json_file(
-                        '/home/denis/Sync/Notes/Current/Anki/index.json'
+                        '/home/denis/Sync/notes/current/anki/index.json'
                     )
                     local notes = {}
                     for _, note in ipairs(notes_index.notes) do
@@ -231,60 +231,45 @@ M.find_anki_notes = function(opts)
 end
 
 M.slugify = function(text)
-    local function ltrim(s)
-        return s:match('^%s*(.*)')
-    end
-
-    local function rtrim(s)
-        return s:match('^(.*%S)%s*$')
+    if not text then
+        return ''
     end
 
     local function trim(s)
-        return ltrim(rtrim(s))
+        return s:match('^%s*(.-)%s*$')
     end
+
     local slug = text
     -- Remove Markdown headers
     slug = slug:gsub('#', '')
     slug = trim(slug)
-    slug = slug:gsub('%s', '-')
-    slug = slug:gsub('[^%w%-]', '')
+    slug = slug:gsub('[^%w%s%-]', '') -- Remove special characters except spaces and hyphens
+    slug = slug:gsub('%s+', '-') -- Replace one or more spaces with a single hyphen
+    slug = slug:gsub('%-+', '-') -- Replace multiple hyphens with a single hyphen
     return slug:lower()
 end
 
 -- local slugify = M.slugify
---
 -- -- Test case 1: Basic text
--- print(slugify("Hello World"))
 -- assert(slugify("Hello World") == "hello-world", "Test case 1 failed")
---
 -- -- Test case 2: Text with numbers
 -- assert(slugify("Lua 2024 version") == "lua-2024-version", "Test case 2 failed")
---
 -- -- Test case 3: Text with special characters
 -- assert(slugify("Special@#Characters!") == "specialcharacters", "Test case 3 failed")
---
 -- -- Test case 4: Text with leading and trailing spaces
--- print(slugify("  Space around  "))
 -- assert(slugify("  Space around  ") == "space-around", "Test case 4 failed")
---
 -- -- Test case 5: Text with multiple consecutive spaces
 -- assert(slugify("Multiple   spaces") == "multiple-spaces", "Test case 5 failed")
---
 -- -- Test case 6: Empty string
 -- assert(slugify("") == "", "Test case 6 failed")
---
 -- -- Test case 7: Text with only special characters
 -- assert(slugify("@#$%^&*()") == "", "Test case 7 failed")
---
 -- -- Test case 8: Text with mixed case
 -- assert(slugify("Mixed CASE text") == "mixed-case-text", "Test case 8 failed")
---
 -- -- Test case 9: Numeric only string
 -- assert(slugify("12345") == "12345", "Test case 9 failed")
---
 -- -- Test case 10: String with hyphens
 -- assert(slugify("Already-Has-Hyphens") == "already-has-hyphens", "Test case 10 failed")
---
 -- print("All test cases passed!")
 
 M.python_test_file = function()
