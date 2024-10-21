@@ -26,7 +26,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
-    hostName = "nixos-x1carbon-9gen"; # Define your hostname.
+    hostName = "nixos-ben";
     networkmanager.enable = true;
     extraHosts = ''
       127.0.0.1 linkedin.com

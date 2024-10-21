@@ -12,7 +12,7 @@ export PYTHONBREAKPOINT=ipdb.set_trace
 export VISUAL=nvim
 export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH # Fixes dynamically linked binaries in NixOS: `import numpy as np` just works
 
-[[ "$(uname)" = "Linux" ]] && xset r rate 200 40 && setxkbmap -layout us -option ctrl:nocaps
+[[ "$(uname)" = "Linux" ]] && setxkbmap -layout us -option ctrl:nocaps
 
 # ---------------------------
 # --------- fzf -------------
@@ -50,7 +50,6 @@ alias la='ls -lAh'
 alias ll='ls -lh'
 alias lsa='ls -lah' 
 alias ls='ls -G --color=auto'
-alias R='R --no-save'
 alias diary='nvim "$HOME/Sync/notes/current/diary/$(date +'%Y-%m-%d').md"'
 alias gp="git push origin HEAD"
 alias rm=gomi
@@ -126,7 +125,7 @@ fi
 # ==================
 # === Functions ====
 # ==================
-function mv_last {
+function mv-last {
     local source_folder="$1"
     local destination_folder="$2"
 
@@ -176,11 +175,6 @@ function open() {
 function addin() {
     printf "Addressed in $(git rev-parse HEAD)" | xclip -selection clipboard 
     git push origin HEAD
-}
-
-function rename-tmux-window() {
-    local current_dir="$(basename "$(pwd)")"
-    tmux rename-window "$current_dir"
 }
 
 function list-branches() {
