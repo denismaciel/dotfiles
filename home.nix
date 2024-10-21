@@ -15,6 +15,7 @@
     # zed-editor
     # clang
     gh
+    pv
     harper
     nil
     anki

@@ -7,7 +7,7 @@ export PATH=/etc/profiles/per-user/denis/bin/:$PATH # so that the default Python
 
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 export EDITOR=nvim
-export GOPATH=$(go env GOPATH)
+command -v go >/dev/null 2>&1 && export GOPATH=$(go env GOPATH)
 export PYTHONBREAKPOINT=ipdb.set_trace
 export VISUAL=nvim
 export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH # Fixes dynamically linked binaries in NixOS: `import numpy as np` just works
