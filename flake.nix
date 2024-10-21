@@ -54,10 +54,10 @@
       };
     };
     nixosConfigurations = {
-      x1carbon9gen = nixpkgs.lib.nixosSystem rec {
+      ben = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = [
-          ./hosts/x1carbon9gen/configuration.nix
+          ./hosts/ben/configuration.nix
           inputs.stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
