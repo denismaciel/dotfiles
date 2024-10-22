@@ -326,4 +326,88 @@ M.copy_file_path_to_clipboard = function()
     return result
 end
 
+local function sort_markdown_list()
+    local ts_utils = require('nvim-treesitter.ts_utils')
+    local query = vim.treesitter.query.parse(
+        'markdown',
+        [[
+    (list) @list
+  ]]
+    )
+
+    local bufnr = vim.api.nvim_get_current_buf()
+    local parser = vim.treesitter.get_parser(bufnr, 'markdown')
+    local tree = parser:parse()[1]
+    local root = tree:root()
+
+    local function get_list_item_text(node)
+        local start_row, start_col, end_row, end_col = node:range()
+        local lines =
+            vim.api.nvim_buf_get_lines(bufnr, start_row, end_row + 1, false)
+        local text = table.concat(lines, '\n')
+        return text:match('%-%s*(.+)')
+    end
+
+    local function sort_list(list_node)
+        local items = {}
+        print(vim.inspect(list_node))
+        for child in list_node:iter_children() do
+            if child:type() == 'list_item' then
+                local item_text = get_list_item_text(child)
+                local nested_list = child:child(1)
+                        and child:child(1):type() == 'list'
+                        and child:child(1)
+                    or nil
+                table.insert(items, {
+                    node = child,
+                    text = item_text,
+                    nested_list = nested_list,
+                })
+            end
+        end
+
+        table.sort(items, function(a, b)
+            return a.text:lower() < b.text:lower()
+        end)
+
+        local start_row, start_col, end_row, end_col = list_node:range()
+        local sorted_text = {}
+        for _, item in ipairs(items) do
+            local item_start, _, item_end, _ = item.node:range()
+            local item_lines = vim.api.nvim_buf_get_lines(
+                bufnr,
+                item_start,
+                item_end + 1,
+                false
+            )
+            for _, line in ipairs(item_lines) do
+                table.insert(sorted_text, line)
+            end
+            if item.nested_list then
+                sort_list(item.nested_list)
+            end
+        end
+
+        vim.api.nvim_buf_set_lines(
+            bufnr,
+            start_row,
+            end_row + 1,
+            false,
+            sorted_text
+        )
+    end
+
+    for _, match in query:iter_matches(root, bufnr) do
+        print(vim.inspect(match))
+        for id, node in pairs(match) do
+            if query.captures[id] == 'list' then
+                sort_list(node)
+            end
+        end
+    end
+end
+
+-- Create a command to call the function
+vim.api.nvim_create_user_command('SortMarkdownList', sort_markdown_list, {})
+
 return M

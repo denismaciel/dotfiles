@@ -71,7 +71,6 @@ beautiful.init(gears.filesystem.get_themes_dir() .. 'default/theme.lua')
 -- This is used later as the default terminal and editor to run.
 terminal = 'alacritty'
 editor = os.getenv('EDITOR') or 'editor'
-editor_cmd = terminal .. ' -e ' .. editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -285,7 +284,7 @@ globalkeys = gears.table.join(
             'Notebook',
             [[ alacritty --class Notebook -e /home/denis/dotfiles/scripts/daily_note  ]]
         )
-    end, { description = 'Notebook', group = 'launcher' }),
+    end),
 
     awful.key({ modkey }, 'x', function()
         utils.toggle_or_spawn('Scratchpad', [[ alacritty --class Scratchpad ]])
@@ -299,6 +298,13 @@ globalkeys = gears.table.join(
         utils.toggle_or_spawn(
             'Chat',
             'alacritty --class Chat -e "nvim" "-c" "PrtChatNew"'
+        )
+    end),
+
+    awful.key({ modkey }, 't', function()
+        utils.toggle_or_spawn(
+            'Todos',
+            'alacritty --class Todos -e "nvim" "/home/denis/Sync/notes/todo.md"'
         )
     end),
 
@@ -547,7 +553,7 @@ awful.rules.rules = {
         },
     },
     {
-        rule_any = { class = { 'Notebook', 'Anki', 'Chat' } },
+        rule_any = { class = { 'Notebook', 'Anki', 'Chat', 'Todos' } },
         properties = {
             floating = true,
             width = 1200,

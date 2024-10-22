@@ -35,7 +35,6 @@
     dig
     direnv
     dockerfile-language-server-nodejs
-    eog
     fd
     feh
     ffmpeg
@@ -87,7 +86,8 @@
     pqrs
     pyright
     python312Full
-    python312Packages.mdformat
+    # python312Packages.mdformat -- Installed used uv
+    # python312Packages.mdformat-gfm
     rclone
     ripgrep
     rust-analyzer
@@ -168,7 +168,6 @@
   xdg.enable = true;
   xdg.mimeApps = {
     enable = true;
-
     defaultApplications = {
       "text/html" = ["google-chrome.desktop"];
       "x-scheme-handler/http" = ["google-chrome.desktop"];
@@ -181,7 +180,6 @@
       "inode/directory" = ["org.gnome.Nautilus.desktop"];
       "application/pdf" = ["sioyek.desktop"];
     };
-
     associations.added = {
       "application/json" = ["org.gnome.gedit.desktop"];
       "text/csv" = ["nvim.desktop"];
@@ -275,11 +273,6 @@
         src = pkgs.zsh-completions;
       }
       {
-        name = "vi-mode";
-        src = pkgs.zsh-vi-mode;
-        file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
-      }
-      {
         name = "fzf-tab";
         src = pkgs.zsh-fzf-tab;
         file = "share/fzf-tab/fzf-tab.plugin.zsh";
@@ -301,40 +294,6 @@
       }
     ];
   };
-  # programs.ssh = {
-  #   enable = true;
-  #   extraConfig = ''
-  #     AddKeysToAgent yes
-  #     IdentityFile ~/.ssh/id_ed25519
-  #
-  #     Host jumpserver-prod
-  #         HostName 3.68.82.3
-  #         User ec2-user
-  #         IdentityFile ~/.ssh/jumpserver-prod
-  #
-  #     Host airbyte-prod
-  #         HostName 10.0.4.51
-  #         User ec2-user
-  #         ProxyJump jumpserver-prod
-  #         IdentityFile ~/.ssh/jumpserver-prod
-  #
-  #     Host remarkable
-  #         Hostname 192.168.0.179
-  #         User root
-  #         Port 22
-  #         IdentityFile ~/.ssh/id_ed25519
-  #
-  #     Host raspberry-pi
-  #        Hostname 192.168.0.14
-  #        User pi
-  #        IdentityFile ~/.ssh/id_ed25519
-  #
-  #     Host nixos-macbookair
-  #        Hostname 192.168.0.70
-  #        User denis
-  #        IdentityFile ~/.ssh/id_ed25519
-  #   '';
-  # };
 
   programs.starship = {
     enable = true;
@@ -411,9 +370,6 @@
     enable = true;
     userName = "Denis Maciel";
     userEmail = "denispmaciel@gmail.com";
-    # signing = { signByDefault = true;
-    #   key = "188DE24A651E34AA";
-    # };
     ignores = [
       ".DS_Store"
       ".direnv"
@@ -467,7 +423,6 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
   nixpkgs = {
     overlays = [
       inputs.neovim-nightly-overlay.overlays.default
@@ -556,10 +511,6 @@
       default-zoom-level = "standard";
     };
 
-    # "org/gnome/desktop/interface" = {
-    #   color-scheme = "prefer-dark";
-    # };
-
     "org/gnome/nautilus/preferences" = {
       default-folder-viewer = "icon-view";
       default-sort-order = "type";
@@ -569,7 +520,6 @@
     };
 
     "org/gnome/nautilus/window-state" = {
-      # initial-size = mkTuple [500 400];
       maximized = false;
       sidebar-width = 200;
       start-with-sidebar = true;
@@ -586,29 +536,6 @@
       sort-directories-first = true;
       sort-order = "ascending";
       type-format = "category";
-      # window-size = mkTuple [100 100];
-    };
-
-    "org/gtk/settings/file-chooser" = {
-      # window-position = mkTuple [(-1) (-1)];
-      # window-size = mkTuple [300 100];
     };
   };
-
-  # 0 10 * * * zip -r ~/Sync/Backups/$(date +\%F)_Notes.zip ~/Sync/Notes
-  # systemd.user.services.backup-notes = {
-  #   Unit = {
-  #     Description = "Backup Notes";
-  #   };
-  #   Service = {
-  #     Type = "oneshot";
-  #     ExecStart = "/bin/sh -c 'zip -r ~/Sync/Backups/$(date +\\%F)_Notes.zip ~/Sync/Notes'";
-  #   };
-  # };
-  #
-  # systemd.user.timers.backup-notes = {
-  #   Timer.OnCalendar = "*-*-* 10:00:00";
-  #   Timer.Persistent = true;
-  #   Install.WantedBy = [ "timers.target" ];
-  # };
 }

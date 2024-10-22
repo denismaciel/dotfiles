@@ -56,3 +56,11 @@ vim.keymap.set('n', '<leader>ck', toggle_checkbox, {
     desc = 'Toggle checkbox',
     buffer = 0,
 })
+
+vim.cmd([[
+highlight @unchecked_list_item guifg=#F8F8F2
+highlight @checked_list_item guifg=#375749
+
+highlight @text.todo.unchecked guifg=#F8F8F2
+highlight @text.todo.checked guifg=#375749
+]])
