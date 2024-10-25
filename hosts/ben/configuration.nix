@@ -29,8 +29,8 @@
     hostName = "nixos-ben";
     networkmanager.enable = true;
     extraHosts = ''
-      127.0.0.1 linkedin.com
-      127.0.0.1 www.linkedin.com
+      # 127.0.0.1 linkedin.com
+      # 127.0.0.1 www.linkedin.com
       127.0.0.1 youtube.com
       127.0.0.1 www.youtube.com
       127.0.0.1 twitter.com
@@ -250,16 +250,18 @@
     desktop = 9;
     popups = 9;
   };
-  location.provider = "geoclue2";
+  # location.provider = "geoclue2";
   services.redshift = {
     enable = true;
     temperature = {
-      day = 6000;
-      night = 3700;
+      day = 4500; # Lowered from 6000K to 4500K for a warmer daytime
+      night = 2700; # Lowered from 3700K to 2700K for a redder night
     };
+    latitude = "39.3999";
+    longitude = "8.2245";
     brightness = {
-      day = "0.9";
-      night = "0.9";
+      day = "0.7";
+      night = "0.7";
     };
   };
 }

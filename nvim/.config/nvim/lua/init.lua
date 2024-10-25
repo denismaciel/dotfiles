@@ -490,6 +490,7 @@ require('lazy').setup({
         -- dir = '~/github.com/denismaciel/no-clown-fiesta.nvim',
         'aktersnurra/no-clown-fiesta.nvim',
         opts = {
+            transparent = true,
             styles = { type = { bold = true }, comments = { italic = true } },
         },
     },
@@ -1171,7 +1172,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     end,
 })
 
-vim.cmd([[ colorscheme default ]])
+vim.cmd([[ colorscheme no-clown-fiesta ]])
 
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
