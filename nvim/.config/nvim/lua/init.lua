@@ -490,7 +490,7 @@ require('lazy').setup({
         -- dir = '~/github.com/denismaciel/no-clown-fiesta.nvim',
         'aktersnurra/no-clown-fiesta.nvim',
         opts = {
-            transparent = true,
+            transparent = false,
             styles = { type = { bold = true }, comments = { italic = true } },
         },
     },
