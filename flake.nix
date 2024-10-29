@@ -1,11 +1,8 @@
 {
   description = "NixOS configuration";
-
   nixConfig = {
     experimental-features = ["nix-command" "flakes"];
     substituters = [
-      # Replace the official cache with a mirror located in China
-      # "https://mirrors.ustc.edu.cn/nix-channels/store"
       "https://cache.nixos.org/"
       "https://nix-community.cachix.org"
     ];
