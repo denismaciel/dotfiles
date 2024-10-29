@@ -1,21 +1,27 @@
 [project]
 name = "dennich"
-version = "0.0.1" 
+version = "0.1.0"
+description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
-    "pydantic",
-    "polars",
-    "anki",
-    "markdownify",
+    "anki>=24.6.3",
+    "markdownify>=0.13.1",
     "openai",
-    "structlog",
+    "polars>=1.12.0",
+    "pydantic>=2.9.2",
+    "rich>=13.9.3",
     "sqlalchemy",
-    "rich"
+    "structlog",
 ]
 
-[project.optional-dependencies]
-dev = ["pytest", "pre-commit", "mypy", "ipython", "pip-tools"]
+[tool.uv]
+dev-dependencies = [
+    "ipython>=8.29.0",
+    "mypy",
+    "pytest>=8.3.3",
+]
+
 
 [project.scripts]
 dennich-todo = "dennich.todo.main:main"
@@ -24,14 +30,12 @@ dennich-convert-audio = "dennich.convert_audio:main"
 dennich-pomodoro = "dennich.todo.pomodoro.cli:main"
 dennich-transcribe-audio = "dennich.transcribe_audio:main"
 
-[tool.setuptools]
-script-files = [
-    "scripts/rec",
-]
-
+# Necessary so that the current package is also installed by uv.
+# It will be installed as editable.
 [build-system]
-requires = ["setuptools>=43.0.0", "wheel"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
 
 [tool.mypy]
 strict = true

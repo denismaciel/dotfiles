@@ -4,7 +4,9 @@ from dennich.todo.models import Todo
 
 def test_find_tags():
     assert find_tags('no tags in here') == []
-    assert find_tags('#atag lorem ipsum #another-tag') == ['atag', 'another-tag']
+    assert find_tags('#atag lorem ipsum #another-tag') == sorted(
+        ['atag', 'another-tag']
+    )
 
 
 def test_Todo_from_text_prompt():

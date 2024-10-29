@@ -1,18 +1,11 @@
 setup-dev:
-	@ echo "Setting up development environment..."
-	python3.12 -m venv venv
-	./venv/bin/pip install -r dev-requirements.txt
-	./venv/bin/pip install -e .
+	uv sync
 
-dependencies-compile-dev:
-	@ echo "Compiling dependencies for development environment..."
-	./venv/bin/pip-compile --resolver=backtracking --output-file dev-requirements.txt --extra dev pyproject.toml
+install:
+	uv tool install --force -e . 
 
-pipx-install:
-	@ echo "Uninstalling dennich with pipx..."
-	pipx uninstall dennich || true
-	@ echo "Installing dennich with pipx..."
-	pipx install --verbose --force --editable .
+test:
+	uv run pytest
 
 mypy-run:
 	@ ./venv/bin/mypy src
