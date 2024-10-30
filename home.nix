@@ -295,6 +295,46 @@
     ];
   };
 
+  programs.firefox.enable = true;
+  programs.firefox.profiles.default.bookmarks = [
+    {
+      name = "wikipedia";
+      tags = ["wiki"];
+      keyword = "wiki";
+      url = "https://en.wikipedia.org/wiki/Special:Search?search=%s&amp;go=Go";
+    }
+    {
+      name = "Samwise PRs";
+      keyword = "sam";
+      url = "https://github.com/monasticventures/samwise/pulls";
+    }
+    {
+      name = "Hacker News Search";
+      tags = ["news" "tech"];
+      keyword = "hn";
+      url = "https://hn.algolia.com/?q=%s";
+    }
+  ];
+  programs.firefox.policies = {
+    DisableTelemetry = true;
+    DisableFirefoxStudies = true;
+    EnableTrackingProtection = {
+      Value = true;
+      Locked = true;
+      Cryptomining = true;
+      Fingerprinting = true;
+    };
+    DisablePocket = true;
+    DisableFirefoxAccounts = true;
+    DisableAccounts = true;
+    DisableFirefoxScreenshots = true;
+    OverrideFirstRunPage = "";
+    OverridePostUpdatePage = "";
+    DontCheckDefaultBrowser = true;
+    DisplayMenuBar = "never"; # alternatives: "always", "never" or "default-on"
+    SearchBar = "unified";
+    PasswordManagerEnabled = false;
+  };
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
