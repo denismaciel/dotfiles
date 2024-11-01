@@ -66,7 +66,7 @@
           home-manager.nixosModules.home-manager
           {
             home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./home.nix;
+            home-manager.users.denis = import ./hm/home.nix;
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };
@@ -82,7 +82,7 @@
           home-manager.nixosModules.home-manager
           {
             home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./home-anton.nix;
+            home-manager.users.denis = import ./hm/home-sam.nix;
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };
@@ -95,7 +95,7 @@
           home-manager.nixosModules.home-manager
           {
             home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./home-anton.nix;
+            home-manager.users.denis = import ./hm/home-sam.nix;
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };
