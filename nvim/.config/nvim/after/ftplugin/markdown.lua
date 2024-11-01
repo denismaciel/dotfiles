@@ -1,6 +1,22 @@
 local me = require('me')
+local dennich = require('dennich')
 
-me.highlight_markdown_titles()
+local function smart_paste(register)
+    register = register or '+'
+    local clipboard_content = vim.fn.getreg(register)
+    print(clipboard_content)
+
+    if dennich.is_url(clipboard_content) then
+        local formatted_text = '[](' .. clipboard_content .. ')'
+        vim.api.nvim_put({ formatted_text }, '', false, true)
+        -- Move cursor to the closing bracket using F]
+        local keys = vim.api.nvim_replace_termcodes('F]', true, false, true)
+        vim.api.nvim_feedkeys(keys, 'n', false)
+    else
+        local keys = vim.api.nvim_replace_termcodes('p', true, false, true)
+        vim.api.nvim_feedkeys(keys, 'n', false)
+    end
+end
 
 local augroup =
     vim.api.nvim_create_augroup('CustomizeMarkdown', { clear = true })
@@ -12,6 +28,17 @@ vim.api.nvim_create_autocmd('BufEnter', {
         vim.api.nvim_buf_set_option(0, 'expandtab', true)
         vim.api.nvim_buf_set_option(0, 'shiftwidth', 2)
         vim.api.nvim_buf_set_option(0, 'tabstop', 2)
+
+        vim.keymap.set('n', 'p', function()
+            smart_paste('+')
+        end, { buffer = true, desc = 'Smart paste for URLs in markdown' })
+
+        -- Visual mode paste
+        vim.keymap.set('v', 'p', function()
+            smart_paste('+')
+        end, { buffer = true, desc = 'Smart paste for URLs in markdown' })
+
+        me.highlight_markdown_titles()
     end,
     group = augroup,
     pattern = { '*.md', '*.txt' },

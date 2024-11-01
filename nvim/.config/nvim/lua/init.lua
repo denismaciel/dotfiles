@@ -485,6 +485,8 @@ require('lazy').setup({
     'folke/tokyonight.nvim',
 
     'rebelot/kanagawa.nvim',
+
+    { dir = '~/dotfiles/dennich' },
     {
         -- local
         -- dir = '~/github.com/denismaciel/no-clown-fiesta.nvim',
