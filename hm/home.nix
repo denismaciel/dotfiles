@@ -4,8 +4,8 @@
   ...
 }: {
   imports = [
-    ./modules/autorandr.nix
-    ./modules/go.nix
+    ../modules/autorandr.nix
+    ../modules/go.nix
   ];
   go.enable = true;
   autorandr.enable = true;
@@ -72,9 +72,9 @@
     ngrok
     nil
     nixfmt-rfc-style
-    nodePackages_latest.bash-language-server
-    nodePackages_latest.prettier
-    nodePackages_latest.typescript-language-server
+    # nodePackages_latest.bash-language-server
+    # nodePackages_latest.prettier
+    # nodePackages_latest.typescript-language-server
     nodejs-18_x
     obs-studio
     openssl
@@ -113,7 +113,7 @@
     universal-ctags
     unzip
     vlc
-    vscode
+    # vscode
     vscode-langservers-extracted
     xclip
     xdotool
@@ -148,23 +148,23 @@
   home.username = "denis";
   home.homeDirectory = "/home/denis";
   home.file = {
-    ".npmrc".source = ./configs/_npmrc;
-    ".ipython/profile_default/ipython_config.py".source = ./configs/_ipython/profile_default/ipython_config.py;
-    ".ipython/profile_default/custom_init.py".source = ./configs/_ipython/profile_default/custom_init.py;
-    ".config/direnv/direnv.toml".source = ./configs/direnv/direnv.toml;
-    ".config/fd/ignore".source = ./configs/fd/ignore;
-    ".config/greenclip.toml".source = ./configs/greenclip.toml;
-    ".config/lf/colors".source = ./configs/lf/colors;
-    ".config/lf/icons".source = ./configs/lf/icons;
-    ".config/lf/lfrc".source = ./configs/lf/lfrc;
-    ".config/pgcli/config".source = ./configs/pgcli/config;
-    ".config/sioyek/prefs_user.config".source = ./configs/sioyek/prefs_user.config;
-    ".ctags.d/default.ctags".source = ./configs/_ctags.d/default.ctags;
-    ".newsboat/config".source = ./configs/_newsboat/config;
-    ".newsboat/urls".source = ./configs/_newsboat/urls;
-    ".ripgrep_ignore".source = ./configs/_ripgrep_ignore;
-    ".tmuxp/core.yml".source = ./configs/_tmuxp/core.yaml;
-    ".config/hypr/hyprland.conf".source = ./configs/hypr/hyprland.conf;
+    ".npmrc".source = ../configs/_npmrc;
+    ".ipython/profile_default/ipython_config.py".source = ../configs/_ipython/profile_default/ipython_config.py;
+    ".ipython/profile_default/custom_init.py".source = ../configs/_ipython/profile_default/custom_init.py;
+    ".config/direnv/direnv.toml".source = ../configs/direnv/direnv.toml;
+    ".config/fd/ignore".source = ../configs/fd/ignore;
+    ".config/greenclip.toml".source = ../configs/greenclip.toml;
+    ".config/lf/colors".source = ../configs/lf/colors;
+    ".config/lf/icons".source = ../configs/lf/icons;
+    ".config/lf/lfrc".source = ../configs/lf/lfrc;
+    ".config/pgcli/config".source = ../configs/pgcli/config;
+    ".config/sioyek/prefs_user.config".source = ../configs/sioyek/prefs_user.config;
+    ".ctags.d/default.ctags".source = ../configs/_ctags.d/default.ctags;
+    ".newsboat/config".source = ../configs/_newsboat/config;
+    ".newsboat/urls".source = ../configs/_newsboat/urls;
+    ".ripgrep_ignore".source = ../configs/_ripgrep_ignore;
+    ".tmuxp/core.yml".source = ../configs/_tmuxp/core.yaml;
+    ".config/hypr/hyprland.conf".source = ../configs/hypr/hyprland.conf;
   };
   xdg.enable = true;
   xdg.mimeApps = {
@@ -246,7 +246,7 @@
       yank
       tmux-fzf
     ];
-    extraConfig = builtins.readFile ./configs/.tmux.conf;
+    extraConfig = builtins.readFile ../configs/.tmux.conf;
   };
 
   services.syncthing.enable = true;
@@ -256,7 +256,7 @@
     enable = true;
     defaultKeymap = "viins";
     dotDir = ".config/zsh";
-    initExtra = builtins.readFile ./configs/_zshrc;
+    initExtra = builtins.readFile ../configs/_zshrc;
     enableCompletion = true;
     completionInit = "autoload -Uz compinit && compinit -C";
     plugins = [
@@ -319,7 +319,7 @@
       PasswordManagerEnabled = false;
     };
     profiles.default = {
-      userChrome = builtins.readFile ./userChrome.css;
+      userChrome = builtins.readFile ../userChrome.css;
       settings = {
         "apz.overscroll.enabled" = true;
         "browser.aboutConfig.showWarning" = false;
@@ -412,8 +412,8 @@
 
   services.polybar = {
     enable = true;
-    extraConfig = builtins.readFile ./configs/polybar/config.ini;
-    script = builtins.readFile ./configs/polybar/launch.sh;
+    extraConfig = builtins.readFile ../configs/polybar/config.ini;
+    script = builtins.readFile ../configs/polybar/launch.sh;
   };
 
   services.screen-locker = {
