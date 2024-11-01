@@ -13,7 +13,7 @@ conn = sqlite3.connect(DB_PATH)
 with conn:
     query = """
     WITH `raw` AS (
-        SELECT 
+        SELECT
             SUBSTR(ts, 1, 10) AS ts,
             habit,
             stat
@@ -55,8 +55,8 @@ for date, goal, actual in final:
 
 lines = '\n      '.join(lines)
 
-header = """ 
-     30-DAY PUSHUP CHALLENGE    
+header = """
+     30-DAY PUSHUP CHALLENGE
      -----------------------
       """
 

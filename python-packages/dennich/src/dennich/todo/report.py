@@ -2,11 +2,12 @@ import datetime as dt
 import itertools
 
 import polars as pl
+from rich.console import Console
+from rich.table import Table
+
 from dennich.todo.models import get_session
 from dennich.todo.models import load_pomodoros_created_after
 from dennich.todo.models import Pomodoro
-from rich.console import Console
-from rich.table import Table
 
 
 def convert_timedelta_to_human_readable(td: dt.timedelta) -> str:

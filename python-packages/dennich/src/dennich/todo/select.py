@@ -58,7 +58,7 @@ class FzfPrompt:
                 input_file.flush()
 
         os.system(
-            f"{self.executable_path} {fzf_options} < \"{input_file.name}\" > \"{output_file.name}\""
+            f'{self.executable_path} {fzf_options} < "{input_file.name}" > "{output_file.name}"'
         )
 
         with open(output_file.name, encoding='utf-8') as f:

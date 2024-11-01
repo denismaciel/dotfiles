@@ -1,6 +1,7 @@
 import argparse
 
 import structlog
+
 from dennich.todo.pomodoro.client import Client
 from dennich.todo.pomodoro.server import serve
 

@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from typing import Any
 
 import structlog
+
 from dennich.todo.models import ErrorResponse
 from dennich.todo.models import get_session
 from dennich.todo.models import GetStatusResponse

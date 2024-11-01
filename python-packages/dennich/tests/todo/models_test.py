@@ -1,13 +1,14 @@
 import datetime as dt
 
 import pytest
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import sessionmaker
+
 from dennich.todo.models import Base
 from dennich.todo.models import Pomodoro
 from dennich.todo.models import Todo
 from dennich.todo.models import TodoType
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session
-from sqlalchemy.orm import sessionmaker
 
 
 @pytest.fixture(scope='function')

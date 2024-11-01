@@ -45,13 +45,13 @@ Make the text readable as if it was written not spoken. You should remove words
 that denote oral language such as "gonna", "well, ..."
 
 Try to keep the main words used by the speaker, but to improve clarity, you
-might rearrange the order of the words. 
+might rearrange the order of the words.
 
 You must strive to keep the original flow of ideas in the order they appear in
 the transcription.
 
 The primary goal of the transcription is for the speaker to read his own
-thoughts and rearrange and edit them at a later point in time. 
+thoughts and rearrange and edit them at a later point in time.
 
 Every time there's a new idea or a break of the flow, create a new paragraph so
 that the text is easily scannable by the author in the future.

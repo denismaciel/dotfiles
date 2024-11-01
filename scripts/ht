@@ -50,8 +50,8 @@ class CLI:
         with conn:
             c.execute(
                 """
-                SELECT habit, type 
-                FROM habits 
+                SELECT habit, type
+                FROM habits
                 WHERE habit = ?
                 """,
                 (args.habit,),
@@ -86,7 +86,7 @@ class CLI:
 
         query = c.execute(
             """
-            SELECT habit, active 
+            SELECT habit, active
             FROM habits
             WHERE habit = ?
         """,
@@ -145,7 +145,7 @@ class CLI:
 
             if _type == 'done_or_not':
                 if args.stat != 'done':
-                    print('What do you mean by {}'.format(args.stat))
+                    print(f'What do you mean by {args.stat}')
                     exit(1)
                 c.execute(
                     'INSERT INTO records(habit_id, ts, stat) VALUES(?, ?, ?)',
@@ -156,7 +156,7 @@ class CLI:
                 try:
                     datetime.strptime(args.stat, '%H:%M')
                 except ValueError:
-                    print('Cannot parse {} as hour and minutes'.format(args.stat))
+                    print(f'Cannot parse {args.stat} as hour and minutes')
                     exit(1)
 
                 c.execute(
@@ -176,8 +176,8 @@ class CLI:
             SELECT ts, habit, stat, type, active
             FROM records r
               LEFT JOIN habits h ON r.habit_id = h.id
-            WHERE date(r.ts) = date('now') 
-              AND active = 1; 
+            WHERE date(r.ts) = date('now')
+              AND active = 1;
             """
         ).fetchall()
 
@@ -216,7 +216,7 @@ class CLI:
             FROM records r
               LEFT JOIN habits h ON r.habit_id = h.id
             WHERE date(r.ts) >= date('now', '-15 days')
-              AND active = 1; 
+              AND active = 1;
         """
         ).fetchall()
 

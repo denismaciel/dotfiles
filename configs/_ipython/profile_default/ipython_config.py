@@ -29,7 +29,7 @@ c.InlineBackend.figure_formats = ['retina']
 import os
 
 path = os.path.dirname(os.path.abspath(__file__))
-c.InteractiveShellApp.exec_files = [f"{path}/custom_init.py"]
+c.InteractiveShellApp.exec_files = [f'{path}/custom_init.py']
 
 ## lines of code to run at IPython startup.
 c.InteractiveShellApp.exec_lines = ['%autoreload 2']

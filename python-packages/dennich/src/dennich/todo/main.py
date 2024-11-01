@@ -13,6 +13,7 @@ from collections.abc import Iterable
 from subprocess import run
 
 import structlog
+
 from dennich.todo.cmd import today_status
 from dennich.todo.models import get_session
 from dennich.todo.models import load_todos
@@ -106,7 +107,7 @@ def start_pomodoro(selector: Selector) -> int:
         upsert_todo(sess, todo)
     elif duration == 'edit':
         logger.debug('Completing todo', todo=todo)
-        with_hashbang = [f"#{tag}" for tag in todo.tags]
+        with_hashbang = [f'#{tag}' for tag in todo.tags]
         prefilled = ' '.join([' '.join(with_hashbang), todo.name])
         new_name = prefill_input('New todo name: ', prefilled)
         new_todo = Todo.from_text_prompt(new_name)
