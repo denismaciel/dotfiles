@@ -282,7 +282,7 @@ globalkeys = gears.table.join(
         utils.getenv('work_mode')
         utils.toggle_or_spawn(
             'Notebook',
-            [[ alacritty --class Notebook -e /home/denis/dotfiles/scripts/daily_note  ]]
+            [[ alacritty --class Notebook -e "nvim" "-c" "lua require(\"dennich\").create_weekly_note()" ]]
         )
     end),
 
@@ -553,10 +553,20 @@ awful.rules.rules = {
         },
     },
     {
-        rule_any = { class = { 'Notebook', 'Anki', 'Chat', 'Todos' } },
+        rule_any = { class = { 'Anki', 'Chat', 'Todos' } },
         properties = {
             floating = true,
             width = 1200,
+            height = 1000,
+            -- placement = awful.placement.centered,
+            delayed_placement = awful.placement.centered,
+        },
+    },
+    {
+        rule_any = { class = { 'Notebook' } },
+        properties = {
+            floating = true,
+            width = 1500,
             height = 1000,
             -- placement = awful.placement.centered,
             delayed_placement = awful.placement.centered,
@@ -614,4 +624,3 @@ end)
 
 -- Gaps
 beautiful.useless_gap = 3
--- awful.spawn.with_shell('syncthing')
