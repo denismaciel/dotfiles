@@ -14,6 +14,7 @@
   firefox.enable = true;
 
   home.packages = with pkgs; [
+    kanata
     terraform
     # duckdb
     # zed-editor
@@ -60,7 +61,6 @@
     jsonnet
     jsonnet-language-server
     keepassxc
-    keyd
     kitty
     kubectl
     lazydocker

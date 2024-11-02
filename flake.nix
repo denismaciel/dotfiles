@@ -32,6 +32,7 @@
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     stylix.url = "github:danth/stylix";
     nur.url = "github:nix-community/NUR";
+    xremap-flake.url = "github:xremap/nix-flake";
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,13 +40,14 @@
   };
 
   outputs = inputs @ {
-    nixpkgs,
-    home-manager,
-    nixos-hardware,
     alejandra,
-    hyprland,
     firefox-addons,
+    home-manager,
+    hyprland,
+    nixos-hardware,
+    nixpkgs,
     nur,
+    xremap-flake,
     ...
   }: {
     homeConfigurations = {
@@ -59,6 +61,7 @@
     };
     nixosConfigurations = {
       ben = nixpkgs.lib.nixosSystem rec {
+        specialArgs = {inherit inputs;};
         system = "x86_64-linux";
         modules = [
           ./hosts/ben/configuration.nix

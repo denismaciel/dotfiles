@@ -4,15 +4,64 @@
 {
   config,
   pkgs,
+  inputs,
   lib,
   ...
 }: {
   imports = [
     ./hardware-configuration.nix
     ../../modules/warp.nix
+    inputs.xremap-flake.nixosModules.default
   ];
 
   warp.enable = false;
+
+  services.xremap = {
+    enable = false;
+    userName = "denis";
+    yamlConfig = ''
+      modmap:
+        - name: main remaps
+          remap:
+            CapsLock:
+              held: leftctrl
+              alone: esc
+              alone_timeout_millis: 200
+            j:
+              held: rightctrl
+              alone: j
+              alone_timeout_millis: 200
+            f:
+              held: leftctrl
+              alone: f
+              alone_timeout_millis: 200
+      keymap:
+        - name: general keybindings
+          remap:
+            super-z:
+              remap:
+                f:
+                  launch: ["${pkgs.firefox}/bin/firefox"]
+                s:
+                  launch: ["${pkgs.spotify}/bin/spotify"]
+                a:
+                  launch: ["${pkgs.alacritty}/bin/alacritty"]
+    '';
+
+    # config = {
+    #   modmap = [
+    #     {
+    #       name = "Global";
+    #       remap = {"Context_Menu" = "RightMeta";};
+    #     }
+    #   ];
+    # };
+    debug = true;
+    watch = true;
+  };
+  hardware.uinput.enable = true;
+  users.groups.uinput.members = ["denis"];
+  users.groups.input.members = ["denis"];
 
   # DroidCamX
   boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
@@ -87,21 +136,20 @@
   };
 
   # programs.hyprland.enable = true;
-
-  services.keyd = {
-    enable = true;
-    keyboards = {
-      default = {
-        settings = {
-          main = {
-            pause = "volumeup";
-            scrolllock = "volumedown";
-            sysrq = "mute";
-          };
-        };
-      };
-    };
-  };
+  # services.keyd = {
+  #   enable = true;
+  #   keyboards = {
+  #     default = {
+  #       settings = {
+  #         main = {
+  #           pause = "volumeup";
+  #           scrolllock = "volumedown";
+  #           sysrq = "mute";
+  #         };
+  #       };
+  #     };
+  #   };
+  # };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
