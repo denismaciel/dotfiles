@@ -1,4 +1,4 @@
-setup-dev:
+dev:
 	uv sync
 
 install:

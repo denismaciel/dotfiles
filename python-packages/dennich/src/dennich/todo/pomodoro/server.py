@@ -1,5 +1,7 @@
 import asyncio
+import atexit
 import datetime as dt
+import getpass
 import json
 import os
 import socket
@@ -190,8 +192,6 @@ async def cancel_pomodoro_task() -> Response:
 
 
 async def server() -> None:
-    import atexit
-
     loop = asyncio.get_running_loop()
     log.info('Pomodoro server started.')
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -240,12 +240,6 @@ async def nag() -> None:
         await asyncio.sleep(NAGGING_INTERVAL_SECONDS)
         if RUNNING is None:
             log.info('Nagging for Pomodoro')
-            cmd = [
-                '/etc/profiles/per-user/denis/bin/zenity',
-                '--error',
-                '--text',
-                "'Track your time!'",
-            ]
 
             zenity_windows = count_zenity_notifications()
             log.info(
@@ -255,6 +249,12 @@ async def nag() -> None:
             )
             if zenity_windows <= MAX_NUMBER_OF_ZENITY_WINDOWS:
                 try:
+                    cmd = [
+                        '/etc/profiles/per-user/denis/bin/zenity',
+                        '--error',
+                        '--text',
+                        "'Track your time!'",
+                    ]
                     _ = await asyncio.create_subprocess_shell(
                         ' '.join(cmd),
                         stdout=asyncio.subprocess.PIPE,
@@ -279,8 +279,6 @@ async def nag() -> None:
 
 
 def serve() -> int:
-    import getpass
-
     user = getpass.getuser()
     log.info(
         f'Starting Pomodoro server for user {user}.',
