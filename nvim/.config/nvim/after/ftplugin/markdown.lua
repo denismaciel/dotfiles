@@ -20,11 +20,9 @@ end
 
 local augroup =
     vim.api.nvim_create_augroup('CustomizeMarkdown', { clear = true })
+
 vim.api.nvim_create_autocmd('BufEnter', {
     callback = function()
-        vim.api.nvim_win_set_option(0, 'wrap', true)
-        vim.api.nvim_buf_set_option(0, 'conceallevel', 0)
-
         vim.api.nvim_buf_set_option(0, 'expandtab', true)
         vim.api.nvim_buf_set_option(0, 'shiftwidth', 2)
         vim.api.nvim_buf_set_option(0, 'tabstop', 2)
@@ -39,6 +37,15 @@ vim.api.nvim_create_autocmd('BufEnter', {
         end, { buffer = true, desc = 'Smart paste for URLs in markdown' })
 
         me.highlight_markdown_titles()
+    end,
+    group = augroup,
+    pattern = { '*.md', '*.txt' },
+})
+
+vim.api.nvim_create_autocmd('BufRead', {
+    callback = function()
+        vim.api.nvim_win_set_option(0, 'wrap', true)
+        vim.api.nvim_buf_set_option(0, 'conceallevel', 0)
     end,
     group = augroup,
     pattern = { '*.md', '*.txt' },

@@ -1,5 +1,7 @@
 local M = {}
 
+local NOTES_FOLDER = '/home/denis/Sync/notes/'
+
 M.sum = function(a, b)
     return a + b
 end
@@ -23,13 +25,12 @@ M.create_weekly_note = function()
     local monday_timestamp = current_time - (days_since_monday * 24 * 60 * 60)
     local monday_date = os.date('%Y-%m-%d', monday_timestamp)
 
-    local notes_folder = '/home/denis/Sync/notes/'
-    local target_folder = '/home/denis/Sync/notes/current/private'
+    local target_folder = NOTES_FOLDER .. 'current/private'
 
     local file_path_week = target_folder .. '/weekly/' .. monday_date .. '.md'
 
     -- Change to notes folder
-    vim.fn.chdir(notes_folder)
+    vim.fn.chdir(NOTES_FOLDER)
 
     -- Check if file exists, if not create it with header
     local file = io.open(file_path_week, 'r')
@@ -73,6 +74,11 @@ M.create_weekly_note = function()
             vim.cmd('wincmd =')
         end)
     end)
+end
+
+M.open_todo_note = function()
+    vim.fn.chdir(NOTES_FOLDER)
+    vim.cmd('edit todo.md')
 end
 
 return M
