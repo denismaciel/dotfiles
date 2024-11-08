@@ -304,7 +304,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, 't', function()
         utils.toggle_or_spawn(
             'Todos',
-            [[ alacritty --class Notebook -e "nvim" "-c" "lua require(\"dennich\").open_todo_note()" ]]
+            [[ alacritty --class Todos -e "nvim" "-c" "lua require(\"dennich\").open_todo_note()" ]]
         )
     end),
 
