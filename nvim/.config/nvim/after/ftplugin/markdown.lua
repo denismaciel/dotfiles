@@ -91,10 +91,29 @@ vim.keymap.set('n', '<leader>ck', toggle_checkbox, {
     buffer = 0,
 })
 
-vim.cmd([[
-highlight @unchecked_list_item guifg=#F8F8F2
-highlight @checked_list_item guifg=#375749
+local function highlight_tags()
+    -- Original highlight definitions
+    vim.api.nvim_set_hl(0, 'RecapTag', { fg = '#D4AF37' })
+    vim.api.nvim_set_hl(0, 'SamTag', { fg = '#90EE90' })
+    vim.api.nvim_set_hl(0, 'HomeTag', { fg = '#87CEFA' })
+    vim.api.nvim_set_hl(0, 'HoyTag', { fg = '#FFA500' })
+    vim.api.nvim_set_hl(0, 'WaitTag', { fg = '#DDA0DD' })
 
-highlight @text.todo.unchecked guifg=#F8F8F2
-highlight @text.todo.checked guifg=#375749
-]])
+    -- Add matches
+    vim.fn.matchadd('RecapTag', '#recap')
+    vim.fn.matchadd('SamTag', '#sam')
+    vim.fn.matchadd('HomeTag', '#home')
+    vim.fn.matchadd('HoyTag', '#hoy')
+    vim.fn.matchadd('WaitTag', '#wait')
+
+    vim.api.nvim_set_hl(0, '@unchecked_list_item', { fg = '#F8F8F2' })
+    vim.api.nvim_set_hl(0, '@checked_list_item', { fg = '#375749' })
+    vim.api.nvim_set_hl(0, '@text.todo.unchecked', { fg = '#F8F8F2' })
+    vim.api.nvim_set_hl(0, '@text.todo.checked', { fg = '#375749' })
+end
+
+-- Apply the highlighting on buffer read and window enter
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWinEnter' }, {
+    callback = highlight_tags,
+    group = augroup,
+})

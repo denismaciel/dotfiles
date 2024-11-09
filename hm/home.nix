@@ -14,18 +14,19 @@
   firefox.enable = true;
 
   home.packages = with pkgs; [
-    kanata
-    terraform
-    # duckdb
-    # zed-editor
     # clang
-    gh
-    pv
-    harper
-    nil
+    # duckdb
+    # golden-cheetah
+    # libreoffice
+    # nodePackages_latest.bash-language-server
+    # nodePackages_latest.prettier
+    # nodePackages_latest.typescript-language-server
+    # python312Packages.mdformat -- Installed used uv
+    # python312Packages.mdformat-gfm
+    # vscode
+    # zed-editor
     anki
     appimage-run
-    arandr
     awesome
     biome
     btop
@@ -41,14 +42,12 @@
     direnv
     dockerfile-language-server-nodejs
     fd
-    feh
     ffmpeg
-    flameshot
     fzf
     gcc
+    gh
     gnumake
     gofumpt
-    golden-cheetah
     gomi
     google-chrome
     google-cloud-sdk
@@ -67,7 +66,6 @@
     lazygit
     lf
     libinput
-    libreoffice
     litecli
     lsof
     lua
@@ -75,10 +73,8 @@
     mpv
     ngrok
     nil
+    nil
     nixfmt-rfc-style
-    # nodePackages_latest.bash-language-server
-    # nodePackages_latest.prettier
-    # nodePackages_latest.typescript-language-server
     nodejs-18_x
     obs-studio
     openssl
@@ -88,27 +84,25 @@
     pgcli
     postgresql
     pqrs
+    pv
     pyright
     python312Full
-    # python312Packages.mdformat -- Installed used uv
-    # python312Packages.mdformat-gfm
     rclone
     ripgrep
     rust-analyzer
     rustc
     scmpuff
     sioyek
-    skim
     slack
     spotify-unwrapped
     sqlite
-    sqlitebrowser
     ssm-session-manager-plugin # Aws Session Manager for executing commands on Fargate tasks
     statix
     stow
     stylua
     sumneko-lua-language-server
     tailwindcss-language-server
+    terraform
     terraform-ls
     texlive.combined.scheme-medium
     tor-browser-bundle-bin
@@ -117,10 +111,8 @@
     universal-ctags
     unzip
     vlc
-    # vscode
     vscode-langservers-extracted
     xclip
-    xdotool
     xdragon
     xorg.xbacklight
     xorg.xev
@@ -128,7 +120,6 @@
     yq-go
     yt-dlp
     zenity
-    zk
     zoxide
     (rofi.override {plugins = [pkgs.rofi-emoji pkgs.rofi-calc];})
     (google-fonts.override {fonts = ["Poppins"];})
@@ -252,6 +243,7 @@
     extraConfig = builtins.readFile ../configs/.tmux.conf;
   };
 
+  services.flameshot.enable = true;
   services.syncthing.enable = true;
   services.syncthing.tray.enable = true;
 
@@ -433,17 +425,6 @@
     ];
   };
   systemd.user.startServices = true;
-  systemd.user.services.flameshot = {
-    Install = {
-      WantedBy = ["graphical-session.target"];
-    };
-
-    Service = {
-      ExecStart = "${pkgs.flameshot}/bin/flameshot";
-      Restart = "always";
-      RestartSec = 3;
-    };
-  };
 
   systemd.user.services.pasystray = {
     Install = {

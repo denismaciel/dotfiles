@@ -144,58 +144,28 @@ end
 -- Plugins
 -- ============================
 require('lazy').setup({
-    -- {
-    --     'yacineMTB/dingllm.nvim',
-    --     dependencies = { 'nvim-lua/plenary.nvim' },
-    --     config = function()
-    --         local SYSTEM_PROMPT =
-    --         'You should replace the code that you are sent, only following the comments. Do not talk at all. Only output valid code. Do not provide any backticks that surround the code. Never ever output backticks like this ```. Any comment that is asking you for something should be removed after you satisfy them. Other comments should left alone. Do not output backticks'
-    --         local HELPFUL_PROMPT =
-    --         'You are a helpful assistant. What I have sent are my notes so far.'
-    --         local dingllm = require('dingllm')
-    --
-    --         local function anthropic_help()
-    --             dingllm.invoke_llm_and_stream_into_editor(
-    --                 {
-    --                     url = 'https://api.anthropic.com/v1/messages',
-    --                     model = 'claude-3-5-sonnet-20240620',
-    --                     api_key_name = 'ANTHROPIC_API_KEY',
-    --                     system_prompt = HELPFUL_PROMPT,
-    --                     replace = false,
-    --                 },
-    --                 dingllm.make_anthropic_spec_curl_args,
-    --                 dingllm.handle_anthropic_spec_data
-    --             )
-    --         end
-    --
-    --         local function anthropic_replace()
-    --             dingllm.invoke_llm_and_stream_into_editor(
-    --                 {
-    --                     url = 'https://api.anthropic.com/v1/messages',
-    --                     model = 'claude-3-5-sonnet-20240620',
-    --                     api_key_name = 'ANTHROPIC_API_KEY',
-    --                     system_prompt = SYSTEM_PROMPT,
-    --                     replace = true,
-    --                 },
-    --                 dingllm.make_anthropic_spec_curl_args,
-    --                 dingllm.handle_anthropic_spec_data
-    --             )
-    --         end
-    --
-    --         vim.keymap.set(
-    --             { 'n', 'v' },
-    --             '<leader>I',
-    --             anthropic_help,
-    --             { desc = 'llm anthropic_help' }
-    --         )
-    --         vim.keymap.set(
-    --             { 'n', 'v' },
-    --             '<leader>i',
-    --             anthropic_replace,
-    --             { desc = 'llm anthropic' }
-    --         )
-    --     end,
-    -- },
+    {
+        'gaoDean/autolist.nvim',
+        ft = { 'markdown' },
+        config = function()
+            require('autolist').setup()
+
+            -- vim.keymap.set('i', '<tab>', '<cmd>AutolistTab<cr>')
+            -- vim.keymap.set('i', '<s-tab>', '<cmd>AutolistShiftTab<cr>')
+            -- vim.keymap.set("i", "<c-t>", "<c-t><cmd>AutolistRecalculate<cr>") -- an example of using <c-t> to indent
+            vim.keymap.set('i', '<CR>', '<CR><cmd>AutolistNewBullet<cr>')
+            vim.keymap.set('n', 'o', 'o<cmd>AutolistNewBullet<cr>')
+            vim.keymap.set('n', 'O', 'O<cmd>AutolistNewBulletBefore<cr>')
+            vim.keymap.set('n', '<CR>', '<cmd>AutolistToggleCheckbox<cr><CR>')
+            -- vim.keymap.set('n', '<C-r>', '<cmd>AutolistRecalculate<cr>')
+
+            -- functions to recalculate list on edit
+            vim.keymap.set('n', '>>', '>><cmd>AutolistRecalculate<cr>')
+            vim.keymap.set('n', '<<', '<<<cmd>AutolistRecalculate<cr>')
+            vim.keymap.set('n', 'dd', 'dd<cmd>AutolistRecalculate<cr>')
+            vim.keymap.set('v', 'd', 'd<cmd>AutolistRecalculate<cr>')
+        end,
+    },
     {
         'yetone/avante.nvim',
         event = 'VeryLazy',
@@ -1238,21 +1208,3 @@ vim.keymap.set({ 'n' }, '<leader>if', function()
         end,
     })
 end, { desc = 'Python import statement' })
-
-vim.api.nvim_set_hl(0, 'RecapTag', { fg = '#D4AF37' })
-vim.api.nvim_set_hl(0, 'SamTag', { fg = '#90EE90' })
-vim.api.nvim_set_hl(0, 'HomeTag', { fg = '#87CEFA' })
-vim.api.nvim_set_hl(0, 'HoyTag', { fg = '#DDA0DD' })
-
--- Lua function to add match highlighting
-local function highlight_tags()
-    vim.fn.matchadd('RecapTag', '#recap')
-    vim.fn.matchadd('SamTag', '#sam')
-    vim.fn.matchadd('HomeTag', '#home')
-    vim.fn.matchadd('HoyTag', '#hoy')
-end
-
--- Apply the highlighting on buffer read and window enter
-vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWinEnter' }, {
-    callback = highlight_tags,
-})
