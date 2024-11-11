@@ -21,6 +21,7 @@
     # nodePackages_latest.bash-language-server
     # nodePackages_latest.prettier
     # nodePackages_latest.typescript-language-server
+    # obs-studio
     # python312Packages.mdformat -- Installed used uv
     # python312Packages.mdformat-gfm
     # vscode
@@ -76,7 +77,6 @@
     nil
     nixfmt-rfc-style
     nodejs-18_x
-    obs-studio
     openssl
     pandoc
     papirus-icon-theme
@@ -96,7 +96,6 @@
     slack
     spotify-unwrapped
     sqlite
-    ssm-session-manager-plugin # Aws Session Manager for executing commands on Fargate tasks
     statix
     stow
     stylua
