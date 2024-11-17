@@ -44,18 +44,18 @@ M.insert_text = function(opts)
                     {
                         title = 'Daily todos',
                         content = {
-                            '## Daily todos',
-                            '',
-                            'TODO Plan the day',
-                            'TODO Anki',
-                            'TODO Notion BOD',
-                            'TODO Notion EOD',
+                            '- [ ] Plan the day',
+                            '- [ ] Anki',
+                            '- [ ] Notion BOD',
+                            '- [ ] Notion EOD',
+                            '- [ ] Email Inbox Zero',
+                            '- [ ] Check Dagster',
                         },
                     },
                     {
-                        title = 'LLM: only code',
+                        title = 'LLM: code only, command only',
                         content = {
-                            'Output only the command, do not write any explanation.',
+                            'Output only the command/code, do not write any explanation.',
                         },
                     },
                 },
