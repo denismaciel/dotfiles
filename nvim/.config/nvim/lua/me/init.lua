@@ -45,6 +45,7 @@ M.insert_text = function(opts)
                         title = 'Daily todos',
                         content = {
                             '- [ ] Plan the day',
+                            '- [ ] Checar Kinderpedia',
                             '- [ ] Anki',
                             '- [ ] Notion BOD',
                             '- [ ] Notion EOD',

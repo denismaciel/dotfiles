@@ -149,6 +149,7 @@ require('lazy').setup({
         event = 'VeryLazy',
         build = 'make',
         opts = {
+            debug = true,
             provider = 'claude',
             claude = {
                 api_key_name = 'cmd:cat /home/denis/credentials/anthropic-api-key',
