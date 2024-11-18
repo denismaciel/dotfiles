@@ -42,15 +42,15 @@ M.insert_text = function(opts)
             finder = finders.new_table({
                 results = {
                     {
-                        title = 'Daily todos',
+                        title = 'Routine',
                         content = {
-                            '- [ ] Plan the day',
-                            '- [ ] Checar Kinderpedia',
-                            '- [ ] Anki',
-                            '- [ ] Notion BOD',
-                            '- [ ] Notion EOD',
-                            '- [ ] Email Inbox Zero',
-                            '- [ ] Check Dagster',
+                            '- [ ] #routine Plan the day',
+                            '- [ ] #routine Checar Kinderpedia',
+                            '- [ ] #routine Anki',
+                            '- [ ] #routine Notion BOD',
+                            '- [ ] #routine Notion EOD',
+                            '- [ ] #routine Email Inbox Zero',
+                            '- [ ] #routine Check Dagster',
                         },
                     },
                     {
