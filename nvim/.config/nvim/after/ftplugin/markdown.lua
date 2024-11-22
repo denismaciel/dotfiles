@@ -92,19 +92,23 @@ vim.keymap.set('n', '<leader>ck', toggle_checkbox, {
 })
 
 local function highlight_tags()
-    -- Original highlight definitions
-    vim.api.nvim_set_hl(0, 'RecapTag', { fg = '#D4AF37' })
-    vim.api.nvim_set_hl(0, 'SamTag', { fg = '#90EE90' })
-    vim.api.nvim_set_hl(0, 'HomeTag', { fg = '#87CEFA' })
-    vim.api.nvim_set_hl(0, 'HoyTag', { fg = '#FFA500' })
-    vim.api.nvim_set_hl(0, 'WaitTag', { fg = '#DDA0DD' })
+    -- Tag definitions with their colors
+    local tags = {
+        { name = 'Recap', color = '#D4AF37', pattern = '#recap' },
+        { name = 'Sam', color = '#90EE90', pattern = '#sam' },
+        { name = 'Home', color = '#87CEFA', pattern = '#home' },
+        { name = 'Hoy', color = '#FFA500', pattern = '#hoy' },
+        { name = 'Wait', color = '#DDA0DD', pattern = '#wait' },
+        { name = 'P0', color = '#FF0000', pattern = '#p0' },
+        { name = 'P1', color = '#FF7F00', pattern = '#p1' },
+        { name = 'P2', color = '#FFFF00', pattern = '#p2' },
+    }
 
-    -- Add matches
-    vim.fn.matchadd('RecapTag', '#recap')
-    vim.fn.matchadd('SamTag', '#sam')
-    vim.fn.matchadd('HomeTag', '#home')
-    vim.fn.matchadd('HoyTag', '#hoy')
-    vim.fn.matchadd('WaitTag', '#wait')
+    -- Apply highlights and matches for each tag
+    for _, tag in ipairs(tags) do
+        vim.api.nvim_set_hl(0, tag.name .. 'Tag', { fg = tag.color })
+        vim.fn.matchadd(tag.name .. 'Tag', tag.pattern)
+    end
 
     vim.api.nvim_set_hl(0, '@unchecked_list_item', { fg = '#F8F8F2' })
     vim.api.nvim_set_hl(0, '@checked_list_item', { fg = '#375749' })

@@ -44,13 +44,27 @@ M.insert_text = function(opts)
                     {
                         title = 'Routine',
                         content = {
-                            '- [ ] #routine Plan the day',
-                            '- [ ] #routine Checar Kinderpedia',
+                            '- [ ] #routine 10 min for chores',
                             '- [ ] #routine Anki',
                             '- [ ] #routine Notion BOD',
-                            '- [ ] #routine Notion EOD',
                             '- [ ] #routine Email Inbox Zero',
                             '- [ ] #routine Check Dagster',
+                            '- [ ] #routine Checar Kinderpedia',
+                            '- [ ] #routine Plan the day',
+                            '- [ ] #routine Notion EOD',
+                        },
+                    },
+                    {
+                        title = 're:cap: collect todos',
+                        content = {
+                            '- [ ] 1on1',
+                            '    - [ ] Arne',
+                            '    - [ ] Henrqiue',
+                            '    - [ ] Maria',
+                            '    - [ ] Mariana',
+                            '    - [ ] Simon',
+                            '    - [ ] Tom',
+                            '    - [ ] Data weekly',
                         },
                     },
                     {

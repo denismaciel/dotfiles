@@ -338,6 +338,15 @@ globalkeys = gears.table.join(
         awful.util.spawn([[ rofi -show emoji -modi emoji ]])
     end),
 
+    awful.key({ modkey }, 'u', function()
+        local current_client = client.focus
+        for _, c in ipairs(client.get()) do
+            if c ~= current_client then
+                c.minimized = true
+            end
+        end
+    end, { description = 'minimize all except current', group = 'client' }),
+
     awful.key({ modkey }, 'r', function()
         awful.util.spawn(
             [[ alacritty --class FloatThatThing -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
