@@ -269,7 +269,11 @@
 
   stylix.enable = true;
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-soft.yaml";
-  stylix.image = /home/denis/dotfiles/assets/wallpaper.jpg;
+  # stylix.image = ../../assets/wallpaper.jpg;
+  stylix.image = pkgs.fetchurl {
+    url = "https://w.wallhaven.cc/full/0w/wallhaven-0w3pdr.jpg";
+    sha256 = "sha256-xrLfcRkr6TjTW464GYf9XNFHRe5HlLtjpB0LQAh/l6M=";
+  };
 
   stylix.fonts = {
     serif = {
