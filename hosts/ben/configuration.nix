@@ -8,6 +8,7 @@
   lib,
   ...
 }: {
+  nix.settings.trusted-users = ["denis"];
   imports = [
     ./hardware-configuration.nix
     ../../modules/warp.nix
