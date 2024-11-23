@@ -8,9 +8,10 @@
   options = {
     firefox.enable = lib.mkEnableOption "enables firefox";
   };
-  config = lib.mkIf config.go.enable {
+  config = lib.mkIf config.firefox.enable {
     stylix.targets.firefox.enable = false;
     programs.firefox = {
+      package = pkgs.firefox-bin;
       enable = true;
       policies = {
         DisableTelemetry = true;

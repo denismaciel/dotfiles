@@ -48,15 +48,6 @@
                 a:
                   launch: ["${pkgs.alacritty}/bin/alacritty"]
     '';
-
-    # config = {
-    #   modmap = [
-    #     {
-    #       name = "Global";
-    #       remap = {"Context_Menu" = "RightMeta";};
-    #     }
-    #   ];
-    # };
     debug = true;
     watch = true;
   };
@@ -210,7 +201,7 @@
     wofi
     dolphin
     kitty
-    firefox
+    # firefox
     git
     zenity
     groff
