@@ -3,8 +3,8 @@ vim.g.python3_host_prog = os.getenv('HOME') .. '/venvs/neovim/bin/python'
 vim.g.mapleader = ' '
 
 local o = vim.opt
-
--- vim.cmd('set shortmess+=I')
+-- o.foldmethod = "expr"
+-- o.foldexpr = "nvim_treesitter#foldexpr()"
 
 o.signcolumn = 'yes'
 o.clipboard = 'unnamedplus'

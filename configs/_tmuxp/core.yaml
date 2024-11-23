@@ -25,9 +25,13 @@ windows:
     panes:
       -
       -
-
   - window_name: samwise-top
     start_directory: "~/github.com/monasticventures/samwise"
+    panes:
+      -
+      -
+  - window_name: samwise-server
+    start_directory: "~/github.com/monasticventures/samwise/server"
     panes:
       -
       -
