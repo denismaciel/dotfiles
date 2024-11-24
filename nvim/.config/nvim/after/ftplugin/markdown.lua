@@ -4,7 +4,6 @@ local dennich = require('dennich')
 local function smart_paste(register)
     register = register or '+'
     local clipboard_content = vim.fn.getreg(register)
-    print(clipboard_content)
 
     if dennich.is_url(clipboard_content) then
         local formatted_text = '[](' .. clipboard_content .. ')'
@@ -30,8 +29,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
         vim.keymap.set('n', 'p', function()
             smart_paste('+')
         end, { buffer = true, desc = 'Smart paste for URLs in markdown' })
-
-        -- Visual mode paste
         vim.keymap.set('v', 'p', function()
             smart_paste('+')
         end, { buffer = true, desc = 'Smart paste for URLs in markdown' })

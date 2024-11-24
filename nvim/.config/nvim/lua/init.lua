@@ -157,7 +157,7 @@ require('lazy').setup({
                     dim = 0.02, -- dim the color of `message`
                     cleaning_interval = 1250, -- (milliseconds) automatically clean MsgArea after displaying `message`. See :h MsgArea
                 },
-                trigger_events = { 'InsertLeave', 'TextChanged' }, -- vim events that trigger auto-save. See :h events
+                trigger_events = { 'InsertLeave' }, -- vim events that trigger auto-save. See :h events
                 -- function that determines whether to save the current buffer or not
                 -- return true: if buffer is ok to be saved
                 -- return false: if it's not ok to be saved

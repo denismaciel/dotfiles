@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   pkgs,
   ...
@@ -15,7 +16,7 @@
 
   home.packages = with pkgs; [
     # clang
-    # duckdb
+    duckdb
     # golden-cheetah
     # libreoffice
     # nodePackages_latest.bash-language-server
@@ -35,7 +36,7 @@
     calibre
     cargo
     # ungoogled-chromium
-    # chromium
+    chromium
     circumflex
     csvlens
     dbmate
@@ -138,6 +139,18 @@
       ];
     })
   ];
+
+  xdg.userDirs = {
+    enable = true;
+    desktop = "${config.home.homeDirectory}/dirs/desktop";
+    documents = "${config.home.homeDirectory}/dirs/documents";
+    download = "${config.home.homeDirectory}/downloads";
+    music = "${config.home.homeDirectory}/dirs/music";
+    pictures = "${config.home.homeDirectory}/dirs/pictures";
+    publicShare = "${config.home.homeDirectory}/dirs/public";
+    templates = "${config.home.homeDirectory}/dirs/templates";
+    videos = "${config.home.homeDirectory}/dirs/videos";
+  };
   stylix.targets.neovim.enable = false;
   home.username = "denis";
   home.homeDirectory = "/home/denis";

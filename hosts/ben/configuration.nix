@@ -9,6 +9,8 @@
   ...
 }: {
   nix.settings.trusted-users = ["denis"];
+
+  boot.binfmt.emulatedSystems = ["aarch64-linux"]; # necessary to build nixos for raspberrypi
   imports = [
     ./hardware-configuration.nix
     ../../modules/warp.nix
