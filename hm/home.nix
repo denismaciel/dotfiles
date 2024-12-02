@@ -28,7 +28,7 @@
     # vscode
     # zed-editor
     anki
-    appimage-run
+    # appimage-run
     awesome
     biome
     btop
