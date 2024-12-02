@@ -111,7 +111,7 @@
     typescript
     universal-ctags
     unzip
-    vlc
+    # vlc
     vscode-langservers-extracted
     xclip
     xdragon
@@ -122,22 +122,23 @@
     yt-dlp
     zenity
     zoxide
+    nerd-fonts.blex-mono
     (rofi.override {plugins = [pkgs.rofi-emoji pkgs.rofi-calc];})
     (google-fonts.override {fonts = ["Poppins"];})
-    (nerdfonts.override {
-      fonts = [
-        "FiraCode"
-        "DroidSansMono"
-        "JetBrainsMono"
-        "Monofur"
-        "SpaceMono"
-        "Iosevka"
-        "ShareTechMono"
-        "Terminus"
-        "AnonymousPro"
-        "IBMPlexMono"
-      ];
-    })
+    # (nerdfonts.override {
+    #   fonts = [
+    #     "FiraCode"
+    #     "DroidSansMono"
+    #     "JetBrainsMono"
+    #     "Monofur"
+    #     "SpaceMono"
+    #     "Iosevka"
+    #     "ShareTechMono"
+    #     "Terminus"
+    #     "AnonymousPro"
+    #     "IBMPlexMono"
+    #   ];
+    # })
   ];
 
   xdg.userDirs = {

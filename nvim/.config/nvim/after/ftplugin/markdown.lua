@@ -25,6 +25,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
         vim.api.nvim_buf_set_option(0, 'expandtab', true)
         vim.api.nvim_buf_set_option(0, 'shiftwidth', 2)
         vim.api.nvim_buf_set_option(0, 'tabstop', 2)
+        vim.api.nvim_buf_set_option(0, 'wrap', true)
 
         vim.keymap.set('n', 'p', function()
             smart_paste('+')

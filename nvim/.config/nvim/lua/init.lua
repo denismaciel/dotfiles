@@ -300,8 +300,8 @@ require('lazy').setup({
         {{selection}}
         ```
 
-        Please finish the code above carefully and logically.
-        Respond just with the snippet of code that should be inserted, otherwise a puppy will die!!!"
+        Finish the code above carefully and logically.
+        Respond with only the snippet of code that should be inserted."
         ]]
                         local model_obj = prt.get_model('command')
                         prt.Prompt(
