@@ -686,12 +686,9 @@ require('lazy').setup({
                 capabilities,
                 require('cmp_nvim_lsp').default_capabilities()
             )
-            capabilities.documentHighlightProvider = false
 
-            local configs = require('lspconfig.configs')
             local lspc = require('lspconfig')
             local null_ls = require('null-ls')
-            local util = require('lspconfig.util')
 
             null_ls.setup({
                 sources = {
@@ -706,22 +703,6 @@ require('lazy').setup({
                     }),
                 },
             })
-            configs.gopls = {
-                default_config = {
-                    cmd = { 'gopls' },
-                    filetypes = { 'go', 'gomod' },
-                    root_dir = function(fname)
-                        return util.root_pattern('go.work')(fname)
-                            or util.root_pattern('go.mod', '.git')(fname)
-                    end,
-                },
-                docs = {
-                    default_config = {
-                        root_dir = [[root_pattern("go.mod", ".git")]],
-                    },
-                },
-            }
-
             lspc.gopls.setup({
                 capabilities = capabilities,
             })
@@ -898,12 +879,6 @@ require('lazy').setup({
                         scope_incremental = '<CR>',
                         node_incremental = '<TAB>',
                         node_decremental = '<S-TAB>',
-                    },
-                },
-                refactor = {
-                    highlight_definitions = {
-                        enable = true,
-                        clear_on_cursor_move = true,
                     },
                 },
                 highlight = {
