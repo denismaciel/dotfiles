@@ -676,9 +676,18 @@ require('lazy').setup({
         },
         event = 'VeryLazy',
         config = function()
-            local capabilities = require('cmp_nvim_lsp').default_capabilities(
-                vim.lsp.protocol.make_client_capabilities()
+            -- LSP servers and clients are able to communicate to each other what features they support.
+            --  By default, Neovim doesn't support everything that is in the LSP specification.
+            --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
+            --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities = vim.tbl_deep_extend(
+                'force',
+                capabilities,
+                require('cmp_nvim_lsp').default_capabilities()
             )
+            capabilities.documentHighlightProvider = false
+
             local configs = require('lspconfig.configs')
             local lspc = require('lspconfig')
             local null_ls = require('null-ls')
@@ -712,6 +721,7 @@ require('lazy').setup({
                     },
                 },
             }
+
             lspc.gopls.setup({
                 capabilities = capabilities,
             })
@@ -722,19 +732,9 @@ require('lazy').setup({
                 capabilities = capabilities,
                 filetypes = { 'terraform', 'hcl' },
             })
-            -- lspc.harper_ls.setup({
-            --     capabilities = capabilities,
-            --     -- filetypes = { 'terraform', 'hcl' },
-            -- })
             lspc.biome.setup({
                 capabilities = capabilities,
             })
-            -- lspc.ruff_lsp.setup({
-            --     capabilities = capabilities,
-            --     root_dir = require('lspconfig.util').root_pattern(unpack({
-            --         'ruff.toml',
-            --     })),
-            -- })
             lspc.lua_ls.setup({
                 capabilities = capabilities,
                 settings = {
@@ -866,51 +866,6 @@ require('lazy').setup({
                             require('telescope.themes').get_dropdown({})
                         )
                     end, 'References')
-
-                    -- The following two autocommands are used to highlight references of the
-                    -- word under your cursor when your cursor rests there for a little while.
-                    --    See `:help CursorHold` for information about when this is executed
-                    --
-                    -- When you move your cursor, the highlights will be cleared (the second autocommand).
-                    local client =
-                        vim.lsp.get_client_by_id(event.data.client_id)
-                    if
-                        client
-                        and client.server_capabilities.documentHighlightProvider
-                    then
-                        vim.api.nvim_create_autocmd(
-                            { 'CursorHold', 'CursorHoldI' },
-                            {
-                                buffer = event.buf,
-                                callback = vim.lsp.buf.document_highlight,
-                            }
-                        )
-
-                        vim.api.nvim_create_autocmd(
-                            { 'CursorMoved', 'CursorMovedI' },
-                            {
-                                buffer = event.buf,
-                                callback = vim.lsp.buf.clear_references,
-                            }
-                        )
-                    end
-
-                    -- The following autocommand is used to enable inlay hints in your
-                    -- code, if the language server you are using supports them
-                    --
-                    -- This may be unwanted, since they displace some of your code
-                    if
-                        client
-                        and client.server_capabilities.inlayHintProvider
-                        and vim.lsp.inlay_hint
-                    then
-                        map('<leader>th', function()
-                            vim.lsp.inlay_hint.enable(
-                                0,
-                                not vim.lsp.inlay_hint.is_enabled()
-                            )
-                        end, '[T]oggle Inlay [H]ints')
-                    end
                 end,
             })
         end,
