@@ -28,6 +28,7 @@
     # vscode
     # zed-editor
     anki
+    nom
     # appimage-run
     awesome
     biome
