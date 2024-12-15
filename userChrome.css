@@ -47,8 +47,7 @@ UI model:
 }
 
 /* hide tab toolbar when fullscreen */
-#nav-bar[inFullscreen],
-#TabsToolbar[inFullscreen] {
+*|*:root[inFullscreen] #navigator-toolbox {
   display: none;
 }
 
@@ -80,3 +79,7 @@ UI model:
   bottom: -2px !important;
   top: auto !important;
 }
+
+/*.urlbarView-body-inner { border-top: none !important; }*/
+/*.urlbarView { display: none !important; }*/
+/* uncomment this to hidden address bar suggestions */
