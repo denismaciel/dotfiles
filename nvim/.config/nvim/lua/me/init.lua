@@ -44,12 +44,12 @@ M.insert_text = function(opts)
                     {
                         title = 'Routine',
                         content = {
+                            '- [ ] #routine Anki',
+                            '- [ ] #routine #home Inbox Zero',
                             '- [ ] #routine Clean up for 5 min',
                             '- [ ] #routine Chores for 10 min',
                             '- [ ] #routine Curate todo list',
-                            '- [ ] #routine Anki',
                             '- [ ] #routine Check Kinderpedia',
-                            '- [ ] #routine #home Inbox Zero',
                             '- [ ] #routine 15 push-ups',
                             '- [ ] #routine 10 pull-ups',
                             '',

@@ -443,7 +443,10 @@ require('lazy').setup({
         'nvim-tree/nvim-tree.lua',
         opts = {
             view = {
-                width = 70,
+                adaptive_size = true,
+                float = {
+                    enable = true,
+                },
             },
             filters = {
                 dotfiles = false,
@@ -1155,3 +1158,6 @@ vim.keymap.set({ 'n' }, '<leader>if', function()
         end,
     })
 end, { desc = 'Python import statement' })
+
+vim.keymap.set('n', '<leader>xl', ':.lua<cr>')
+vim.keymap.set('v', '<leader>xl', ':lua<cr>')

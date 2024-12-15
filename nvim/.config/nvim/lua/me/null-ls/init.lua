@@ -1,6 +1,4 @@
-local custom_sources = {
-    'jsonnet',
-}
+local custom_sources = { 'jsonnet' }
 
 local sources = {
     code_actions = {},
