@@ -1156,8 +1156,8 @@ vim.keymap.set('n', '<leader>xl', ':.lua<cr>')
 vim.keymap.set('v', '<leader>xl', ':lua<cr>')
 
 local wk = require('which-key')
-local sql = require('me.sql')
-local me = require('me')
+local sql = require('dennich.sql')
+local dennich = require('dennich')
 
 -- Stolen from https://github.com/tjdevries/config_manager/blob/ee11710c4ad09e0b303e5030b37c86ad8674f8b2/xdg_config/nvim/lua/tj/lsp/handlers.lua#L30
 local implementation = function()
@@ -1198,7 +1198,7 @@ vim.keymap.set('n', '<leader>tt', function()
     package.loaded['me'] = nil
     package.loaded['me.sql'] = nil
     vim.api.nvim_command([[ source $MYVIMRC ]])
-    require('me.sql').dbt_model_name()
+    require('dennich.sql').dbt_model_name()
 end)
 
 vim.keymap.set('n', '<leader>asdf', function()
@@ -1261,7 +1261,7 @@ vim.cmd('command Bdd bp! | sp! | bn! | bd!')
 vim.keymap.set(
     'n',
     '<leader>fc',
-    require('me').copy_file_path_to_clipboard,
+    require('dennich').copy_file_path_to_clipboard,
     { desc = 'Copy file path to clipboard' }
 )
 vim.keymap.set('n', '<leader>ff', function()
@@ -1361,17 +1361,17 @@ vim.keymap.set(
 )
 
 vim.keymap.set('n', '<leader>ao', function()
-    me.find_anki_notes(require('telescope.themes').get_dropdown({}))
+    dennich.find_anki_notes(require('telescope.themes').get_dropdown({}))
 end, { desc = 'Find Anki note' })
 
 vim.keymap.set({ 'n' }, '<leader>ao', function()
-    me.find_anki_notes(require('telescope.themes').get_dropdown({}))
+    dennich.find_anki_notes(require('telescope.themes').get_dropdown({}))
 end, {
     desc = 'Find Anki note',
 })
 
 vim.keymap.set({ 'n' }, '<leader>ae', function()
-    me.anki_edit_note()
+    dennich.anki_edit_note()
 end, {
     desc = 'Edit Anki note',
 })
@@ -1389,7 +1389,12 @@ vim.keymap.set('n', 'tt', function()
         },
     })
 end, { desc = '[T]elescope Find Files' })
-vim.keymap.set('n', 'td', me.insert_text, { desc = 'Insert block of text' })
+vim.keymap.set(
+    'n',
+    'td',
+    dennich.insert_text,
+    { desc = 'Insert block of text' }
+)
 vim.keymap.set(
     'n',
     'tc',
@@ -1460,7 +1465,7 @@ local function open_test_file()
     if ft == 'go' then
         go()
     elseif ft == 'python' then
-        require('me').python_test_file()
+        require('dennich').python_test_file()
     else
         print('No implementation for filetype: ' .. ft)
     end
@@ -1487,8 +1492,9 @@ vim.keymap.set('n', '<leader>go', '<cmd>PrtCompleteFullContext<cr>', {})
 local function run()
     print('run!')
 end
+
 vim.keymap.set('n', '<leader>rr', function()
     package.loaded['me'] = nil
     vim.api.nvim_command([[ source $MYVIMRC ]])
-    print(require('me').copy_file_path_to_clipboard())
+    print(require('dennich').copy_file_path_to_clipboard())
 end)

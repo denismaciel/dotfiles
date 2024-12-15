@@ -1,4 +1,3 @@
-local me = require('me')
 local dennich = require('dennich')
 
 local function smart_paste(register)
@@ -34,7 +33,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
             smart_paste('+')
         end, { buffer = true, desc = 'Smart paste for URLs in markdown' })
 
-        me.highlight_markdown_titles()
+        dennich.highlight_markdown_titles()
     end,
     group = augroup,
     pattern = { '*.md', '*.txt' },
@@ -50,11 +49,11 @@ vim.api.nvim_create_autocmd('BufRead', {
 })
 
 vim.keymap.set('n', '<C-N>', function()
-    require('me').cycle_notes('up')
+    require('dennich').cycle_notes('up')
 end)
 
 vim.keymap.set('n', '<C-P>', function()
-    require('me').cycle_notes('down')
+    require('dennich').cycle_notes('down')
 end)
 
 -- Toggle checkboxes
