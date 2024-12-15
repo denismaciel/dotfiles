@@ -80,6 +80,6 @@ UI model:
   top: auto !important;
 }
 
-/*.urlbarView-body-inner { border-top: none !important; }*/
-/*.urlbarView { display: none !important; }*/
+.urlbarView-body-inner { border-top: none !important; }
+.urlbarView { display: none !important; }
 /* uncomment this to hidden address bar suggestions */

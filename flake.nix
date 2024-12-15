@@ -13,16 +13,16 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/master";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-    alejandra.url = "github:kamadorueda/alejandra/3.0.0";
     alejandra.inputs.nixpkgs.follows = "nixpkgs";
+    alejandra.url = "github:kamadorueda/alejandra/3.0.0";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-    stylix.url = "github:danth/stylix";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixpkgs.url = "github:nixos/nixpkgs/master";
     nur.url = "github:nix-community/NUR";
+    stylix.url = "github:danth/stylix";
     xremap-flake.url = "github:xremap/nix-flake";
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -41,15 +41,15 @@
     xremap-flake,
     ...
   }: {
-    homeConfigurations = {
-      denis = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${"x86_64-linux"};
-        extraSpecialArgs = {inherit inputs;};
-        modules = [
-          ./home.nix
-        ];
-      };
-    };
+    # homeConfigurations = {
+    #   denis = home-manager.lib.homeManagerConfiguration {
+    #     pkgs = nixpkgs.legacyPackages.${"x86_64-linux"};
+    #     extraSpecialArgs = {inherit inputs;};
+    #     modules = [
+    #       ./home.nix
+    #     ];
+    #   };
+    # };
     nixosConfigurations = {
       ben = nixpkgs.lib.nixosSystem rec {
         specialArgs = {inherit inputs;};
@@ -60,7 +60,7 @@
           home-manager.nixosModules.home-manager
           {
             home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./hm/home.nix;
+            home-manager.users.denis = import ./hm/ben.nix;
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };
@@ -76,7 +76,7 @@
           home-manager.nixosModules.home-manager
           {
             home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./hm/home-sam.nix;
+            home-manager.users.denis = import ./hm/sam.nix;
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };
@@ -89,7 +89,7 @@
           home-manager.nixosModules.home-manager
           {
             home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./hm/home-sam.nix;
+            home-manager.users.denis = import ./hm/sam.nix;
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };
