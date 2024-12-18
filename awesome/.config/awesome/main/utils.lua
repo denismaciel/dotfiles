@@ -3,7 +3,7 @@ local json = require('main.dkjson')
 
 local M = {}
 
-function debug_log(obj)
+M.debug_log = function(obj)
     local f = io.open('/tmp/awesome-debug.log', 'w')
     f:write(obj .. '\n')
     f:close()

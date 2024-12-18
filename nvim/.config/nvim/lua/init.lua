@@ -244,6 +244,9 @@ require('lazy').setup({
         event = 'VeryLazy',
         build = 'make',
         opts = {
+            file_selector = {
+                provider = 'telescope',
+            },
             debug = false,
             provider = 'claude',
             claude = {
@@ -259,10 +262,8 @@ require('lazy').setup({
                 },
             },
             behaviour = {
-                -- auto_suggestions = true, -- Experimental stage
                 auto_set_highlight_group = true,
                 auto_set_keymaps = true,
-                -- auto_apply_diff_after_generation = true,
                 support_paste_from_clipboard = false,
             },
         },
@@ -1370,11 +1371,11 @@ end, {
     desc = 'Find Anki note',
 })
 
-vim.keymap.set({ 'n' }, '<leader>ae', function()
-    dennich.anki_edit_note()
-end, {
-    desc = 'Edit Anki note',
-})
+-- vim.keymap.set({ 'n' }, '<leader>ae', function()
+--     dennich.anki_edit_note()
+-- end, {
+--     desc = 'Edit Anki note',
+-- })
 
 vim.keymap.set('n', 'tt', function()
     require('telescope.builtin').find_files({
