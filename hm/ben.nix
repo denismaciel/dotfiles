@@ -173,7 +173,7 @@
     ".newsboat/urls".source = ../configs/_newsboat/urls;
     ".ripgrep_ignore".source = ../configs/_ripgrep_ignore;
     ".tmuxp/core.yml".source = ../configs/_tmuxp/core.yaml;
-    ".config/hypr/hyprland.conf".source = ../configs/hypr/hyprland.conf;
+    # ".config/hypr/hyprland.conf".source = ../configs/hypr/hyprland.conf;
   };
   xdg.enable = true;
   xdg.mimeApps = {
