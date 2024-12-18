@@ -618,69 +618,20 @@ require('lazy').setup({
         end,
     },
     {
-        'hrsh7th/nvim-cmp',
-        dependencies = {
-            'hrsh7th/cmp-buffer',
-            'hrsh7th/cmp-cmdline',
-            'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-nvim-lsp-signature-help',
-            'hrsh7th/cmp-path',
-            'onsails/lspkind.nvim',
+        'saghen/blink.cmp',
+        version = 'v0.*',
+        opts = {
+            keymap = { preset = 'default' },
+            appearance = {
+                use_nvim_cmp_as_default = false,
+                nerd_font_variant = 'mono',
+            },
+            sources = {
+                default = { 'lsp', 'path', 'snippets', 'buffer' },
+            },
+            signature = { enabled = true },
         },
-        config = function()
-            local cmp = require('cmp')
-            local lspkind = require('lspkind')
-            lspkind.init()
-
-            cmp.setup({
-                mapping = {
-                    ['<C-u>'] = cmp.mapping(
-                        cmp.mapping.scroll_docs(-4),
-                        { 'i', 'c' }
-                    ),
-                    ['<C-d>'] = cmp.mapping(
-                        cmp.mapping.scroll_docs(4),
-                        { 'i', 'c' }
-                    ),
-                    ['<C-e>'] = cmp.mapping({
-                        i = cmp.mapping.abort(),
-                        c = cmp.mapping.close(),
-                    }),
-                    ['<C-y>'] = cmp.mapping.confirm({ select = false }),
-                    ['<C-n>'] = cmp.mapping({
-                        i = function(fallback)
-                            if cmp.visible() then
-                                cmp.select_next_item()
-                            else
-                                cmp.complete()
-                            end
-                        end,
-                        c = cmp.mapping.select_next_item(),
-                        s = cmp.mapping.select_next_item(),
-                    }),
-                    ['<C-p>'] = cmp.mapping.select_prev_item(),
-                },
-                sources = cmp.config.sources({
-                    { name = 'nvim_lsp_signature_help' },
-                    { name = 'nvim_lsp' },
-                    { name = 'path' },
-                }, {
-                    { name = 'buffer' },
-                }),
-                formatting = {
-                    format = lspkind.cmp_format({
-                        mode = 'symbol_text', -- show only symbol annotations
-                        maxwidth = 100, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-                        ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-                        -- The function below will be called before any actual modifications from lspkind
-                        -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-                        before = function(entry, vim_item)
-                            return vim_item
-                        end,
-                    }),
-                },
-            })
-        end,
+        opts_extend = { 'sources.default' },
     },
     {
         'stevearc/conform.nvim',
@@ -699,7 +650,7 @@ require('lazy').setup({
                 -- cond = false makes sure the plugin is never loaded.
                 -- It's not a real neovim plugin.
                 -- We only need the data in the git repo for Pyright.
-                -- cond = false,
+                cond = false,
             },
         },
         event = 'VeryLazy',
@@ -708,14 +659,10 @@ require('lazy').setup({
             --  By default, Neovim doesn't support everything that is in the LSP specification.
             --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
             --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities = vim.tbl_deep_extend(
-                'force',
-                capabilities,
-                require('cmp_nvim_lsp').default_capabilities()
-            )
+            -- local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-            local lspc = require('lspconfig')
+            local capabilities = require('blink.cmp').get_lsp_capabilities()
+            local lspconfig = require('lspconfig')
             local null_ls = require('null-ls')
 
             null_ls.setup({
@@ -731,20 +678,20 @@ require('lazy').setup({
                     }),
                 },
             })
-            lspc.gopls.setup({
+            lspconfig.gopls.setup({
                 capabilities = capabilities,
             })
-            lspc.vtsls.setup({
+            lspconfig.vtsls.setup({
                 capabilities = capabilities,
             })
-            lspc.terraformls.setup({
+            lspconfig.terraformls.setup({
                 capabilities = capabilities,
                 filetypes = { 'terraform', 'hcl' },
             })
-            lspc.biome.setup({
+            lspconfig.biome.setup({
                 capabilities = capabilities,
             })
-            lspc.lua_ls.setup({
+            lspconfig.lua_ls.setup({
                 capabilities = capabilities,
                 settings = {
                     Lua = {
@@ -764,7 +711,7 @@ require('lazy').setup({
                     },
                 },
             })
-            lspc.jsonnet_ls.setup({
+            lspconfig.jsonnet_ls.setup({
                 capabilities = capabilities,
                 ext_vars = {
                     foo = 'bar',
@@ -785,8 +732,8 @@ require('lazy').setup({
                     StripAllButComments = false,
                 },
             })
-            lspc.cssls.setup({ capabilities = capabilities })
-            lspc.pyright.setup({
+            lspconfig.cssls.setup({ capabilities = capabilities })
+            lspconfig.pyright.setup({
                 capabilities = capabilities,
                 settings = {
                     python = {
@@ -806,9 +753,9 @@ require('lazy').setup({
                     },
                 },
             })
-            lspc.rust_analyzer.setup({ capabilities = capabilities })
-            lspc.bashls.setup({ capabilities = capabilities })
-            lspc.yamlls.setup({
+            lspconfig.rust_analyzer.setup({ capabilities = capabilities })
+            lspconfig.bashls.setup({ capabilities = capabilities })
+            lspconfig.yamlls.setup({
                 capabilities = capabilities,
                 settings = {
                     yaml = {
@@ -820,11 +767,11 @@ require('lazy').setup({
                     },
                 },
             })
-            lspc.dockerls.setup({ capabilities = capabilities })
-            lspc.cmake.setup({ capabilities = capabilities })
-            lspc.bashls.setup({ capabilities = capabilities })
-            lspc.tailwindcss.setup({ capabilities = capabilities })
-            lspc.nil_ls.setup({
+            lspconfig.dockerls.setup({ capabilities = capabilities })
+            lspconfig.cmake.setup({ capabilities = capabilities })
+            lspconfig.bashls.setup({ capabilities = capabilities })
+            lspconfig.tailwindcss.setup({ capabilities = capabilities })
+            lspconfig.nil_ls.setup({
                 capabilities = capabilities,
                 settings = {
                     ['nil'] = {
@@ -834,7 +781,7 @@ require('lazy').setup({
                     },
                 },
             })
-            lspc.hls.setup({ capabilities = capabilities })
+            lspconfig.hls.setup({ capabilities = capabilities })
 
             -- Autocommand for LSP.
             -- Key mpas should go in here.
