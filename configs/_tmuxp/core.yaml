@@ -1,26 +1,26 @@
 session_name: core
 windows:
-  - window_name: top
+  - window_name: recap-top
     start_directory: "~/work/core"
     panes:
       -
       -
-  - window_name: github-actions
+  - window_name: recap-github-actions
     start_directory: "~/work/core/.github"
     panes:
       -
       -
-  - window_name: pycap
+  - window_name: recap-pycap
     start_directory: "~/work/core/pycap"
     panes:
       -
       -
-  - window_name: backend
+  - window_name: recap-backend
     start_directory: "~/work/core/backend"
     panes:
       -
       -
-  - window_name: frontend
+  - window_name: recap-frontend
     start_directory: "~/work/core/recap-app"
     panes:
       -
@@ -30,13 +30,11 @@ windows:
     panes:
       -
       -
-
   - window_name: sam-web
     start_directory: "~/github.com/monasticventures/samwise/samwiseweb/"
     panes:
       -
       -
-
   - window_name: sam-server
     start_directory: "~/github.com/monasticventures/samwise/server"
     panes:
@@ -44,11 +42,6 @@ windows:
       -
   - window_name: dotfiles
     start_directory: "~/dotfiles"
-    panes:
-      -
-      -
-  - window_name: blog
-    start_directory: "~/github.com/denismaciel/denismaciel.com"
     panes:
       -
       -
