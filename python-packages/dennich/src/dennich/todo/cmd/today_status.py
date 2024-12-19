@@ -66,9 +66,7 @@ def main() -> int:
     client = Client()
     response = client.get_status()
     if response['status_code'] == 404:
-        sys.stdout.write(
-            color(is_running=False) + ' • ' + 'No pomodoro is running' + ' • '
-        )
+        sys.stdout.write(color(is_running=False) + ' • ' + '󱁆' + ' • ')
         return 0
     elif response['status_code'] == 200:
         sys.stdout.write(
