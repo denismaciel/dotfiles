@@ -1,0 +1,15 @@
+feeds:
+  - url: https://robertheaton.com/feed.xml
+    name: Robert Heaton
+  - url: https://advancedbeginners.substack.com/feed
+    name: Advanced Beginners
+  - url: https://medium.com/feed/motherbrain
+    name: Mother Brain
+  - url: https://webknjaz.me/feed.xml
+  - url: https://brandur.org/articles.atom
+  - url: https://www.b-list.org/feeds/entries/
+  - url: https://snarky.ca/rss/
+  - url: https://simonwillison.net/atom/everything/
+    name: Simon Willison
+  - url: https://blog.nateliason.com/feed
+    name: Nat Eliason
