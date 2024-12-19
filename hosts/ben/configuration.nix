@@ -262,7 +262,8 @@
   };
 
   stylix.enable = true;
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-soft.yaml";
+  # stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-soft.yaml";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/oxocarbon-dark.yaml";
   # stylix.image = ../../assets/wallpaper.jpg;
   stylix.image = pkgs.fetchurl {
     url = "https://w.wallhaven.cc/full/0w/wallhaven-0w3pdr.jpg";

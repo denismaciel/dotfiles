@@ -144,6 +144,7 @@ end
 -- Plugins
 -- ============================
 require('lazy').setup({
+    'echasnovski/mini.base16',
     {
         'milanglacier/minuet-ai.nvim',
         dependencies = { 'nvim-lua/plenary.nvim' },
@@ -1044,7 +1045,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     end,
 })
 
-vim.cmd([[ colorscheme no-clown-fiesta ]])
+-- vim.cmd([[ colorscheme no-clown-fiesta ]])
 
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
