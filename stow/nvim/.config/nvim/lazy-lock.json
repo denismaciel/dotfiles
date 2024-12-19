@@ -14,6 +14,7 @@
   "lazy.nvim": { "branch": "main", "commit": "7e6c863bc7563efbdd757a310d17ebc95166cef3" },
   "leap.nvim": { "branch": "main", "commit": "c6bfb191f1161fbabace1f36f578a20ac6c7642c" },
   "mason.nvim": { "branch": "main", "commit": "e2f7f9044ec30067bc11800a9e266664b88cda22" },
+  "minuet-ai.nvim": { "branch": "main", "commit": "a5e3399a621b2b75f03c6f9ddf8e52aca2658747" },
   "neodev.nvim": { "branch": "main", "commit": "46aa467dca16cf3dfe27098042402066d2ae242d" },
   "no-clown-fiesta.nvim": { "branch": "master", "commit": "e8f3c10720d633633fb766b370582eebae8d20f5" },
   "none-ls.nvim": { "branch": "main", "commit": "40dc2e983560acaea29d6312b33fafba37b0c272" },

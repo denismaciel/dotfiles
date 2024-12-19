@@ -124,6 +124,7 @@
     zenity
     zoxide
     nerd-fonts.blex-mono
+    nerd-fonts.comic-shanns-mono
     (rofi.override {plugins = [pkgs.rofi-emoji pkgs.rofi-calc];})
     (google-fonts.override {fonts = ["Poppins"];})
     # (nerdfonts.override {
@@ -466,18 +467,18 @@
     };
   };
 
-  systemd.user.services.feh = {
-    Unit = {
-      Description = "Feh";
-    };
-    Install = {
-      WantedBy = ["graphical-session.target"];
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.feh}/bin/feh --bg-fill --no-xinerama /home/denis/dotfiles/assets/wallpaper.jpg";
-    };
-  };
+  # systemd.user.services.feh = {
+  #   Unit = {
+  #     Description = "Feh";
+  #   };
+  #   Install = {
+  #     WantedBy = ["graphical-session.target"];
+  #   };
+  #   Service = {
+  #     Type = "oneshot";
+  #     ExecStart = "${pkgs.feh}/bin/feh --bg-fill --no-xinerama /home/denis/dotfiles/assets/wallpaper.jpg";
+  #   };
+  # };
 
   systemd.user.services.greenclip = {
     Unit = {

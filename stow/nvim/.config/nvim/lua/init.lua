@@ -145,6 +145,15 @@ end
 -- ============================
 require('lazy').setup({
     {
+        'milanglacier/minuet-ai.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        -- config = function()
+        --     require('minuet').setup({
+        --         -- Your configuration options here
+        --     })
+        -- end,
+    },
+    {
         'mfussenegger/nvim-dap',
         dependencies = {
             'leoluz/nvim-dap-go',

@@ -281,8 +281,8 @@
     };
 
     monospace = {
-      name = "Blex Mono Nerd Font";
-      package = pkgs.nerd-fonts.blex-mono;
+      name = "ComicShannsMono Nerd Font Mono";
+      package = pkgs.nerd-fonts.comic-shanns-mono;
     };
 
     emoji = {
