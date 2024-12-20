@@ -263,8 +263,8 @@
 
   stylix.enable = true;
   # stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-soft.yaml";
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/oxocarbon-dark.yaml";
-  # stylix.image = ../../assets/wallpaper.jpg;
+  # stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/oxocarbon-dark.yaml";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/decaf.yaml";
   stylix.image = pkgs.fetchurl {
     url = "https://w.wallhaven.cc/full/0w/wallhaven-0w3pdr.jpg";
     sha256 = "sha256-xrLfcRkr6TjTW464GYf9XNFHRe5HlLtjpB0LQAh/l6M=";
@@ -294,7 +294,7 @@
 
   stylix.fonts.sizes = {
     applications = 9;
-    terminal = 9;
+    terminal = 11;
     desktop = 9;
     popups = 9;
   };

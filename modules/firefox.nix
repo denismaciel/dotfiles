@@ -34,7 +34,7 @@
         PasswordManagerEnabled = false;
       };
       profiles.default = {
-        userChrome = builtins.readFile ../userChrome.css;
+        # userChrome = builtins.readFile ../userChrome.css;
         settings = {
           "apz.overscroll.enabled" = true;
           "browser.aboutConfig.showWarning" = false;

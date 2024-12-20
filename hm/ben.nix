@@ -9,14 +9,11 @@
     ../modules/go.nix
     ../modules/firefox.nix
   ];
-
   go.enable = true;
   autorandr.enable = true;
   firefox.enable = true;
-
   home.packages = with pkgs; [
     # clang
-    duckdb
     # golden-cheetah
     # libreoffice
     # nodePackages_latest.bash-language-server
@@ -27,16 +24,12 @@
     # python312Packages.mdformat-gfm
     # vscode
     # zed-editor
-    anki
-    nom
-    # appimage-run
-    awesome
+    duckdb
     biome
     btop
     bun
     calibre
     cargo
-    # ungoogled-chromium
     chromium
     circumflex
     csvlens
@@ -112,7 +105,6 @@
     typescript
     universal-ctags
     unzip
-    # vlc
     vscode-langservers-extracted
     xclip
     xdragon
@@ -127,20 +119,6 @@
     nerd-fonts.comic-shanns-mono
     (rofi.override {plugins = [pkgs.rofi-emoji pkgs.rofi-calc];})
     (google-fonts.override {fonts = ["Poppins"];})
-    # (nerdfonts.override {
-    #   fonts = [
-    #     "FiraCode"
-    #     "DroidSansMono"
-    #     "JetBrainsMono"
-    #     "Monofur"
-    #     "SpaceMono"
-    #     "Iosevka"
-    #     "ShareTechMono"
-    #     "Terminus"
-    #     "AnonymousPro"
-    #     "IBMPlexMono"
-    #   ];
-    # })
   ];
 
   xdg.userDirs = {
@@ -174,7 +152,6 @@
     ".newsboat/urls".source = ../configs/_newsboat/urls;
     ".ripgrep_ignore".source = ../configs/_ripgrep_ignore;
     ".tmuxp/core.yml".source = ../configs/_tmuxp/core.yaml;
-    # ".config/hypr/hyprland.conf".source = ../configs/hypr/hyprland.conf;
   };
   xdg.enable = true;
   xdg.mimeApps = {
@@ -185,17 +162,10 @@
       "x-scheme-handler/https" = ["google-chrome.desktop"];
       "x-scheme-handler/about" = ["google-chrome.desktop"];
       "x-scheme-handler/unknown" = ["google-chrome.desktop"];
-      "x-scheme-handler/notion" = ["notion-app-enhanced.desktop"];
-      "application/zip" = ["org.gnome.FileRoller.desktop"];
-      "x-scheme-handler/element" = ["element-desktop.desktop"];
-      "inode/directory" = ["org.gnome.Nautilus.desktop"];
       "application/pdf" = ["sioyek.desktop"];
     };
     associations.added = {
-      "application/json" = ["org.gnome.gedit.desktop"];
-      "text/csv" = ["nvim.desktop"];
       "text/plain" = ["sioyek.desktop"];
-      "application/epub+zip" = ["org.pwmt.zathura-pdf-mupdf.desktop"];
     };
   };
   targets.genericLinux.enable = true;
