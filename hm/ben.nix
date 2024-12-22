@@ -22,8 +22,10 @@
     # obs-studio
     # python312Packages.mdformat -- Installed used uv
     # python312Packages.mdformat-gfm
-    # vscode
     # zed-editor
+    anki
+    vscode
+    vscode-js-debug
     duckdb
     biome
     btop

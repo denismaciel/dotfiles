@@ -78,7 +78,7 @@ end
 vim.api.nvim_create_user_command(
     'ToggleCheckbox',
     toggle_checkbox,
-    vim.tbl_extend('force', { desc = 'toggle checkboxes' }, {})
+    vim.tbl_extend('force', { desc = 'toggle checkbox' }, {})
 )
 
 vim.keymap.set('n', '<leader>ck', toggle_checkbox, {

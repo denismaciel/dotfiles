@@ -1,4 +1,4 @@
-vim.g.python3_host_prog = os.getenv('HOME') .. '/venvs/neovim/bin/python'
+-- vim.g.python3_host_prog = os.getenv('HOME') .. '/venvs/neovim/bin/python'
 
 vim.g.mapleader = ' '
 
@@ -84,18 +84,6 @@ augroup highlight_yank
 augroup END
 ]])
 
-vim.cmd([[
-function! RenameFile()
-    let old_name = expand('%')
-    let new_name = input('New file name: ', expand('%'), 'file')
-    if new_name != '' && new_name != old_name
-        exec ':saveas ' . new_name
-        exec ':silent !rm ' . old_name
-        redraw!
-    endif
-endfunction
-]])
-
 vim.diagnostic.config({
     signs = {
         text = {
@@ -158,17 +146,79 @@ require('lazy').setup({
         'mfussenegger/nvim-dap',
         dependencies = {
             'leoluz/nvim-dap-go',
+            'mfussenegger/nvim-dap-python',
+            'nvim-neotest/nvim-nio',
             'rcarriga/nvim-dap-ui',
             'theHamsta/nvim-dap-virtual-text',
-            'nvim-neotest/nvim-nio',
-            'williamboman/mason.nvim',
         },
         config = function()
             local dap = require('dap')
             local ui = require('dapui')
 
+            require('dap-python').setup('uv')
             require('dapui').setup()
             require('dap-go').setup()
+
+            -- Node.js
+            require('dap').adapters['pwa-node'] = {
+                type = 'server',
+                host = 'localhost',
+                port = '${port}',
+                executable = {
+                    -- command = 'js-debug',
+                    command = 'node',
+                    args = {
+                        '/nix/store/xpfrkzcwyrgr8g7q10c6zhaqmkjyxwgn-vscode-js-debug-1.95.3/lib/node_modules/js-debug/dist/src/dapDebugServer.js',
+                        -- '/path/to/js-debug/src/dapDebugServer.js',
+                        '${port}',
+                    },
+                },
+            }
+
+            for _, language in ipairs({ 'typescript', 'javascript' }) do
+                require('dap').configurations[language] = {
+                    {
+                        name = 'Next.js: debug server-side',
+                        type = 'pwa-node',
+                        request = 'launch',
+                        command = 'npm run dev',
+                    },
+                    {
+                        name = 'Next.js: debug client-side',
+                        type = 'chrome',
+                        request = 'launch',
+                        url = 'http://localhost:3000',
+                    },
+                    {
+                        name = 'Next.js: debug client-side (Firefox)',
+                        type = 'firefox',
+                        request = 'launch',
+                        url = 'http://localhost:3000',
+                        reAttach = true,
+                        pathMappings = {
+                            {
+                                url = 'webpack://_N_E',
+                                path = '${workspaceFolder}',
+                            },
+                        },
+                    },
+                    {
+                        name = 'Next.js: debug full stack',
+                        type = 'node',
+                        request = 'launch',
+                        program = '${workspaceFolder}/node_modules/.bin/next',
+                        runtimeArgs = { '--inspect' },
+                        skipFiles = { '<node_internals>/**' },
+                        serverReadyAction = {
+                            action = 'debugWithEdge',
+                            killOnServerStop = true,
+                            pattern = '- Local:.+(https?://.+)',
+                            uriFormat = '%s',
+                            webRoot = '${workspaceFolder}',
+                        },
+                    },
+                }
+            end
 
             require('nvim-dap-virtual-text').setup({})
 
@@ -182,20 +232,47 @@ require('lazy').setup({
             --   },
             -- }
 
-            vim.keymap.set('n', '<space>b', dap.toggle_breakpoint)
-            vim.keymap.set('n', '<space>gb', dap.run_to_cursor)
+            vim.keymap.set(
+                'n',
+                '<space>db',
+                dap.toggle_breakpoint,
+                { desc = '[dap] toogle breakpoint' }
+            )
+            vim.keymap.set(
+                'n',
+                '<space>dgb',
+                dap.run_to_cursor,
+                { desc = '[dap] run to cursor' }
+            )
 
             -- Eval var under cursor
             vim.keymap.set('n', '<space>?', function()
                 require('dapui').eval(nil, { enter = true })
             end)
-
+            table.insert(require('dap').configurations.python, {
+                type = 'python',
+                request = 'launch',
+                name = 'pycap 🐝',
+                program = '${workspaceFolder}/src/pycap/risk_model/scripts/debug.py',
+                args = { 'run-risk-model' },
+                console = 'integratedTerminal',
+                cwd = '${workspaceFolder}',
+            })
+            table.insert(require('dap').configurations.python, {
+                type = 'python',
+                request = 'launch',
+                name = 'samwise',
+                program = '${workspaceFolder}/src/samwise/main.py',
+                console = 'integratedTerminal',
+                cwd = '${workspaceFolder}',
+            })
             vim.keymap.set('n', '<leader>dc', dap.continue)
             vim.keymap.set('n', '<leader>dsi', dap.step_into)
             vim.keymap.set('n', '<leader>dsv', dap.step_over)
             vim.keymap.set('n', '<leader>dsu', dap.step_out)
             vim.keymap.set('n', '<leader>dsb', dap.step_back)
             vim.keymap.set('n', '<leader>dr', dap.restart)
+            vim.keymap.set('n', '<leader>dui', ui.toggle)
 
             dap.listeners.before.attach.dapui_config = function()
                 ui.open()
@@ -351,30 +428,6 @@ require('lazy').setup({
             })
         end,
     },
-    -- {
-    --     'NvChad/nvim-colorizer.lua',
-    --     config = function()
-    --         require('colorizer').setup({
-    --             filetypes = {
-    --                 'html',
-    --                 'css',
-    --                 'sass',
-    --                 'scss',
-    --                 'javascript',
-    --                 'javascriptreact',
-    --                 'typescript',
-    --                 'typescriptreact',
-    --                 'vue',
-    --                 'svelte',
-    --                 'lua',
-    --             },
-    --             user_default_options = {
-    --                 mode = 'virtualtext',
-    --                 names = false,
-    --             },
-    --         })
-    --     end,
-    -- },
     {
         'folke/which-key.nvim',
         opts = { icons = { mappings = false } },
@@ -1113,7 +1166,6 @@ end, { desc = 'Python import statement' })
 vim.keymap.set('n', '<leader>xl', ':.lua<cr>')
 vim.keymap.set('v', '<leader>xl', ':lua<cr>')
 
-local wk = require('which-key')
 local sql = require('dennich.sql')
 local dennich = require('dennich')
 
@@ -1150,20 +1202,6 @@ local implementation = function()
     )
 end
 
-wk.setup({})
-
-vim.keymap.set('n', '<leader>tt', function()
-    package.loaded['me'] = nil
-    package.loaded['me.sql'] = nil
-    vim.api.nvim_command([[ source $MYVIMRC ]])
-    require('dennich.sql').dbt_model_name()
-end)
-
-vim.keymap.set('n', '<leader>asdf', function()
-    package.loaded['me'] = nil
-    vim.api.nvim_command([[ source $MYVIMRC ]])
-    print('reloaded myvimrc')
-end)
 vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition)
 vim.keymap.set('n', 'gD', implementation)
 vim.keymap.set('n', 'gtd', vim.lsp.buf.type_definition)
@@ -1171,11 +1209,6 @@ vim.keymap.set('n', 'grn', vim.lsp.buf.rename)
 vim.keymap.set('n', '<leader>;', '<cmd>Telescope buffers<CR>')
 vim.keymap.set('n', 'K', vim.lsp.buf.hover)
 vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeFindFileToggle<CR>')
-vim.keymap.set(
-    'v',
-    '<leader>tm',
-    ':!pandoc --to html | xclip -t text/html -selection clipboard<cr>u'
-)
 
 vim.keymap.set('n', 'gtt', function()
     local opts = require('telescope.themes').get_dropdown({
@@ -1226,12 +1259,6 @@ vim.keymap.set('n', '<leader>ff', function()
     vim.lsp.buf.format()
     require('conform').format()
 end, { desc = 'Format current buffer' })
-vim.keymap.set(
-    'n',
-    '<leader>fn',
-    ':call RenameFile()<CR>',
-    { desc = 'Rename file' }
-)
 vim.keymap.set(
     'n',
     '<leader>xx',
@@ -1310,7 +1337,6 @@ vim.keymap.set(
     [["=strftime('%Y-%m-%d (%a)')<CR>p]],
     { desc = 'Insert current time' }
 )
-
 vim.keymap.set(
     'n',
     '<leader>u',
@@ -1318,21 +1344,17 @@ vim.keymap.set(
     { desc = 'Undotree' }
 )
 
-vim.keymap.set('n', '<leader>ao', function()
-    dennich.find_anki_notes(require('telescope.themes').get_dropdown({}))
-end, { desc = 'Find Anki note' })
-
 vim.keymap.set({ 'n' }, '<leader>ao', function()
     dennich.find_anki_notes(require('telescope.themes').get_dropdown({}))
 end, {
-    desc = 'Find Anki note',
+    desc = '[anki] find note',
 })
 
--- vim.keymap.set({ 'n' }, '<leader>ae', function()
---     dennich.anki_edit_note()
--- end, {
---     desc = 'Edit Anki note',
--- })
+vim.keymap.set({ 'n' }, '<leader>ae', function()
+    dennich.anki_edit_note()
+end, {
+    desc = '[anki] edit note',
+})
 
 vim.keymap.set('n', 'tt', function()
     require('telescope.builtin').find_files({
@@ -1396,20 +1418,17 @@ vim.keymap.set(
 )
 vim.keymap.set('n', '<leader>/', require('telescope.builtin').treesitter)
 
-local function go()
-    -- Opens the test file for the current Go file
-    --
-    -- Get relative path of the current file
+vim.keymap.set('n', '<leader>o', function()
+    local config_file = os.getenv('HOME') .. '/.config/nvim/lua/init.lua'
+    vim.cmd('edit' .. config_file)
+end)
+
+local function open_test_file_go()
     local current_file_path = vim.fn.expand('%:p')
-    -- remove the root directory from the path
     current_file_path = string.gsub(current_file_path, vim.fn.getcwd(), '')
-
     local parts = vim.fn.split(current_file_path, '/')
-
-    -- Replace the file name with "_test.go"
     parts[#parts] = string.gsub(parts[#parts], '.go', '_test.go')
 
-    -- Construct the test file path in the same directory
     local test_file_path = '.'
     for i = 1, #parts do
         test_file_path = test_file_path .. '/' .. parts[i]
@@ -1421,7 +1440,7 @@ end
 local function open_test_file()
     local ft = vim.bo.filetype
     if ft == 'go' then
-        go()
+        open_test_file_go()
     elseif ft == 'python' then
         require('dennich').python_test_file()
     else
@@ -1453,6 +1472,7 @@ end
 
 vim.keymap.set('n', '<leader>rr', function()
     package.loaded['me'] = nil
+    package.loaded['dennich'] = nil
     vim.api.nvim_command([[ source $MYVIMRC ]])
     print(require('dennich').copy_file_path_to_clipboard())
 end)
