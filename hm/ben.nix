@@ -286,8 +286,8 @@
       add_newline = true;
       character = {
         success_symbol = "[\\$](white)";
-        error_symbol = "[●](red)";
-        vicmd_symbol = "[●](blue)";
+        error_symbol = "[*](red)";
+        vicmd_symbol = "[*](blue)";
       };
       env_var = {
         variable = "ENV";
@@ -438,19 +438,6 @@
       RestartSec = 3;
     };
   };
-
-  # systemd.user.services.feh = {
-  #   Unit = {
-  #     Description = "Feh";
-  #   };
-  #   Install = {
-  #     WantedBy = ["graphical-session.target"];
-  #   };
-  #   Service = {
-  #     Type = "oneshot";
-  #     ExecStart = "${pkgs.feh}/bin/feh --bg-fill --no-xinerama /home/denis/dotfiles/assets/wallpaper.jpg";
-  #   };
-  # };
 
   systemd.user.services.greenclip = {
     Unit = {

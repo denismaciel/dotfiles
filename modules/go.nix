@@ -11,7 +11,7 @@
     programs.go = {
       enable = true;
       package = pkgs.go_1_23;
-      goPath = "go-stuff";
+      goPath = "go-path";
     };
     home.packages = with pkgs; [
       delve
