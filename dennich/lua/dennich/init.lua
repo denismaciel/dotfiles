@@ -113,9 +113,60 @@ M.highlight_markdown_titles = function()
     vim.api.nvim_set_hl(0, '@markup.heading.5', { fg = palette.yellow })
 end
 
+---@alias RoutineItem { text: string, condition: function }
+---@return string[]
+local routine = function()
+    local always = function()
+        return true
+    end
+
+    local is_weekday = function()
+        return false
+        -- local day = os.date('*t').wday
+        -- return day >= 2 and day <= 6
+    end
+
+    -- Define items with their conditions
+    ---@type RoutineItem[]
+    local items = {
+        { text = '- [ ] #routine Anki', condition = always },
+        { text = '- [ ] #routine Gather', condition = always },
+        { text = '- [ ] #routine Creatina', condition = always },
+        { text = '- [ ] #routine #home Inbox Zero', condition = always },
+        { text = '- [ ] #routine Clean up for 5 min', condition = always },
+        { text = '- [ ] #routine Chores for 10 min', condition = always },
+        { text = '- [ ] #routine Curate todo list', condition = always },
+        { text = '- [ ] #routine Check Kinderpedia', condition = is_weekday },
+        { text = '- [ ] #routine 15 push-ups', condition = always },
+        { text = '- [ ] #routine 10 pull-ups', condition = always },
+        { text = '- [ ] #routine #recap Notion BOD', condition = is_weekday },
+        { text = '- [ ] #routine #recap Inbox Zero', condition = is_weekday },
+        {
+            text = '- [ ] #routine #recap Check Dagster',
+            condition = is_weekday,
+        },
+        {
+            text = '- [ ] #routine #recap Write Daily Standup',
+            condition = is_weekday,
+        },
+        { text = '- [ ] #routine Plan the day', condition = always },
+        { text = '- [ ] #routine Magnésio', condition = always },
+    }
+
+    -- Filter items based on their conditions and extract text
+    local result = {}
+    for _, item in ipairs(items) do
+        if item.condition() then
+            table.insert(result, item.text)
+        end
+    end
+
+    return result
+end
+
 M.insert_text = function(opts)
     local cb = vim.api.nvim_get_current_buf()
-    local cline, _ = unpack(vim.api.nvim_win_get_cursor(0))
+    local cline = vim.api.nvim_win_get_cursor(0)[1]
     opts = opts or {}
     pickers
         .new(opts, {
@@ -124,22 +175,7 @@ M.insert_text = function(opts)
                 results = {
                     {
                         title = 'Routine',
-                        content = {
-                            '- [ ] #routine Anki',
-                            '- [ ] #routine #home Inbox Zero',
-                            '- [ ] #routine Clean up for 5 min',
-                            '- [ ] #routine Chores for 10 min',
-                            '- [ ] #routine Curate todo list',
-                            '- [ ] #routine Check Kinderpedia',
-                            '- [ ] #routine 15 push-ups',
-                            '- [ ] #routine 10 pull-ups',
-                            '',
-                            '- [ ] #routine #recap Notion BOD',
-                            '- [ ] #routine #recap Inbox Zero',
-                            '- [ ] #routine #recap Check Dagster',
-                            '- [ ] #routine #recap Write Daily Standup',
-                            '- [ ] #routine Plan the day',
-                        },
+                        content = routine(),
                     },
                     {
                         title = 're:cap: collect todos',

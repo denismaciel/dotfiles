@@ -34,6 +34,20 @@ vim.api.nvim_create_autocmd('BufEnter', {
         end, { buffer = true, desc = 'Smart paste for URLs in markdown' })
 
         dennich.highlight_markdown_titles()
+
+        vim.api.nvim_create_user_command('Was', function(opts)
+            vim.cmd('write' .. (opts.bang and '!' or ''))
+            if vim.bo.filetype == 'markdown' then
+                vim.api.nvim_echo({
+                    {
+                        ' 🙉 Markdown is saved automatically!',
+                        'WarningMsg',
+                    },
+                }, false, {})
+            end
+        end, { bang = true })
+        vim.cmd('cabbrev w Was')
+        vim.cmd('cabbrev w! Was!')
     end,
     group = augroup,
     pattern = { '*.md', '*.txt' },

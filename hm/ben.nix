@@ -134,7 +134,7 @@
     templates = "${config.home.homeDirectory}/dirs/templates";
     videos = "${config.home.homeDirectory}/dirs/videos";
   };
-  stylix.targets.neovim.enable = true;
+  stylix.targets.neovim.enable = false;
   home.username = "denis";
   home.homeDirectory = "/home/denis";
   home.file = {
