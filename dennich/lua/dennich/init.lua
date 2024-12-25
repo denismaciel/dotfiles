@@ -6,11 +6,8 @@ local action_state = require('telescope.actions.state')
 
 local M = {}
 
-local NOTES_FOLDER = '/home/denis/Sync/notes/'
-
-M.sum = function(a, b)
-    return a + b
-end
+local HOME = os.getenv('HOME') .. '/'
+local NOTES_FOLDER = HOME .. 'Sync/notes/'
 
 M.is_url = function(text)
     if text == nil then
@@ -227,24 +224,6 @@ end
 
 M.center_and_change_colorscheme = function()
     vim.cmd([[ normal Gzz ]])
-    -- vim.cmd([[ colorscheme tokyonight ]])
-    -- M.highlight_markdown_titles()
-end
-
-M.is_shorts_mode = function()
-    local is_shorts = vim.fn.getenv('ME_SHORTS')
-    if is_shorts == 'true' then
-        return true
-    else
-        return false
-    end
-end
-
-M.maybe_toggle_shorts_mode = function()
-    if M.is_shorts_mode() then
-        vim.cmd([[ LspStop ]])
-        require('cmp').setup.buffer({ enabled = false })
-    end
 end
 
 M.cycle_notes = function(direction)
@@ -547,5 +526,9 @@ end
 
 -- Create a command to call the function
 vim.api.nvim_create_user_command('SortMarkdownList', sort_markdown_list, {})
+
+M.run = function()
+    print('he')
+end
 
 return M
