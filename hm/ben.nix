@@ -23,6 +23,7 @@
     # python312Packages.mdformat -- Installed used uv
     # python312Packages.mdformat-gfm
     # zed-editor
+    code-cursor
     anki
     vscode
     vscode-js-debug

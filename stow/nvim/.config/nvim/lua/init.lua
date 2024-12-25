@@ -354,7 +354,8 @@ require('lazy').setup({
         opts = { icons = { mappings = false } },
     },
     { 'folke/neodev.nvim', opts = {} },
-    { 'kylechui/nvim-surround', opts = {} },
+    -- { 'kylechui/nvim-surround', opts = {} },
+    { 'echasnovski/mini.surround', opts = {} },
     'nvimtools/none-ls.nvim',
     {
         'j-hui/fidget.nvim',
