@@ -47,10 +47,10 @@ require('lazy').setup({
             -- dashboard = { enabled = true },
             -- indent = { enabled = true },
             input = { enabled = true },
-            notifier = { enabled = true },
+            -- notifier = { enabled = true },
             quickfile = { enabled = true },
-            scroll = { enabled = true },
-            statuscolumn = { enabled = true },
+            -- scroll = { enabled = true },
+            -- statuscolumn = { enabled = true },
             words = { enabled = true },
         },
     },
@@ -73,73 +73,9 @@ require('lazy').setup({
             'theHamsta/nvim-dap-virtual-text',
         },
         config = function()
-            local dap = require('dap')
-            local ui = require('dapui')
-
             require('dap-python').setup('uv')
             require('dapui').setup()
             require('dap-go').setup()
-
-            -- Node.js
-            require('dap').adapters['pwa-node'] = {
-                type = 'server',
-                host = 'localhost',
-                port = '${port}',
-                executable = {
-                    -- command = 'js-debug',
-                    command = 'node',
-                    args = {
-                        '/nix/store/xpfrkzcwyrgr8g7q10c6zhaqmkjyxwgn-vscode-js-debug-1.95.3/lib/node_modules/js-debug/dist/src/dapDebugServer.js',
-                        -- '/path/to/js-debug/src/dapDebugServer.js',
-                        '${port}',
-                    },
-                },
-            }
-
-            for _, language in ipairs({ 'typescript', 'javascript' }) do
-                require('dap').configurations[language] = {
-                    {
-                        name = 'Next.js: debug server-side',
-                        type = 'pwa-node',
-                        request = 'launch',
-                        command = 'npm run dev',
-                    },
-                    {
-                        name = 'Next.js: debug client-side',
-                        type = 'chrome',
-                        request = 'launch',
-                        url = 'http://localhost:3000',
-                    },
-                    {
-                        name = 'Next.js: debug client-side (Firefox)',
-                        type = 'firefox',
-                        request = 'launch',
-                        url = 'http://localhost:3000',
-                        reAttach = true,
-                        pathMappings = {
-                            {
-                                url = 'webpack://_N_E',
-                                path = '${workspaceFolder}',
-                            },
-                        },
-                    },
-                    {
-                        name = 'Next.js: debug full stack',
-                        type = 'node',
-                        request = 'launch',
-                        program = '${workspaceFolder}/node_modules/.bin/next',
-                        runtimeArgs = { '--inspect' },
-                        skipFiles = { '<node_internals>/**' },
-                        serverReadyAction = {
-                            action = 'debugWithEdge',
-                            killOnServerStop = true,
-                            pattern = '- Local:.+(https?://.+)',
-                            uriFormat = '%s',
-                            webRoot = '${workspaceFolder}',
-                        },
-                    },
-                }
-            end
 
             require('nvim-dap-virtual-text').setup({})
 
@@ -156,13 +92,13 @@ require('lazy').setup({
             vim.keymap.set(
                 'n',
                 '<space>db',
-                dap.toggle_breakpoint,
+                require('dap').toggle_breakpoint,
                 { desc = '[dap] toogle breakpoint' }
             )
             vim.keymap.set(
                 'n',
                 '<space>dgb',
-                dap.run_to_cursor,
+                require('dap').run_to_cursor,
                 { desc = '[dap] run to cursor' }
             )
 
@@ -187,25 +123,25 @@ require('lazy').setup({
                 console = 'integratedTerminal',
                 cwd = '${workspaceFolder}',
             })
-            vim.keymap.set('n', '<leader>dc', dap.continue)
-            vim.keymap.set('n', '<leader>dsi', dap.step_into)
-            vim.keymap.set('n', '<leader>dsv', dap.step_over)
-            vim.keymap.set('n', '<leader>dsu', dap.step_out)
-            vim.keymap.set('n', '<leader>dsb', dap.step_back)
-            vim.keymap.set('n', '<leader>dr', dap.restart)
-            vim.keymap.set('n', '<leader>dui', ui.toggle)
+            vim.keymap.set('n', '<leader>dc', require('dap').continue)
+            vim.keymap.set('n', '<leader>dsi', require('dap').step_into)
+            vim.keymap.set('n', '<leader>dsv', require('dap').step_over)
+            vim.keymap.set('n', '<leader>dsu', require('dap').step_out)
+            vim.keymap.set('n', '<leader>dsb', require('dap').step_back)
+            vim.keymap.set('n', '<leader>dr', require('dap').restart)
+            vim.keymap.set('n', '<leader>dui', require('dapui').toggle)
 
-            dap.listeners.before.attach.dapui_config = function()
-                ui.open()
+            require('dap').listeners.before.attach.dapui_config = function()
+                require('dapui').open()
             end
-            dap.listeners.before.launch.dapui_config = function()
-                ui.open()
+            require('dap').listeners.before.launch.dapui_config = function()
+                require('dapui').open()
             end
-            dap.listeners.before.event_terminated.dapui_config = function()
-                ui.close()
+            require('dap').listeners.before.event_terminated.dapui_config = function()
+                require('dapui').close()
             end
-            dap.listeners.before.event_exited.dapui_config = function()
-                ui.close()
+            require('dap').listeners.before.event_exited.dapui_config = function()
+                require('dapui').close()
             end
         end,
     },
