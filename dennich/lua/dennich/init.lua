@@ -240,8 +240,6 @@ M.cycle_notes = function(direction)
         return true
     end, files)
 
-    vim.print(files)
-
     local idx
     for i, f in ipairs(files) do
         if f == f_name then
