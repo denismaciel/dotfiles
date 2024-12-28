@@ -25,6 +25,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
         vim.api.nvim_buf_set_option(0, 'shiftwidth', 2)
         vim.api.nvim_buf_set_option(0, 'tabstop', 2)
         vim.api.nvim_buf_set_option(0, 'wrap', true)
+        vim.api.nvim_buf_set_option(0, 'conceallevel', 0)
 
         vim.keymap.set('n', 'p', function()
             smart_paste('+')
@@ -53,22 +54,15 @@ vim.api.nvim_create_autocmd('BufEnter', {
     pattern = { '*.md', '*.txt' },
 })
 
-vim.api.nvim_create_autocmd('BufRead', {
-    callback = function()
-        vim.api.nvim_win_set_option(0, 'wrap', true)
-        vim.api.nvim_buf_set_option(0, 'conceallevel', 0)
-    end,
-    group = augroup,
-    pattern = { '*.md', '*.txt' },
-})
-
 vim.keymap.set('n', '<C-N>', function()
     require('dennich').cycle_notes('up')
-end)
+end, { buffer = 0 })
 
 vim.keymap.set('n', '<C-P>', function()
     require('dennich').cycle_notes('down')
-end)
+end, {
+    buffer = 0,
+})
 
 -- Toggle checkboxes
 -- Copied from:

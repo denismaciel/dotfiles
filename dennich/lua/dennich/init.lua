@@ -65,11 +65,12 @@ M.create_weekly_note = function()
         file_day:close()
     end
 
-    vim.cmd('edit ' .. vim.fn.fnameescape(file_path_week))
-    -- short pause so that terminal can start and both splits will end up with the same size
-    vim.cmd('vsplit ' .. vim.fn.fnameescape(file_path_day))
+    vim.cmd('edit todo.md')
 
-    -- Dirty fix: Schedule window equalization
+    vim.cmd('tabnew')
+
+    vim.cmd('edit ' .. vim.fn.fnameescape(file_path_week))
+    vim.cmd('vsplit ' .. vim.fn.fnameescape(file_path_day))
     local async = require('plenary.async')
     async.run(function()
         async.util.sleep(50)
@@ -86,7 +87,8 @@ end
 
 local function scandir(directory)
     local i, t = 0, {}
-    local pfile = io.popen('ls -a "' .. directory .. '"')
+    -- Use ls -p to append / to directories, then grep to exclude them
+    local pfile = io.popen('ls -ap "' .. directory .. '" | grep -v "/$"')
 
     if pfile == nil then
         return
@@ -227,7 +229,6 @@ M.center_and_change_colorscheme = function()
 end
 
 M.cycle_notes = function(direction)
-    local idx
     local buf_dir = vim.fn.expand('%:p:h')
     local f_name = vim.fn.expand('%:t')
     local files = scandir(buf_dir)
@@ -239,11 +240,15 @@ M.cycle_notes = function(direction)
         return true
     end, files)
 
+    vim.print(files)
+
+    local idx
     for i, f in ipairs(files) do
         if f == f_name then
             idx = i
         end
     end
+
     local next_f
     if direction == 'up' then
         next_f = files[idx + 1]
