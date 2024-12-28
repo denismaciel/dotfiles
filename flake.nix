@@ -24,6 +24,9 @@
     nur.url = "github:nix-community/NUR";
     stylix.url = "github:danth/stylix";
     xremap-flake.url = "github:xremap/nix-flake";
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,6 +42,7 @@
     nixpkgs,
     nur,
     xremap-flake,
+    ghostty,
     ...
   }: {
     # homeConfigurations = {
@@ -58,6 +62,11 @@
           ./hosts/ben/configuration.nix
           inputs.stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
+          {
+            environment.systemPackages = [
+              ghostty.packages.x86_64-linux.default
+            ];
+          }
           {
             home-manager.useUserPackages = true;
             home-manager.users.denis = import ./hm/ben.nix;
