@@ -62,10 +62,14 @@ o.splitright = true
 o.completeopt = { 'menu', 'menuone', 'noselect' }
 
 o.laststatus = 3
--- o.winbar = '%=%m %f'
 o.showmode = false
 o.ruler = false
 o.showcmd = false
+
+if os.getenv('MODE') == 'notebook' then
+    vim.keymap.set('n', '<c-j>', ':tabnext<cr>')
+    vim.keymap.set('n', '<c-k>', ':tabprev<cr>')
+end
 
 vim.cmd([[ colorscheme no-clown-fiesta ]])
 

@@ -145,9 +145,6 @@
     ".config/direnv/direnv.toml".source = ../configs/direnv/direnv.toml;
     ".config/fd/ignore".source = ../configs/fd/ignore;
     ".config/greenclip.toml".source = ../configs/greenclip.toml;
-    ".config/lf/colors".source = ../configs/lf/colors;
-    ".config/lf/icons".source = ../configs/lf/icons;
-    ".config/lf/lfrc".source = ../configs/lf/lfrc;
     ".config/pgcli/config".source = ../configs/pgcli/config;
     ".config/sioyek/prefs_user.config".source = ../configs/sioyek/prefs_user.config;
     ".ctags.d/default.ctags".source = ../configs/_ctags.d/default.ctags;

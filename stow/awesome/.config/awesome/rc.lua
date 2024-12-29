@@ -161,7 +161,7 @@ globalkeys = gears.table.join(
         utils.getenv('work_mode')
         utils.toggle_or_spawn(
             'Notebook',
-            [[ alacritty --class Notebook -e "nvim" "-c" "lua require(\"dennich\").create_weekly_note()" ]]
+            [[ alacritty --class Notebook -e "env" "MODE=notebook" "nvim" "-c" "lua require(\"dennich\").create_weekly_note()" ]]
         )
     end),
 
@@ -170,20 +170,13 @@ globalkeys = gears.table.join(
     end),
 
     awful.key({ modkey }, 'f', function()
-        utils.focus_or_spawn('Code', 'alacritty --class Code')
+        utils.focus_or_spawn('CodeTerminal', 'alacritty --class CodeTerminal')
     end),
 
     awful.key({ modkey }, 'p', function()
         utils.toggle_or_spawn(
             'Chat',
             'alacritty --class Chat -e "nvim" "-c" "PrtChatNew"'
-        )
-    end),
-
-    awful.key({ modkey }, 't', function()
-        utils.toggle_or_spawn(
-            'Todos',
-            [[ alacritty --class Todos -e "nvim" "-c" "lua require(\"dennich\").open_todo_note()" ]]
         )
     end),
 
