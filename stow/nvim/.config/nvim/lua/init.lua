@@ -226,7 +226,7 @@ require('lazy').setup({
     },
     {
         'frankroeder/parrot.nvim',
-        dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim' },
+        dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
             require('parrot').setup({
                 toggle_target = 'buffer',

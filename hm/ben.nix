@@ -16,7 +16,7 @@
     # clang
     # golden-cheetah
     # libreoffice
-    # nodePackages_latest.bash-language-server
+    nodePackages_latest.bash-language-server
     # nodePackages_latest.prettier
     # nodePackages_latest.typescript-language-server
     # obs-studio
