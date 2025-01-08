@@ -13,6 +13,7 @@
   autorandr.enable = true;
   firefox.enable = true;
   home.packages = with pkgs; [
+    hugo
     # clang
     # golden-cheetah
     # libreoffice
@@ -85,7 +86,7 @@
     pqrs
     pv
     pyright
-    python312Full
+    # python312Full
     rclone
     ripgrep
     rust-analyzer
@@ -102,7 +103,7 @@
     tailwindcss-language-server
     terraform
     terraform-ls
-    texlive.combined.scheme-medium
+    # texlive.combined.scheme-medium
     tor-browser-bundle-bin
     tree
     typescript
