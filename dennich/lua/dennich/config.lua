@@ -72,6 +72,7 @@ if os.getenv('MODE') == 'notebook' then
 end
 
 vim.cmd([[ colorscheme no-clown-fiesta ]])
+-- vim.cmd([[ colorscheme kanagawa ]])
 
 vim.cmd('cabbrev W w')
 vim.cmd('cabbrev Wq wq')

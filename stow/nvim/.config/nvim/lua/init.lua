@@ -53,6 +53,22 @@ require('lazy').setup({
             -- statuscolumn = { enabled = true },
             words = { enabled = true },
         },
+        keys = {
+            {
+                '<c-m>',
+                function()
+                    Snacks.terminal.toggle()
+                end,
+                desc = 'Toggle Terminal',
+            },
+            {
+                '<leader>tt',
+                function()
+                    Snacks.terminal.toggle()
+                end,
+                desc = 'Toggle Terminal',
+            },
+        },
     },
     {
         'milanglacier/minuet-ai.nvim',
@@ -418,10 +434,8 @@ require('lazy').setup({
         },
     },
     -- Colors
-    'folke/tokyonight.nvim',
-
-    'rebelot/kanagawa.nvim',
-
+    { 'folke/tokyonight.nvim', opts = { transparent = true } },
+    { 'rebelot/kanagawa.nvim', opts = { transparent = true } },
     { dir = '~/dotfiles/dennich' },
     {
         -- local
@@ -931,3 +945,7 @@ require('lazy').setup({
 })
 
 require('dennich.config')
+
+vim.keymap.set('t', '<m-m>', function()
+    Snacks.terminal.toggle()
+end)
