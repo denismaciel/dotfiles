@@ -13,6 +13,7 @@
   autorandr.enable = true;
   firefox.enable = true;
   home.packages = with pkgs; [
+    feh
     hugo
     # clang
     # golden-cheetah
@@ -421,6 +422,19 @@
       ExecStart = "${pkgs.pasystray}/bin/pasystray";
       Restart = "always";
       RestartSec = 3;
+    };
+  };
+
+  systemd.user.services.feh = {
+    Unit = {
+      Description = "Feh";
+    };
+    Install = {
+      WantedBy = ["graphical-session.target"];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.feh}/bin/feh --bg-scale ${../assets/black.png}";
     };
   };
 

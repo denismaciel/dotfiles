@@ -61,7 +61,8 @@ o.splitright = true
 
 o.completeopt = { 'menu', 'menuone', 'noselect' }
 
-o.laststatus = 3
+o.laststatus = 0
+o.cmdheight = 0
 o.showmode = false
 o.ruler = false
 o.showcmd = false

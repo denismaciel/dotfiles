@@ -52,33 +52,76 @@ require('lazy').setup({
             -- scroll = { enabled = true },
             -- statuscolumn = { enabled = true },
             words = { enabled = true },
+            terminal = { enabled = true },
         },
         keys = {
-            {
-                '<c-m>',
-                function()
-                    Snacks.terminal.toggle()
-                end,
-                desc = 'Toggle Terminal',
-            },
-            {
-                '<leader>tt',
-                function()
-                    Snacks.terminal.toggle()
-                end,
-                desc = 'Toggle Terminal',
-            },
+            -- {
+            --     '<c-a>',
+            --     function()
+            --         Snacks.terminal.toggle()
+            --         vim.keymap.set({ 't' }, '<c-a>', Snacks.terminal.toggle)
+            --     end,
+            --     desc = 'Toggle Terminal',
+            -- },
+            -- {
+            --     '<leader>xt',
+            --     function()
+            --         Snacks.terminal.toggle()
+            --     end,
+            --     desc = 'Toggle Terminal',
+            -- },
         },
     },
-    {
-        'milanglacier/minuet-ai.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        -- config = function()
-        --     require('minuet').setup({
-        --         -- Your configuration options here
-        --     })
-        -- end,
-    },
+    -- {
+    --     'milanglacier/minuet-ai.nvim',
+    --     event = { 'InsertEnter' },
+    --     config = function()
+    --         require('minuet').setup({
+    --             provider = 'gemini',
+    --             request_timeout = 4,
+    --             throttle = 2000,
+    --             virtualtext = {
+    --                 auto_trigger_ft = { 'python', 'lua' },
+    --                 keymap = {
+    --                     accept = '<A-A>',
+    --                     accept_line = '<A-a>',
+    --                     prev = '<A-[>',
+    --                     next = '<A-]>',
+    --                     dismiss = '<A-e>',
+    --                 },
+    --             },
+    --             notify = 'error',
+    --             provider_options = {
+    --                 gemini = {
+    --                     optional = {
+    --                         generationConfig = {
+    --                             maxOutputTokens = 256,
+    --                             topP = 0.9,
+    --                         },
+    --                         safetySettings = {
+    --                             {
+    --                                 category = 'HARM_CATEGORY_DANGEROUS_CONTENT',
+    --                                 threshold = 'BLOCK_NONE',
+    --                             },
+    --                             {
+    --                                 category = 'HARM_CATEGORY_HATE_SPEECH',
+    --                                 threshold = 'BLOCK_NONE',
+    --                             },
+    --                             {
+    --                                 category = 'HARM_CATEGORY_HARASSMENT',
+    --                                 threshold = 'BLOCK_NONE',
+    --                             },
+    --                             {
+    --                                 category = 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+    --                                 threshold = 'BLOCK_NONE',
+    --                             },
+    --                         },
+    --                     },
+    --                 },
+    --             },
+    --         })
+    --     end,
+    -- },
     {
         'mfussenegger/nvim-dap',
         dependencies = {
@@ -556,13 +599,27 @@ require('lazy').setup({
         'saghen/blink.cmp',
         version = 'v0.*',
         opts = {
-            keymap = { preset = 'default' },
+            keymap = {
+                preset = 'default',
+                -- ['<c-x>'] = {
+                --     function(cmp)
+                --         cmp.show({ providers = { 'minuet' } })
+                --     end,
+                -- },
+            },
             appearance = {
                 use_nvim_cmp_as_default = false,
                 nerd_font_variant = 'mono',
             },
             sources = {
                 default = { 'lsp', 'path', 'snippets', 'buffer' },
+                providers = {
+                    -- minuet = {
+                    --     name = 'minuet',
+                    --     module = 'minuet.blink',
+                    --     score_offset = 100,
+                    -- },
+                },
             },
             signature = { enabled = true },
         },
@@ -946,6 +1003,6 @@ require('lazy').setup({
 
 require('dennich.config')
 
-vim.keymap.set('t', '<m-m>', function()
+vim.keymap.set({ 'n', 't' }, '<c-a>', function()
     Snacks.terminal.toggle()
 end)
