@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
             if vim.bo.filetype == 'markdown' then
                 vim.api.nvim_echo({
                     {
-                        ' 🙉 Markdown is saved automatically!',
+                        ' 🙉 Markdown is saved automatically! 🙉',
                         'WarningMsg',
                     },
                 }, false, {})

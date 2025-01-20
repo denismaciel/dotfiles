@@ -350,7 +350,7 @@ require('lazy').setup({
     },
     { 'folke/neodev.nvim', opts = {} },
     -- { 'kylechui/nvim-surround', opts = {} },
-    { 'echasnovski/mini.surround', opts = {} },
+    -- { 'echasnovski/mini.surround', opts = {} },
     'nvimtools/none-ls.nvim',
     {
         'j-hui/fidget.nvim',
@@ -423,7 +423,7 @@ require('lazy').setup({
     {
         'ggandor/leap.nvim',
         opts = function()
-            require('leap').set_default_keymaps()
+            require('leap').create_default_mappings()
         end,
     },
     'christoomey/vim-tmux-navigator',
