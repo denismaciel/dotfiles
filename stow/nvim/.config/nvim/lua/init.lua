@@ -795,10 +795,6 @@ require('lazy').setup({
                             border = _border,
                         })
 
-                    vim.diagnostic.config({
-                        float = { border = _border },
-                    })
-
                     local map = function(keys, func, desc)
                         vim.keymap.set(
                             'n',
