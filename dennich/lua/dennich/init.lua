@@ -66,6 +66,7 @@ M.create_weekly_note = function()
     end
 
     vim.cmd('edit todo.md')
+    vim.cmd('PrtChatNew tabnew')
 
     vim.cmd('tabnew')
 

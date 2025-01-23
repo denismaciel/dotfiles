@@ -173,13 +173,6 @@ globalkeys = gears.table.join(
         utils.focus_or_spawn('CodeTerminal', 'alacritty --class CodeTerminal')
     end),
 
-    awful.key({ modkey }, 'p', function()
-        utils.toggle_or_spawn(
-            'Chat',
-            'alacritty --class Chat -e "nvim" "-c" "PrtChatNew"'
-        )
-    end),
-
     awful.key({ modkey }, 'g', function()
         utils.focus_or_spawn('Google-chrome', 'google-chrome-stable')
     end),
