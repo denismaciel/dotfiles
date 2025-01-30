@@ -1,6 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   config,
   pkgs,
@@ -18,6 +15,7 @@
   ];
 
   warp.enable = false;
+  hardware.keyboard.zsa.enable = true;
 
   services.xremap = {
     enable = false;
@@ -203,7 +201,6 @@
     wofi
     dolphin
     kitty
-    # firefox
     git
     zenity
     groff

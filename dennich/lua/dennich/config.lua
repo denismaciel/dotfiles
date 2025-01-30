@@ -204,45 +204,7 @@ vim.keymap.set('v', '<leader>xl', ':lua<cr>')
 local sql = require('dennich.sql')
 local dennich = require('dennich')
 
--- Stolen from https://github.com/tjdevries/config_manager/blob/ee11710c4ad09e0b303e5030b37c86ad8674f8b2/xdg_config/nvim/lua/tj/lsp/handlers.lua#L30
-local implementation = function()
-    local params = vim.lsp.util.make_position_params()
-    vim.lsp.buf_request(
-        0,
-        'textDocument/implementation',
-        params,
-        function(err, result, ctx, config)
-            local bufnr = ctx.bufnr
-            local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
-
-            -- In go code, I do not like to see any mocks for impls
-            if ft == 'go' then
-                local new_result = vim.tbl_filter(function(v)
-                    return not string.find(v.uri, '_mock')
-                end, result)
-
-                if #new_result > 0 then
-                    result = new_result
-                end
-            end
-
-            vim.lsp.handlers['textDocument/implementation'](
-                err,
-                result,
-                ctx,
-                config
-            )
-            vim.cmd([[normal! zz]])
-        end
-    )
-end
-
-vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition)
-vim.keymap.set('n', 'gD', implementation)
-vim.keymap.set('n', 'gtd', vim.lsp.buf.type_definition)
-vim.keymap.set('n', 'grn', vim.lsp.buf.rename)
 vim.keymap.set('n', '<leader>;', '<cmd>Telescope buffers<CR>')
-vim.keymap.set('n', 'K', vim.lsp.buf.hover)
 vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeFindFileToggle<CR>')
 
 vim.keymap.set('n', 'gtt', function()
