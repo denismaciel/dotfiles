@@ -127,7 +127,7 @@
     };
   };
 
-  programs.hyprland.enable = true;
+  programs.hyprland.enable = false;
   # services.keyd = {
   #   enable = true;
   #   keyboards = {
