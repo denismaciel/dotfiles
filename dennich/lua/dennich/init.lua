@@ -8,6 +8,7 @@ local M = {}
 
 local HOME = os.getenv('HOME') .. '/'
 local NOTES_FOLDER = HOME .. 'Sync/notes/'
+local PARROT_FOLDER = HOME .. '.local/share/nvim/parrot/chats/'
 
 M.is_url = function(text)
     if text == nil then
@@ -65,20 +66,7 @@ M.create_weekly_note = function()
         file_day:close()
     end
 
-    vim.cmd('edit todo.md')
-    vim.cmd('PrtChatNew tabnew')
-
-    vim.cmd('tabnew')
-
-    -- vim.cmd('edit ' .. vim.fn.fnameescape(file_path_week))
     vim.cmd('edit ' .. vim.fn.fnameescape(file_path_day))
-    -- local async = require('plenary.async')
-    -- async.run(function()
-    --     async.util.sleep(50)
-    --     vim.schedule(function()
-    --         vim.cmd('wincmd =')
-    --     end)
-    -- end)
 end
 
 M.open_todo_note = function()
@@ -121,9 +109,9 @@ local routine = function()
     end
 
     local is_weekday = function()
-        return false
-        -- local day = os.date('*t').wday
-        -- return day >= 2 and day <= 6
+        -- return false
+        local day = os.date('*t').wday
+        return day >= 2 and day <= 6
     end
 
     -- Define items with their conditions

@@ -451,7 +451,51 @@ local function open_parrot_code()
 end
 vim.api.nvim_create_user_command('OpenParrot', open_parrot_code, {})
 
-vim.keymap.set('n', '<leader>gn', '<cmd>PrtChatNew<cr>')
+vim.keymap.set('n', '<leader>gn', function()
+    local HOME = os.getenv('HOME') .. '/'
+    local PARROT_FOLDER = HOME .. '.local/share/nvim/parrot/chats/'
+    local bufnr = vim.api.nvim_get_current_buf()
+    local buf_name = vim.api.nvim_buf_get_name(bufnr)
+
+    -- If the current buffer is a chat, open a new blank chat.
+    if vim.startswith(buf_name, PARROT_FOLDER) then
+        vim.cmd([[PrtChatNew]])
+        return
+    end
+
+    local parrot_buffers = {}
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        local name = vim.api.nvim_buf_get_name(buf)
+        if
+            vim.startswith(name, PARROT_FOLDER)
+            and vim.api.nvim_buf_is_loaded(buf)
+        then
+            table.insert(parrot_buffers, name)
+        end
+    end
+
+    -- If there are already open parrot buffers, and we're not in one alread,
+    -- focus on the latest one.
+    if #parrot_buffers > 0 then
+        table.sort(parrot_buffers)
+        vim.cmd(
+            'buffer ' .. vim.fn.fnameescape(parrot_buffers[#parrot_buffers])
+        )
+    else
+        -- If there are no parrot buffers, create one.
+        vim.cmd([[PrtChatNew]])
+    end
+end)
+
+vim.keymap.set('n', '<leader>gt', function()
+    require('dennich').open_todo_note()
+end)
+vim.keymap.set('n', '<leader>gs', function()
+    require('dennich').create_weekly_note()
+    -- Go to the end of the file
+    vim.cmd('normal! G')
+end)
+
 vim.keymap.set(
     'n',
     '<leader>gc',
