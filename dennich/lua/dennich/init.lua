@@ -118,7 +118,7 @@ local routine = function()
     ---@type RoutineItem[]
     local items = {
         { text = '- [ ] #routine Anki', condition = always },
-        { text = '- [ ] #routine Gather', condition = always },
+        -- { text = '- [ ] #routine Gather', condition = always },
         { text = '- [ ] #routine Creatina', condition = always },
         { text = '- [ ] #routine #home Inbox Zero', condition = always },
         { text = '- [ ] #routine Clean up for 5 min', condition = always },
