@@ -8,7 +8,6 @@ local M = {}
 
 local HOME = os.getenv('HOME') .. '/'
 local NOTES_FOLDER = HOME .. 'Sync/notes/'
-local PARROT_FOLDER = HOME .. '.local/share/nvim/parrot/chats/'
 
 M.is_url = function(text)
     if text == nil then
