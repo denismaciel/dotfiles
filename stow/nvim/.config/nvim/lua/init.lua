@@ -477,10 +477,43 @@ require('lazy').setup({
             },
         },
     },
+    {
+        dir = '~/dotfiles/dennich',
+        config = function()
+            require('dennich.llm').setup({
+                -- How long to wait for the request to start returning data.
+                timeout_ms = 10000,
+                services = {
+                    -- Supported services configured by default
+                    -- groq = {
+                    --     url = "https://api.groq.com/openai/v1/chat/completions",
+                    --     model = "llama3-70b-8192",
+                    --     api_key_name = "GROQ_API_KEY",
+                    -- },
+                    -- openai = {
+                    --     url = "https://api.openai.com/v1/chat/completions",
+                    --     model = "gpt-4o",
+                    --     api_key_name = "OPENAI_API_KEY",
+                    -- },
+                    anthropic = {
+                        url = 'https://api.anthropic.com/v1/messages',
+                        model = 'claude-3-5-sonnet-20240620',
+                        api_key_name = 'ANTHROPIC_API_KEY',
+                    },
+
+                    -- Extra OpenAI-compatible services to add (optional)
+                    -- other_provider = {
+                    --     url = 'https://example.com/other-provider/v1/chat/completions',
+                    --     model = 'llama3',
+                    --     api_key_name = 'OTHER_PROVIDER_API_KEY',
+                    -- },
+                },
+            })
+        end,
+    },
     -- Colors
     { 'folke/tokyonight.nvim', opts = { transparent = true } },
     { 'rebelot/kanagawa.nvim', opts = { transparent = true } },
-    { dir = '~/dotfiles/dennich' },
     {
         -- local
         -- dir = '~/github.com/denismaciel/no-clown-fiesta.nvim',
@@ -1052,3 +1085,19 @@ require('dennich.config')
 vim.keymap.set({ 'n', 't' }, '<c-a>', function()
     Snacks.terminal.toggle()
 end)
+
+vim.keymap.set('n', '<leader>g,', function()
+    require('dennich.llm').prompt({
+        replace = false,
+        service = 'anthropic',
+    })
+end, { desc = 'Prompt with openai' })
+vim.keymap.set('v', '<leader>g,', function()
+    require('dennich.llm').prompt({
+        replace = false,
+        service = 'anthropic',
+    })
+end, { desc = 'Prompt with openai' })
+vim.keymap.set('v', '<leader>g.', function()
+    require('dennich.llm').prompt({ replace = true, service = 'anthropic' })
+end, { desc = 'Prompt while replacing with openai' })

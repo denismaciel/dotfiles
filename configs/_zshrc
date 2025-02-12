@@ -70,6 +70,8 @@ setopt autocd # .. is shortcut for cd ..
 # --------- vi mode ---------
 # ---------------------------
 export KEYTIMEOUT=1
+
+bindkey '^Y' fzf-tab-complete
 bindkey -v '^?' backward-delete-char
 bindkey "^E" backward-word
 bindkey "^F" forward-word
