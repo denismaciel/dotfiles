@@ -4,7 +4,7 @@
   ...
 }: {
   imports = [
-    <nixpkgs/nixos/modules/virtualisation/google-compute-image.nix>
+    # <nixpkgs/nixos/modules/virtualisation/google-compute-image.nix>
     ./hardware-configuration.nix
   ];
 
