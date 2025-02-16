@@ -371,6 +371,7 @@
       "tags"
       "venv"
       "play"
+      "ask.md"
       ".avante_chat_history"
     ];
     aliases = {
