@@ -8,6 +8,7 @@
     ./hardware-configuration.nix
   ];
 
+  boot.loader.grub.enable = true;
   security.sudo.wheelNeedsPassword = false;
   users.extraUsers.denis = {
     createHome = true;
