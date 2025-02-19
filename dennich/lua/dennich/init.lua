@@ -518,8 +518,31 @@ end
 -- Create a command to call the function
 vim.api.nvim_create_user_command('SortMarkdownList', sort_markdown_list, {})
 
+M.telescope_copy_relative_path_to_clipboard = function(prompt_bufnr)
+    local selection = action_state.get_selected_entry()
+    if selection then
+        local full_path = selection.value
+        if selection.path then
+            full_path = selection.path
+        end
+        -- Convert to relative path
+        local relative_path = vim.fn.fnamemodify(full_path, ':.')
+        -- Copy to clipboard
+        vim.fn.setreg('+', relative_path)
+        -- Close picker
+        actions.close(prompt_bufnr)
+        -- Notify user
+        print('Copied to clipboard: ' .. relative_path)
+    end
+end
+
 M.run = function()
     print('he')
+    vim.keymap.set('i', '<c-g>', function()
+        require('minuet.virtualtext').action.next()
+    end)
+
+    print('there')
 end
 
 return M

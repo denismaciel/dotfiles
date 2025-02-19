@@ -40,11 +40,7 @@ require('lazy').setup({
         lazy = false,
         ---@type snacks.Config
         opts = {
-            -- your configuration comes here
-            -- or leave it empty to use the default settings
-            -- refer to the configuration section below
             bigfile = { enabled = true },
-            -- dashboard = { enabled = true },
             -- indent = { enabled = true },
             input = { enabled = true },
             -- notifier = { enabled = true },
@@ -72,56 +68,29 @@ require('lazy').setup({
             -- },
         },
     },
-    -- {
-    --     'milanglacier/minuet-ai.nvim',
-    --     event = { 'InsertEnter' },
-    --     config = function()
-    --         require('minuet').setup({
-    --             provider = 'gemini',
-    --             request_timeout = 4,
-    --             throttle = 2000,
-    --             virtualtext = {
-    --                 auto_trigger_ft = { 'python', 'lua' },
-    --                 keymap = {
-    --                     accept = '<A-A>',
-    --                     accept_line = '<A-a>',
-    --                     prev = '<A-[>',
-    --                     next = '<A-]>',
-    --                     dismiss = '<A-e>',
-    --                 },
-    --             },
-    --             notify = 'error',
-    --             provider_options = {
-    --                 gemini = {
-    --                     optional = {
-    --                         generationConfig = {
-    --                             maxOutputTokens = 256,
-    --                             topP = 0.9,
-    --                         },
-    --                         safetySettings = {
-    --                             {
-    --                                 category = 'HARM_CATEGORY_DANGEROUS_CONTENT',
-    --                                 threshold = 'BLOCK_NONE',
-    --                             },
-    --                             {
-    --                                 category = 'HARM_CATEGORY_HATE_SPEECH',
-    --                                 threshold = 'BLOCK_NONE',
-    --                             },
-    --                             {
-    --                                 category = 'HARM_CATEGORY_HARASSMENT',
-    --                                 threshold = 'BLOCK_NONE',
-    --                             },
-    --                             {
-    --                                 category = 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-    --                                 threshold = 'BLOCK_NONE',
-    --                             },
-    --                         },
-    --                     },
-    --                 },
-    --             },
-    --         })
-    --     end,
-    -- },
+    {
+        'milanglacier/minuet-ai.nvim',
+        -- event = { 'InsertEnter' },
+        config = function()
+            require('minuet').setup({
+                provider = 'gemini',
+                request_timeout = 4,
+                throttle = 1000,
+                virtualtext = {
+                    -- auto_trigger_ft = { 'python', 'lua' },
+                    -- auto_trigger_ft = { '*' },
+                    keymap = {
+                        accept = '<A-a>',
+                        -- accept_line = '<A-a>',
+                        prev = '<A-p>',
+                        next = '<A-n>',
+                        dismiss = '<A-e>',
+                    },
+                },
+                notify = 'debug',
+            })
+        end,
+    },
     {
         'mfussenegger/nvim-dap',
         dependencies = {
@@ -350,7 +319,7 @@ require('lazy').setup({
         opts = { icons = { mappings = false } },
     },
     { 'folke/neodev.nvim', opts = {} },
-    -- { 'kylechui/nvim-surround', opts = {} },
+    { 'kylechui/nvim-surround', opts = {} },
     -- { 'echasnovski/mini.surround', opts = {} },
     'nvimtools/none-ls.nvim',
     {
@@ -555,6 +524,7 @@ require('lazy').setup({
                 vim.cmd('/' .. file_name)
             end
 
+            local dennich = require('dennich')
             require('telescope').setup({
                 extensions = {
                     ['ui-select'] = {
@@ -566,10 +536,12 @@ require('lazy').setup({
                         n = {
                             ['h'] = actions_layout.toggle_preview,
                             ['<c-e>'] = open_in_nvim_tree,
+                            ['<C-y>'] = dennich.telescope_copy_relative_path_to_clipboard,
                         },
                         i = {
                             ['<C-h>'] = actions_layout.toggle_preview,
                             ['<c-e>'] = open_in_nvim_tree,
+                            ['<C-y>'] = dennich.telescope_copy_relative_path_to_clipboard,
                         },
                     },
                     path_display = { 'truncate' },
