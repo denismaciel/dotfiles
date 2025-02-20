@@ -62,6 +62,20 @@ M.toggle_or_spawn = function(klass, spawn_command)
         found:raise()
     end
 end
+
+-- Focus a window by class without spawning if not found
+M.focus_by_class = function(klass)
+    local found = M.find_client_by_class(klass)
+
+    if found then
+        client.focus = found
+        found:raise()
+        return true
+    else
+        naughty.notify({ text = 'No window found with class: ' .. klass })
+        return false
+    end
+end
 -- Read work mode from a JSON file
 M.getenv = function(name)
     -- File ./config/dennich/dennich.json

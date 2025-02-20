@@ -170,7 +170,11 @@ globalkeys = gears.table.join(
     end),
 
     awful.key({ modkey }, 'f', function()
-        utils.focus_or_spawn('CodeTerminal', 'alacritty --class CodeTerminal')
+        utils.toggle_or_spawn('CodeTerminal', 'alacritty --class CodeTerminal')
+    end),
+
+    awful.key({ modkey }, 'p', function()
+        utils.toggle_or_spawn('Cursor', 'cursor')
     end),
 
     awful.key({ modkey }, 'g', function()
@@ -182,7 +186,7 @@ globalkeys = gears.table.join(
     -- end),
 
     awful.key({ modkey }, 'b', function()
-        utils.focus_or_spawn('firefox', 'firefox')
+        utils.toggle_or_spawn('firefox', 'firefox')
     end),
 
     awful.key({ modkey }, 'y', function()
