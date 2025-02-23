@@ -13,6 +13,7 @@
   autorandr.enable = true;
   firefox.enable = true;
   home.packages = with pkgs; [
+    newsboat
     code-cursor
     st
     feh
