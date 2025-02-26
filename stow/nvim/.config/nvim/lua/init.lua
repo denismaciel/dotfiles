@@ -319,7 +319,7 @@ require('lazy').setup({
         opts = { icons = { mappings = false } },
     },
     { 'folke/neodev.nvim', opts = {} },
-    { 'kylechui/nvim-surround', opts = {} },
+    -- { 'kylechui/nvim-surround', opts = {} },
     -- { 'echasnovski/mini.surround', opts = {} },
     'nvimtools/none-ls.nvim',
     {
@@ -536,12 +536,12 @@ require('lazy').setup({
                         n = {
                             ['h'] = actions_layout.toggle_preview,
                             ['<c-e>'] = open_in_nvim_tree,
-                            ['<C-y>'] = dennich.telescope_copy_relative_path_to_clipboard,
+                            ['<C-y>'] = dennich.telescope_insert_relative_file_path,
                         },
                         i = {
                             ['<C-h>'] = actions_layout.toggle_preview,
                             ['<c-e>'] = open_in_nvim_tree,
-                            ['<C-y>'] = dennich.telescope_copy_relative_path_to_clipboard,
+                            ['<C-y>'] = dennich.telescope_insert_relative_file_path,
                         },
                     },
                     path_display = { 'truncate' },

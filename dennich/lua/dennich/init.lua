@@ -518,7 +518,7 @@ end
 -- Create a command to call the function
 vim.api.nvim_create_user_command('SortMarkdownList', sort_markdown_list, {})
 
-M.telescope_copy_relative_path_to_clipboard = function(prompt_bufnr)
+M.telescope_insert_relative_file_path = function(prompt_bufnr)
     local selection = action_state.get_selected_entry()
     if selection then
         local full_path = selection.value
@@ -527,12 +527,28 @@ M.telescope_copy_relative_path_to_clipboard = function(prompt_bufnr)
         end
         -- Convert to relative path
         local relative_path = vim.fn.fnamemodify(full_path, ':.')
-        -- Copy to clipboard
-        vim.fn.setreg('+', relative_path)
-        -- Close picker
+
+        -- Close picker first to return to the original buffer
         actions.close(prompt_bufnr)
+
+        -- Now get current buffer and cursor position after closing telescope
+        local current_buf = vim.api.nvim_get_current_win()
+        local cursor_pos = vim.api.nvim_win_get_cursor(current_buf)
+        local row, col = cursor_pos[1], cursor_pos[2]
+
+        -- Insert the path with @ prefix at cursor position
+        local text_to_insert = '@' .. relative_path
+        vim.api.nvim_buf_set_text(
+            0,
+            row - 1,
+            col,
+            row - 1,
+            col,
+            { text_to_insert }
+        )
+
         -- Notify user
-        print('Copied to clipboard: ' .. relative_path)
+        print('Inserted: ' .. text_to_insert)
     end
 end
 
