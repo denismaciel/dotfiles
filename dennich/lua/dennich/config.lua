@@ -453,9 +453,18 @@ vim.api.nvim_create_user_command('OpenParrot', open_parrot_code, {})
 
 vim.keymap.set('n', '<leader>gn', function()
     local HOME = os.getenv('HOME') .. '/'
+    local NOTES_FOLDER = HOME .. 'Sync/notes'
     local PARROT_FOLDER = HOME .. '.local/share/nvim/parrot/chats/'
     local bufnr = vim.api.nvim_get_current_buf()
     local buf_name = vim.api.nvim_buf_get_name(bufnr)
+    local cwd = vim.fn.getcwd()
+
+    -- If cwd is not notes folder, run LLM command
+    print(cwd)
+    if not vim.startswith(cwd, NOTES_FOLDER) then
+        vim.cmd([[ LLM ]])
+        return
+    end
 
     -- If the current buffer is a chat, open a new blank chat.
     if vim.startswith(buf_name, PARROT_FOLDER) then
@@ -483,7 +492,7 @@ vim.keymap.set('n', '<leader>gn', function()
         )
     else
         -- If there are no parrot buffers, create one.
-        vim.cmd([[PrtChatNew]])
+        vim.cmd([[ PrtChatNew ]])
     end
 end)
 

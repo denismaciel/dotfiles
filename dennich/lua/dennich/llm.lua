@@ -63,7 +63,7 @@ function M.setup(opts)
     if opts.print_prompt then
         print_prompt = opts.print_prompt
     end
-    vim.api.nvim_create_user_command('LLM', M.create_llm_md, {})
+    vim.api.nvim_create_user_command('LLM', M.create_timestamped_md, {})
 end
 
 local function get_buffer_path()
@@ -409,17 +409,24 @@ function M.get_selection()
     end
 end
 
-function M.create_llm_md()
+function M.create_timestamped_md()
     local cwd = vim.fn.getcwd()
-    local cur_buf = vim.api.nvim_get_current_buf()
-    local cur_buf_name = vim.api.nvim_buf_get_name(cur_buf)
-    local llm_md_path = cwd .. '/llm.md'
-    if cur_buf_name ~= llm_md_path then
-        vim.api.nvim_command('edit ' .. llm_md_path)
-        local buf = vim.api.nvim_get_current_buf()
-        vim.api.nvim_buf_set_option(buf, 'filetype', 'markdown')
-        vim.api.nvim_win_set_buf(0, buf)
+    local llm_dir = cwd .. '/.llm'
+
+    -- Create .llm directory if it doesn't exist
+    local dir_exists = vim.fn.isdirectory(llm_dir)
+    if dir_exists == 0 then
+        vim.fn.mkdir(llm_dir, 'p')
     end
+
+    -- Generate timestamp for filename (format: YYYY-MM-DD_HH-MM-SS)
+    local timestamp = os.date('%Y-%m-%d_%H-%M-%S')
+    local file_path = llm_dir .. '/' .. timestamp .. '.md'
+
+    -- Open the file for editing
+    vim.api.nvim_command('edit ' .. file_path)
+    local buf = vim.api.nvim_get_current_buf()
+    vim.api.nvim_buf_set_option(buf, 'filetype', 'markdown')
 end
 
 function M.prompt_operatorfunc(opts)

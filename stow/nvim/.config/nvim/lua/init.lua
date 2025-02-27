@@ -1063,7 +1063,7 @@ vim.keymap.set('n', '<leader>g,', function()
         replace = false,
         service = 'anthropic',
     })
-end, { desc = 'Prompt with openai' })
+end, { desc = 'Prompt with anthropic' })
 vim.keymap.set('v', '<leader>g,', function()
     require('dennich.llm').prompt({
         replace = false,

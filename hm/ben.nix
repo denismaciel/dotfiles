@@ -372,8 +372,8 @@
       "tags"
       "venv"
       "play"
-      "ask.md"
       ".avante_chat_history"
+      ".llm"
     ];
     aliases = {
       last = "for-each-ref --sort=-committerdate --count=20 --format='%(align:70,left)%(refname:short)%(end)%(committerdate:relative)' refs/heads/";
