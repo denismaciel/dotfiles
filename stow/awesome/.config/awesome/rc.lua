@@ -181,9 +181,9 @@ globalkeys = gears.table.join(
         utils.focus_or_spawn('Google-chrome', 'google-chrome-stable')
     end),
 
-    -- awful.key({ modkey }, 's', function()
-    --     utils.focus_or_spawn('Slack', 'slack')
-    -- end),
+    awful.key({ modkey }, 's', function()
+        utils.focus_or_spawn('Slack', 'slack')
+    end),
 
     awful.key({ modkey }, 'b', function()
         utils.toggle_or_spawn('firefox', 'firefox')
