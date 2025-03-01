@@ -17,6 +17,7 @@
   warp.enable = false;
   hardware.keyboard.zsa.enable = true;
 
+  services.tailscale.enable = true;
   services.xremap = {
     enable = false;
     userName = "denis";

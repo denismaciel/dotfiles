@@ -8,10 +8,12 @@
     ../modules/autorandr.nix
     ../modules/go.nix
     ../modules/firefox.nix
+    ../modules/git.nix
   ];
   go.enable = true;
   autorandr.enable = true;
   firefox.enable = true;
+  git.enable = true;
   home.packages = with pkgs; [
     newsboat
     code-cursor
@@ -42,7 +44,6 @@
     circumflex
     csvlens
     dbmate
-    difftastic
     dig
     direnv
     dockerfile-language-server-nodejs
@@ -90,12 +91,10 @@
     pqrs
     pv
     pyright
-    # python312Full
     rclone
     ripgrep
     rust-analyzer
     rustc
-    scmpuff
     sioyek
     slack
     spotify-unwrapped
@@ -107,7 +106,6 @@
     tailwindcss-language-server
     terraform
     terraform-ls
-    # texlive.combined.scheme-medium
     tor-browser-bundle-bin
     tree
     typescript
@@ -352,56 +350,6 @@
   };
 
   services.udiskie.enable = true; # Auto mount devices
-
-  programs.git = {
-    enable = true;
-    userName = "Denis Maciel";
-    userEmail = "denispmaciel@gmail.com";
-    ignores = [
-      ".DS_Store"
-      ".direnv"
-      ".envrc"
-      ".mypy_cache"
-      ".pytest_cache"
-      ".python-version"
-      ".vim"
-      ".vscode"
-      "__pycache__"
-      "_debug.py"
-      "snaps"
-      "tags"
-      "venv"
-      "play"
-      ".avante_chat_history"
-      ".llm"
-    ];
-    aliases = {
-      last = "for-each-ref --sort=-committerdate --count=20 --format='%(align:70,left)%(refname:short)%(end)%(committerdate:relative)' refs/heads/";
-      run = ''
-        !f() { \
-                watch_gha_runs $@ \
-                    \"$(git remote get-url origin)\" \
-                    \"$(git rev-parse --abbrev-ref HEAD)\"; \
-            }; f
-      '';
-      lastco = "!git last | fzf | awk '{print $1}' | xargs git checkout";
-      please = "push origin HEAD --force-with-lease";
-    };
-    extraConfig = {
-      diff = {
-        tool = "difftastic";
-      };
-      difftool = {
-        prompt = false;
-      };
-      difftool.difftastic = {
-        cmd = "difft \"$LOCAL\" \"$REMOTE\"";
-      };
-      pager = {
-        difftool = true;
-      };
-    };
-  };
 
   gtk = {
     iconTheme = {
