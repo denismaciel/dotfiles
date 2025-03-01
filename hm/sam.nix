@@ -68,18 +68,15 @@
   home.username = "denis";
   home.homeDirectory = "/home/denis";
   home.file = {
-    ".npmrc".source = ./configs/_npmrc;
-    ".ipython/profile_default/ipython_config.py".source = ./configs/_ipython/profile_default/ipython_config.py;
-    ".ipython/profile_default/custom_init.py".source = ./configs/_ipython/profile_default/custom_init.py;
-    ".config/direnv/direnv.toml".source = ./configs/direnv/direnv.toml;
-    ".config/fd/ignore".source = ./configs/fd/ignore;
-    ".config/lf/colors".source = ./configs/lf/colors;
-    ".config/lf/icons".source = ./configs/lf/icons;
-    ".config/lf/lfrc".source = ./configs/lf/lfrc;
-    ".config/pgcli/config".source = ./configs/pgcli/config;
-    ".ctags.d/default.ctags".source = ./configs/_ctags.d/default.ctags;
-    ".ripgrep_ignore".source = ./configs/_ripgrep_ignore;
-    ".tmuxp/core.yml".source = ./configs/_tmuxp/core.yaml;
+    ".npmrc".source = ../configs/_npmrc;
+    ".ipython/profile_default/ipython_config.py".source = ../configs/_ipython/profile_default/ipython_config.py;
+    ".ipython/profile_default/custom_init.py".source = ../configs/_ipython/profile_default/custom_init.py;
+    ".config/direnv/direnv.toml".source = ../configs/direnv/direnv.toml;
+    ".config/fd/ignore".source = ../configs/fd/ignore;
+    ".config/pgcli/config".source = ../configs/pgcli/config;
+    ".ctags.d/default.ctags".source = ../configs/_ctags.d/default.ctags;
+    ".ripgrep_ignore".source = ../configs/_ripgrep_ignore;
+    ".tmuxp/core.yml".source = ../configs/_tmuxp/core.yaml;
   };
   targets.genericLinux.enable = true;
 
@@ -111,14 +108,14 @@
       yank
       tmux-fzf
     ];
-    extraConfig = builtins.readFile ./configs/.tmux.conf;
+    extraConfig = builtins.readFile ../configs/.tmux.conf;
   };
 
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
     dotDir = ".config/zsh";
-    initExtra = builtins.readFile ./configs/_zshrc;
+    initExtra = builtins.readFile ../configs/_zshrc;
     enableCompletion = true;
     completionInit = "autoload -Uz compinit && compinit -C";
     plugins = [
