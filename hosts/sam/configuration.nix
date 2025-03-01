@@ -6,6 +6,7 @@
   pkgs,
   ...
 }: {
+  services.tailscale.enable = true;
   nix.settings.trusted-users = ["denis"];
   imports = [
     # Include the results of the hardware scan.
