@@ -244,8 +244,6 @@ function gu() {
     git -C "$(git rev-parse --show-toplevel)" status --porcelain --untracked-files=all | grep "^??" | awk '/^??/ {print $2}'
 }
 
-function gc { git commit -m "$*"; }
-
 function gf() {
     is_in_git_repo || return
     git -c color.status=always status --short |

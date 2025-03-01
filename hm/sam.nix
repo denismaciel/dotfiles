@@ -3,9 +3,12 @@
   pkgs,
   ...
 }: {
+  imports = [
+    ../modules/git.nix
+  ];
   home.packages = with pkgs; [
-    scmpuff
     uv
+    gomi
     btop
     cargo
     dbmate
@@ -212,59 +215,6 @@
   };
 
   services.udiskie.enable = true; # Auto mount devices
-
-  programs.git = {
-    enable = true;
-    userName = "Denis Maciel";
-    userEmail = "denispmaciel@gmail.com";
-    # signing = { signByDefault = true;
-    #   key = "188DE24A651E34AA";
-    # };
-    ignores = [
-      ".DS_Store"
-      ".direnv"
-      ".envrc"
-      ".mypy_cache"
-      ".pytest_cache"
-      ".python-version"
-      ".vim"
-      ".vscode"
-      "__pycache__"
-      "_debug.py"
-      "snaps"
-      "tags"
-      "venv"
-      "play"
-      ".avante_chat_history"
-    ];
-    aliases = {
-      last = "for-each-ref --sort=-committerdate --count=20 --format='%(align:70,left)%(refname:short)%(end)%(committerdate:relative)' refs/heads/";
-      run = ''
-        !f() { \
-                watch_gha_runs $@ \
-                    \"$(git remote get-url origin)\" \
-                    \"$(git rev-parse --abbrev-ref HEAD)\"; \
-            }; f
-      '';
-      lastco = "!git last | fzf | awk '{print $1}' | xargs git checkout";
-      please = "push origin HEAD --force-with-lease";
-    };
-    extraConfig = {
-      diff = {
-        tool = "difftastic";
-      };
-      difftool = {
-        prompt = false;
-      };
-      difftool.difftastic = {
-        cmd = "difft \"$LOCAL\" \"$REMOTE\"";
-      };
-      pager = {
-        difftool = true;
-      };
-    };
-  };
-
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
   nixpkgs = {
