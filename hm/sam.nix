@@ -12,7 +12,6 @@
     btop
     cargo
     dbmate
-    difftastic
     dig
     direnv
     dockerfile-language-server-nodejs
