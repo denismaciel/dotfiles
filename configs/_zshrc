@@ -217,6 +217,33 @@ function gh-clone() {
     git clone "$git_url" "$target_dir"
 }
 
+
+function gau() {
+    git add -u
+}
+
+function gc() {
+    local message="$*"
+    # If no message is provided, use the default format
+    if [ -z "$message" ]; then
+        message="$(git rev-parse --abbrev-ref HEAD) $(date +%Y-%m-%dT%H:%M:%S)"
+    fi
+    # Perform the commit with the message
+    git commit -m "$message"
+}
+
+function gcn() {
+    local message="$*"
+    # If no message is provided, use the default format
+
+    if [ -z "$message" ]; then
+        message="$(git rev-parse --abbrev-ref HEAD) $(date +%Y-%m-%dT%H:%M:%S)"
+    fi
+
+    # Perform the commit with the message, skipping pre-commit hooks
+    git commit --no-verify -m "$message"
+}
+
 function gh-list() {
     base_dir="$HOME/github.com"
     find "$base_dir" -mindepth 2 -maxdepth 2 -type d -printf '%P\n' | sort
