@@ -12,8 +12,6 @@ export PYTHONBREAKPOINT=ipdb.set_trace
 export VISUAL=nvim
 export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH # Fixes dynamically linked binaries in NixOS: `import numpy as np` just works
 
-[[ "$(uname)" = "Linux" ]] && setxkbmap -layout us -option ctrl:nocaps
-
 # ---------------------------
 # --------- fzf -------------
 # ---------------------------

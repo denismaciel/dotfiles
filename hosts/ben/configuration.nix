@@ -77,8 +77,8 @@
       # 127.0.0.1 www.youtube.com
       127.0.0.1 twitter.com
       127.0.0.1 www.twitter.com
-      127.0.0.1 x.com
-      127.0.0.1 www.x.com
+      # 127.0.0.1 x.com
+      # 127.0.0.1 www.x.com
     '';
   };
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -128,7 +128,7 @@
     };
   };
 
-  programs.hyprland.enable = false;
+  programs.hyprland.enable = true;
   # services.keyd = {
   #   enable = true;
   #   keyboards = {

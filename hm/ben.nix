@@ -19,6 +19,7 @@
     code-cursor
     st
     feh
+    wl-clipboard
     hugo
     # clang
     # golden-cheetah
@@ -211,6 +212,8 @@
     package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
     extraLuaConfig = "require('init')";
   };
+
+  programs.waybar.enable = false;
 
   programs.alacritty = {
     enable = true;
