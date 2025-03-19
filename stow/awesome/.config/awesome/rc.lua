@@ -182,7 +182,7 @@ globalkeys = gears.table.join(
     end),
 
     awful.key({ modkey }, 's', function()
-        utils.focus_or_spawn('Slack', 'slack')
+        utils.toggle_or_spawn('Slack', 'slack')
     end),
 
     awful.key({ modkey }, 'b', function()
