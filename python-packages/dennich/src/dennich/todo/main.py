@@ -84,7 +84,7 @@ def start_pomodoro(selector: Selector) -> int:
         case _:
             typing.assert_never(selection)
 
-    POMODORO_DURATIONS = [10, 25, 20, 15, 5, 1, 'done', 'edit']
+    POMODORO_DURATIONS: list[int | str] = [10, 25, 20, 15, 5, 1, 'done', 'edit']
     selection_pomo = selector.select([str(d) for d in POMODORO_DURATIONS])
 
     match selection_pomo:
@@ -139,7 +139,7 @@ class ReportType(enum.StrEnum):
     tags = 'tags'
 
 
-def prefill_input(prompt, prefill=''):
+def prefill_input(prompt: str, prefill: str = '') -> str:
     readline.set_startup_hook(lambda: readline.insert_text(prefill))
     try:
         return input(prompt)
@@ -152,12 +152,6 @@ def main() -> int:
     parser = argparse.ArgumentParser(prog='todos')
     subparsers = parser.add_subparsers(dest='command')
 
-    sp_report = subparsers.add_parser('report')
-    sp_report.add_argument('--since', type=int, default=7)
-    sp_report.add_argument(
-        '--report-type', choices=list(ReportType), default=ReportType.tag_per_day
-    )
-
     _ = subparsers.add_parser('start-pomodoro')
     _ = subparsers.add_parser('today-status')
 
@@ -167,10 +161,6 @@ def main() -> int:
     if args.command == 'start-pomodoro':
         start_pomodoro(selector)
         return 0
-    elif args.command == 'report':
-        from dennich.todo.report import report
-
-        return report(since=args.since, report_type=args.report_type)
     elif args.command == 'today-status':
         return today_status.main()
     elif args.command is None:

@@ -198,7 +198,7 @@ class Server:
             client_socket.close()
 
 
-def count_zenity_notifications():
+def count_zenity_notifications() -> int:
     try:
         # Path to the /proc directory where process information is kept
         proc_dir = '/proc'
