@@ -7,7 +7,6 @@ requires-python = ">=3.12"
 dependencies = [
     "anki>=24.6.3",
     "markdownify>=0.13.1",
-    "openai",
     "polars>=1.12.0",
     "pydantic>=2.9.2",
     "rich>=13.9.3",
@@ -25,9 +24,7 @@ dev-dependencies = [
 [project.scripts]
 dennich-todo = "dennich.todo.main:main"
 dennich-danki = "dennich.danki.main:cli"
-dennich-convert-audio = "dennich.convert_audio:main"
 dennich-pomodoro = "dennich.todo.pomodoro.cli:main"
-dennich-transcribe-audio = "dennich.transcribe_audio:main"
 
 [build-system]
 requires = ["uv-build>=0.4.15,<5"]

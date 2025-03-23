@@ -143,6 +143,7 @@ async def cancel_pomodoro_task() -> Response:
 @dataclass
 class Server:
     port: int
+    repo: TodoRepo
 
     async def serve(self) -> None:
         socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -174,7 +175,7 @@ class Server:
                     )  # only necessary for mypy, pyright gets it
                     respond(
                         await start_pomodoro_task(
-                            request['todo_id'], request['duration']
+                            self.repo, request['todo_id'], request['duration']
                         ),
                         client_socket,
                     )
@@ -262,7 +263,9 @@ def main() -> int:
         max_number_of_zenity_windows=MAX_NUMBER_OF_ZENITY_WINDOWS,
     )
 
-    server = Server(12348)
+    session = get_session()
+    repo = TodoRepo(session)
+    server = Server(12348, repo)
     try:
         asyncio.run(server.serve())
     except KeyboardInterrupt:
