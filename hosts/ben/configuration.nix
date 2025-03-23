@@ -14,7 +14,7 @@
     inputs.xremap-flake.nixosModules.default
   ];
 
-  warp.enable = false;
+  warp.enable = true;
   hardware.keyboard.zsa.enable = true;
 
   services.tailscale.enable = true;
@@ -127,22 +127,6 @@
       options = "ctrl:nocaps"; # Remap CapsLock to Control
     };
   };
-
-  programs.hyprland.enable = true;
-  # services.keyd = {
-  #   enable = true;
-  #   keyboards = {
-  #     default = {
-  #       settings = {
-  #         main = {
-  #           pause = "volumeup";
-  #           scrolllock = "volumedown";
-  #           sysrq = "mute";
-  #         };
-  #       };
-  #     };
-  #   };
-  # };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

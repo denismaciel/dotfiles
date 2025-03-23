@@ -202,11 +202,6 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  # wayland.windowManager.hyprland = {
-  #   enable = true;
-  #   package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-  # };
-
   programs.neovim = {
     enable = true;
     package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;

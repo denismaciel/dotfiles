@@ -17,7 +17,6 @@
     alejandra.url = "github:kamadorueda/alejandra/3.0.0";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs.url = "github:nixos/nixpkgs/master";
@@ -37,7 +36,6 @@
     alejandra,
     firefox-addons,
     home-manager,
-    hyprland,
     nixos-hardware,
     nixpkgs,
     nur,
