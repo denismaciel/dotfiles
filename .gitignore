@@ -1,3 +1,4 @@
+!.envrc
 *.db
 *.sqlite
 bq_tables_list.txt
