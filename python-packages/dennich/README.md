@@ -30,11 +30,8 @@ sudo journalctl --user --vacuum-time=1days
 Install new version of code.
 
 ```sh
-pipx install --force -e ~/dotfiles/python-packages/dennich
+uv tool install --upgrade 'dennich @ /home/denis/dotfiles/python-packages/dennich'
 ```
-
-
-
 
 ## Todos
 

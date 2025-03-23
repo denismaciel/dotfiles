@@ -22,7 +22,6 @@ dev-dependencies = [
     "pytest>=8.3.3",
 ]
 
-
 [project.scripts]
 dennich-todo = "dennich.todo.main:main"
 dennich-danki = "dennich.danki.main:cli"
@@ -30,12 +29,9 @@ dennich-convert-audio = "dennich.convert_audio:main"
 dennich-pomodoro = "dennich.todo.pomodoro.cli:main"
 dennich-transcribe-audio = "dennich.transcribe_audio:main"
 
-# Necessary so that the current package is also installed by uv.
-# It will be installed as editable.
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
-
+requires = ["uv-build>=0.4.15,<5"]
+build-backend = "uv_build"
 
 [tool.mypy]
 strict = true
