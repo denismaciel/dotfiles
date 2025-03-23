@@ -20,7 +20,7 @@ beautifulsoup4==4.12.2
     #   markdownify
 build==1.0.3
     # via pip-tools
-certifi==2023.7.22
+certifi==2024.7.4
     # via
     #   httpcore
     #   httpx
