@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 import datetime
 import datetime as dt
-import enum
 import logging
 import re
 import readline
@@ -131,12 +130,6 @@ def clean_description(name: str, patterns: tuple[str, ...]) -> str:
     for p in patterns:
         name = name.replace(p, '')
     return name.strip()
-
-
-class ReportType(enum.StrEnum):
-    tag_per_day = 'tag-per-day'
-    todos = 'todos'
-    tags = 'tags'
 
 
 def prefill_input(prompt: str, prefill: str = '') -> str:
