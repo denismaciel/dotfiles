@@ -67,7 +67,9 @@ class Todo(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String)
     type: Mapped[TodoType] = mapped_column(Enum(TodoType), default=TodoType.TODO)
-    created_at: Mapped[dt.datetime] = mapped_column(DateTime, default=dt.datetime.now)
+    created_at: Mapped[dt.datetime] = mapped_column(
+        DateTime, default=dt.datetime.now, index=True
+    )
     completed_at: Mapped[dt.datetime] = mapped_column(DateTime, nullable=True)
     order: Mapped[dt.datetime] = mapped_column(DateTime, default=dt.datetime.now)
     updated_at: Mapped[dt.datetime] = mapped_column(
@@ -177,10 +179,14 @@ class TodoRepo:
         self.session.commit()
 
 
-def get_session() -> Session:
+def get_db_url() -> str:
     file = Path('/home/denis/Sync/todo.db').resolve()
-    engine_file = f'sqlite:///{file}'
-    engine = create_engine(engine_file)
+    db_url = f'sqlite:///{file}'
+    return db_url
+
+
+def get_session() -> Session:
+    engine = create_engine(get_db_url())
     Session = sessionmaker(bind=engine)
     Base.metadata.create_all(engine)
     session = Session()
