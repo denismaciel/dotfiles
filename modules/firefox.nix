@@ -41,25 +41,22 @@
           "general.autoScroll" = true;
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         };
-        bookmarks = [
-          {
-            name = "wikipedia";
-            tags = ["wiki"];
-            keyword = "wiki";
-            url = "https://en.wikipedia.org/wiki/Special:Search?search=%s&amp;go=Go";
-          }
-          {
-            name = "Samwise PRs";
-            keyword = "sam";
-            url = "https://github.com/monasticventures/samwise/pulls";
-          }
-          {
-            name = "Hacker News Search";
-            tags = ["news" "tech"];
-            keyword = "hn";
-            url = "https://hn.algolia.com/?q=%s";
-          }
-        ];
+        bookmarks = {
+          force = true;
+          settings = [
+            {
+              name = "Samwise PRs";
+              keyword = "sam";
+              url = "https://github.com/monasticventures/samwise/pulls";
+            }
+            {
+              name = "Hacker News Search";
+              tags = ["news" "tech"];
+              keyword = "hn";
+              url = "https://hn.algolia.com/?q=%s";
+            }
+          ];
+        };
         extensions.packages = with inputs.firefox-addons.packages.${pkgs.system}; [
           ublock-origin
           vimium-c
