@@ -15,10 +15,9 @@ import structlog
 
 from dennich.todo.cmd import today_status
 from dennich.todo.models import get_session
-from dennich.todo.models import load_todos
 from dennich.todo.models import sort_todos
 from dennich.todo.models import Todo
-from dennich.todo.models import upsert_todo
+from dennich.todo.models import TodoRepo
 from dennich.todo.pomodoro.client import Client
 from dennich.todo.select import Fzf
 from dennich.todo.select import SelectionCancelled
@@ -65,8 +64,10 @@ def start_pomodoro(selector: Selector) -> int:
     3. Select an existing Todo and mark it as done
     4. Simply add a new Todo without starting a Pomodoro (just press escape when prompted for the duration)
     """
+    # TODO: should get the open todos from the server, not accessing them directly via SQL.
     sess = get_session()
-    todos = load_todos(sess)
+    repo = TodoRepo(sess)
+    todos = repo.load_todos()
     todos = sort_todos(todos)
     rendered = list(render_todos(todos))
     selection = selector.select([todo_str for _, todo_str in rendered], prompt='🍅')
@@ -94,7 +95,7 @@ def start_pomodoro(selector: Selector) -> int:
         case SelectionCancelled():
             # by cancelling the pomodoro, we want to simply add the todo
             # without starting a pomodoro
-            upsert_todo(sess, todo)
+            repo.upsert_todo(todo)
             return 0
         case _:
             typing.assert_never(selection_pomo)
@@ -103,7 +104,7 @@ def start_pomodoro(selector: Selector) -> int:
         logger.debug('Completing todo', todo=todo)
         todo.completed_at = dt.datetime.now()
         todo.order = dt.datetime.now()
-        upsert_todo(sess, todo)
+        repo.upsert_todo(todo)
     elif duration == 'edit':
         logger.debug('Completing todo', todo=todo)
         with_hashbang = [f'#{tag}' for tag in todo.tags]
@@ -112,10 +113,10 @@ def start_pomodoro(selector: Selector) -> int:
         new_todo = Todo.from_text_prompt(new_name)
         todo.name = new_todo.name
         todo.tags = new_todo.tags
-        upsert_todo(sess, todo)
+        repo.upsert_todo(todo)
     else:
         todo.order = dt.datetime.now()
-        upsert_todo(sess, todo)
+        repo.upsert_todo(todo)
         client = Client()
         response = client.start_pomodoro(todo.id, int(duration))
         logger.debug('Starting pomodoro', todo=todo, response=response)

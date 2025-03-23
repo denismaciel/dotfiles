@@ -3,6 +3,7 @@ from __future__ import annotations
 import datetime as dt
 import enum
 import re
+from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
@@ -121,16 +122,7 @@ class Pomodoro(Base):
     todo = relationship('Todo', back_populates='pomodoros')
 
 
-def load_todos(sess: Session) -> list[Todo]:
-    return (
-        sess.query(Todo)
-        .where(Todo.completed_at == None)  # noqa: E711
-        .order_by(Todo.order.desc())
-        .all()
-    )
-
-
-def sort_todos(todos: list[Todo]) -> list[Todo]:
+def sort_todos(todos: Sequence[Todo]) -> list[Todo]:
     """
     1. Last active.
     2. Sorted by tag.
@@ -166,20 +158,23 @@ class TodoRepo:
         stmt = select(Todo).where(Todo.id == todo_id)
         return self.session.scalars(stmt).one()
 
+    def load_todos(self) -> Sequence[Todo]:
+        stmt = (
+            select(Todo)
+            .where(Todo.completed_at == None)  # noqa: E711
+            .order_by(Pomodoro.start_time.desc())
+        )
+        return self.session.scalars(stmt).all()
+
     def create_pomodoro(self, pomodoro: Pomodoro) -> Pomodoro:
         self.session.add(pomodoro)
         self.session.commit()
         self.session.refresh(pomodoro)
         return pomodoro
 
-
-def load_todo_by_id(sess: Session, todo_id: int) -> Todo:
-    return sess.query(Todo).filter_by(id=todo_id).one()
-
-
-def upsert_todo(sess: Session, todo: Todo) -> None:
-    sess.add(todo)
-    sess.commit()
+    def upsert_todo(self, todo: Todo) -> None:
+        self.session.add(todo)
+        self.session.commit()
 
 
 def get_session() -> Session:

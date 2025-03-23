@@ -15,7 +15,6 @@ import structlog
 from dennich.todo.models import ErrorResponse
 from dennich.todo.models import get_session
 from dennich.todo.models import GetStatusResponse
-from dennich.todo.models import load_todo_by_id
 from dennich.todo.models import Pomodoro
 from dennich.todo.models import ReqCancelPomdoro
 from dennich.todo.models import ReqStartPomdoro
@@ -98,15 +97,14 @@ async def start_pomodoro_task(
     )
 
 
-async def get_status() -> GetStatusResponse | ErrorResponse:
+async def get_status(repo: TodoRepo) -> GetStatusResponse | ErrorResponse:
     if RUNNING:
         remaining_time = (
             RUNNING.pomodoro.duration * 60
             - (dt.datetime.now() - RUNNING.pomodoro.start_time).total_seconds()
         )
 
-        sess = get_session()
-        todo = load_todo_by_id(sess, RUNNING.todo.id)
+        todo = repo.load_todo_by_id(RUNNING.todo.id)
 
         # Sum the time of all the pomodoros for the task
         spent_time = 0
@@ -183,7 +181,7 @@ class Server:
                     request = typing.cast(
                         ReqStatusPomdoro, request
                     )  # only necessary for mypy, pyright gets it
-                    respond(await get_status(), client_socket)
+                    respond(await get_status(self.repo), client_socket)
                 case {'action': 'cancel'}:
                     request = typing.cast(
                         ReqCancelPomdoro, request
