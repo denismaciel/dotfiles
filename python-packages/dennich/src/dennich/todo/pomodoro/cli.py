@@ -2,14 +2,14 @@ import argparse
 
 import structlog
 
+from dennich.todo.pomodoro import server
 from dennich.todo.pomodoro.client import Client
-from dennich.todo.pomodoro.server import serve
 
 logger = structlog.stdlib.get_logger()
 
 
 def start_server() -> None:
-    serve()
+    server.main()
 
 
 def main() -> int:

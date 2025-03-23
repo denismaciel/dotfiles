@@ -3,6 +3,7 @@ from __future__ import annotations
 import datetime as dt
 import enum
 import re
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
 from typing import TypedDict
@@ -13,6 +14,7 @@ from sqlalchemy import Enum
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
 from sqlalchemy import JSON
+from sqlalchemy import select
 from sqlalchemy import String
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
@@ -148,13 +150,27 @@ def sort_todos(todos: list[Todo]) -> list[Todo]:
     return [first, *others]
 
 
-def load_pomodoros_created_after(sess: Session, date: dt.datetime) -> list[Pomodoro]:
-    return (
-        sess.query(Pomodoro)
-        .where(Pomodoro.start_time >= date)
-        .order_by(Pomodoro.start_time.desc())
-        .all()
-    )
+@dataclass
+class TodoRepo:
+    session: Session
+
+    def load_pomodoros_created_after(self, date: dt.datetime) -> list[Pomodoro]:
+        stmt = (
+            select(Pomodoro)
+            .where(Pomodoro.start_time >= date)
+            .order_by(Pomodoro.start_time.desc())
+        )
+        return list(self.session.scalars(stmt))
+
+    def load_todo_by_id(self, todo_id: int) -> Todo:
+        stmt = select(Todo).where(Todo.id == todo_id)
+        return self.session.scalars(stmt).one()
+
+    def create_pomodoro(self, pomodoro: Pomodoro) -> Pomodoro:
+        self.session.add(pomodoro)
+        self.session.commit()
+        self.session.refresh(pomodoro)
+        return pomodoro
 
 
 def load_todo_by_id(sess: Session, todo_id: int) -> Todo:
