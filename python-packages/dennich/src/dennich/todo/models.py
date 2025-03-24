@@ -162,7 +162,7 @@ class TodoRepo:
         return self.session.scalars(stmt).one()
 
     def load_todos(self) -> Sequence[Todo]:
-        stmt = select(Todo).where(Todo.completed_at == None)  # noqa: E711
+        stmt = select(Todo).where(Todo.completed_at == None).order_by(Todo.order.desc())  # noqa: E711
         return self.session.scalars(stmt).all()
 
     def create_pomodoro(self, pomodoro: Pomodoro) -> Pomodoro:
