@@ -24,6 +24,8 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import sessionmaker
 
+from dennich.todo.config import load_config
+
 
 class ReqStartPomdoro(TypedDict):
     action: Literal['start']
@@ -161,11 +163,7 @@ class TodoRepo:
         return self.session.scalars(stmt).one()
 
     def load_todos(self) -> Sequence[Todo]:
-        stmt = (
-            select(Todo)
-            .where(Todo.completed_at == None)  # noqa: E711
-            .order_by(Pomodoro.start_time.desc())
-        )
+        stmt = select(Todo).where(Todo.completed_at == None)  # noqa: E711
         return self.session.scalars(stmt).all()
 
     def create_pomodoro(self, pomodoro: Pomodoro) -> Pomodoro:
@@ -180,7 +178,8 @@ class TodoRepo:
 
 
 def get_db_url() -> str:
-    file = Path('/home/denis/Sync/todo.db').resolve()
+    config = load_config()
+    file = Path(config.database_url).resolve()
     db_url = f'sqlite:///{file}'
     return db_url
 

@@ -26,13 +26,3 @@ Clean systemd logs.
 # keep only logs since yesterday.
 sudo journalctl --user --vacuum-time=1days
 ```
-
-Install new version of code.
-
-```sh
-uv tool install --upgrade 'dennich @ /home/denis/dotfiles/python-packages/dennich'
-```
-
-## Todos
-
-- [ ] Handle gracefully shutting down the server so that the port doesn't stay busy for 20s or so after the shutdown.

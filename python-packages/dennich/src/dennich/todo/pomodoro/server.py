@@ -12,6 +12,7 @@ from typing import Any
 
 import structlog
 
+from dennich.todo.config import load_config
 from dennich.todo.models import ErrorResponse
 from dennich.todo.models import get_session
 from dennich.todo.models import GetStatusResponse
@@ -261,9 +262,11 @@ def main() -> int:
         max_number_of_zenity_windows=MAX_NUMBER_OF_ZENITY_WINDOWS,
     )
 
+    config = load_config()
+
     session = get_session()
     repo = TodoRepo(session)
-    server = Server(12348, repo)
+    server = Server(config.port, repo)
     try:
         asyncio.run(server.serve())
     except KeyboardInterrupt:
