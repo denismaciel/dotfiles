@@ -24,7 +24,7 @@ class Client:
             client_socket.connect(self.server_address)
             client_socket.sendall(json.dumps(request).encode('utf-8'))
             response = client_socket.recv(1024).decode('utf-8')
-            return json.loads(response)
+            return json.loads(response)  # type: ignore[no-any-return]
 
     def start_pomodoro(self, todo_id: int, duration: float) -> dict[str, Any]:
         request = ReqStartPomdoro(action='start', todo_id=todo_id, duration=duration)
