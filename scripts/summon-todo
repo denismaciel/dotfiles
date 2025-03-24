@@ -1,4 +1,0 @@
-#! /usr/bin/env bash
-
-rg "^TODO" ~/Sync/notes/current > /tmp/todos && sed -i 's/^TODO/STALE/' $(rg -l "^TODO" ~/Sync/notes/current) && cat /tmp/todos
-
