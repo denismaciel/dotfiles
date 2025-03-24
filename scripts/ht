@@ -227,7 +227,8 @@ class CLI:
         ).fetchall()
         active_habits = sorted([h[0] for h in active_habits])
 
-        from datetime import datetime, timedelta
+        from datetime import datetime
+        from datetime import timedelta
 
         today = datetime.now().date()
         dates = [str(today - timedelta(i)) for i in range(0, 14)]

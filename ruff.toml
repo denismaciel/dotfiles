@@ -1,19 +1,18 @@
-line-length = 88
-
 # Documentation of each set of rules:
 lint.select = [
   "E", # pycodestyle errors
   "W", # pycodestyle errors
   "F", # pyflakes
+  "I", # isort
   "ISC", #flake8-implicit-str-concat,
-  "NPY", # numpy
-  "B", # bugbear
   "PD", # pandas-vet
-  "PERF", # perflint
-  "UP", # pyupgrade
-  "PGH", # pygrep-hooks
-  "RUF", # ruff-specific rules
-
+  "I" # Reorder imports
+  # "NPY", # numpy
+  # "B", # bugbear
+  # "PERF", # perflint
+  # "UP", # pyupgrade
+  # "PGH", # pygrep-hooks
+  # "RUF", # ruff-specific rules
 ]
 lint.ignore = [
   "E501", # E501 Line too long
@@ -23,7 +22,12 @@ lint.ignore = [
   "PD901", #  Avoid using the generic variable name `df` for DataFrames
   "PD015", # Use `.merge` method instead of `pd.merge` function. They have equivalent functionality
   "PD101", # Using `series.nunique()` for checking that a series is constant is inefficient
+  "ISC001",
 ]
+
+
+lint.isort.force-single-line = true
+lint.isort.known-first-party = ["pycap"]
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 lint.fixable = ["A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "W", "ANN", "ARG", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT", "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"]
@@ -66,4 +70,3 @@ max-complexity = 10
 [format]
 quote-style = "single"
 indent-style = "space"
-# docstring-code-format = true

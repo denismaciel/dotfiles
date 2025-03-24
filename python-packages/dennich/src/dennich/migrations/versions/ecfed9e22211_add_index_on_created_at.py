@@ -5,10 +5,10 @@ Revises:
 Create Date: 2025-03-23 15:04:32.332626
 
 """
+
 from collections.abc import Sequence
 
 from alembic import op
-
 
 # revision identifiers, used by Alembic.
 revision: str = 'ecfed9e22211'

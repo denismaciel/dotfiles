@@ -14,17 +14,16 @@ from subprocess import run
 import structlog
 
 from dennich.todo.cmd import today_status
-from dennich.todo.models import get_session
-from dennich.todo.models import sort_todos
 from dennich.todo.models import Todo
 from dennich.todo.models import TodoRepo
+from dennich.todo.models import get_session
+from dennich.todo.models import sort_todos
 from dennich.todo.pomodoro.client import Client
 from dennich.todo.select import Fzf
 from dennich.todo.select import SelectionCancelled
 from dennich.todo.select import SelectionExistingItem
 from dennich.todo.select import SelectionNewItem
 from dennich.todo.select import Selector
-
 
 RE_DURATION = re.compile(r'duration=\d+')
 RE_DESCRIPTION = re.compile(r'description="?.+"?')

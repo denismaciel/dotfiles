@@ -14,7 +14,6 @@ import structlog
 
 from dennich.todo.config import load_config
 from dennich.todo.models import ErrorResponse
-from dennich.todo.models import get_session
 from dennich.todo.models import GetStatusResponse
 from dennich.todo.models import Pomodoro
 from dennich.todo.models import ReqCancelPomdoro
@@ -24,7 +23,7 @@ from dennich.todo.models import Request
 from dennich.todo.models import Response
 from dennich.todo.models import Todo
 from dennich.todo.models import TodoRepo
-
+from dennich.todo.models import get_session
 
 log = structlog.get_logger()
 

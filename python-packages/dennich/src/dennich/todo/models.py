@@ -9,19 +9,19 @@ from pathlib import Path
 from typing import Literal
 from typing import TypedDict
 
-from sqlalchemy import create_engine
+from sqlalchemy import JSON
 from sqlalchemy import DateTime
 from sqlalchemy import Enum
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
-from sqlalchemy import JSON
-from sqlalchemy import select
 from sqlalchemy import String
+from sqlalchemy import create_engine
+from sqlalchemy import select
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import Session
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import Session
 from sqlalchemy.orm import sessionmaker
 
 from dennich.todo.config import load_config
@@ -44,8 +44,7 @@ class ReqStatusPomdoro(TypedDict):
 Request = ReqStartPomdoro | ReqCancelPomdoro | ReqStatusPomdoro
 
 
-class Base(DeclarativeBase):
-    ...
+class Base(DeclarativeBase): ...
 
 
 RE_TAG = re.compile(r'#[\w,-]+')

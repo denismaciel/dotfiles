@@ -1,5 +1,5 @@
-from dennich.todo.models import find_tags
 from dennich.todo.models import Todo
+from dennich.todo.models import find_tags
 
 
 def test_find_tags():

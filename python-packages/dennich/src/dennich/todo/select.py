@@ -6,8 +6,7 @@ from typing import Protocol
 
 
 @dataclass
-class SelectionCancelled:
-    ...
+class SelectionCancelled: ...
 
 
 @dataclass
@@ -29,8 +28,7 @@ class Selector(Protocol):
         items: list[str],
         prompt: str | None = None,
         multi_select: bool | None = False,
-    ) -> Selection:
-        ...
+    ) -> Selection: ...
 
 
 class FzfPrompt:
