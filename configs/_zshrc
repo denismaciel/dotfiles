@@ -155,6 +155,10 @@ function gb {
     git checkout $(echo $(gbl) | sed 's#^remotes/##')
 }
 
+function gh-draft-pr() {
+   gh pr create --title "$(git branch --show-current)" --body "" --base main --assignee "@me" --draft
+}
+
 function togglep() {
     if [[ -f play/p.go ]]; then 
         echo "==> gopher"
