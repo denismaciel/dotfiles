@@ -6,14 +6,13 @@ parser = argparse.ArgumentParser('')
 parser.add_argument(
     '--kind',
     choices=[
-        'risk-model',
-        'dagster',
+        'pycap',
         'backend',
         'customer-app',
         'operations-app',
         'transaction-tagging',
     ],
-    required=True,
+    default='pycap',
 )
 args = parser.parse_args()
 

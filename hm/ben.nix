@@ -15,6 +15,7 @@
   firefox.enable = true;
   git.enable = true;
   home.packages = with pkgs; [
+    ghostty
     newsboat
     code-cursor
     st
