@@ -227,7 +227,7 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey }, 'r', function()
         awful.util.spawn(
-            [[ st -c FloatThatThing -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
+            [[  alacritty --class FloatThatThing -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
         )
     end)
 )
