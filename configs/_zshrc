@@ -280,3 +280,30 @@ function gf() {
         --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
         cut -c4- | sed 's/.* -> //'
 }
+
+function organize_downloads() {
+  # Create a directory name with today's date in format YYYY-MM-DD
+  local TODAY=$(date +"%Y-%m-%d")
+  
+  # Set source and destination directories
+  local SOURCE_DIR=~/downloads
+  local DEST_DIR=~/downloads-dump/$TODAY
+  
+  # Create the destination directory if it doesn't exist
+  mkdir -p "$DEST_DIR"
+  
+  # Check if source directory exists and has contents
+  if [[ -d "$SOURCE_DIR" && -n "$(ls -A "$SOURCE_DIR" 2>/dev/null)" ]]; then
+    # Move all contents to the destination directory
+    mv "$SOURCE_DIR"/* "$DEST_DIR"/ 2>/dev/null
+    
+    # Check if the move was successful
+    if [[ $? -eq 0 ]]; then
+      echo "✅ Successfully moved files from $SOURCE_DIR to $DEST_DIR"
+    else
+      echo "⚠️ Some files could not be moved. Please check for errors."
+    fi
+  else
+    echo "📂 Downloads directory is empty or doesn't exist."
+  fi
+}

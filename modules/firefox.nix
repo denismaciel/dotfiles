@@ -45,9 +45,9 @@
           force = true;
           settings = [
             {
-              name = "Samwise PRs";
+              name = "PRs";
               keyword = "sam";
-              url = "https://github.com/monasticventures/samwise/pulls";
+              url = "https://github.com/denismaciel/sam/pulls";
             }
             {
               name = "Hacker News Search";

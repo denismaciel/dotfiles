@@ -26,17 +26,12 @@ windows:
       -
       -
   - window_name: sam-top
-    start_directory: "~/github.com/monasticventures/samwise"
-    panes:
-      -
-      -
-  - window_name: sam-web
-    start_directory: "~/github.com/monasticventures/samwise/samwiseweb/"
+    start_directory: "~/github.com/denismaciel/sam"
     panes:
       -
       -
   - window_name: sam-server
-    start_directory: "~/github.com/monasticventures/samwise/server"
+    start_directory: "~/github.com/denismaciel/sam/server"
     panes:
       -
       -
