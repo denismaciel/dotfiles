@@ -257,14 +257,14 @@ end, { desc = 'Format current buffer' })
 vim.keymap.set(
     'n',
     '<leader>xx',
-    '<cmd>Trouble diagnostics toggle<cr>',
-    { desc = 'Diagnostics (Trouble)' }
+    '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
+    { desc = '[Trouble] File Diagnostics' }
 )
 vim.keymap.set(
     'n',
-    '<leader>xd',
-    '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
-    { desc = 'Document Diagnostics' }
+    '<leader>xa',
+    '<cmd>Trouble diagnostics toggle<cr>',
+    { desc = '[Trouble] Project Diagnostics' }
 )
 vim.keymap.set(
     'n',
