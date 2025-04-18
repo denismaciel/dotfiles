@@ -15,6 +15,7 @@
   firefox.enable = true;
   git.enable = true;
   home.packages = with pkgs; [
+    gimp
     ghostty
     newsboat
     code-cursor

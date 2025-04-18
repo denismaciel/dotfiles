@@ -270,6 +270,11 @@ require('lazy').setup({
                             '/home/denis/credentials/anthropic-api-key'
                         ),
                     },
+                    gemini = {
+                        api_key = read_file(
+                            '/home/denis/credentials/gemini-api-key'
+                        ),
+                    },
                 },
                 hooks = {
                     ChatFile = function(prt, params)
