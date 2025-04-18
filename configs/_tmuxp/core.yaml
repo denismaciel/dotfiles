@@ -30,6 +30,11 @@ windows:
     panes:
       -
       -
+  - window_name: sam-top
+    start_directory: "~/github.com/denismaciel/sam/web"
+    panes:
+      -
+      -
   - window_name: sam-server
     start_directory: "~/github.com/denismaciel/sam/server"
     panes:
