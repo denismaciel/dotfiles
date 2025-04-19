@@ -30,7 +30,7 @@ windows:
     panes:
       -
       -
-  - window_name: sam-top
+  - window_name: sam-web
     start_directory: "~/github.com/denismaciel/sam/web"
     panes:
       -
