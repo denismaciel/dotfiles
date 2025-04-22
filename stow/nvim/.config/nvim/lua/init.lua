@@ -71,77 +71,12 @@ require('lazy').setup({
     {
         'zbirenbaum/copilot.lua',
         cmd = 'Copilot',
-        -- event = 'InsertEnter',
+        event = 'InsertEnter',
         config = function()
-            -- vim.api.nvim_create_autocmd('User', {
-            --     pattern = 'BlinkCmpMenuOpen',
-            --     callback = function()
-            --         vim.b.copilot_suggestion_hidden = true
-            --     end,
-            -- })
-            --
-            -- vim.api.nvim_create_autocmd('User', {
-            --     pattern = 'BlinkCmpMenuClose',
-            --     callback = function()
-            --         vim.b.copilot_suggestion_hidden = false
-            --     end,
-            -- })
             require('copilot').setup({
-                opts = {
-                    filetypes = {
-                        python = true,
-                    },
-                    suggestion = {
-                        enabled = false,
-                        auto_trigger = true,
-                        -- debounce = 75,
-                        keymap = {
-                            accept = '<M-l>',
-                            accept_word = false,
-                            accept_line = false,
-                            next = '<M-]>',
-                            prev = '<M-[>',
-                            dismiss = '<C-]>',
-                        },
-                    },
-                    panel = {
-                        enabled = false,
-                        keymap = {
-                            jump_prev = '[[',
-                            jump_next = ']]',
-                            accept = '<CR>',
-                            refresh = 'gr',
-                            open = '<M-CR>',
-                        },
-                        layout = {
-                            position = 'bottom', -- | top | left | right
-                            ratio = 0.4,
-                        },
-                    },
+                suggestion = {
+                    auto_trigger = true,
                 },
-            })
-        end,
-    },
-    {
-        'milanglacier/minuet-ai.nvim',
-        -- event = { 'InsertEnter' },
-        config = function()
-            require('minuet').setup({
-                provider = 'gemini',
-                request_timeout = 4,
-                throttle = 1000,
-                virtualtext = {
-                    -- auto_trigger_ft = { 'python', 'lua' },
-                    -- auto_trigger_ft = { '*' },
-                    keymap = {
-                        accept = '<A-a>',
-                        -- accept_line = '<A-a>',
-                        prev = '<A-p>',
-                        next = '<A-n>',
-                        dismiss = '<A-e>',
-                    },
-                },
-                notify = 'debug',
             })
         end,
     },
