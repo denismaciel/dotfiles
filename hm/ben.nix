@@ -84,7 +84,7 @@
     nil
     nil
     nixfmt-rfc-style
-    nodejs-18_x
+    nodejs
     openssl
     pandoc
     papirus-icon-theme
