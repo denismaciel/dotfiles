@@ -75,7 +75,7 @@ require('lazy').setup({
         config = function()
             require('copilot').setup({
                 suggestion = {
-                    auto_trigger = true,
+                    auto_trigger = false,
                 },
             })
         end,
