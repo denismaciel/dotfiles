@@ -22,6 +22,11 @@ local service_lookup = {
         model = 'claude-3-5-sonnet-20240620',
         api_key_name = 'ANTHROPIC_API_KEY',
     },
+    gemini = {
+        url = 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+        model = 'gemini-2.5-pro-preview-03-25', -- User can override this in setup opts if needed
+        api_key_name = 'GEMINI_API_KEY',
+    },
 }
 
 local system_prompt = [[

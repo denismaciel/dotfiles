@@ -8,7 +8,7 @@
   xdg.configFile."ghostty/config".text = ''
     font-family = Blex Mono Nerd Font
     font-style = Medium
-    font-size = 11
+    font-size = 13
     font-thicken = false
 
     adjust-cell-height = 15%
