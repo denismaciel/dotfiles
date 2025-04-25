@@ -456,8 +456,16 @@ end)
 vim.keymap.set('n', '<leader>gt', function()
     require('dennich').open_todo_note()
 end)
+
 vim.keymap.set('n', '<leader>gs', function()
-    require('dennich').create_weekly_note()
+    local HOME = os.getenv('HOME') .. '/'
+    local cwd = vim.fn.getcwd()
+
+    if vim.startswith(cwd, HOME .. 'Sync/notes') then
+        require('dennich').create_weekly_note()
+    else
+        require('dennich').open_track_md()
+    end
     vim.cmd('normal! G') -- Go to the end of the file
 end)
 

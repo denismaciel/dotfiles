@@ -580,11 +580,33 @@ M.telescope_insert_relative_file_path = function(prompt_bufnr)
     end
 end
 
+M.open_track_md = function()
+    local is_git_repo =
+        vim.fn.systemlist('git rev-parse --is-inside-work-tree')[1]
+
+    if is_git_repo ~= 'true' then
+        print('Not inside a Git repository.')
+        return
+    end
+
+    local root_dir = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
+
+    if not root_dir or root_dir == '' then
+        print('Could not determine Git repository root.')
+        return
+    end
+
+    -- Path to the track.md inside the repo root
+    local track_md_path = root_dir .. '/track.md'
+
+    -- Open the track.md file in Neovim
+    vim.api.nvim_command('edit ' .. track_md_path)
+end
+
 M.run = function()
-    print('he')
-    vim.keymap.set('i', '<c-g>', function()
-        require('minuet.virtualtext').action.next()
-    end)
+    print('here')
+
+    M.open_track_md()
 
     print('there')
 end
