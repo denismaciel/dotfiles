@@ -155,8 +155,12 @@ function gb {
     git checkout $(echo $(gbl) | sed 's#^remotes/##')
 }
 
-function gh-draft-pr() {
+function gh-createjdraft-pr() {
    gh pr create --title "$(git branch --show-current)" --body "" --base main --assignee "@me" --draft
+}
+
+function gh-create-pr() {
+   gh pr create --title "$(git branch --show-current)" --body "" --base main --assignee "@me"
 }
 
 function togglep() {
