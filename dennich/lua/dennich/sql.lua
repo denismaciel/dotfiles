@@ -12,6 +12,10 @@ M.bigquery_check = function(env)
     -- Put lines in a table
     local buff_lines = {}
     local i = 1
+    if pfile == nil then
+        print('No file found')
+        return
+    end
     for line in pfile:lines() do
         buff_lines[i] = line
         i = i + 1
@@ -28,6 +32,11 @@ M.dbt_open_compiled = function()
     local fname = vim.fn.expand('%')
     local result =
         io.popen('./venv/bin/sqly get-dbt-compiled-path --file ' .. fname)
+    if result == nil then
+        print('No compiled file found')
+        return
+    end
+
     for line in result:lines() do
         vim.api.nvim_command('split')
         vim.api.nvim_command('view ' .. line)
@@ -39,6 +48,10 @@ end
 M.dbt_open_run = function()
     local fname = vim.fn.expand('%')
     local result = io.popen('./venv/bin/sqly get-dbt-run-path --file ' .. fname)
+    if result == nil then
+        print('No run file found')
+        return
+    end
     for line in result:lines() do
         vim.api.nvim_command('split')
         vim.api.nvim_command('view ' .. line)
@@ -60,6 +73,40 @@ M.dbt_model_name = function()
         .. snap_folder_name
         .. [[ | xclip -selection clipboard ]]
     vim.cmd.execute(command)
+end
+
+M.dbt_set_keymaps = function()
+    vim.keymap.set(
+        'n',
+        '<leader>ss',
+        ':!sqly snapshot --file % --cte-name <cword> <CR>',
+        { desc = '[dbt] snapshot CTE' }
+    )
+    vim.keymap.set(
+        'n',
+        '<leader>sx',
+        M.dbt_open_compiled,
+        { desc = '[dbt] open compiled query' }
+    )
+    vim.keymap.set(
+        'n',
+        '<leader>sr',
+        M.dbt_open_run,
+        { desc = '[dbt] open run query' }
+    )
+    vim.keymap.set(
+        'n',
+        '<leader>sv',
+        M.dbt_open_snaps,
+        { desc = '[dbt] open snapshots' }
+    )
+
+    vim.keymap.set(
+        'n',
+        '<leader>sn',
+        ':!echo -n %:t:r | xclip -selection clipboard<CR>',
+        { desc = '[dbt] copy model name to clipboard' }
+    )
 end
 
 return M

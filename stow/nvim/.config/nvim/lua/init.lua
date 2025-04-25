@@ -47,8 +47,8 @@ require('lazy').setup({
             quickfile = { enabled = true },
             -- scroll = { enabled = true },
             -- statuscolumn = { enabled = true },
-            words = { enabled = true },
-            terminal = { enabled = true },
+            -- words = { enabled = true },
+            -- terminal = { enabled = true },
         },
         keys = {
             -- {
@@ -209,10 +209,13 @@ require('lazy').setup({
                 provider = 'telescope',
             },
             hints = { enabled = false },
-            debug = true,
-            provider = 'gemini',
+            debug = false,
+            provider = 'openai',
             claude = {
                 api_key_name = 'cmd:cat /home/denis/credentials/anthropic-api-key',
+            },
+            openai = {
+                api_key_name = 'cmd:cat /home/denis/credentials/openai-api-key',
             },
             gemini = {
                 api_key_name = 'cmd:cat /home/denis/credentials/gemini-api-key',
@@ -230,14 +233,30 @@ require('lazy').setup({
             behaviour = {
                 auto_set_highlight_group = true,
                 auto_set_keymaps = true,
-                support_paste_from_clipboard = false,
+                support_paste_from_clipboard = true,
             },
         },
         dependencies = {
             'nvim-tree/nvim-web-devicons',
             'stevearc/dressing.nvim',
             'nvim-lua/plenary.nvim',
-            'HakonHarnes/img-clip.nvim',
+            {
+                -- support for image pasting
+                'HakonHarnes/img-clip.nvim',
+                event = 'VeryLazy',
+                opts = {
+                    -- recommended settings
+                    default = {
+                        embed_image_as_base64 = false,
+                        prompt_for_file_name = false,
+                        drag_and_drop = {
+                            insert_mode = true,
+                        },
+                        -- required for Windows users
+                        use_absolute_path = true,
+                    },
+                },
+            },
             {
                 'grapp-dev/nui-components.nvim',
                 dependencies = {
@@ -282,31 +301,6 @@ require('lazy').setup({
           Try to answer the questions to the best of your knowledge.
           ]]
                         prt.ChatNew(params, chat_prompt)
-                    end,
-                    CompleteFullContext = function(prt, params)
-                        local template = [[
-        I have the following code from {{filename}}:
-
-        ```{{filetype}}
-        {{filecontent}}
-        ```
-
-        Please look at the following section specifically:
-        ```{{filetype}}
-        {{selection}}
-        ```
-
-        Finish the code above carefully and logically.
-        Respond with only the snippet of code that should be inserted."
-        ]]
-                        local model_obj = prt.get_model('command')
-                        prt.Prompt(
-                            params,
-                            prt.ui.Target.append,
-                            model_obj,
-                            nil,
-                            template
-                        )
                     end,
                 },
             })

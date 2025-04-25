@@ -172,7 +172,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, 'f', function()
         utils.toggle_or_spawn(
             'com.denis.scratchpad',
-            'ghostty --class=com.denis.scratchpad'
+            'alacritty --class=com.denis.scratchpad'
         )
     end),
 

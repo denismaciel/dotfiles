@@ -85,13 +85,6 @@ vim.cmd('cabbrev bd Bd')
 vim.cmd('cabbrev bd! Bdd')
 vim.cmd('cabbrev Bd! Bdd')
 
-vim.cmd([[
-augroup highlight_yank
-    autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=200}
-augroup END
-]])
-
 vim.diagnostic.config({
     virtual_text = true,
     severity_sort = true,
@@ -107,6 +100,15 @@ vim.diagnostic.config({
             ['DapBreakpoint'] = '•',
         },
     },
+})
+
+-- Autocommands
+vim.api.nvim_create_autocmd('TextYankPost', {
+    group = vim.api.nvim_create_augroup('highlight_yank', { clear = true }),
+    pattern = '*',
+    callback = function()
+        vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 400 })
+    end,
 })
 
 vim.api.nvim_create_autocmd('BufEnter', {
@@ -188,6 +190,7 @@ local create_python_import_file = function(prompt_bufnr)
     print('statement avilable in the clipboard: ' .. out)
 end
 
+-- Keymaps
 vim.keymap.set({ 'n' }, '<leader>is', create_python_import_symbol)
 vim.keymap.set({ 'n' }, '<leader>if', function()
     require('telescope.builtin').find_files({
@@ -279,46 +282,6 @@ vim.keymap.set(
     '<cmd>Trouble symbols toggle focus=false<cr>',
     { desc = 'Symbols (Trouble)' }
 )
-
-vim.keymap.set(
-    'n',
-    '<leader>ss',
-    ':!sqly snapshot --file % --cte-name <cword> <CR>',
-    { desc = 'Snapshot CTE' }
-)
-vim.keymap.set(
-    'n',
-    '<leader>sx',
-    sql.dbt_open_compiled,
-    { desc = 'Open compiled query' }
-)
-vim.keymap.set('n', '<leader>sr', sql.dbt_open_run, { desc = 'Open run query' })
-vim.keymap.set(
-    'n',
-    '<leader>sv',
-    sql.dbt_open_snaps,
-    { desc = 'Open snapshots' }
-)
-vim.keymap.set(
-    'n',
-    '<leader>sn',
-    ':!echo -n %:t:r | xclip -selection clipboard<CR>',
-    { desc = 'Copy model name to clipboard' }
-)
-vim.keymap.set('n', '<leader>st', function()
-    require('telescope.builtin').find_files({
-        find_command = {
-            'rg',
-            '--files',
-            '--hidden',
-            '-g',
-            '!.git',
-            '-g',
-            '!.snapshots/',
-        },
-        cwd = '/home/denis/.cache/recap/bigquery-schema/',
-    })
-end, { desc = 'Find table schema' })
 
 vim.keymap.set(
     'n',
@@ -445,12 +408,6 @@ end
 
 vim.keymap.set('n', '<leader>ro', open_test_file)
 
-local function open_parrot_code()
-    vim.cmd('PrtWriteCode')
-    vim.cmd('only')
-end
-vim.api.nvim_create_user_command('OpenParrot', open_parrot_code, {})
-
 vim.keymap.set('n', '<leader>gn', function()
     local HOME = os.getenv('HOME') .. '/'
     local NOTES_FOLDER = HOME .. 'Sync/notes'
@@ -501,18 +458,8 @@ vim.keymap.set('n', '<leader>gt', function()
 end)
 vim.keymap.set('n', '<leader>gs', function()
     require('dennich').create_weekly_note()
-    -- Go to the end of the file
-    vim.cmd('normal! G')
+    vim.cmd('normal! G') -- Go to the end of the file
 end)
-
-vim.keymap.set(
-    'n',
-    '<leader>gc',
-    open_parrot_code,
-    { noremap = true, silent = true, desc = 'PrtWriteCode' }
-)
-vim.keymap.set('n', '<leader>gf', '<cmd>PrtChatFile<cr>', {})
-vim.keymap.set('n', '<leader>go', '<cmd>PrtCompleteFullContext<cr>', {})
 
 vim.keymap.set('n', '<leader>rr', function()
     package.loaded['dennich'] = nil
