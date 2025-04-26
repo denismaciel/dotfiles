@@ -155,13 +155,6 @@ function gb {
     git checkout $(echo $(gbl) | sed 's#^remotes/##')
 }
 
-function gh-createjdraft-pr() {
-   gh pr create --title "$(git branch --show-current)" --body "" --base main --assignee "@me" --draft
-}
-
-function gh-create-pr() {
-   gh pr create --title "$(git branch --show-current)" --body "" --base main --assignee "@me"
-}
 
 function togglep() {
     if [[ -f play/p.go ]]; then 
@@ -209,6 +202,23 @@ function zip-folder() {
     else
         echo "Error: Folder '$foldername' does not exist"
         return 1
+    fi
+}
+
+function gh-create-draft-pr() {
+   gh pr create --title "$(git branch --show-current)" --body "" --base main --assignee "@me" --draft
+}
+
+function gh-create-pr() {
+   gh pr create --title "$(git branch --show-current)" --body "" --base main --assignee "@me"
+}
+
+function gh-open-pr() {
+    url=$(gh pr view --json url -q .url)
+    if [ -n "$url" ]; then
+        firefox "$url"
+    else
+        echo "Failed to retrieve PR URL."
     fi
 }
 
@@ -285,7 +295,7 @@ function gf() {
         cut -c4- | sed 's/.* -> //'
 }
 
-function organize_downloads() {
+function organize-downloads() {
   # Create a directory name with today's date in format YYYY-MM-DD
   local TODAY=$(date +"%Y-%m-%d")
   
