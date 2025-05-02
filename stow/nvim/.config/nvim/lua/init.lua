@@ -77,6 +77,21 @@ require('lazy').setup({
                 suggestion = {
                     auto_trigger = true,
                 },
+                panel = {
+                    enabled = true,
+                    auto_refresh = false,
+                    keymap = {
+                        jump_prev = '[[',
+                        jump_next = ']]',
+                        accept = '<CR>',
+                        refresh = 'gr',
+                        open = '<M-CR>',
+                    },
+                    layout = {
+                        position = 'right', -- | top | left | right | horizontal | vertical
+                        ratio = 0.4,
+                    },
+                },
             })
         end,
     },
@@ -288,21 +303,7 @@ require('lazy').setup({
                         ),
                     },
                 },
-                hooks = {
-                    ChatFile = function(prt, params)
-                        local chat_prompt = [[
-
-          Given the following file:
-
-          ```{{filetype}}
-          {{filecontent}}
-          ```
-
-          Try to answer the questions to the best of your knowledge.
-          ]]
-                        prt.ChatNew(params, chat_prompt)
-                    end,
-                },
+                hooks = {},
             })
         end,
     },
@@ -392,7 +393,20 @@ require('lazy').setup({
     {
         'numToStr/Comment.nvim',
         opts = {},
+        config = function()
+            require('ts_context_commentstring').setup({
+                enable_autocmd = false,
+            })
+            require('Comment').setup({
+                pre_hook = require(
+                    'ts_context_commentstring.integrations.comment_nvim'
+                ).create_pre_hook(),
+            })
+        end,
         lazy = false,
+        dependencies = {
+            'JoosepAlviste/nvim-ts-context-commentstring',
+        },
     },
     'mbbill/undotree',
     {
@@ -1024,18 +1038,21 @@ vim.keymap.set({ 'n', 't' }, '<c-a>', function()
     Snacks.terminal.toggle()
 end)
 
-vim.keymap.set('n', '<leader>g,', function()
+vim.keymap.set('n', '<leader>g,g', function()
     require('dennich.llm').prompt({
         replace = false,
         service = 'gemini',
     })
-end, { desc = 'Prompt with anthropic' })
-vim.keymap.set('v', '<leader>g,', function()
+end, { desc = 'Prompt with Gemini' })
+vim.keymap.set('n', '<leader>g,c', function()
     require('dennich.llm').prompt({
         replace = false,
-        service = 'gemini',
+        service = 'anthropic',
     })
-end, { desc = 'Prompt with openai' })
-vim.keymap.set('v', '<leader>g.', function()
-    require('dennich.llm').prompt({ replace = true, service = 'anthropic' })
-end, { desc = 'Prompt while replacing with openai' })
+end, { desc = 'Prompt with Claude' })
+vim.keymap.set('n', '<leader>g,o', function()
+    require('dennich.llm').prompt({
+        replace = false,
+        service = 'anthropic',
+    })
+end, { desc = 'Prompt with OpenAI' })

@@ -241,7 +241,7 @@
     enable = true;
     defaultKeymap = "viins";
     dotDir = ".config/zsh";
-    initExtra = builtins.readFile ../configs/_zshrc;
+    initContent = builtins.readFile ../configs/_zshrc;
     enableCompletion = true;
     completionInit = "autoload -Uz compinit && compinit -C";
     plugins = [

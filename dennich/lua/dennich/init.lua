@@ -596,6 +596,17 @@ M.open_track_md = function()
         return
     end
 
+    -- For some repos, I don't or can't commit the track.md file.
+    -- In those cases, I name the file track-{git-repo-name}.md
+    -- and add it in the global gitignore.
+    local repo_name = vim.fn.fnamemodify(root_dir, ':t')
+    local track_file = root_dir .. '/track-' .. repo_name .. '.md'
+    if vim.fn.filereadable(track_file) == 1 then
+        -- Open the track-{git-repo-name}.md file in Neovim
+        vim.api.nvim_command('edit ' .. track_file)
+        return
+    end
+
     -- Path to the track.md inside the repo root
     local track_md_path = root_dir .. '/track.md'
 

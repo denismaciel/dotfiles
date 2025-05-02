@@ -14,21 +14,22 @@
       userEmail = "denispmaciel@gmail.com";
       ignores = [
         ".DS_Store"
+        ".avante_chat_history"
         ".direnv"
         ".envrc"
+        ".llm"
         ".mypy_cache"
         ".pytest_cache"
         ".python-version"
         ".vim"
         ".vscode"
         "__pycache__"
-        "_debug.py"
-        "snaps"
-        "tags"
-        "venv"
         "play"
-        ".avante_chat_history"
-        ".llm"
+        "snaps"
+        "t.py"
+        "tags"
+        "track-core.md"
+        "venv"
       ];
       aliases = {
         last = "for-each-ref --sort=-committerdate --count=20 --format='%(align:70,left)%(refname:short)%(end)%(committerdate:relative)' refs/heads/";

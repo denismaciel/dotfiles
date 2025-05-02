@@ -18,8 +18,8 @@ local service_lookup = {
     },
     anthropic = {
         url = 'https://api.anthropic.com/v1/messages',
-        -- model = 'claude-3-7-sonnet-20250219',
-        model = 'claude-3-5-sonnet-20240620',
+        model = 'claude-3-7-sonnet-20250219',
+        -- model = 'claude-3-5-sonnet-20240620',
         api_key_name = 'ANTHROPIC_API_KEY',
     },
     gemini = {

@@ -14,7 +14,7 @@
     inputs.xremap-flake.nixosModules.default
   ];
 
-  warp.enable = false;
+  warp.enable = true;
   hardware.keyboard.zsa.enable = true;
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
