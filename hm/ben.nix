@@ -237,6 +237,8 @@
   services.syncthing.enable = true;
   services.syncthing.tray.enable = true;
 
+  programs.carapace.enable = true;
+  programs.carapace.enableZshIntegration = true;
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
