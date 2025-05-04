@@ -39,6 +39,48 @@ function act() {
     fi
 }
 
+
+function run-sam() {
+      local selected_command
+      local exit_status
+
+      # Check if fzf command exists
+      if ! command -v fzf > /dev/null; then
+        echo "Error: fzf command not found. Please install fzf." >&2
+        # Return a non-zero status to indicate failure
+        return 1
+      fi
+
+      # Run samwise, pipe to fzf, and capture the selection
+      # stderr is redirected to /dev/null for fzf to avoid polluting selection
+      # Note: If 'python -m samwise' itself fails, fzf will get empty input.
+      selected_command=$(python -m samwise 2>/dev/null | fzf)
+      exit_status=$? # Capture fzf's exit status right after it runs
+
+      # Check if fzf exited successfully (status 0) AND a command was actually selected (non-empty)
+      # fzf typically exits with 130 if cancelled (Ctrl+C, Esc)
+      if [ $exit_status -eq 0 ] && [ -n "$selected_command" ]; then
+        # Print the command being executed (useful for confirmation)
+        echo "Executing: $selected_command"
+        # Use 'eval' to correctly execute the command string,
+        # handling spaces and potential shell metacharacters within the command itself.
+        eval "$selected_command"
+      else
+        # Provide feedback if no command was run
+        if [ $exit_status -eq 130 ]; then
+            echo "Selection cancelled."
+        elif [ $exit_status -ne 0 ]; then
+           # You could check for other specific fzf error codes if needed
+           echo "fzf exited with error status: $exit_status" >&2
+        kkkelse
+           # This covers the case where fzf exited 0 but returned an empty selection
+           echo "No command selected."
+        fi
+        # Return a non-zero status to indicate the command was not executed
+        return 1
+      fi
+    }
+
 # ---------------------------
 # --------- aliases ---------
 # ---------------------------
