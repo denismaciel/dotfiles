@@ -92,11 +92,9 @@
     extraGroups = ["networkmanager" "wheel" "docker"];
     shell = pkgs.zsh;
     packages = with pkgs; [
-      git
-      awscli
       btop
       direnv
-      nodePackages.dotenv-cli
+      git
       tmux
       zip
     ];
@@ -106,38 +104,12 @@
   programs.firefox.enable = true;
   programs.zsh.enable = true;
 
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     neovim
     git
   ];
-
-  systemd.services.poll-samwise = {
-    description = "Poll GitHub repository for updates";
-    path = ["/run/current-system/sw"];
-    environment = {
-      REPO_PATH = "/home/denis/samwise";
-    };
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.bash}/bin/bash /home/denis/samwise/poll.sh /home/denis/samwise/";
-      User = "denis";
-    };
-  };
-
-  systemd.timers.poll-samwise = {
-    wantedBy = ["timers.target"];
-    partOf = ["poll-samwise.service"];
-    timerConfig = {
-      OnBootSec = "1m";
-      OnUnitActiveSec = "1m";
-      Unit = "poll-samwise.service";
-    };
-  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

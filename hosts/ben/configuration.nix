@@ -1,60 +1,22 @@
 {
   config,
   pkgs,
-  inputs,
   lib,
   ...
 }: {
-  nix.settings.trusted-users = ["denis"];
-
-  boot.binfmt.emulatedSystems = ["aarch64-linux"]; # necessary to build nixos for raspberrypi
   imports = [
     ./hardware-configuration.nix
     ../../modules/warp.nix
-    inputs.xremap-flake.nixosModules.default
+    ../../modules/stylix.nix
   ];
 
+  nix.settings.trusted-users = ["denis"];
+  boot.binfmt.emulatedSystems = ["aarch64-linux"]; # necessary to build nixos for raspberrypi
   warp.enable = true;
   hardware.keyboard.zsa.enable = true;
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
-  # services.mako.enable = false;
-
   services.tailscale.enable = true;
-  services.xremap = {
-    enable = false;
-    userName = "denis";
-    yamlConfig = ''
-      modmap:
-        - name: main remaps
-          remap:
-            CapsLock:
-              held: leftctrl
-              alone: esc
-              alone_timeout_millis: 200
-            j:
-              held: rightctrl
-              alone: j
-              alone_timeout_millis: 200
-            f:
-              held: leftctrl
-              alone: f
-              alone_timeout_millis: 200
-      keymap:
-        - name: general keybindings
-          remap:
-            super-z:
-              remap:
-                f:
-                  launch: ["${pkgs.firefox}/bin/firefox"]
-                s:
-                  launch: ["${pkgs.spotify}/bin/spotify"]
-                a:
-                  launch: ["${pkgs.alacritty}/bin/alacritty"]
-    '';
-    debug = true;
-    watch = true;
-  };
   hardware.uinput.enable = true;
   users.groups.uinput.members = ["denis"];
   users.groups.input.members = ["denis"];
@@ -84,18 +46,9 @@
       127.0.0.1 www.x.com
     '';
   };
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Set your time zone.
   time.timeZone = "Europe/Lisbon";
-
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
     LC_IDENTIFICATION = "en_US.UTF-8";
@@ -186,14 +139,12 @@
     ];
   };
   environment.systemPackages = with pkgs; [
-    portaudio
-    wofi
-    kitty
     git
-    zenity
     groff
     neovim
+    portaudio
     wget
+    zenity
     zip
   ];
 
@@ -221,12 +172,6 @@
     '';
   };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -236,62 +181,6 @@
   system.stateVersion = "23.11"; # Did you read the comment?
 
   virtualisation.docker.enable = true;
-  virtualisation = {
-    podman = {
-      enable = true;
-      # Create a `docker` alias for podman, to use it as a drop-in replacement
-      # dockerCompat = true;
-      # Required for containers under podman-compose to be able to talk to each other.
-      defaultNetwork.settings.dns_enabled = true;
-    };
-  };
-
-  stylix.enable = false;
-  # stylix.targets.mako.enable = false;
-  stylix.image = ../../assets/wallpaper.jpg;
-  stylix.base16Scheme = ../../no-clown-fiesta.yaml;
-  # stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-soft.yaml";
-  # stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/oxocarbon-dark.yaml";
-  # stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/decaf.yaml";
-  # stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/selenized-black.yaml";
-  # stylix.image = pkgs.fetchurl {
-  #   url = "https://w.wallhaven.cc/full/0w/wallhaven-0w3pdr.jpg";
-  #   sha256 = "sha256-xrLfcRkr6TjTW464GYf9XNFHRe5HlLtjpB0LQAh/l6M=";
-  # };
-
-  stylix.fonts = {
-    serif = {
-      name = "Poppins";
-      package = pkgs.google-fonts.override {fonts = ["Poppins"];};
-    };
-
-    sansSerif = {
-      name = "Poppins";
-      package = pkgs.google-fonts.override {fonts = ["Poppins"];};
-    };
-
-    # monospace = {
-    #   name = "ComicShannsMono Nerd Font Mono";
-    #   package = pkgs.nerd-fonts.comic-shanns-mono;
-    # };
-
-    monospace = {
-      name = "Blex Mono Nerd Font";
-      package = pkgs.nerd-fonts.blex-mono;
-    };
-
-    emoji = {
-      name = "Noto Color Emoji";
-      package = pkgs.noto-fonts-emoji;
-    };
-  };
-
-  stylix.fonts.sizes = {
-    applications = 9;
-    terminal = 10;
-    desktop = 9;
-    popups = 9;
-  };
   # location.provider = "geoclue2";
   location = {
     latitude = 39.3999;

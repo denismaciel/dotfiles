@@ -13,8 +13,6 @@
   };
 
   inputs = {
-    # alejandra.inputs.nixpkgs.follows = "nixpkgs";
-    # alejandra.url = "github:kamadorueda/alejandra/3.0.0";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
@@ -22,10 +20,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/master";
     nur.url = "github:nix-community/NUR";
     stylix.url = "github:danth/stylix";
-    xremap-flake.url = "github:xremap/nix-flake";
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
-    };
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,14 +27,11 @@
   };
 
   outputs = inputs @ {
-    # alejandra,
     firefox-addons,
     home-manager,
     nixos-hardware,
     nixpkgs,
     nur,
-    xremap-flake,
-    ghostty,
     ...
   }: {
     nixosConfigurations = {
@@ -59,9 +50,7 @@
             };
           }
           {
-            environment.systemPackages = [
-              # ghostty.packages.x86_64-linux.default
-            ];
+            environment.systemPackages = [];
           }
         ];
       };

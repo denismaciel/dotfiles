@@ -9,36 +9,30 @@
     ../modules/go.nix
     ../modules/firefox.nix
     ../modules/git.nix
-    ../modules/ghostty.nix
   ];
   go.enable = true;
   autorandr.enable = true;
   firefox.enable = true;
   git.enable = true;
   home.packages = with pkgs; [
-    gimp
-    # ghostty
-    newsboat
-    # code-cursor
-    st
-    feh
-    wl-clipboard
-    hugo
     # clang
+    # code-cursor
+    # code-cursor
+    # ghostty
     # golden-cheetah
     # libreoffice
-    nodePackages_latest.bash-language-server
     # nodePackages_latest.prettier
     # nodePackages_latest.typescript-language-server
     # obs-studio
     # python312Packages.mdformat -- Installed used uv
     # python312Packages.mdformat-gfm
-    # zed-editor
-    # code-cursor
-    anki
+    # tor-browser-bundle-bin
     # vscode
     # vscode-js-debug
-    duckdb
+    # zed-editor
+    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
+    alejandra
+    anki
     biome
     btop
     bun
@@ -51,6 +45,7 @@
     dig
     direnv
     dockerfile-language-server-nodejs
+    duckdb
     fd
     ffmpeg
     fzf
@@ -60,17 +55,16 @@
     gofumpt
     gomi
     google-chrome
-    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
     graphviz
     haskellPackages.greenclip
     htop
+    hugo
     hyperfine
     i3lock-fancy-rapid
     jq
     jsonnet
     jsonnet-language-server
     keepassxc
-    kitty
     kubectl
     lazydocker
     lazygit
@@ -81,10 +75,13 @@
     lua
     markdownlint-cli
     mpv
+    nerd-fonts.blex-mono
+    nerd-fonts.comic-shanns-mono
+    newsboat
     ngrok
     nil
-    nil
     nixfmt-rfc-style
+    nodePackages_latest.bash-language-server
     nodejs
     openssl
     pandoc
@@ -103,6 +100,7 @@
     slack
     spotify-unwrapped
     sqlite
+    st
     statix
     stow
     stylua
@@ -110,7 +108,6 @@
     tailwindcss-language-server
     terraform
     terraform-ls
-    # tor-browser-bundle-bin
     tree
     typescript
     universal-ctags
@@ -125,8 +122,6 @@
     yt-dlp
     zenity
     zoxide
-    nerd-fonts.blex-mono
-    nerd-fonts.comic-shanns-mono
     (rofi.override {plugins = [pkgs.rofi-emoji pkgs.rofi-calc];})
     (google-fonts.override {fonts = ["Poppins"];})
   ];
@@ -218,6 +213,10 @@
     settings = {
       env = {
         TERM = "xterm-256color";
+      };
+      font = {
+        normal.family = "Blex Mono Nerd Font";
+        size = 10.0;
       };
     };
   };
