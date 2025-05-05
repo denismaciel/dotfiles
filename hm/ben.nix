@@ -206,8 +206,6 @@
     extraLuaConfig = "require('init')";
   };
 
-  programs.waybar.enable = false;
-
   programs.alacritty = {
     enable = true;
     settings = {
