@@ -18,6 +18,7 @@
   hardware.keyboard.zsa.enable = true;
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
+  # services.mako.enable = false;
 
   services.tailscale.enable = true;
   services.xremap = {
@@ -245,7 +246,8 @@
     };
   };
 
-  stylix.enable = true;
+  stylix.enable = false;
+  # stylix.targets.mako.enable = false;
   stylix.image = ../../assets/wallpaper.jpg;
   stylix.base16Scheme = ../../no-clown-fiesta.yaml;
   # stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-soft.yaml";

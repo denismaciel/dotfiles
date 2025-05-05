@@ -13,8 +13,8 @@
   };
 
   inputs = {
-    alejandra.inputs.nixpkgs.follows = "nixpkgs";
-    alejandra.url = "github:kamadorueda/alejandra/3.0.0";
+    # alejandra.inputs.nixpkgs.follows = "nixpkgs";
+    # alejandra.url = "github:kamadorueda/alejandra/3.0.0";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
@@ -33,7 +33,7 @@
   };
 
   outputs = inputs @ {
-    alejandra,
+    # alejandra,
     firefox-addons,
     home-manager,
     nixos-hardware,
@@ -43,28 +43,14 @@
     ghostty,
     ...
   }: {
-    # homeConfigurations = {
-    #   denis = home-manager.lib.homeManagerConfiguration {
-    #     pkgs = nixpkgs.legacyPackages.${"x86_64-linux"};
-    #     extraSpecialArgs = {inherit inputs;};
-    #     modules = [
-    #       ./home.nix
-    #     ];
-    #   };
-    # };
     nixosConfigurations = {
-      ben = nixpkgs.lib.nixosSystem rec {
+      ben = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         system = "x86_64-linux";
         modules = [
           ./hosts/ben/configuration.nix
           inputs.stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
-          {
-            environment.systemPackages = [
-              ghostty.packages.x86_64-linux.default
-            ];
-          }
           {
             home-manager.useUserPackages = true;
             home-manager.users.denis = import ./hm/ben.nix;
@@ -73,7 +59,9 @@
             };
           }
           {
-            environment.systemPackages = [alejandra.defaultPackage.${system}];
+            environment.systemPackages = [
+              # ghostty.packages.x86_64-linux.default
+            ];
           }
         ];
       };

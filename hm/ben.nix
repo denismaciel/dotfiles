@@ -17,9 +17,9 @@
   git.enable = true;
   home.packages = with pkgs; [
     gimp
-    ghostty
+    # ghostty
     newsboat
-    code-cursor
+    # code-cursor
     st
     feh
     wl-clipboard
@@ -34,10 +34,10 @@
     # python312Packages.mdformat -- Installed used uv
     # python312Packages.mdformat-gfm
     # zed-editor
-    code-cursor
+    # code-cursor
     anki
-    vscode
-    vscode-js-debug
+    # vscode
+    # vscode-js-debug
     duckdb
     biome
     btop
@@ -110,7 +110,7 @@
     tailwindcss-language-server
     terraform
     terraform-ls
-    tor-browser-bundle-bin
+    # tor-browser-bundle-bin
     tree
     typescript
     universal-ctags
