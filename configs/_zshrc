@@ -255,7 +255,7 @@ function gh-create-pr() {
    gh pr create --title "$(git branch --show-current)" --body "" --base main --assignee "@me"
 }
 
-function gh-open-pr() {
+function gh-view-pr() {
     url=$(gh pr view --json url -q .url)
     if [ -n "$url" ]; then
         firefox "$url"
