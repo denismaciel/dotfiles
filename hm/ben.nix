@@ -213,8 +213,8 @@
         TERM = "xterm-256color";
       };
       font = {
-        normal.family = "Blex Mono Nerd Font";
-        size = 10.0;
+        # normal.family = "Blex Mono Nerd Font";
+        # size = 10.0;
       };
     };
   };

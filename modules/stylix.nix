@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   config = {
-    stylix.enable = false;
+    stylix.enable = true;
     stylix.image = ../assets/wallpaper.jpg;
     stylix.base16Scheme = ../no-clown-fiesta.yaml;
     # stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-soft.yaml";
