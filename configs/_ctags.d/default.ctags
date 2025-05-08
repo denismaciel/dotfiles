@@ -1,5 +1,8 @@
 --exclude=*public*
 --exclude=*node_modules*
 --exclude=*venv*
+--exclude=*public*
+--exclude=*.next*
 
 --languages=Python,Go,TypeScript
+

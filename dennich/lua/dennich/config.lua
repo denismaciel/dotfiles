@@ -315,16 +315,26 @@ end, {
 })
 
 vim.keymap.set('n', 'tt', function()
-    require('telescope.builtin').find_files({
-        find_command = {
-            'rg',
-            '--files',
-            '--hidden',
-            '-g',
-            '!.git',
-            '-g',
-            '!.snapshots/',
+    require('fzf-lua').files({
+        actions = {
+            ['ctrl-y'] = dennich.fzf_lua_insert_relative_file_path,
         },
+        cmd = 'rg --files --hidden '
+            .. '--glob "!.git" '
+            .. '--glob "!*.png" '
+            .. '--glob "!*.xlsx" '
+            .. '--glob "!.snapshots/" '
+            .. '--glob "!*.xsd" '
+            .. '--glob "!*.jpeg" '
+            .. '--glob "!*.jpg" '
+            .. '--glob "!*.webp" '
+            .. '--glob "!**/test_data/**/*.json" '
+            .. '--glob "!**/test_data/**/*.jsonl" '
+            .. '--glob "!**/testdata/**/*.json" '
+            .. '--glob "!**/testdata/**/*.jsonl"',
+        -- You can add any fzf-lua specific options here, for example:
+        -- previewer = true,
+        -- prompt = "Files> ",
     })
 end, { desc = '[T]elescope Find Files' })
 vim.keymap.set(

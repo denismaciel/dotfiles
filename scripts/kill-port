@@ -17,7 +17,13 @@ if [ -z "$PID" ]; then
 fi
 
 # Get process details
-PROCESS_INFO=$(ps -p $PID -o pid,user,lstart,cmd --no-headers)
+PROCESS_INFO=$(ps -p $PID -o pid,user,lstart,cmd --no-headers 2>/dev/null)
+
+if [ -z "$PROCESS_INFO" ]; then
+    echo "Failed to retrieve process details for PID $PID"
+    exit 1
+fi
+
 PID=$(echo $PROCESS_INFO | awk '{print $1}')
 USER=$(echo $PROCESS_INFO | awk '{print $2}')
 START_TIME=$(echo $PROCESS_INFO | awk '{print $3, $4, $5, $6, $7}')

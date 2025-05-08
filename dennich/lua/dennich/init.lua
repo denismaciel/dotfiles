@@ -580,6 +580,29 @@ M.telescope_insert_relative_file_path = function(prompt_bufnr)
     end
 end
 
+M.fzf_lua_insert_relative_file_path = function(selected)
+    local selection = selected[1]
+
+    if selection == nil then
+        print('No selection made.')
+        return
+    end
+
+    -- keep only ascii characters to remove the funky filetype icons.
+    local relative_path = string.gsub(selection, '[^%w%s%.%-]', '')
+
+    -- Now get current buffer and cursor position after closing telescope
+    local current_buf = vim.api.nvim_get_current_win()
+    local cursor_pos = vim.api.nvim_win_get_cursor(current_buf)
+    local row, col = cursor_pos[1], cursor_pos[2]
+
+    -- Insert the path with @ prefix at cursor position
+    local text_to_insert = '@' .. relative_path
+    vim.api.nvim_buf_set_text(0, row - 1, col, row - 1, col, { text_to_insert })
+    -- Notify user
+    print('Inserted: ' .. text_to_insert)
+end
+
 M.open_track_md = function()
     local is_git_repo =
         vim.fn.systemlist('git rev-parse --is-inside-work-tree')[1]
