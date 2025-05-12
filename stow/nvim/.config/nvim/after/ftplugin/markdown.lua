@@ -73,14 +73,34 @@ local function toggle_checkbox()
     local lineno = cursor[1]
     local line = vim.api.nvim_buf_get_lines(0, lineno - 1, lineno, false)[1]
         or ''
+
+    -- Check if line has a checkbox
     if string.find(line, '%[ %]') then
+        -- Toggle unchecked to checked
         line = line:gsub('%[ %]', '%[x%]')
-    else
+        vim.api.nvim_buf_set_lines(0, lineno - 1, lineno, false, { line })
+        vim.api.nvim_win_set_cursor(0, cursor)
+        pcall(vim.fn['repeat#set'], ':ToggleCheckbox' .. CR)
+    elseif string.find(line, '%[x%]') then
+        -- Toggle checked to unchecked
         line = line:gsub('%[x%]', '%[ %]')
+        vim.api.nvim_buf_set_lines(0, lineno - 1, lineno, false, { line })
+        vim.api.nvim_win_set_cursor(0, cursor)
+        pcall(vim.fn['repeat#set'], ':ToggleCheckbox' .. CR)
+    else
+        -- No checkbox found, insert one at the beginning and enter insert mode
+        -- Preserve indentation if any
+        local indentation = line:match('^%s*')
+        local new_line = indentation .. '- [ ] ' .. line:gsub('^%s*', '')
+        vim.api.nvim_buf_set_lines(0, lineno - 1, lineno, false, { new_line })
+
+        -- Position cursor at the end of "- [ ] " after the indentation
+        local new_col = #indentation + 6
+        vim.api.nvim_win_set_cursor(0, { lineno, new_col })
+
+        -- Enter insert mode
+        vim.cmd('startinsert')
     end
-    vim.api.nvim_buf_set_lines(0, lineno - 1, lineno, false, { line })
-    vim.api.nvim_win_set_cursor(0, cursor)
-    pcall(vim.fn['repeat#set'], ':ToggleCheckbox' .. CR)
 end
 
 vim.api.nvim_create_user_command(

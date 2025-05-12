@@ -30,6 +30,8 @@
     # vscode
     # vscode-js-debug
     # zed-editor
+    kdePackages.dolphin
+    mise
     (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
     alejandra
     anki

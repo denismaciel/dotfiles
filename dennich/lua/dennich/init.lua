@@ -546,8 +546,11 @@ end
 -- Create a command to call the function
 vim.api.nvim_create_user_command('SortMarkdownList', sort_markdown_list, {})
 
-M.telescope_insert_relative_file_path = function(prompt_bufnr)
-    local selection = action_state.get_selected_entry()
+M.telescope_insert_relative_file_path = function(selected)
+    print('Inserting relative file path...')
+    print(vim.inspect(selected))
+    local selection = selected[1]
+    print(vim.inspect(selection))
     if selection then
         local full_path = selection.value
         if selection.path then
@@ -555,9 +558,6 @@ M.telescope_insert_relative_file_path = function(prompt_bufnr)
         end
         -- Convert to relative path
         local relative_path = vim.fn.fnamemodify(full_path, ':.')
-
-        -- Close picker first to return to the original buffer
-        actions.close(prompt_bufnr)
 
         -- Now get current buffer and cursor position after closing telescope
         local current_buf = vim.api.nvim_get_current_win()
@@ -588,15 +588,21 @@ M.fzf_lua_insert_relative_file_path = function(selected)
         return
     end
 
-    -- keep only ascii characters to remove the funky filetype icons.
-    local relative_path = string.gsub(selection, '[^%w%s%.%-]', '')
+    -- We need to remove the filetype utf-8 symbols from the selection
+    -- 1. Split the selection by `/`. The symbols are always at the beginning.
+    -- 2. Remove non-alphanumeric characters from the first part.
+    -- 3. Join the parts back together.
+    local parts = vim.split(selection, '/')
+    local first_part = parts[1]
+    local ascii_only = first_part:gsub('[^%w%s%.%-]', '')
+    parts[1] = ascii_only
+    local relative_path = table.concat(parts, '/')
 
-    -- Now get current buffer and cursor position after closing telescope
+    -- Ready to write it back to the current buffer.
     local current_buf = vim.api.nvim_get_current_win()
     local cursor_pos = vim.api.nvim_win_get_cursor(current_buf)
     local row, col = cursor_pos[1], cursor_pos[2]
 
-    -- Insert the path with @ prefix at cursor position
     local text_to_insert = '@' .. relative_path
     vim.api.nvim_buf_set_text(0, row - 1, col, row - 1, col, { text_to_insert })
     -- Notify user
