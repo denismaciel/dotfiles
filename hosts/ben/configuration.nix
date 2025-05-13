@@ -21,6 +21,8 @@
   users.groups.uinput.members = ["denis"];
   users.groups.input.members = ["denis"];
 
+  services.vaultwarden.enable = true;
+
   # DroidCamX
   boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
   boot.kernelModules = ["v4l2loopback"];

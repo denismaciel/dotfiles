@@ -7,10 +7,10 @@
     ../modules/git.nix
   ];
   home.packages = with pkgs; [
-    uv
-    gomi
+    biome
     btop
     cargo
+    csvlens
     dbmate
     dig
     direnv
@@ -21,7 +21,7 @@
     gcc
     gnumake
     gofumpt
-    graphviz
+    gomi
     htop
     hyperfine
     jq
@@ -37,20 +37,16 @@
     nodePackages_latest.bash-language-server
     nodePackages_latest.prettier
     nodePackages_latest.typescript-language-server
-    nodejs-18_x
     openssl
-    pandoc
-    postgresql
     pyright
-    python312Full
-    python312Packages.mdformat
+    python313Packages.mdformat
     rclone
     ripgrep
     rust-analyzer
     rustc
     sqlite
-    ssm-session-manager-plugin
     statix
+    stow
     stylua
     sumneko-lua-language-server
     tailwindcss-language-server
@@ -59,13 +55,11 @@
     typescript
     universal-ctags
     unzip
+    uv
     vscode-langservers-extracted
     yaml-language-server
     yq-go
     zoxide
-    stow
-    biome
-    csvlens
   ];
   home.username = "denis";
   home.homeDirectory = "/home/denis";
