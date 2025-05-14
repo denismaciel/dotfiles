@@ -54,6 +54,25 @@
           }
         ];
       };
+      chris = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/chris/configuration.nix
+          inputs.stylix.nixosModules.stylix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useUserPackages = true;
+            home-manager.users.denis = import ./hm/ben.nix;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
+          }
+          {
+            environment.systemPackages = [];
+          }
+        ];
+      };
       anton = nixpkgs.lib.nixosSystem {
         modules = [
           ./hosts/anton/configuration.nix
