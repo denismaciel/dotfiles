@@ -5,18 +5,8 @@ windows:
     panes:
       -
       -
-  - window_name: sam-top
+  - window_name: sam
     start_directory: "~/github.com/denismaciel/sam"
-    panes:
-      -
-      -
-  - window_name: sam-web
-    start_directory: "~/github.com/denismaciel/sam/web"
-    panes:
-      -
-      -
-  - window_name: sam-server
-    start_directory: "~/github.com/denismaciel/sam/server"
     panes:
       -
       -
