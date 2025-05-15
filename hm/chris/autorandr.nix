@@ -28,20 +28,14 @@
         };
         "home" = {
           fingerprint = {
-            "DP-3" = dell;
-            "eDP-1" = laptop;
+            "DP-1" = dell;
           };
           config = {
-            DP-3 = {
+            DP-1 = {
               mode = "2560x1440";
-              position = "1680x0";
-              rotate = "left";
-              primary = true;
-            };
-            eDP-1 = {
-              mode = "1680x1050";
-              position = "0x599";
+              position = "1920x0";
               rotate = "normal";
+              primary = true;
             };
           };
         };
