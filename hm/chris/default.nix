@@ -129,16 +129,19 @@
     (google-fonts.override {fonts = ["Poppins"];})
   ];
 
-  xdg.userDirs = {
+  xdg.userDirs = let
+    top = config.home.homeDirectory;
+    home = "${top}/dirs";
+  in {
     enable = true;
-    desktop = "${config.home.homeDirectory}/dirs/desktop";
-    documents = "${config.home.homeDirectory}/dirs/documents";
-    download = "${config.home.homeDirectory}/downloads";
-    music = "${config.home.homeDirectory}/dirs/music";
-    pictures = "${config.home.homeDirectory}/dirs/pictures";
-    publicShare = "${config.home.homeDirectory}/dirs/public";
-    templates = "${config.home.homeDirectory}/dirs/templates";
-    videos = "${config.home.homeDirectory}/dirs/videos";
+    desktop = "${home}/dirs/desktop";
+    documents = "${home}/dirs/documents";
+    download = "${home}/downloads";
+    music = "${home}/dirs/music";
+    pictures = "${home}/dirs/pictures";
+    publicShare = "${home}/dirs/public";
+    templates = "${home}/dirs/templates";
+    videos = "${home}/dirs/videos";
   };
   stylix.targets.neovim.enable = false;
   home.username = "denis";
@@ -390,13 +393,6 @@
 
   services.udiskie.enable = true; # Auto mount devices
 
-  gtk = {
-    iconTheme = {
-      name = "Papirus";
-      package = pkgs.papirus-icon-theme;
-    };
-  };
-
   nixpkgs.config.allowUnfree = true;
   nixpkgs = {
     overlays = [
@@ -468,38 +464,5 @@
     Timer.OnCalendar = "*:0/2";
     Timer.Persistent = true;
     Install.WantedBy = ["timers.target"];
-  };
-
-  dconf.settings = {
-    "org/gnome/nautilus/icon-view" = {
-      default-zoom-level = "standard";
-    };
-
-    "org/gnome/nautilus/preferences" = {
-      default-folder-viewer = "icon-view";
-      default-sort-order = "type";
-      migrated-gtk-settings = true;
-      search-filter-time-type = "last_modified";
-      search-view = "list-view";
-    };
-
-    "org/gnome/nautilus/window-state" = {
-      maximized = false;
-      sidebar-width = 200;
-      start-with-sidebar = true;
-    };
-
-    "org/gtk/gtk4/settings/file-chooser" = {
-      date-format = "regular";
-      location-mode = "path-bar";
-      show-hidden = false;
-      show-size-column = true;
-      show-type-column = true;
-      sidebar-width = 263;
-      sort-column = "name";
-      sort-directories-first = true;
-      sort-order = "ascending";
-      type-format = "category";
-    };
   };
 }

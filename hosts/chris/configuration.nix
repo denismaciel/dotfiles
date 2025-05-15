@@ -23,13 +23,6 @@
 
   services.vaultwarden.enable = true;
 
-  # DroidCamX
-  boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
-  boot.kernelModules = ["v4l2loopback"];
-  programs.adb.enable = true; # enable android proper data tethering
-  networking.firewall.allowedTCPPorts = [4747];
-  networking.firewall.allowedUDPPorts = [4747];
-
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
