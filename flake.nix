@@ -63,7 +63,7 @@
           home-manager.nixosModules.home-manager
           {
             home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./hm/ben.nix;
+            home-manager.users.denis = import ./hm/chris/default.nix;
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };

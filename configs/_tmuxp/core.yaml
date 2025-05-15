@@ -1,27 +1,7 @@
 session_name: core
 windows:
-  - window_name: recap-top
-    start_directory: "~/work/core"
-    panes:
-      -
-      -
-  - window_name: recap-github-actions
-    start_directory: "~/work/core/.github"
-    panes:
-      -
-      -
-  - window_name: recap-pycap
-    start_directory: "~/work/core/pycap"
-    panes:
-      -
-      -
-  - window_name: recap-backend
-    start_directory: "~/work/core/backend"
-    panes:
-      -
-      -
-  - window_name: recap-frontend
-    start_directory: "~/work/core/recap-app"
+  - window_name: recap
+    start_directory: "~/github.com/recap-technologies/core"
     panes:
       -
       -
