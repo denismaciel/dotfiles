@@ -6,18 +6,18 @@ repos:
       - id: check-merge-conflict
       - id: check-yaml
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.11.2
+    rev: v0.11.9
     hooks:
       - id: ruff
         args:
           - --fix
       - id: ruff-format
   - repo: https://github.com/JohnnyMorganz/StyLua
-    rev: v2.0.2
+    rev: v2.1.0
     hooks:
       - id: stylua-system
   - repo: https://github.com/kamadorueda/alejandra
-    rev: 3.1.0
+    rev: 4.0.0
     # Choose either the 'alejandra' or 'alejandra-system' hook
     # depending on what pre-requisites you have:
     hooks:
