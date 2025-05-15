@@ -5,27 +5,43 @@ local vim = vim or {}
 local timeout_ms = 10000
 local active_job = nil
 
+local read_env = function(name)
+    local file = io.open(name, 'r')
+    if file then
+        local content = file:read('*all')
+        file:close()
+        -- Trim whitespace and newlines
+        content = content:gsub('^%s*(.-)%s*$', '%1')
+        return content
+    end
+
+    local content = os.getenv(name)
+    if content then
+        return content
+    end
+    vim.notify(
+        'Environment variable not found: ' .. name,
+        vim.log.levels.ERROR,
+        { title = 'llm.nvim' }
+    )
+end
+
 local service_lookup = {
-    groq = {
-        url = 'https://api.groq.com/openai/v1/chat/completions',
-        model = 'llama3-70b-8192',
-        api_key_name = 'GROQ_API_KEY',
-    },
     openai = {
         url = 'https://api.openai.com/v1/chat/completions',
         model = 'gpt-4o',
-        api_key_name = 'OPENAI_API_KEY',
+        api_key_name = '/home/denis/credentials/openai-api-key',
     },
     anthropic = {
         url = 'https://api.anthropic.com/v1/messages',
         model = 'claude-3-7-sonnet-20250219',
         -- model = 'claude-3-5-sonnet-20240620',
-        api_key_name = 'ANTHROPIC_API_KEY',
+        api_key_name = '/home/denis/credentials/anthropic-api-key',
     },
     gemini = {
         url = 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-        model = 'gemini-2.5-pro-preview-03-25', -- User can override this in setup opts if needed
-        api_key_name = 'GEMINI_API_KEY',
+        model = 'gemini-2.5-pro-preview-05-06',
+        api_key_name = '/home/denis/credentials/gemini-api-key',
     },
 }
 
@@ -46,10 +62,6 @@ local system_prompt_replace =
     'Follow the instructions in the code comments. Generate code only. Think step by step. If you must speak, do so in comments. Generate valid code only.'
 
 local print_prompt = false
-
-local function get_api_key(name)
-    return os.getenv(name)
-end
 
 function M.setup(opts)
     timeout_ms = opts.timeout_ms or timeout_ms
@@ -259,7 +271,7 @@ function M.prompt(opts)
         return
     end
 
-    local api_key = api_key_name and get_api_key(api_key_name)
+    local api_key = read_env(api_key_name)
 
     local data
     local sys_prompt = replace and system_prompt_replace or system_prompt
