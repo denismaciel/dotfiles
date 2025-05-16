@@ -116,7 +116,11 @@ async def get_status(repo: TodoRepo) -> GetStatusResponse | ErrorResponse:
         return GetStatusResponse(
             status_code=200,
             remaining_time=remaining_time,
-            task_name=RUNNING.todo.name,
+            # add tags in front of the task name
+            # task_name=RUNNING.todo.name,
+            task_name=' '.join([f'[{tag}]' for tag in RUNNING.todo.tags])
+            + ' '
+            + RUNNING.todo.name,
             task_id=RUNNING.todo.id,
             task_time_spent=spent_time,
         )
