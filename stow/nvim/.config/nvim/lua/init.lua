@@ -234,7 +234,7 @@ require('lazy').setup({
             },
             hints = { enabled = false },
             debug = false,
-            provider = 'openai',
+            provider = 'claude',
             claude = {
                 api_key_name = 'cmd:cat /home/denis/credentials/anthropic-api-key',
             },

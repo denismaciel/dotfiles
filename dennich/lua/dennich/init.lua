@@ -632,7 +632,10 @@ M.open_track_md = function()
     local track_file = root_dir .. '/track-' .. repo_name .. '.md'
     if vim.fn.filereadable(track_file) == 1 then
         -- Open the track-{git-repo-name}.md file in Neovim
-        vim.api.nvim_command('edit ' .. track_file)
+        vim.api.nvim_command('vsplit ' .. track_file)
+
+        vim.api.nvim_command('leftabove vsplit ' .. track_file)
+        vim.api.nvim_command('vertical resize 40')
         return
     end
 
@@ -640,7 +643,8 @@ M.open_track_md = function()
     local track_md_path = root_dir .. '/track.md'
 
     -- Open the track.md file in Neovim
-    vim.api.nvim_command('edit ' .. track_md_path)
+    vim.api.nvim_command('leftabove vsplit ' .. track_md_path)
+    vim.api.nvim_command('vertical resize 40')
 end
 
 M.run = function()

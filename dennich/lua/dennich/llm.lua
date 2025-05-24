@@ -34,7 +34,8 @@ local service_lookup = {
     },
     anthropic = {
         url = 'https://api.anthropic.com/v1/messages',
-        model = 'claude-3-7-sonnet-20250219',
+        model = 'claude-opus-4-20250514',
+        -- model = 'claude-3-7-sonnet-20250219',
         -- model = 'claude-3-5-sonnet-20240620',
         api_key_name = '/home/denis/credentials/anthropic-api-key',
     },
@@ -291,7 +292,7 @@ function M.prompt(opts)
             },
             model = model,
             stream = true,
-            max_tokens = 1024,
+            max_tokens = 4096,
         }
     else
         data = {
