@@ -1065,3 +1065,7 @@ vim.keymap.set('n', '<leader>g,o', function()
         service = 'anthropic',
     })
 end, { desc = 'Prompt with OpenAI' })
+
+vim.keymap.set('n', '<leader>p', function()
+    require('dennich.bluesky').post_from_neovim()
+end, { desc = 'Post to Bluesky' })
