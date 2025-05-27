@@ -222,12 +222,12 @@ local function process_sse_response(buffer, service)
     end)
 end
 
-function M.prompt(opts)
+local function build_prompt(opts)
     local replace = opts.replace
-    local service = opts.service
     local all_text = get_lines({ all = true })
     local prompt = ''
     local visual_lines = M.get_selection()
+
     if visual_lines then
         prompt = table.concat(visual_lines, '\n')
         if replace then
@@ -237,8 +237,6 @@ function M.prompt(opts)
                 .. get_buffer_path()
                 .. ' ============\n'
                 .. selection
-            vim.api.nvim_command('normal! d')
-            vim.api.nvim_command('normal! k')
         else
             local selection = prompt
             prompt = all_text
@@ -248,14 +246,32 @@ function M.prompt(opts)
                 .. selection
                 .. '\n=======================\n'
                 .. 'talk in comments only. do NOT use markdown. remember TALK IN COMMENTS ONLY'
+        end
+    else
+        prompt = get_lines({ all = false })
+    end
+
+    local sys_prompt = replace and system_prompt_replace or system_prompt
+    return sys_prompt, prompt
+end
+
+function M.prompt(opts)
+    local replace = opts.replace
+    local service = opts.service
+    local sys_prompt, prompt = build_prompt(opts)
+
+    local visual_lines = M.get_selection()
+    if visual_lines then
+        if replace then
+            vim.api.nvim_command('normal! d')
+            vim.api.nvim_command('normal! k')
+        else
             vim.api.nvim_feedkeys(
                 vim.api.nvim_replace_termcodes('<Esc>', false, true, true),
                 'nx',
                 false
             )
         end
-    else
-        prompt = get_lines({ all = false })
     end
 
     local url = ''
@@ -275,7 +291,6 @@ function M.prompt(opts)
     local api_key = read_env(api_key_name)
 
     local data
-    local sys_prompt = replace and system_prompt_replace or system_prompt
     if print_prompt then
         print(sys_prompt)
         print(prompt)
@@ -425,6 +440,56 @@ function M.get_selection()
         end
         return lines
     end
+end
+
+function M.inspect_prompt(opts)
+    local service = opts.service or 'anthropic'
+    local sys_prompt, prompt = build_prompt(opts)
+
+    -- Create new buffer to display the rendered prompt
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_option(buf, 'buftype', 'nofile')
+    vim.api.nvim_buf_set_option(buf, 'swapfile', false)
+    vim.api.nvim_buf_set_option(buf, 'filetype', 'markdown')
+
+    -- Format the prompt content
+    local content = {
+        '# LLM Prompt Inspection',
+        '',
+        '## Service: ' .. service,
+        '## Model: '
+            .. (
+                service_lookup[service] and service_lookup[service].model
+                or 'unknown'
+            ),
+        '',
+        '## System Prompt:',
+        '```',
+    }
+
+    -- Split system prompt into lines
+    for line in sys_prompt:gmatch('[^\r\n]+') do
+        table.insert(content, line)
+    end
+
+    table.insert(content, '```')
+    table.insert(content, '')
+    table.insert(content, '## User Prompt:')
+    table.insert(content, '```')
+
+    -- Split user prompt into lines
+    for line in prompt:gmatch('[^\r\n]+') do
+        table.insert(content, line)
+    end
+
+    table.insert(content, '```')
+
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
+    vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+
+    -- Open in new window
+    vim.api.nvim_command('split')
+    vim.api.nvim_win_set_buf(0, buf)
 end
 
 function M.create_timestamped_md()

@@ -1065,6 +1065,12 @@ vim.keymap.set('n', '<leader>g,o', function()
         service = 'anthropic',
     })
 end, { desc = 'Prompt with OpenAI' })
+vim.keymap.set('n', '<leader>g,r', function()
+    require('dennich.llm').inspect_prompt({
+        service = 'anthropic',
+        replace = false,
+    })
+end, { desc = 'Inspect LLM prompt' })
 
 vim.keymap.set('n', '<leader>p', function()
     require('dennich.bluesky').post_from_neovim()
