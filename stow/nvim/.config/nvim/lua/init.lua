@@ -35,6 +35,7 @@ end
 -- ============================
 require('lazy').setup({
 
+    { 'nyoom-engineering/oxocarbon.nvim' },
     {
         'ibhagwan/fzf-lua',
         -- optional for icon support

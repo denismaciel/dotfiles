@@ -72,7 +72,8 @@ if os.getenv('MODE') == 'notebook' then
     vim.keymap.set('n', '<c-k>', ':tabprev<cr>')
 end
 
-vim.cmd([[ colorscheme no-clown-fiesta ]])
+vim.cmd([[ colorscheme oxocarbon ]])
+-- vim.cmd([[ colorscheme no-clown-fiesta ]])
 -- vim.cmd([[ colorscheme kanagawa ]])
 
 vim.cmd('cabbrev W w')
