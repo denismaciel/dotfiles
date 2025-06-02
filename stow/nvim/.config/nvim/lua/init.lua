@@ -226,71 +226,71 @@ require('lazy').setup({
             })
         end,
     },
-    {
-        'yetone/avante.nvim',
-        event = 'VeryLazy',
-        build = 'make',
-        opts = {
-            file_selector = {
-                provider = 'telescope',
-            },
-            hints = { enabled = false },
-            debug = false,
-            provider = 'claude',
-            claude = {
-                api_key_name = 'cmd:cat /home/denis/credentials/anthropic-api-key',
-            },
-            openai = {
-                api_key_name = 'cmd:cat /home/denis/credentials/openai-api-key',
-            },
-            gemini = {
-                api_key_name = 'cmd:cat /home/denis/credentials/gemini-api-key',
-                model = 'gemini-2.5-pro-preview-03-25',
-            },
-            windows = {
-                position = 'right', -- the position of the sidebar
-                wrap = true, -- similar to vim.o.wrap
-                width = 45, -- default % based on available width
-                sidebar_header = {
-                    align = 'right', -- left, center, right for title
-                    rounded = true,
-                },
-            },
-            behaviour = {
-                auto_set_highlight_group = true,
-                auto_set_keymaps = true,
-                support_paste_from_clipboard = true,
-            },
-        },
-        dependencies = {
-            'nvim-tree/nvim-web-devicons',
-            'stevearc/dressing.nvim',
-            'nvim-lua/plenary.nvim',
-            {
-                -- support for image pasting
-                'HakonHarnes/img-clip.nvim',
-                event = 'VeryLazy',
-                opts = {
-                    -- recommended settings
-                    default = {
-                        embed_image_as_base64 = false,
-                        prompt_for_file_name = false,
-                        drag_and_drop = {
-                            insert_mode = true,
-                        },
-                        -- required for Windows users
-                        use_absolute_path = true,
-                    },
-                },
-            },
-            {
-                'grapp-dev/nui-components.nvim',
-                dependencies = {
-                    'MunifTanjim/nui.nvim',
-                },
-            },
-        },
-    },
+    -- {
+    --     'yetone/avante.nvim',
+    --     event = 'VeryLazy',
+    --     build = 'make',
+    --     opts = {
+    --         file_selector = {
+    --             provider = 'telescope',
+    --         },
+    --         hints = { enabled = false },
+    --         debug = false,
+    --         provider = 'claude',
+    --         claude = {
+    --             api_key_name = 'cmd:cat /home/denis/credentials/anthropic-api-key',
+    --         },
+    --         openai = {
+    --             api_key_name = 'cmd:cat /home/denis/credentials/openai-api-key',
+    --         },
+    --         gemini = {
+    --             api_key_name = 'cmd:cat /home/denis/credentials/gemini-api-key',
+    --             model = 'gemini-2.5-pro-preview-03-25',
+    --         },
+    --         windows = {
+    --             position = 'right', -- the position of the sidebar
+    --             wrap = true, -- similar to vim.o.wrap
+    --             width = 45, -- default % based on available width
+    --             sidebar_header = {
+    --                 align = 'right', -- left, center, right for title
+    --                 rounded = true,
+    --             },
+    --         },
+    --         behaviour = {
+    --             auto_set_highlight_group = true,
+    --             auto_set_keymaps = true,
+    --             support_paste_from_clipboard = true,
+    --         },
+    --     },
+    --     dependencies = {
+    --         'nvim-tree/nvim-web-devicons',
+    --         'stevearc/dressing.nvim',
+    --         'nvim-lua/plenary.nvim',
+    --         {
+    --             -- support for image pasting
+    --             'HakonHarnes/img-clip.nvim',
+    --             event = 'VeryLazy',
+    --             opts = {
+    --                 -- recommended settings
+    --                 default = {
+    --                     embed_image_as_base64 = false,
+    --                     prompt_for_file_name = false,
+    --                     drag_and_drop = {
+    --                         insert_mode = true,
+    --                     },
+    --                     -- required for Windows users
+    --                     use_absolute_path = true,
+    --                 },
+    --             },
+    --         },
+    --         {
+    --             'grapp-dev/nui-components.nvim',
+    --             dependencies = {
+    --                 'MunifTanjim/nui.nvim',
+    --             },
+    --         },
+    --     },
+    -- },
     -- {
     --     'frankroeder/parrot.nvim',
     --     dependencies = { 'nvim-lua/plenary.nvim' },
