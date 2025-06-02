@@ -30,9 +30,6 @@
     # vscode
     # vscode-js-debug
     # zed-editor
-    pgsync
-    mprocs
-    vtsls
     envsubst
     arandr
     kdePackages.dolphin

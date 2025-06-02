@@ -72,7 +72,8 @@ if os.getenv('MODE') == 'notebook' then
     vim.keymap.set('n', '<c-k>', ':tabprev<cr>')
 end
 
-vim.cmd([[ colorscheme oxocarbon ]])
+-- vim.cmd([[ colorscheme oxocarbon ]])
+vim.cmd([[ colorscheme kanagawa-lotus ]])
 -- vim.cmd([[ colorscheme no-clown-fiesta ]])
 -- vim.cmd([[ colorscheme kanagawa ]])
 
@@ -426,6 +427,11 @@ vim.keymap.set('n', '<leader>gn', function()
     local bufnr = vim.api.nvim_get_current_buf()
     local buf_name = vim.api.nvim_buf_get_name(bufnr)
     local cwd = vim.fn.getcwd()
+
+    if true then
+        vim.cmd([[ LLM ]])
+        return
+    end
 
     -- If cwd is not notes folder, run LLM command
     print(cwd)

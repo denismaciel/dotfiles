@@ -36,6 +36,7 @@ end
 require('lazy').setup({
 
     { 'nyoom-engineering/oxocarbon.nvim' },
+    { 'rebelot/kanagawa.nvim' },
     {
         'ibhagwan/fzf-lua',
         -- optional for icon support
@@ -290,33 +291,33 @@ require('lazy').setup({
             },
         },
     },
-    {
-        'frankroeder/parrot.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        config = function()
-            require('parrot').setup({
-                toggle_target = 'buffer',
-                providers = {
-                    openai = {
-                        api_key = read_file(
-                            '/home/denis/credentials/openai-api-key'
-                        ),
-                    },
-                    anthropic = {
-                        api_key = read_file(
-                            '/home/denis/credentials/anthropic-api-key'
-                        ),
-                    },
-                    gemini = {
-                        api_key = read_file(
-                            '/home/denis/credentials/gemini-api-key'
-                        ),
-                    },
-                },
-                hooks = {},
-            })
-        end,
-    },
+    -- {
+    --     'frankroeder/parrot.nvim',
+    --     dependencies = { 'nvim-lua/plenary.nvim' },
+    --     config = function()
+    --         require('parrot').setup({
+    --             -- toggle_target = 'buffer',
+    --             providers = {
+    --                 -- openai = {
+    --                 --     api_key = read_file(
+    --                 --         '/home/denis/credentials/openai-api-key'
+    --                 --     ),
+    --                 -- },
+    --                 -- anthropic = {
+    --                 --     api_key = read_file(
+    --                 --         '/home/denis/credentials/anthropic-api-key'
+    --                 --     ),
+    --                 -- },
+    --                 -- gemini = {
+    --                 --     api_key = read_file(
+    --                 --         '/home/denis/credentials/gemini-api-key'
+    --                 --     ),
+    --                 -- },
+    --             },
+    --             hooks = {},
+    --         })
+    --     end,
+    -- },
     {
         'folke/which-key.nvim',
         opts = { icons = { mappings = false } },
@@ -472,7 +473,7 @@ require('lazy').setup({
     },
     -- Colors
     { 'folke/tokyonight.nvim', opts = { transparent = true } },
-    { 'rebelot/kanagawa.nvim', opts = { transparent = true } },
+    { 'rebelot/kanagawa.nvim', opts = { transparent = false } },
     {
         -- local
         -- dir = '~/github.com/denismaciel/no-clown-fiesta.nvim',
