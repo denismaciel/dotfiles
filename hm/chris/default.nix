@@ -237,7 +237,9 @@
     extraConfig = builtins.readFile ../../configs/.tmux.conf;
   };
 
-  services.flameshot.enable = true;
+  services.flameshot = {
+    enable = true;
+  };
   services.syncthing.enable = true;
   services.syncthing.tray.enable = true;
 
