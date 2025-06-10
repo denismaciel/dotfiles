@@ -30,6 +30,7 @@
     # vscode
     # vscode-js-debug
     # zed-editor
+    stripe-cli
     envsubst
     arandr
     kdePackages.dolphin
