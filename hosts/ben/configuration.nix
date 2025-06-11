@@ -31,17 +31,10 @@
   services.vaultwarden = {
     enable = true;
     config = {
-      ROCKET_PORT = 8000;
-      ROCKET_ADDRESS = "127.0.0.1";
-      DOMAIN = "https://ben.tail0b5947.ts.net";
-    };
-  };
-
-  services.caddy = {
-    enable = true;
-    email = "denispmaciel@gmail.com";
-    virtualHosts."ben.tail0b5947.ts.net" = {
-      extraConfig = "reverse_proxy localhost:8000";
+      ROCKET_PORT = 8222;
+      ROCKET_ADDRESS = "0.0.0.0";
+      DOMAIN = "https://ben.tail0b5947.ts.net:8222";
+      ROCKET_TLS = ''{certs="/var/lib/tailscale/certs/ben.tail0b5947.ts.net.crt",key="/var/lib/tailscale/certs/ben.tail0b5947.ts.net.key"}'';
     };
   };
 
