@@ -25,9 +25,37 @@
     enable = true;
     config = {
       ROCKET_PORT = 8000;
-      ROCKET_ADDRESS = "0.0.0.0"; # Allow binding to all interfaces including Tailscale
-      DOMAIN = "http://nixos-ben:8000"; # Or use the Tailscale IP
+      ROCKET_ADDRESS = "127.0.0.1"; # Only bind to localhost, nginx will proxy
+      DOMAIN = "https://nixos-ben.tail-ts.net";
     };
+  };
+
+  services.nginx = {
+    enable = true;
+    recommendedTlsSettings = true;
+    recommendedOptimisation = true;
+    recommendedGzipSettings = true;
+    recommendedProxySettings = true;
+
+    virtualHosts."nixos-ben.tail-ts.net" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8000";
+        proxyWebsockets = true;
+        extraConfig = ''
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+        '';
+      };
+    };
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "denispmaciel@gmail.com";
   };
 
   # DroidCamX
