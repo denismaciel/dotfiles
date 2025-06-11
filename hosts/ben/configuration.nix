@@ -21,7 +21,14 @@
   users.groups.uinput.members = ["denis"];
   users.groups.input.members = ["denis"];
 
-  services.vaultwarden.enable = true;
+  services.vaultwarden = {
+    enable = true;
+    config = {
+      ROCKET_PORT = 8000;
+      ROCKET_ADDRESS = "0.0.0.0"; # Allow binding to all interfaces including Tailscale
+      DOMAIN = "http://nixos-ben:8000"; # Or use the Tailscale IP
+    };
+  };
 
   # DroidCamX
   boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
