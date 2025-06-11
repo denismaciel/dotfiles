@@ -108,6 +108,9 @@
     description = "denis";
     extraGroups = ["networkmanager" "wheel" "docker" "audio"];
     shell = pkgs.zsh;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICFJLQFWmH33Gmo2pGMtaQ0gPfAuqMZwodMUvDJwFTMy denispmaciel@gmail.com"
+    ];
   };
 
   # Allow unfree packages
