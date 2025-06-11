@@ -16,7 +16,10 @@
   hardware.keyboard.zsa.enable = true;
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
-  services.tailscale.enable = true;
+  services.tailscale = {
+    enable = true;
+    extraUpFlags = ["--accept-dns"];
+  };
   hardware.uinput.enable = true;
   users.groups.uinput.members = ["denis"];
   users.groups.input.members = ["denis"];
@@ -32,10 +35,13 @@
 
   services.caddy = {
     enable = true;
+    email = "denispmaciel@gmail.com";
     virtualHosts."ben" = {
       extraConfig = ''
         reverse_proxy localhost:8000
-        tls internal
+        tls {
+          get_certificate tailscale
+        }
       '';
     };
   };
