@@ -33,7 +33,8 @@
     config = {
       ROCKET_PORT = 8222;
       ROCKET_ADDRESS = "0.0.0.0";
-      DOMAIN = "http://ben.tail0b5947.ts.net:8222";
+      DOMAIN = "https://ben.tail0b5947.ts.net:8222";
+      ROCKET_TLS = ''{certs="/home/denis/dotfiles/ben.tail0b5947.ts.net.crt",key="/home/denis/dotfiles/ben.tail0b5947.ts.net.key"}'';
     };
   };
 
