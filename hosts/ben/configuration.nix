@@ -41,15 +41,9 @@
     enable = true;
     email = "denispmaciel@gmail.com";
     virtualHosts."ben.tail0b5947.ts.net" = {
-      extraConfig = ''
-        reverse_proxy localhost:8000
-        tls /var/lib/acme/nixos-ben.tail-ts.net/fullchain.pem /var/lib/acme/nixos-ben.tail-ts.net/key.pem
-      '';
+      extraConfig = "reverse_proxy localhost:8000";
     };
   };
-
-  # Allow caddy to read ACME certificates
-  users.users.caddy.extraGroups = ["acme"];
 
   # DroidCamX
   boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
