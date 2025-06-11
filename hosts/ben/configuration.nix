@@ -25,37 +25,19 @@
     enable = true;
     config = {
       ROCKET_PORT = 8000;
-      ROCKET_ADDRESS = "127.0.0.1"; # Only bind to localhost, nginx will proxy
-      DOMAIN = "https://nixos-ben.tail-ts.net";
+      ROCKET_ADDRESS = "127.0.0.1";
+      DOMAIN = "https://100.74.57.103";
     };
   };
 
-  services.nginx = {
+  services.caddy = {
     enable = true;
-    recommendedTlsSettings = true;
-    recommendedOptimisation = true;
-    recommendedGzipSettings = true;
-    recommendedProxySettings = true;
-
-    virtualHosts."nixos-ben.tail-ts.net" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8000";
-        proxyWebsockets = true;
-        extraConfig = ''
-          proxy_set_header Host $host;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_set_header X-Forwarded-Proto $scheme;
-        '';
-      };
+    virtualHosts."100.74.57.103" = {
+      extraConfig = ''
+        reverse_proxy localhost:8000
+        tls internal
+      '';
     };
-  };
-
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = "denispmaciel@gmail.com";
   };
 
   # DroidCamX
