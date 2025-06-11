@@ -26,13 +26,13 @@
     config = {
       ROCKET_PORT = 8000;
       ROCKET_ADDRESS = "127.0.0.1";
-      DOMAIN = "https://100.74.57.103";
+      DOMAIN = "https://ben";
     };
   };
 
   services.caddy = {
     enable = true;
-    virtualHosts."100.74.57.103" = {
+    virtualHosts."ben" = {
       extraConfig = ''
         reverse_proxy localhost:8000
         tls internal
