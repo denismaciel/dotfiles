@@ -29,19 +29,17 @@
     config = {
       ROCKET_PORT = 8000;
       ROCKET_ADDRESS = "127.0.0.1";
-      DOMAIN = "https://ben";
+      DOMAIN = "https://ben.tail0b5947.ts.net";
     };
   };
 
   services.caddy = {
     enable = true;
     email = "denispmaciel@gmail.com";
-    virtualHosts."ben" = {
+    virtualHosts."ben.tail0b5947.ts.net" = {
       extraConfig = ''
         reverse_proxy localhost:8000
-        tls {
-          get_certificate tailscale
-        }
+        tls ben.tail0b5947.ts.net.crt ben.tail0b5947.ts.net.key
       '';
     };
   };
