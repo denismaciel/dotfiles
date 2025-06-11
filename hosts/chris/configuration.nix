@@ -23,8 +23,6 @@
   users.groups.uinput.members = ["denis"];
   users.groups.input.members = ["denis"];
 
-  services.vaultwarden.enable = true;
-
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
