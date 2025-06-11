@@ -33,28 +33,7 @@
     config = {
       ROCKET_PORT = 8222;
       ROCKET_ADDRESS = "0.0.0.0";
-      DOMAIN = "https://ben.tail0b5947.ts.net:8222";
-      ROCKET_TLS = ''{certs="/var/lib/vaultwarden/ben.tail0b5947.ts.net.crt",key="/var/lib/vaultwarden/ben.tail0b5947.ts.net.key"}'';
-    };
-  };
-
-  # Copy Tailscale certificates to vaultwarden directory with proper permissions
-  systemd.services.vaultwarden-cert-setup = {
-    description = "Copy Tailscale certificates for Vaultwarden";
-    before = ["vaultwarden.service"];
-    requiredBy = ["vaultwarden.service"];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = ''
-        ${pkgs.bash}/bin/bash -c '
-          if [ -f /var/lib/tailscale/certs/ben.tail0b5947.ts.net.crt ]; then
-            cp /var/lib/tailscale/certs/ben.tail0b5947.ts.net.crt /var/lib/vaultwarden/
-            cp /var/lib/tailscale/certs/ben.tail0b5947.ts.net.key /var/lib/vaultwarden/
-            chown vaultwarden:vaultwarden /var/lib/vaultwarden/ben.tail0b5947.ts.net.*
-            chmod 600 /var/lib/vaultwarden/ben.tail0b5947.ts.net.*
-          fi
-        '
-      '';
+      DOMAIN = "http://ben.tail0b5947.ts.net:8222";
     };
   };
 
