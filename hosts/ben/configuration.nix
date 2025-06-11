@@ -132,6 +132,9 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
+  # Don't suspend when lid is closed (server mode)
+  services.logind.lidSwitch = "ignore";
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.denis = {
     isNormalUser = true;
