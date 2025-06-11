@@ -36,12 +36,14 @@
   services.caddy = {
     enable = true;
     email = "denispmaciel@gmail.com";
-    virtualHosts."ben.tail0b5947.ts.net" = {
-      extraConfig = ''
+    extraConfig = ''
+      ben.tail0b5947.ts.net {
         reverse_proxy localhost:8000
-        tls ben.tail0b5947.ts.net.crt ben.tail0b5947.ts.net.key
-      '';
-    };
+        tls {
+          get_certificate tailscale
+        }
+      }
+    '';
   };
 
   # DroidCamX
