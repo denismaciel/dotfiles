@@ -20,6 +20,10 @@
     enable = true;
     extraUpFlags = ["--accept-dns"];
   };
+
+  # Trust Tailscale interface in firewall
+  networking.firewall.enable = true;
+  networking.firewall.trustedInterfaces = ["tailscale0"];
   hardware.uinput.enable = true;
   users.groups.uinput.members = ["denis"];
   users.groups.input.members = ["denis"];
@@ -36,14 +40,12 @@
   services.caddy = {
     enable = true;
     email = "denispmaciel@gmail.com";
-    extraConfig = ''
-      ben.tail0b5947.ts.net {
+    virtualHosts."ben.tail0b5947.ts.net" = {
+      extraConfig = ''
         reverse_proxy localhost:8000
-        tls {
-          get_certificate tailscale
-        }
-      }
-    '';
+        tls /root/ben.tail0b5947.ts.net.crt /root/ben.tail0b5947.ts.net.key
+      '';
+    };
   };
 
   # DroidCamX
