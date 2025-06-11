@@ -34,9 +34,17 @@
       ROCKET_PORT = 8222;
       ROCKET_ADDRESS = "0.0.0.0";
       DOMAIN = "https://ben.tail0b5947.ts.net:8222";
-      ROCKET_TLS = ''{certs="/home/denis/dotfiles/ben.tail0b5947.ts.net.crt",key="/home/denis/dotfiles/ben.tail0b5947.ts.net.key"}'';
+      ROCKET_TLS = ''{certs="/etc/vaultwarden/ben.tail0b5947.ts.net.crt",key="/etc/vaultwarden/ben.tail0b5947.ts.net.key"}'';
     };
   };
+
+  system.activationScripts.vaultwarden-certs = ''
+    mkdir -p /etc/vaultwarden
+    cp /home/denis/dotfiles/ben.tail0b5947.ts.net.crt /etc/vaultwarden/
+    cp /home/denis/dotfiles/ben.tail0b5947.ts.net.key /etc/vaultwarden/
+    chown vaultwarden:vaultwarden /etc/vaultwarden/ben.tail0b5947.ts.net.*
+    chmod 600 /etc/vaultwarden/ben.tail0b5947.ts.net.*
+  '';
 
   # DroidCamX
   boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
