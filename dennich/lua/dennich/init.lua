@@ -609,20 +609,20 @@ M.fzf_lua_insert_relative_file_path = function(selected)
     print('Inserted: ' .. text_to_insert)
 end
 
-M.open_track_md = function()
+local get_track_md_path = function()
     local is_git_repo =
         vim.fn.systemlist('git rev-parse --is-inside-work-tree')[1]
 
     if is_git_repo ~= 'true' then
         print('Not inside a Git repository.')
-        return
+        return nil
     end
 
     local root_dir = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
 
     if not root_dir or root_dir == '' then
         print('Could not determine Git repository root.')
-        return
+        return nil
     end
 
     -- For some repos, I don't or can't commit the track.md file.
@@ -631,16 +631,31 @@ M.open_track_md = function()
     local repo_name = vim.fn.fnamemodify(root_dir, ':t')
     local track_file = root_dir .. '/track-' .. repo_name .. '.md'
     if vim.fn.filereadable(track_file) == 1 then
-        -- Open the track-{git-repo-name}.md file in Neovim
-        vim.api.nvim_command('leftabove vsplit ' .. track_file)
-        vim.api.nvim_command('vertical resize 80')
-        return
+        return track_file
     end
 
     -- Path to the track.md inside the repo root
-    local track_md_path = root_dir .. '/track.md'
+    return root_dir .. '/track.md'
+end
 
-    -- Open the track.md file in Neovim
+M.open_track_md = function()
+    local track_md_path = get_track_md_path()
+    if not track_md_path then
+        return
+    end
+
+    -- Check if the track file is already open in any window
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        local buf_name = vim.api.nvim_buf_get_name(buf)
+        if buf_name == track_md_path then
+            -- File is already open, close the window
+            vim.api.nvim_win_close(win, false)
+            return
+        end
+    end
+
+    -- File is not open, open it
     vim.api.nvim_command('leftabove vsplit ' .. track_md_path)
     vim.api.nvim_command('vertical resize 80')
 end

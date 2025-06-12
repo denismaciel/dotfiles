@@ -74,8 +74,8 @@ end
 
 -- vim.cmd([[ colorscheme oxocarbon ]])
 -- vim.cmd([[ colorscheme kanagawa-lotus ]])
--- vim.cmd([[ colorscheme no-clown-fiesta ]])
-vim.cmd([[ colorscheme kanagawa ]])
+vim.cmd([[ colorscheme no-clown-fiesta ]])
+-- vim.cmd([[ colorscheme kanagawa ]])
 
 vim.cmd('cabbrev W w')
 vim.cmd('cabbrev Wq wq')
