@@ -339,11 +339,11 @@ function gf() {
 
 function organize-downloads() {
   # Create a directory name with today's date in format YYYY-MM-DD
-  local TODAY=$(date +"%Y-%m-%d")
+  local TODAY=$(date +"%Y-%m-%d-%H%M%S")
   
   # Set source and destination directories
-  local SOURCE_DIR=~/downloads
-  local DEST_DIR=~/downloads-dump/$TODAY
+  local SOURCE_DIR=~/dirs/downloads
+  local DEST_DIR=~/dirs/downloads-dump/$TODAY
   
   # Create the destination directory if it doesn't exist
   mkdir -p "$DEST_DIR"
