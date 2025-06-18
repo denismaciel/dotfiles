@@ -15,23 +15,7 @@
   firefox.enable = true;
   git.enable = true;
   home.packages = with pkgs; [
-    # clang
-    # code-cursor
-    # code-cursor
-    # ghostty
-    # golden-cheetah
-    # libreoffice
-    # nodePackages_latest.prettier
-    # nodePackages_latest.typescript-language-server
-    # obs-studio
-    # python312Packages.mdformat -- Installed used uv
-    # python312Packages.mdformat-gfm
-    # tor-browser-bundle-bin
-    # vscode
-    # vscode-js-debug
-    # zed-editor
     arandr
-    kdePackages.dolphin
     mise
     (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
     alejandra
@@ -127,7 +111,6 @@
     (rofi.override {plugins = [pkgs.rofi-emoji pkgs.rofi-calc];})
     (google-fonts.override {fonts = ["Poppins"];})
   ];
-
   xdg.userDirs = {
     enable = true;
     desktop = "${config.home.homeDirectory}/dirs/desktop";
@@ -198,16 +181,13 @@
   # changes in each release.
   home.stateVersion = "22.05";
   fonts.fontconfig.enable = true;
-
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
   programs.neovim = {
     enable = true;
     package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
     extraLuaConfig = "require('init')";
   };
-
   programs.alacritty = {
     enable = true;
     settings = {
@@ -220,7 +200,6 @@
       };
     };
   };
-
   programs.tmux = {
     enable = true;
     tmuxp.enable = true;
@@ -231,49 +210,9 @@
     ];
     extraConfig = builtins.readFile ../configs/.tmux.conf;
   };
-
   services.flameshot.enable = true;
   services.syncthing.enable = true;
   services.syncthing.tray.enable = true;
-
-  programs.nushell = {
-    enable = true;
-    extraConfig = ''
-      $env.config.show_banner = false
-
-      $env.config.completions.algorithm = "fuzzy"
-      $env.config.completions.external.completer = {|spans|
-          let carapace_completer = {|spans|
-              carapace $spans.0 nushell ...$spans
-              | from json
-          }
-          let zoxide_completer = {|spans|
-              $spans | skip 1 | zoxide query -l $in | lines | where {|x| $x != $env.PWD}
-          }
-
-          let expanded_alias = scope aliases | where name == $spans.0 | get -i 0 | get -i expansion
-          let spans = if $expanded_alias != null  {
-              $spans | skip 1 | prepend ($expanded_alias | split row " " | take 1)
-          } else {
-              $spans
-          }
-
-          match $spans.0 {
-              __zoxide_z | __zoxide_zi => $zoxide_completer,
-              _ => $carapace_completer
-          } | do $in $spans
-      }
-
-
-      $env.config.cursor_shape.vi_insert = "line"
-      $env.config.cursor_shape.vi_normal = "block"
-      $env.config.edit_mode = "vi"
-      $env.config.buffer_editor = "nvim"
-    '';
-  };
-  programs.carapace.enable = true;
-  programs.carapace.enableZshIntegration = true;
-  programs.carapace.enableNushellIntegration = true;
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
@@ -317,7 +256,6 @@
       }
     ];
   };
-
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
@@ -374,28 +312,12 @@
       };
     };
   };
-
   services.polybar = {
     enable = true;
     extraConfig = builtins.readFile ../configs/polybar/config.ini;
     script = builtins.readFile ../configs/polybar/launch.sh;
   };
-
-  services.screen-locker = {
-    enable = false;
-    inactiveInterval = 10;
-    lockCmd = "${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 10 15";
-  };
-
   services.udiskie.enable = true; # Auto mount devices
-
-  gtk = {
-    iconTheme = {
-      name = "Papirus";
-      package = pkgs.papirus-icon-theme;
-    };
-  };
-
   nixpkgs.config.allowUnfree = true;
   nixpkgs = {
     overlays = [
@@ -403,34 +325,6 @@
     ];
   };
   systemd.user.startServices = true;
-
-  systemd.user.services.feh = {
-    Unit = {
-      Description = "Feh";
-    };
-    Install = {
-      WantedBy = ["graphical-session.target"];
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.feh}/bin/feh --bg-scale ${../assets/black.png}";
-    };
-  };
-
-  systemd.user.services.pomodoro-server = {
-    Unit = {
-      Description = "Pomodoro Server";
-    };
-    Install = {
-      WantedBy = ["graphical-session.target"];
-    };
-    Service = {
-      ExecStart = "/home/denis/.local/bin/dennich-pomodoro start-server";
-      Restart = "always";
-      RestartSec = 3;
-    };
-  };
-
   systemd.user.services.greenclip = {
     Unit = {
       Description = "greenclip daemon";
@@ -439,55 +333,6 @@
     Install = {WantedBy = ["graphical-session.target"];};
     Service = {
       ExecStart = "${pkgs.haskellPackages.greenclip}/bin/greenclip daemon";
-    };
-  };
-
-  systemd.user.services.dump-anki = {
-    Unit = {
-      Description = "Dump Anki Notes to index.json";
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStart = "/home/denis/.local/bin/dennich-danki dump";
-    };
-  };
-
-  systemd.user.timers.dump-anki = {
-    Timer.OnCalendar = "*:0/2";
-    Timer.Persistent = true;
-    Install.WantedBy = ["timers.target"];
-  };
-
-  dconf.settings = {
-    "org/gnome/nautilus/icon-view" = {
-      default-zoom-level = "standard";
-    };
-
-    "org/gnome/nautilus/preferences" = {
-      default-folder-viewer = "icon-view";
-      default-sort-order = "type";
-      migrated-gtk-settings = true;
-      search-filter-time-type = "last_modified";
-      search-view = "list-view";
-    };
-
-    "org/gnome/nautilus/window-state" = {
-      maximized = false;
-      sidebar-width = 200;
-      start-with-sidebar = true;
-    };
-
-    "org/gtk/gtk4/settings/file-chooser" = {
-      date-format = "regular";
-      location-mode = "path-bar";
-      show-hidden = false;
-      show-size-column = true;
-      show-type-column = true;
-      sidebar-width = 263;
-      sort-column = "name";
-      sort-directories-first = true;
-      sort-order = "ascending";
-      type-format = "category";
     };
   };
 }
