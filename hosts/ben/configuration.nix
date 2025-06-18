@@ -18,9 +18,18 @@
     enable = true;
     extraUpFlags = ["--accept-dns" "--advertise-exit-node"];
   };
-
   # Enable IP forwarding for exit node functionality
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+  services.adguardhome = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      dns = {
+        bind_port = 53;
+        bind_hosts = ["0.0.0.0" "::"];
+      };
+    };
+  };
 
   # Trust Tailscale interface in firewall
   networking.firewall.enable = true;
