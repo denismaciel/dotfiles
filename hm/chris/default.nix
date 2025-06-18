@@ -43,7 +43,6 @@
     bun
     calibre
     cargo
-    chromium
     circumflex
     csvlens
     dbmate
@@ -387,6 +386,8 @@
     extraConfig = builtins.readFile ../../configs/polybar/config.ini;
     script = builtins.readFile ../../configs/polybar/launch.sh;
   };
+
+  services.pasystray.enable = true;
 
   services.screen-locker = {
     enable = false;

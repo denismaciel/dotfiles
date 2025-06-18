@@ -18,6 +18,7 @@
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "both";
+    extraUpFlags = ["--accept-dns=false"];
   };
   hardware.uinput.enable = true;
   users.groups.uinput.members = ["denis"];
@@ -28,6 +29,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
+    nameservers = [
+      "100.74.57.103" # ben's tailscale IP
+    ];
     hostName = "nixos-chris";
     networkmanager.enable = true;
     extraHosts = ''

@@ -41,7 +41,6 @@
     bun
     calibre
     cargo
-    chromium
     circumflex
     csvlens
     dbmate
