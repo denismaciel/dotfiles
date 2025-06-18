@@ -6,13 +6,11 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/warp.nix
     ../../modules/stylix.nix
   ];
 
   nix.settings.trusted-users = ["denis"];
   boot.binfmt.emulatedSystems = ["aarch64-linux"]; # necessary to build nixos for raspberrypi
-  warp.enable = false;
   hardware.keyboard.zsa.enable = true;
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
