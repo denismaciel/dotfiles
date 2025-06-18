@@ -16,8 +16,11 @@
   services.blueman.enable = true;
   services.tailscale = {
     enable = true;
-    extraUpFlags = ["--accept-dns"];
+    extraUpFlags = ["--accept-dns" "--advertise-exit-node"];
   };
+
+  # Enable IP forwarding for exit node functionality
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
   # Trust Tailscale interface in firewall
   networking.firewall.enable = true;
