@@ -70,6 +70,7 @@
   networking = {
     hostName = "nixos-ben";
     networkmanager.enable = true;
+    nameservers = ["127.0.0.1"];
     extraHosts = ''
       127.0.0.1 linkedin.com
       127.0.0.1 www.linkedin.com
