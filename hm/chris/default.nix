@@ -91,7 +91,6 @@
     openssl
     pandoc
     papirus-icon-theme
-    pasystray
     pgcli
     postgresql
     pqrs
@@ -404,17 +403,6 @@
     ];
   };
   systemd.user.startServices = true;
-
-  systemd.user.services.pasystray = {
-    Install = {
-      WantedBy = ["graphical-session.target"];
-    };
-    Service = {
-      ExecStart = "${pkgs.pasystray}/bin/pasystray";
-      Restart = "always";
-      RestartSec = 3;
-    };
-  };
 
   systemd.user.services.feh = {
     Unit = {
