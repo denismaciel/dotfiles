@@ -60,7 +60,7 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  services.gnome.gnome-keyring.enable = true;
+  # services.gnome.gnome-keyring.enable = true;
   services.displayManager = {
     sddm.enable = true;
     defaultSession = "none+awesome";

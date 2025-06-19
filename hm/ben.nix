@@ -63,7 +63,6 @@
     mpv
     nerd-fonts.blex-mono
     nerd-fonts.comic-shanns-mono
-    newsboat
     ngrok
     nil
     nixfmt-rfc-style
