@@ -30,6 +30,7 @@
     # vscode
     # vscode-js-debug
     # zed-editor
+    bitwarden
     stripe-cli
     envsubst
     arandr

@@ -394,7 +394,7 @@ awful.rules.rules = {
         },
     },
     {
-        rule_any = { class = { 'KeePassXC', '1Password' } },
+        rule_any = { class = { 'KeePassXC', '1Password', 'Bitwarden' } },
         properties = {
             floating = true,
             width = 1200,

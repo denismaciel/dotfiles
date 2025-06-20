@@ -10,3 +10,9 @@ Specially not to get lost with side projects.
 
 The idea now is to have a way to also track stuff from re:cap and have it in Sync thing.
 Without committing it.
+
+### 2025-06-20 05:34
+
+- Download Bitwarden client
+- Reactivate gnome keyring.
+

@@ -60,7 +60,6 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # services.gnome.gnome-keyring.enable = true;
   services.displayManager = {
     sddm.enable = true;
     defaultSession = "none+awesome";
@@ -165,9 +164,10 @@
   };
 
   # Enable the OpenSSH daemon.
+  services.gnome.gnome-keyring.enable = true;
   services.openssh.enable = true;
   programs.ssh = {
-    startAgent = true;
+    # startAgent = true;
     extraConfig = ''
       AddKeysToAgent yes
       IdentityFile ~/.ssh/id_rsa
