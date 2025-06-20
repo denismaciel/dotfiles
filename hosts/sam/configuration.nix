@@ -129,7 +129,7 @@
   services.openssh.ports = [22 443 2222 7422];
   services.openssh.settings.PasswordAuthentication = true;
   programs.ssh = {
-    startAgent = true;
+    # startAgent = true;
     extraConfig = ''
       AddKeysToAgent yes
       IdentityFile ~/.ssh/id_rsa
