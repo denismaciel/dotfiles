@@ -11,7 +11,7 @@
 
   nix.settings.trusted-users = ["denis"];
   boot.binfmt.emulatedSystems = ["aarch64-linux"]; # necessary to build nixos for raspberrypi
-  warp.enable = false;
+  warp.enable = true;
   hardware.keyboard.zsa.enable = true;
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
@@ -167,7 +167,7 @@
   services.gnome.gnome-keyring.enable = true;
   services.openssh.enable = true;
   programs.ssh = {
-    # startAgent = true;
+    startAgent = true;
     extraConfig = ''
       AddKeysToAgent yes
       IdentityFile ~/.ssh/id_rsa

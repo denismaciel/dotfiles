@@ -30,6 +30,7 @@
     # vscode
     # vscode-js-debug
     # zed-editor
+    pgsync
     bitwarden
     stripe-cli
     envsubst
