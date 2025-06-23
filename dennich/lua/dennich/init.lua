@@ -128,14 +128,6 @@ local routine = function()
         { text = '- [ ] #routine 10 pull-ups', condition = always },
         { text = '- [ ] #routine #recap Notion BOD', condition = is_weekday },
         { text = '- [ ] #routine #recap Inbox Zero', condition = is_weekday },
-        {
-            text = '- [ ] #routine #recap Check Dagster',
-            condition = is_weekday,
-        },
-        {
-            text = '- [ ] #routine #recap Write Daily Standup',
-            condition = is_weekday,
-        },
         { text = '- [ ] #routine Plan the day', condition = always },
         { text = '- [ ] #routine Magnésio', condition = always },
     }
