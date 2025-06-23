@@ -35,10 +35,10 @@
     hostName = "nixos-chris";
     networkmanager.enable = true;
     extraHosts = ''
-      127.0.0.1 linkedin.com
-      127.0.0.1 www.linkedin.com
-      127.0.0.1 youtube.com
-      127.0.0.1 www.youtube.com
+      # 127.0.0.1 linkedin.com
+      # 127.0.0.1 www.linkedin.com
+      # 127.0.0.1 youtube.com
+      # 127.0.0.1 www.youtube.com
       # 127.0.0.1 twitter.com
       # 127.0.0.1 www.twitter.com
       # 127.0.0.1 x.com
@@ -67,10 +67,8 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-
     autoRepeatDelay = 200;
     autoRepeatInterval = 40;
-
     windowManager.awesome = {
       enable = true;
       luaModules = with pkgs.luaPackages; [luarocks];
