@@ -30,6 +30,7 @@
     # vscode
     # vscode-js-debug
     # zed-editor
+    nmap
     pgsync
     bitwarden
     stripe-cli

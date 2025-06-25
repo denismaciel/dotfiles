@@ -18,7 +18,7 @@
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "both";
-    extraUpFlags = ["--accept-dns=false"];
+    extraUpFlags = ["--accept-dns=true"];
   };
   hardware.uinput.enable = true;
   users.groups.uinput.members = ["denis"];
