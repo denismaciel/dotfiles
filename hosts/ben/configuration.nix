@@ -34,7 +34,6 @@
   # Trust Tailscale and local network interfaces in firewall
   networking.firewall.enable = true;
   networking.firewall.trustedInterfaces = ["tailscale0"];
-  networking.firewall.allowedTCPPorts = [22 4747];
   hardware.uinput.enable = true;
   users.groups.uinput.members = ["denis"];
   users.groups.input.members = ["denis"];
@@ -61,7 +60,7 @@
   boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
   boot.kernelModules = ["v4l2loopback"];
   programs.adb.enable = true; # enable android proper data tethering
-  networking.firewall.allowedTCPPorts = [4747];
+  networking.firewall.allowedTCPPorts = [22 4747];
   networking.firewall.allowedUDPPorts = [4747];
 
   # Bootloader.
@@ -147,6 +146,9 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICFJLQFWmH33Gmo2pGMtaQ0gPfAuqMZwodMUvDJwFTMy denispmaciel@gmail.com"
     ];
   };
+
+  # Enable passwordless sudo for wheel group
+  security.sudo.wheelNeedsPassword = false;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
