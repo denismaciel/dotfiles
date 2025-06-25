@@ -17,7 +17,7 @@
   services.blueman.enable = true;
   services.tailscale = {
     enable = true;
-    useRoutingFeatures = "both";
+    useRoutingFeatures = "client";
     extraUpFlags = ["--accept-dns=true"];
   };
   hardware.uinput.enable = true;
@@ -130,6 +130,9 @@
     polkitPolicyOwners = ["denis"];
   };
   security.polkit.enable = true;
+
+  # Enable passwordless sudo for wheel group
+  security.sudo.wheelNeedsPassword = false;
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
