@@ -33,7 +33,7 @@
 
   # Trust Tailscale and local network interfaces in firewall
   networking.firewall.enable = true;
-  networking.firewall.trustedInterfaces = ["tailscale0" "enp0s13f0u1u1"];
+  networking.firewall.trustedInterfaces = ["tailscale0" "enp0s20f0u2"];
   hardware.uinput.enable = true;
   users.groups.uinput.members = ["denis"];
   users.groups.input.members = ["denis"];
