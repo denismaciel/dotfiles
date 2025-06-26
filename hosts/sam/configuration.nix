@@ -8,7 +8,7 @@
     ../../modules/warp.nix
   ];
 
-  warp.enable = false;
+  warp.enable = true;
   services.tailscale.enable = true;
   nix.settings.trusted-users = ["denis"];
   # Bootloader.
