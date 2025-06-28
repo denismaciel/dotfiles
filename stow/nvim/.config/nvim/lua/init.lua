@@ -1047,6 +1047,13 @@ require('lazy').setup({
 
 require('dennich.config')
 
+-- Set filetype for MDX files to markdown
+vim.filetype.add({
+    extension = {
+        mdx = 'markdown',
+    },
+})
+
 vim.keymap.set({ 'n', 't' }, '<c-a>', function()
     Snacks.terminal.toggle()
 end)
