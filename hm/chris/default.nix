@@ -30,6 +30,7 @@
     # vscode
     # vscode-js-debug
     # zed-editor
+    ghostty
     nmap
     pgsync
     bitwarden

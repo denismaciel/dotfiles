@@ -12,6 +12,7 @@ from typing import Any
 
 import structlog
 
+from dennich.todo.config import Config
 from dennich.todo.config import load_config
 from dennich.todo.models import ErrorResponse
 from dennich.todo.models import GetStatusResponse
@@ -28,7 +29,6 @@ from dennich.todo.models import get_session
 log = structlog.get_logger()
 
 MAX_NUMBER_OF_ZENITY_WINDOWS = 15
-NAGGING_INTERVAL_SECONDS = 60
 
 
 @dataclass
@@ -146,6 +146,7 @@ async def cancel_pomodoro_task() -> Response:
 class Server:
     port: int
     repo: TodoRepo
+    config: Config
 
     async def serve(self) -> None:
         socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -154,7 +155,7 @@ class Server:
         socket_server.listen(5)
         socket_server.setblocking(False)
 
-        _nag_task = asyncio.create_task(nag())
+        _nag_task = asyncio.create_task(nag(self.config))
 
         loop = asyncio.get_event_loop()
         while True:
@@ -204,10 +205,8 @@ def count_zenity_notifications() -> int:
     try:
         # Path to the /proc directory where process information is kept
         proc_dir = '/proc'
-
         # List all entries in the /proc directory (these are process IDs or other system files)
         dirs = [d for d in os.listdir(proc_dir) if d.isdigit()]
-
         zenity_count = 0
         for pid in dirs:
             try:
@@ -219,30 +218,21 @@ def count_zenity_notifications() -> int:
             except (FileNotFoundError, ProcessLookupError):
                 # The process might have ended before we could read its cmdline
                 continue
-
         return zenity_count
     except Exception as e:
-        log.error(f'An error occurred: {e}')
+        log.error('error counting zenity notifications', exc_info=e)
         return 0
 
 
-async def nag() -> None:
+async def nag(config: Config) -> None:
     while True:
-        log.info('Will I nag?', running_task=RUNNING)
-        await asyncio.sleep(NAGGING_INTERVAL_SECONDS)
+        await asyncio.sleep(config.nagging_interval_seconds)
         if RUNNING is None:
-            log.info('Nagging for Pomodoro')
-
             zenity_windows = count_zenity_notifications()
-            log.info(
-                'Zenity windows open',
-                zenity_windows=zenity_windows,
-                max_number_of_zenity_windows=MAX_NUMBER_OF_ZENITY_WINDOWS,
-            )
             if zenity_windows <= MAX_NUMBER_OF_ZENITY_WINDOWS:
                 try:
                     cmd = [
-                        '/etc/profiles/per-user/denis/bin/zenity',
+                        config.zenity_bin,
                         '--error',
                         '--text',
                         "'Track your time!'",
@@ -255,21 +245,21 @@ async def nag() -> None:
                 except Exception as e:
                     log.error(f'Error executing zenity command: {e}')
             else:
-                log.info('Not nagging, too many Zenity windows open.')
+                ...
+                # log.info('Not nagging, too many Zenity windows open.')
 
 
 def main() -> int:
     user = getpass.getuser()
     log.info(
-        f'Starting Pomodoro server for user {user}.',
+        'starting pomodoro server',
+        user=user,
         max_number_of_zenity_windows=MAX_NUMBER_OF_ZENITY_WINDOWS,
     )
-
     config = load_config()
-
     session = get_session()
     repo = TodoRepo(session)
-    server = Server(config.port, repo)
+    server = Server(config.port, repo, config)
     try:
         asyncio.run(server.serve())
     except KeyboardInterrupt:
