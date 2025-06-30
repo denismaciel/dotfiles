@@ -1,0 +1,11 @@
+[tools]
+uv = "latest"
+
+[tasks.rebuild-sam]
+run = "nixos-rebuild switch --flake ~/dotfiles#sam --target-host sam --sudo"
+
+[tasks.rebuild-ben]
+run = "nixos-rebuild switch --flake ~/dotfiles#ben --target-host ben --sudo"
+
+[tasks.rebuild-anton]
+run = "nixos-rebuild switch --flake ~/dotfiles#anton --target-host anton --sudo"
