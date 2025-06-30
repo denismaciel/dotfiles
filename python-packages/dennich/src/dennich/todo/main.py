@@ -152,7 +152,9 @@ def time_report(days: int, chart: bool = False) -> int:
     pomodoros = repo.load_pomodoros_created_after(cutoff_date)
 
     # Group by date and tag
-    daily_tag_minutes = defaultdict(lambda: defaultdict(int))
+    daily_tag_minutes: defaultdict[dt.date, defaultdict[str, int]] = defaultdict(
+        lambda: defaultdict(int)
+    )
 
     for pomodoro in pomodoros:
         date_key = pomodoro.start_time.date()
@@ -165,7 +167,7 @@ def time_report(days: int, chart: bool = False) -> int:
     console = Console()
 
     # Get all unique tags across all days
-    all_tags = set()
+    all_tags: set[str] = set()
     for day_data in daily_tag_minutes.values():
         all_tags.update(day_data.keys())
     sorted_tags = sorted(all_tags)
@@ -173,7 +175,7 @@ def time_report(days: int, chart: bool = False) -> int:
     # Sort dates in descending order (most recent first)
     sorted_dates = sorted(daily_tag_minutes.keys(), reverse=True)
 
-    overall_totals = defaultdict(int)
+    overall_totals: defaultdict[str, int] = defaultdict(int)
 
     if chart:
         # Chart view - grouped by tag first, then day
@@ -212,7 +214,7 @@ def time_report(days: int, chart: bool = False) -> int:
                 )
 
                 for date in all_dates:
-                    day_data = daily_tag_minutes.get(date, {})
+                    day_data = daily_tag_minutes.get(date, defaultdict(int))
                     minutes = day_data.get(tag, 0)
                     day_abbrev = date.strftime('%a')
 
