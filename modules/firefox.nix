@@ -62,6 +62,7 @@
           vimium-c
           darkreader
           multi-account-containers
+          bitwarden
         ];
       };
     };
