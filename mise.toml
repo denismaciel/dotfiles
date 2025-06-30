@@ -9,3 +9,26 @@ run = "nixos-rebuild switch --flake ~/dotfiles#ben --target-host ben --sudo"
 
 [tasks.rebuild-anton]
 run = "nixos-rebuild switch --flake ~/dotfiles#anton --target-host anton --sudo"
+
+[tasks.install-python-tools]
+run = [
+  "uv tool install --upgrade apyanki",
+  "uv tool install --upgrade awscli",
+  "uv tool install --upgrade mdformat --with mdformat-gfm",
+  "uv tool install --upgrade pre-commit",
+  "uv tool install --upgrade ruff"
+]
+
+[tasks.stow]
+run = [
+  "stow -t ~ -d stow nvim",
+  "stow -t ~ -d stow awesome",
+  "stow -t ~ -d stow nix"
+]
+
+[tasks.stow-delete]
+run = [
+  "stow -D -t ~ -d stow nvim",
+  "stow -D -t ~ -d stow awesome",
+  "stow -D -t ~ -d stow nix"
+]
