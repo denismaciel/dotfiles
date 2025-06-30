@@ -8,6 +8,7 @@ import re
 import readline
 import sys
 import typing
+from collections import defaultdict
 from collections.abc import Iterable
 from subprocess import run
 
@@ -140,6 +141,163 @@ def prefill_input(prompt: str, prefill: str = '') -> str:
         readline.set_startup_hook()
 
 
+def time_report(days: int, chart: bool = False) -> int:
+    from rich.console import Console
+    from rich.table import Table
+
+    sess = get_session()
+    repo = TodoRepo(sess)
+
+    cutoff_date = dt.datetime.now() - dt.timedelta(days=days)
+    pomodoros = repo.load_pomodoros_created_after(cutoff_date)
+
+    # Group by date and tag
+    daily_tag_minutes = defaultdict(lambda: defaultdict(int))
+
+    for pomodoro in pomodoros:
+        date_key = pomodoro.start_time.date()
+        if pomodoro.todo and pomodoro.todo.tags:
+            for tag in pomodoro.todo.tags:
+                daily_tag_minutes[date_key][tag] += pomodoro.duration
+        elif pomodoro.todo and not pomodoro.todo.tags:
+            daily_tag_minutes[date_key]['untagged'] += pomodoro.duration
+
+    console = Console()
+
+    # Get all unique tags across all days
+    all_tags = set()
+    for day_data in daily_tag_minutes.values():
+        all_tags.update(day_data.keys())
+    sorted_tags = sorted(all_tags)
+
+    # Sort dates in descending order (most recent first)
+    sorted_dates = sorted(daily_tag_minutes.keys(), reverse=True)
+
+    overall_totals = defaultdict(int)
+
+    if chart:
+        # Chart view - grouped by tag first, then day
+        console.print(f'[bold]Time Spent by Tag per Day (Last {days} days)[/bold]\n')
+
+        # Calculate overall totals and find max value for scaling
+        max_minutes = 0
+        for date in sorted_dates:
+            day_data = daily_tag_minutes[date]
+            for tag in sorted_tags:
+                minutes = day_data.get(tag, 0)
+                overall_totals[tag] += minutes
+                max_minutes = max(max_minutes, minutes)
+
+        # Bar chart scale
+        bar_width = 40
+        scale_factor = bar_width / max_minutes if max_minutes > 0 else 1
+
+        # Create list of all dates in range
+        all_dates = []
+        current_date = dt.datetime.now().date()
+        for i in range(days):
+            all_dates.append(current_date - dt.timedelta(days=i))
+        all_dates = sorted(all_dates, reverse=True)
+
+        # Group by tag, then show days
+        for tag in sorted_tags:
+            tag_total = overall_totals[tag]
+            if tag_total > 0:
+                tag_hours, tag_mins = divmod(tag_total, 60)
+                tag_total_str = (
+                    f'{tag_hours}h{tag_mins}m' if tag_hours > 0 else f'{tag_mins}m'
+                )
+                console.print(
+                    f'[bold green]#{tag}[/bold green] [yellow]({tag_total_str})[/yellow]'
+                )
+
+                for date in all_dates:
+                    day_data = daily_tag_minutes.get(date, {})
+                    minutes = day_data.get(tag, 0)
+                    day_abbrev = date.strftime('%a')
+
+                    if minutes > 0:
+                        bar_length = int(minutes * scale_factor)
+                        bar = '█' * bar_length
+                        hours, mins = divmod(minutes, 60)
+                        time_str = f'{hours}h{mins}m' if hours > 0 else f'{mins}m'
+                        console.print(
+                            f'  [cyan]{date} ({day_abbrev:3})[/cyan] {bar} {time_str}'
+                        )
+                    else:
+                        console.print(
+                            f'  [dim cyan]{date} ({day_abbrev:3})[/dim cyan] -'
+                        )
+
+                console.print()
+
+    else:
+        # Table view (existing code)
+        table = Table(title=f'Time Spent by Tag per Day (Last {days} days)')
+        table.add_column('Date', style='cyan', no_wrap=True)
+
+        for tag in sorted_tags:
+            table.add_column(f'#{tag}', style='green')
+
+        table.add_column('Total', style='yellow', justify='right')
+
+        for date in sorted_dates:
+            day_data = daily_tag_minutes[date]
+            day_abbrev = date.strftime('%a')
+            row = [f'{date} ({day_abbrev})']
+
+            day_total = 0
+            for tag in sorted_tags:
+                minutes = day_data.get(tag, 0)
+                overall_totals[tag] += minutes
+                day_total += minutes
+
+                if minutes > 0:
+                    hours, mins = divmod(minutes, 60)
+                    time_str = f'{hours}h{mins}m' if hours > 0 else f'{mins}m'
+                else:
+                    time_str = '-'
+                row.append(time_str)
+
+            # Add day total
+            day_hours, day_mins = divmod(day_total, 60)
+            day_total_str = (
+                f'{day_hours}h{day_mins}m' if day_hours > 0 else f'{day_mins}m'
+            )
+            row.append(day_total_str)
+
+            table.add_row(*row)
+
+        # Add totals row
+        totals_row = ['[bold]TOTAL[/bold]']
+        grand_total = 0
+        for tag in sorted_tags:
+            minutes = overall_totals[tag]
+            grand_total += minutes
+            hours, mins = divmod(minutes, 60)
+            time_str = (
+                f'[bold]{hours}h{mins}m[/bold]'
+                if hours > 0
+                else f'[bold]{mins}m[/bold]'
+            )
+            totals_row.append(time_str)
+
+        grand_hours, grand_mins = divmod(grand_total, 60)
+        grand_total_str = (
+            f'[bold]{grand_hours}h{grand_mins}m[/bold]'
+            if grand_hours > 0
+            else f'[bold]{grand_mins}m[/bold]'
+        )
+        totals_row.append(grand_total_str)
+
+        table.add_section()
+        table.add_row(*totals_row)
+
+        console.print(table)
+
+    return 0
+
+
 def main() -> int:
     argv = sys.argv[1:]
     parser = argparse.ArgumentParser(prog='todos')
@@ -147,6 +305,15 @@ def main() -> int:
 
     _ = subparsers.add_parser('start-pomodoro')
     _ = subparsers.add_parser('today-status')
+    time_report_parser = subparsers.add_parser(
+        'time-report', help='Report time spent on tags over X days'
+    )
+    time_report_parser.add_argument(
+        '--days', type=int, default=7, help='Number of days to look back (default: 7)'
+    )
+    time_report_parser.add_argument(
+        '--chart', action='store_true', help='Display as bar chart instead of table'
+    )
 
     selector = Fzf()
 
@@ -156,6 +323,8 @@ def main() -> int:
         return 0
     elif args.command == 'today-status':
         return today_status.main()
+    elif args.command == 'time-report':
+        return time_report(args.days, args.chart)
     elif args.command is None:
         parser.print_help()
         return 0
