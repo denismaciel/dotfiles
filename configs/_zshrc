@@ -1,3 +1,4 @@
+zmodload zsh/zprof  # Enable profiling
 export PATH=$GOROOT/bin:$PATH
 export PATH="$HOME/node/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -38,7 +39,6 @@ function act() {
         echo "No virtual environment found in ./venv or ./.venv"
     fi
 }
-
 
 function run-sam() {
       local selected_command
@@ -102,9 +102,6 @@ alias tsd="date +'%Y-%m-%d' | tr -d '\n' | xclip -selection clipboard && xclip -
 alias tsw="date +'%Y-%W' | tr -d '\n' | xclip -selection clipboard && xclip -selection clipboard -o"
 alias kz="pkill zenity"
 
-setopt autocd # .. is shortcut for cd .. 
-
-
 # ---------------------------
 # --------- vi mode ---------
 # ---------------------------
@@ -143,9 +140,9 @@ eval "$(scmpuff init -s)"
 eval "$(direnv hook zsh)"
 eval "$(zoxide init zsh)"
 
-if [ -n "${commands[fzf-share]}" ]; then
-    source "$(fzf-share)/key-bindings.zsh"
-    source "$(fzf-share)/completion.zsh"
+# Docker completion
+if command -v docker > /dev/null 2>&1; then
+  source <(docker completion zsh)
 fi
 
 # # disable sort when completing `git checkout`
@@ -195,7 +192,6 @@ function gbl {
 function gb {
     git checkout $(echo $(gbl) | sed 's#^remotes/##')
 }
-
 
 function togglep() {
     if [[ -f play/p.go ]]; then 
@@ -273,7 +269,6 @@ function gh-clone() {
     mkdir -p "$target_dir"
     git clone "$git_url" "$target_dir"
 }
-
 
 function gau() {
     git add -u
@@ -362,3 +357,6 @@ function organize-downloads() {
     echo "📂 Downloads directory is empty or doesn't exist."
   fi
 }
+
+# Show profiling results - run 'zprof' in shell to see startup performance
+# zprof

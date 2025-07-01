@@ -16,7 +16,6 @@
   git.enable = true;
   home.packages = with pkgs; [
     arandr
-    mise
     (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
     alejandra
     anki

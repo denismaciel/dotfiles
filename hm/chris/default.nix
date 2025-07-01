@@ -38,7 +38,6 @@
     envsubst
     arandr
     kdePackages.dolphin
-    mise
     (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
     alejandra
     anki
@@ -281,16 +280,30 @@
       $env.config.buffer_editor = "nvim"
     '';
   };
-  programs.carapace.enable = true;
-  programs.carapace.enableZshIntegration = true;
-  programs.carapace.enableNushellIntegration = true;
+  programs.mise = {
+    enable = true;
+    # It seems this is doing nothing for the autocompletion.
+    enableZshIntegration = true;
+  };
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
     dotDir = ".config/zsh";
-    initContent = builtins.readFile ../../configs/_zshrc;
+    initContent = let
+      source = map (source: "source ${source}") [
+        "${pkgs.oh-my-zsh}/share/oh-my-zsh/lib/git.zsh"
+        "${pkgs.oh-my-zsh}/share/oh-my-zsh/plugins/git/git.plugin.zsh"
+        "${pkgs.fzf}/share/fzf/completion.zsh"
+        "${pkgs.fzf}/share/fzf/key-bindings.zsh"
+      ];
+      plugins = builtins.concatStringsSep "\n" source;
+    in
+      ''
+        ${plugins}
+      ''
+      + builtins.readFile ../../configs/_zshrc;
     enableCompletion = true;
-    completionInit = "autoload -Uz compinit && compinit -C";
+    # completionInit = "autoload -U compinit; compinit";
     plugins = [
       {
         name = "zsh-defer";
