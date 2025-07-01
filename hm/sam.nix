@@ -124,10 +124,10 @@
           sha256 = "/rcIS2AbTyGw2HjsLPkHtt50c2CrtAFDnLuV5wsHcLc=";
         };
       }
-      {
-        name = "zsh-completions";
-        src = pkgs.zsh-completions;
-      }
+      # {
+      #   name = "zsh-completions";
+      #   src = pkgs.zsh-completions;
+      # }
       {
         name = "fzf-tab";
         src = pkgs.zsh-fzf-tab;
