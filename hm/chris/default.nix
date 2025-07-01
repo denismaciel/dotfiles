@@ -291,8 +291,6 @@
     dotDir = ".config/zsh";
     initContent = let
       source = map (source: "source ${source}") [
-        "${pkgs.oh-my-zsh}/share/oh-my-zsh/lib/git.zsh"
-        "${pkgs.oh-my-zsh}/share/oh-my-zsh/plugins/git/git.plugin.zsh"
         "${pkgs.fzf}/share/fzf/completion.zsh"
         "${pkgs.fzf}/share/fzf/key-bindings.zsh"
       ];
@@ -314,10 +312,10 @@
           sha256 = "/rcIS2AbTyGw2HjsLPkHtt50c2CrtAFDnLuV5wsHcLc=";
         };
       }
-      {
-        name = "zsh-completions";
-        src = pkgs.zsh-completions;
-      }
+      # {
+      #   name = "zsh-completions";
+      #   src = "${pkgs.zsh-completions}/share/zsh/site-functions";
+      # }
       {
         name = "fzf-tab";
         src = pkgs.zsh-fzf-tab;
