@@ -255,6 +255,12 @@ vim.keymap.set(
     require('dennich').copy_file_path_to_clipboard,
     { desc = 'Copy file path to clipboard' }
 )
+vim.keymap.set(
+    'n',
+    '<leader>fl',
+    require('dennich').copy_file_path_with_line_to_clipboard,
+    { desc = 'Copy file path with line number to clipboard' }
+)
 vim.keymap.set('n', '<leader>ff', function()
     vim.lsp.buf.format()
     require('conform').format()

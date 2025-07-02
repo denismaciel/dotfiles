@@ -18,7 +18,9 @@
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "client";
-    extraUpFlags = ["--accept-dns=true"];
+    # --exit-node-allow-lan-access=true is necessay so I can access docker containers
+    # via loccalhost.
+    extraUpFlags = ["--accept-dns=true" "--exit-node=100.74.57.103" "--exit-node-allow-lan-access=true"];
   };
   hardware.uinput.enable = true;
   users.groups.uinput.members = ["denis"];
@@ -30,6 +32,7 @@
 
   networking = {
     nameservers = [
+      # "127.0.0.1"     # localhost first for Docker
       "100.74.57.103" # ben's tailscale IP
     ];
     hostName = "nixos-chris";
