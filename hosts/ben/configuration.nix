@@ -7,6 +7,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/stylix.nix
+    ../../modules/vaultwarden-backup.nix
   ];
 
   nix.settings.trusted-users = ["denis"];
@@ -46,6 +47,11 @@
       DOMAIN = "https://ben.tail0b5947.ts.net:8222";
       ROCKET_TLS = ''{certs="/etc/vaultwarden/ben.tail0b5947.ts.net.crt",key="/etc/vaultwarden/ben.tail0b5947.ts.net.key"}'';
     };
+  };
+
+  services.vaultwarden-backup = {
+    enable = true;
+    schedule = "daily";
   };
 
   system.activationScripts.vaultwarden-certs = ''

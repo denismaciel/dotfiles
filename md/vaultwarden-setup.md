@@ -104,9 +104,81 @@ If you see "Could not instantiate WebCryptoFunctionService", ensure:
 - Rebuild NixOS: `sudo nixos-rebuild switch`
 - Verify permissions: certificates should be owned by vaultwarden user
 
+## Automated Backup System
+
+### Backup Configuration
+
+The Vaultwarden instance includes automated daily backups using a custom NixOS module:
+
+```nix
+# Enable automated backups
+services.vaultwarden-backup = {
+  enable = true;
+  schedule = "daily";
+};
+```
+
+### Backup Features
+
+- **SQLite .backup Command**: Uses SQLite's built-in backup for database consistency
+- **Zero Downtime**: Backups run without stopping Vaultwarden service
+- **Complete Data**: Backs up database, encryption keys, attachments, and sends
+- **Syncthing Integration**: Backups stored in `/home/denis/Sync/backups/vaultwarden/`
+- **Automatic Retention**: Keeps 30 days of backups
+- **Integrity Verification**: Each backup is verified after creation
+
+### Manual Backup
+
+```bash
+# Run backup manually
+sudo vaultwarden-backup
+
+# Check backup logs
+cat /home/denis/Sync/backups/vaultwarden/backup.log
+```
+
+### Restore Testing
+
+Test backups using Docker without affecting production:
+
+```bash
+# Test latest backup
+test-vaultwarden-restore
+
+# Test specific backup
+test-vaultwarden-restore 8224 2024-07-02_10-30-00
+
+# Test on different port
+test-vaultwarden-restore 8225
+```
+
+### Backup Contents
+
+Each backup includes:
+- `db.sqlite3` - Main database (consistent SQLite backup)
+- `rsa_key.pem` - Encryption key (critical for data recovery)
+- `attachments/` - File attachments
+- `sends/` - Bitwarden Send files
+- `icon_cache/` - Website icons
+
+### Backup Schedule
+
+- **Frequency**: Daily at random time (15-minute window)
+- **Storage**: Syncthing folder (replicated across all devices)
+- **Retention**: 30 days of backups
+- **Monitoring**: Logs all operations with timestamps
+
+### Disaster Recovery
+
+1. Stop Vaultwarden service
+2. Restore backup files to `/var/lib/bitwarden_rs/`
+3. Ensure proper ownership (vaultwarden:vaultwarden)
+4. Start Vaultwarden service
+
 ## Alternative Approaches Not Used
 
 - **Caddy Reverse Proxy**: Removed for simplicity (Rocket handles TLS directly)
 - **Self-Signed Certificates**: Would require manual trust on each device
 - **DNS-01 Challenge**: More complex than Tailscale's built-in solution
 - **Public Exposure**: Avoided for security reasons
+- **Filesystem Snapshots**: SQLite .backup is more reliable for consistency
