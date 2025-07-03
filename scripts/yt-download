@@ -1,0 +1,150 @@
+#!/usr/bin/env bash
+
+# YouTube downloader script that downloads via SSH to sam and transfers to chris
+# Usage: yt-download <youtube_url> [--play]
+
+set -euo pipefail
+
+# Configuration
+REMOTE_HOST="sam"
+REMOTE_DOWNLOAD_DIR="~/downloads"
+LOCAL_DOWNLOAD_DIR="$HOME/Downloads"
+REMOTE_USER=$(whoami)
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Function to print colored output
+print_status() {
+    echo -e "${BLUE}[INFO]${NC} $1"
+}
+
+print_success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+print_warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+print_error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+}
+
+# Function to show usage
+show_usage() {
+    echo "Usage: $0 <youtube_url> [--play]"
+    echo ""
+    echo "Options:"
+    echo "  --play    Play the video after download"
+    echo ""
+    echo "Examples:"
+    echo "  $0 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'"
+    echo "  $0 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' --play"
+}
+
+# Parse arguments
+if [ $# -eq 0 ]; then
+    show_usage
+    exit 1
+fi
+
+YOUTUBE_URL="$1"
+PLAY_AFTER_DOWNLOAD=false
+
+if [ $# -gt 1 ] && [ "$2" == "--play" ]; then
+    PLAY_AFTER_DOWNLOAD=true
+fi
+
+# Validate YouTube URL
+if [[ ! "$YOUTUBE_URL" =~ ^https?://(www\.)?(youtube\.com|youtu\.be) ]]; then
+    print_error "Invalid YouTube URL: $YOUTUBE_URL"
+    exit 1
+fi
+
+# Test SSH connection to anton
+print_status "Testing SSH connection to $REMOTE_HOST..."
+if ! ssh -o ConnectTimeout=5 "$REMOTE_HOST" "echo 'SSH connection successful'" >/dev/null 2>&1; then
+    print_error "Cannot connect to $REMOTE_HOST via SSH"
+    print_error "Make sure you can SSH to sam: ssh $REMOTE_HOST"
+    exit 1
+fi
+print_success "SSH connection to $REMOTE_HOST working"
+
+# Check if nix is available on remote host
+print_status "Checking if nix is available on $REMOTE_HOST..."
+if ! ssh "$REMOTE_HOST" "command -v nix-shell" >/dev/null 2>&1; then
+    print_error "nix-shell is not available on $REMOTE_HOST"
+    exit 1
+fi
+print_success "nix-shell is available on $REMOTE_HOST"
+
+# Create remote download directory
+print_status "Creating remote download directory..."
+ssh "$REMOTE_HOST" "mkdir -p $REMOTE_DOWNLOAD_DIR"
+
+# Get video title for filename
+print_status "Getting video information..."
+VIDEO_TITLE=$(ssh "$REMOTE_HOST" "nix --extra-experimental-features 'nix-command flakes' shell nixpkgs#yt-dlp -c yt-dlp --get-title '$YOUTUBE_URL'" 2>/dev/null || echo "unknown-video")
+# Sanitize filename
+VIDEO_TITLE=$(echo "$VIDEO_TITLE" | sed 's/[^a-zA-Z0-9._-]/_/g' | cut -c1-100)
+print_status "Video title: $VIDEO_TITLE"
+
+# Download video on remote host
+print_status "Downloading video on $REMOTE_HOST..."
+ssh "$REMOTE_HOST" "cd $REMOTE_DOWNLOAD_DIR && nix --extra-experimental-features 'nix-command flakes' shell nixpkgs#yt-dlp -c yt-dlp --format 'best' --output '%(title)s.%(ext)s' '$YOUTUBE_URL'" >/dev/null 2>&1
+REMOTE_FILENAME=$(ssh "$REMOTE_HOST" "cd $REMOTE_DOWNLOAD_DIR && ls -t | head -1")
+
+if [ -z "$REMOTE_FILENAME" ]; then
+    print_error "Failed to download video on $REMOTE_HOST"
+    exit 1
+fi
+
+print_success "Video downloaded as: $REMOTE_FILENAME"
+
+# Create local download directory
+mkdir -p "$LOCAL_DOWNLOAD_DIR"
+
+# Transfer file from remote to local
+print_status "Transferring file from $REMOTE_HOST to local machine..."
+LOCAL_FILENAME="$LOCAL_DOWNLOAD_DIR/$REMOTE_FILENAME"
+
+if scp "$REMOTE_HOST:$REMOTE_DOWNLOAD_DIR/$REMOTE_FILENAME" "$LOCAL_FILENAME"; then
+    print_success "File transferred to: $LOCAL_FILENAME"
+else
+    print_error "Failed to transfer file"
+    exit 1
+fi
+
+# Clean up remote file
+print_status "Cleaning up remote file..."
+ssh "$REMOTE_HOST" "cd $REMOTE_DOWNLOAD_DIR && rm '$REMOTE_FILENAME'"
+print_success "Remote file cleaned up"
+
+# Play video if requested
+if [ "$PLAY_AFTER_DOWNLOAD" = true ]; then
+    print_status "Opening video..."
+    if command -v mpv >/dev/null 2>&1; then
+        mpv "$LOCAL_FILENAME" &
+    elif command -v xdg-open >/dev/null 2>&1; then
+        xdg-open "$LOCAL_FILENAME" &
+    elif command -v vlc >/dev/null 2>&1; then
+        vlc "$LOCAL_FILENAME" &
+    else
+        print_warning "No video player found. Video saved to: $LOCAL_FILENAME"
+    fi
+fi
+
+# Always open with mpv after download
+print_status "Opening video with mpv..."
+if command -v mpv >/dev/null 2>&1; then
+    mpv "$LOCAL_FILENAME" &
+else
+    print_warning "mpv not found. Video saved to: $LOCAL_FILENAME"
+fi
+
+print_success "Done! Video saved to: $LOCAL_FILENAME"

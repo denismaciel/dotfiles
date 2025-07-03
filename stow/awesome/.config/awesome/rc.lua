@@ -344,6 +344,7 @@ awful.rules.rules = {
                 'Scratchpad',
                 'FloatThatThing',
                 'Dragon',
+                'mpv',
             },
 
             -- Note that the name property shown in xprop might be set slightly after creation of the client
@@ -402,6 +403,21 @@ awful.rules.rules = {
             ontop = false,
             -- placement = awful.placement.centered,
             delayed_placement = awful.placement.centered,
+        },
+    },
+    {
+        rule_any = { class = { 'mpv' } },
+        properties = {
+            floating = true,
+            width = function(c)
+                return c.screen.geometry.width / 2
+            end,
+            height = function(c)
+                return c.screen.geometry.height / 2
+            end,
+            delayed_placement = function(c)
+                awful.placement.bottom_right(c, { margins = 10 })
+            end,
         },
     },
 

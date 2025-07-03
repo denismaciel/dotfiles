@@ -647,11 +647,10 @@ require('lazy').setup({
         event = 'VeryLazy',
         config = function()
             -- LSP servers and clients are able to communicate to each other what features they support.
-            --  By default, Neovim doesn't support everything that is in the LSP specification.
-            --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-            --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
+            -- By default, Neovim doesn't support everything that is in the LSP specification.
+            -- When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
+            -- So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
             -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-
             local capabilities = require('blink.cmp').get_lsp_capabilities()
             local lspconfig = require('lspconfig')
             local null_ls = require('null-ls')
@@ -724,26 +723,29 @@ require('lazy').setup({
                 },
             })
             lspconfig.cssls.setup({ capabilities = capabilities })
-            lspconfig.pyright.setup({
-                capabilities = capabilities,
-                settings = {
-                    python = {
-                        stubPath = vim.fn.stdpath('data')
-                            .. '/lazy/python-type-stubs',
-                        exclude = {
-                            'venv',
-                            'venv-*',
-                        },
-                        analysis = {
-                            autoSearchPaths = false,
-                            useLibraryCodeForTypes = true,
-                            -- typeCheckingMode = 'off',
-                            -- diagnosticMode = 'workspace',
-                            diagnosticMode = 'openFilesOnly',
-                        },
-                    },
-                },
-            })
+            -- lspconfig.basedpyright.setup({})
+            vim.lsp.enable('basedpyright')
+            -- vim.lsp.enable('ty')
+            -- lspconfig.pyright.setup({
+            --     capabilities = capabilities,
+            --     settings = {
+            --         python = {
+            --             stubPath = vim.fn.stdpath('data')
+            --                 .. '/lazy/python-type-stubs',
+            --             exclude = {
+            --                 'venv',
+            --                 'venv-*',
+            --             },
+            --             analysis = {
+            --                 autoSearchPaths = false,
+            --                 useLibraryCodeForTypes = true,
+            --                 -- typeCheckingMode = 'off',
+            --                 -- diagnosticMode = 'workspace',
+            --                 diagnosticMode = 'openFilesOnly',
+            --             },
+            --         },
+            --     },
+            -- })
             lspconfig.rust_analyzer.setup({ capabilities = capabilities })
             lspconfig.bashls.setup({ capabilities = capabilities })
             lspconfig.yamlls.setup({
