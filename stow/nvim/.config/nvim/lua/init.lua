@@ -668,9 +668,9 @@ require('lazy').setup({
                     }),
                 },
             })
-            lspconfig.gopls.setup({
-                capabilities = capabilities,
-            })
+            -- lspconfig.gopls.setup({
+            --     capabilities = capabilities,
+            -- })
             lspconfig.vtsls.setup({
                 capabilities = capabilities,
             })
@@ -725,6 +725,7 @@ require('lazy').setup({
             lspconfig.cssls.setup({ capabilities = capabilities })
             -- lspconfig.basedpyright.setup({})
             vim.lsp.enable('basedpyright')
+            vim.lsp.enable('gopls')
             -- vim.lsp.enable('ty')
             -- lspconfig.pyright.setup({
             --     capabilities = capabilities,
