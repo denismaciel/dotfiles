@@ -37,6 +37,10 @@
     ];
     hostName = "nixos-chris";
     networkmanager.enable = true;
+    firewall = {
+      trustedInterfaces = ["tailscale0"];
+      allowedTCPPorts = [3000 8200];
+    };
     # extraHosts = ''
     #   # 127.0.0.1 linkedin.com
     #   # 127.0.0.1 www.linkedin.com
@@ -125,6 +129,10 @@
       "1password-gui"
       "1password"
     ];
+  programs.nh = {
+    enable = true;
+    flake = "/home/denis/dotfiles#chris";
+  };
   programs._1password.enable = true;
   programs._1password-gui = {
     enable = true;
