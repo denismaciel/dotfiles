@@ -1089,3 +1089,62 @@ end, { desc = 'Inspect LLM prompt' })
 vim.keymap.set('n', '<leader>p', function()
     require('dennich.bluesky').post_from_neovim()
 end, { desc = 'Post to Bluesky' })
+
+local function convert_to_apy()
+    -- Get the visual selection
+    local start_line = vim.fn.line('\'<')
+    local end_line = vim.fn.line('\'>')
+    local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+
+    -- Find the separator
+    local separator_index = nil
+    for i, line in ipairs(lines) do
+        if line:match('^%-%-%-$') then
+            separator_index = i
+            break
+        end
+    end
+
+    if not separator_index then
+        vim.api.nvim_err_writeln('No \'---\' separator found in selection')
+        return
+    end
+
+    -- Extract front and back parts
+    local front_lines = {}
+    local back_lines = {}
+
+    for i = 1, separator_index - 1 do
+        table.insert(front_lines, lines[i])
+    end
+
+    for i = separator_index + 1, #lines do
+        table.insert(back_lines, lines[i])
+    end
+
+    -- Join lines for front
+    local front = table.concat(front_lines, '\n')
+
+    -- Escape double quotes in the content
+    front = front:gsub('"', '\\"')
+
+    -- Build the command parts
+    local result_lines = {}
+    table.insert(result_lines, string.format('apy add-single "%s" "', front))
+
+    -- Add the back part lines directly (preserving multiline)
+    for i, line in ipairs(back_lines) do
+        local escaped_line = line:gsub('"', '\\"')
+        if i == #back_lines then
+            table.insert(result_lines, escaped_line .. '"')
+        else
+            table.insert(result_lines, escaped_line)
+        end
+    end
+
+    -- Replace the selection with the command
+    vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, result_lines)
+end
+
+-- Map to a key in visual mode
+vim.keymap.set('v', '<leader>apy', convert_to_apy, { silent = true })

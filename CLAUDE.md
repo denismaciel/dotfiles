@@ -11,6 +11,8 @@ To check the system in other hosts, you can `ssh <hostname> <command>`. For exam
 
 ## Repository Structure
 
+`mise.toml`: there you have commands to rebuild the nixos system on the host machine but also remote machines.
+
 ### Core Infrastructure
 
 - **flake.nix** - Nix flake configuration for declarative system management
