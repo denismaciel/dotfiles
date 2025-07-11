@@ -27,7 +27,7 @@
     # python312Packages.mdformat -- Installed used uv
     # python312Packages.mdformat-gfm
     # tor-browser-bundle-bin
-    # vscode
+    vscode
     # vscode-js-debug
     # zed-editor
     ghostty

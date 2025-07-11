@@ -63,6 +63,33 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  services.printing.browsing = true;
+  services.printing.defaultShared = true;
+  services.printing.listenAddresses = ["*:631"];
+  services.printing.allowFrom = ["all"];
+  services.printing.openFirewall = true;
+  services.printing.drivers = with pkgs; [
+    brlaser
+    brgenml1cupswrapper
+    brgenml1lpr
+  ];
+
+  # Declaratively configure the Brother HL-1110 printer
+  hardware.printers = {
+    ensurePrinters = [
+      {
+        name = "Brother-HL-1110";
+        location = "Home";
+        description = "Brother HL-1110 series";
+        deviceUri = "usb://Brother/HL-1110%20series?serial=D0N609455";
+        model = "drv:///brlaser.drv/br1110.ppd";
+        ppdOptions = {
+          printer-is-shared = "true";
+        };
+      }
+    ];
+    ensureDefaultPrinter = "Brother-HL-1110";
+  };
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
@@ -111,6 +138,7 @@
   environment.systemPackages = with pkgs; [
     neovim
     git
+    usbutils
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

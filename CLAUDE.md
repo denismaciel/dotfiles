@@ -8,10 +8,11 @@ The current machine is most likely `chris`, which is the user's daily driver.
 
 To check the system in other hosts, you can `ssh <hostname> <command>`. For example: `ssh ben "systemctl status vaultwarden"`.
 
-
 ## Repository Structure
 
 `mise.toml`: there you have commands to rebuild the nixos system on the host machine but also remote machines.
+
+To rebuild the configuration of any of the hosts, use `mise run rebuild-<host>`.
 
 ### Core Infrastructure
 
