@@ -392,12 +392,11 @@ tmux2nvim() {
     
     # Send to nvim
     nvim --server "$NVIM_SOCKET" --remote-send \
-        ":vnew $tmpfile<CR>:setlocal buftype=nofile bufhidden=wipe noswapfile<CR>:file ${bufname}<CR>:normal! G<CR>"
+        ":new $tmpfile<CR>:setlocal buftype=nofile noswapfile<CR>:file ${bufname}<CR>:normal! G<CR>"
     
     # Cleanup
     (sleep 0.2 && rm -f "$tmpfile") &
 }
-
 
 alias nv='nvim-server'
 alias t2n='tmux2nvim'
