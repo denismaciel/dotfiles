@@ -1148,3 +1148,34 @@ end
 
 -- Map to a key in visual mode
 vim.keymap.set('v', '<leader>apy', convert_to_apy, { silent = true })
+
+local project_configs = {
+    ['denismaciel/sam'] = {
+        makeprg = 'uv run mypy src',
+        errorformat = '%f:%l: error: %m,%f:%l: note: %m',
+    },
+    ['recap-technologies/core'] = {
+        makeprg = 'npm run typecheck',
+        errorformat = '%f(%l\\,%c): %t%*[^:]: %m',
+    },
+    ['denis/dotfiles'] = {
+        makeprg = 'dennich format',
+        errorformat = '%f:%l:%c: %m',
+    },
+}
+
+vim.api.nvim_create_augroup('ProjectMakeConfig', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+    group = 'ProjectMakeConfig',
+    pattern = '*',
+    callback = function()
+        local cwd = vim.fn.getcwd()
+        for pattern, config in pairs(project_configs) do
+            if cwd:match(pattern) then
+                vim.opt_local.makeprg = config.makeprg
+                vim.opt_local.errorformat = config.errorformat
+                break
+            end
+        end
+    end,
+})

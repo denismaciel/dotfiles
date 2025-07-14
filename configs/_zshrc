@@ -358,5 +358,50 @@ function organize-downloads() {
   fi
 }
 
+nvim-server() {
+    # Generate unique socket path
+    export NVIM_SOCKET="/tmp/nvim-$$-$(date +%s).sock"
+    
+    # Start nvim with the socket
+    nvim --listen "$NVIM_SOCKET" "$@"
+    
+    # Clean up on exit
+    rm -f "$NVIM_SOCKET"
+    unset NVIM_SOCKET
+}
+
+tmux2nvim() {
+    # Check if NVIM_SOCKET is set
+    if [[ -z "$NVIM_SOCKET" ]]; then
+        echo "Error: No nvim server running (NVIM_SOCKET not set)"
+        return 1
+    fi
+    
+    # Check if socket exists
+    if [[ ! -S "$NVIM_SOCKET" ]]; then
+        echo "Error: Nvim socket not found at $NVIM_SOCKET"
+        return 1
+    fi
+    
+    local suffix="$(date +%s%N | tail -c 8)"
+    local tmpfile="/tmp/tmux-pane-${suffix}.txt"
+    local bufname="[tmux-pane-${suffix}]"
+    
+    # Capture pane (with optional line count)
+    tmux capture-pane -p -S "${1:--}" > "$tmpfile"
+    
+    # Send to nvim
+    nvim --server "$NVIM_SOCKET" --remote-send \
+        ":vnew $tmpfile<CR>:setlocal buftype=nofile bufhidden=wipe noswapfile<CR>:file ${bufname}<CR>:normal! G<CR>"
+    
+    # Cleanup
+    (sleep 0.2 && rm -f "$tmpfile") &
+}
+
+
+alias nv='nvim-server'
+alias t2n='tmux2nvim'
+
 # Show profiling results - run 'zprof' in shell to see startup performance
 # zprof
+
