@@ -370,11 +370,11 @@ nvim-server() {
     unset NVIM_SOCKET
 }
 
-tmux2nvim() {
-    # Check if NVIM_SOCKET is set
+cap() {
+    # If NVIM_SOCKET is not set, open up a new nvim instance
     if [[ -z "$NVIM_SOCKET" ]]; then
-        echo "Error: No nvim server running (NVIM_SOCKET not set)"
-        return 1
+        tmux capture-pane -p -S - | nvim +"set buftype=nofile | set nomodified" +"normal G" -
+        return 0
     fi
     
     # Check if socket exists
@@ -392,14 +392,13 @@ tmux2nvim() {
     
     # Send to nvim
     nvim --server "$NVIM_SOCKET" --remote-send \
-        ":new $tmpfile<CR>:setlocal buftype=nofile noswapfile<CR>:file ${bufname}<CR>:normal! G<CR>"
+        ":edit $tmpfile<CR>:setlocal buftype=nofile noswapfile<CR>:file ${bufname}<CR>:normal! G<CR>"
     
     # Cleanup
     (sleep 0.2 && rm -f "$tmpfile") &
 }
 
 alias nv='nvim-server'
-alias t2n='tmux2nvim'
 
 # Show profiling results - run 'zprof' in shell to see startup performance
 # zprof
