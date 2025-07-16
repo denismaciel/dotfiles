@@ -464,6 +464,14 @@ M.copy_file_path_to_clipboard = function()
     return result
 end
 
+M.copy_full_file_path_to_clipboard = function()
+    local cfile = vim.api.nvim_buf_get_name(0)
+    local full_path = vim.fn.fnamemodify(cfile, ':p')
+    vim.fn.setreg('+', full_path)
+    print('Copying to clipboard: ' .. full_path)
+    return full_path
+end
+
 M.copy_file_path_with_line_to_clipboard = function()
     local determine_file_path = function()
         local cfile = vim.api.nvim_buf_get_name(0)
