@@ -15,7 +15,9 @@ import libtmux
 SESSION_NAME = 'core'
 DESIRED_WINDOWS = {
     'recap': '~/github.com/recap-technologies/core',
+    'recap-run': '~/github.com/recap-technologies/core',
     'sam': '~/github.com/denismaciel/sam',
+    'sam-run': '~/github.com/denismaciel/sam',
     'dotfiles': '~/dotfiles',
 }
 
@@ -126,11 +128,41 @@ def apply_update_plan(session_name, plan):
                 window_name=window_name, start_directory=expanded_dir
             )
 
-            # Set the clean PATH in the new window's active pane
-            pane = window.active_pane
-            pane.send_keys(f'export PATH="{clean_path}"', enter=True)
-            pane.send_keys('unset VIRTUAL_ENV', enter=True)
-            pane.send_keys('clear', enter=True)
+            # Special handling for recap-run window - create 3 horizontal panes
+            if window_name == 'recap-run':
+                pane = window.active_pane
+                
+                # Split horizontally to create second pane
+                pane2 = window.split_window(vertical=False, start_directory=os.path.join(expanded_dir, 'recap-app'))
+                
+                # Split the second pane horizontally to create third pane
+                pane3 = pane2.split_window(vertical=False, start_directory=os.path.join(expanded_dir, 'pycap'))
+                
+                # Set up each pane with clean environment
+                for p, subdir in [(pane, 'backend'), (pane2, 'recap-app'), (pane3, 'pycap')]:
+                    p.send_keys(f'cd {os.path.join(expanded_dir, subdir)}', enter=True)
+                    p.send_keys(f'export PATH="{clean_path}"', enter=True)
+                    p.send_keys('unset VIRTUAL_ENV', enter=True)
+                    p.send_keys('clear', enter=True)
+            # Special handling for sam-run window - create 2 horizontal panes
+            elif window_name == 'sam-run':
+                pane = window.active_pane
+                
+                # Split horizontally to create second pane
+                pane2 = window.split_window(vertical=False, start_directory=os.path.join(expanded_dir, 'server'))
+                
+                # Set up each pane with clean environment
+                for p, subdir in [(pane, 'web'), (pane2, 'server')]:
+                    p.send_keys(f'cd {os.path.join(expanded_dir, subdir)}', enter=True)
+                    p.send_keys(f'export PATH="{clean_path}"', enter=True)
+                    p.send_keys('unset VIRTUAL_ENV', enter=True)
+                    p.send_keys('clear', enter=True)
+            else:
+                # Set the clean PATH in the new window's active pane
+                pane = window.active_pane
+                pane.send_keys(f'export PATH="{clean_path}"', enter=True)
+                pane.send_keys('unset VIRTUAL_ENV', enter=True)
+                pane.send_keys('clear', enter=True)
 
             print(f'Added window: {window_name} -> {directory}')
         except Exception as e:

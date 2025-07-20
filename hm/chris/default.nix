@@ -23,13 +23,14 @@
     # libreoffice
     # nodePackages_latest.prettier
     # nodePackages_latest.typescript-language-server
-    # obs-studio
+    obs-studio
     # python312Packages.mdformat -- Installed used uv
     # python312Packages.mdformat-gfm
     # tor-browser-bundle-bin
     # vscode
     # vscode-js-debug
     # zed-editor
+
     age
     sops
     ghostty
@@ -408,7 +409,7 @@
 
   services.screen-locker = {
     enable = false;
-    inactiveInterval = 10;
+    inactiveInterval = 15;
     lockCmd = "${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 10 15";
   };
 

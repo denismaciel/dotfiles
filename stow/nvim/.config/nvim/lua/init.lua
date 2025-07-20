@@ -65,6 +65,7 @@ require('lazy').setup({
     },
 
     { 'nyoom-engineering/oxocarbon.nvim' },
+    { 'yorickpeterse/nvim-grey' },
     { 'rebelot/kanagawa.nvim' },
     {
         'ibhagwan/fzf-lua',
