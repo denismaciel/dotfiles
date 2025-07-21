@@ -660,6 +660,17 @@ require('lazy').setup({
             formatters_by_ft = {
                 lua = { 'stylua' },
                 python = { 'ruff_fix', 'ruff_format' },
+                typescript = { 'biome' },
+                typescriptreact = { 'biome' },
+                javascript = { 'biome' },
+                javascriptreact = { 'biome' },
+            },
+            formatters = {
+                biome = {
+                    cwd = function()
+                        return '/home/denis'
+                    end,
+                },
             },
         },
     },

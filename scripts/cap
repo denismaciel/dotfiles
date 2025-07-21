@@ -1,3 +1,0 @@
-#! /usr/bin/env bash
-
-tmux capture-pane -p -S - | nvim +"set buftype=nofile | set nomodified" +"normal G" -

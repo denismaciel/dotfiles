@@ -359,6 +359,23 @@ function organize-downloads() {
 }
 
 nvim-server() {
+    # If NVIM_SOCKET is already set and socket exists, try to foreground existing nvim
+    if [[ -n "$NVIM_SOCKET" && -S "$NVIM_SOCKET" ]]; then
+        # Send files to existing instance if any arguments provided
+        if [[ $# -gt 0 ]]; then
+            nvim --server "$NVIM_SOCKET" --remote "$@"
+        fi
+        
+        # Try to foreground the nvim job
+        local nvim_job=$(jobs | grep nvim | head -1 | sed 's/^\[\([0-9]*\)\].*/\1/')
+        if [[ -n "$nvim_job" ]]; then
+            fg %"$nvim_job"
+        else
+            echo "Nvim server is running but not in job control. Socket: $NVIM_SOCKET"
+        fi
+        return 0
+    fi
+    
     # Generate unique socket path
     export NVIM_SOCKET="/tmp/nvim-$$-$(date +%s).sock"
     
@@ -399,6 +416,7 @@ cap() {
 }
 
 alias nv='nvim-server'
+alias nvim='echo "💡 use '\''nv'\'' instead"'
 
 # Show profiling results - run 'zprof' in shell to see startup performance
 # zprof
