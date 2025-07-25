@@ -74,8 +74,18 @@ end
 
 -- vim.cmd([[ colorscheme oxocarbon ]])
 -- vim.cmd([[ colorscheme kanagawa-lotus ]])
-vim.cmd([[ colorscheme no-clown-fiesta ]])
+-- vim.cmd([[ colorscheme no-clown-fiesta ]])
 -- vim.cmd([[ colorscheme kanagawa ]])
+vim.cmd([[ colorscheme lumiere ]])
+
+-- Configure cursor shapes for different modes
+vim.opt.guicursor = {
+    'n-v-c:block-TermCursor', -- Normal/Visual/Command: block cursor
+    'i-ci-ve:ver25-TermCursor', -- Insert: thin vertical line (25% width)
+    'r-cr:hor20-TermCursor', -- Replace: horizontal line (20% height)
+    'o:hor50-TermCursor', -- Operator-pending: thicker horizontal line
+    'a:blinkwait700-blinkoff400-blinkon250', -- All modes: blinking settings
+}
 
 vim.cmd('cabbrev W w')
 vim.cmd('cabbrev Wq wq')

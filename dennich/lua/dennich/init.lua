@@ -157,6 +157,10 @@ M.insert_text = function(opts)
                         content = routine(),
                     },
                     {
+                        title = 'Confirm assumptions',
+                        content = 'Please ask questions and confirm assumptions before generating code.',
+                    },
+                    {
                         title = 'uv script',
                         content = [[
 You write Python tools as single files. They always start with this comment:
