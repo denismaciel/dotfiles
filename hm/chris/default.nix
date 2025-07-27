@@ -31,7 +31,7 @@
     # vscode
     # vscode-js-debug
     # zed-editor
-
+    glow
     age
     sops
     ghostty

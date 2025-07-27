@@ -34,6 +34,7 @@
     nameservers = [
       # "127.0.0.1"     # localhost first for Docker
       "100.74.57.103" # ben's tailscale IP
+      "8.8.8.8"
     ];
     hostName = "nixos-chris";
     networkmanager.enable = true;

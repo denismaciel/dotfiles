@@ -41,7 +41,7 @@ local service_lookup = {
     },
     gemini = {
         url = 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-        model = 'gemini-2.5-pro-preview-05-06',
+        model = 'gemini-2.5-pro',
         api_key_name = '/home/denis/credentials/gemini-api-key',
     },
 }
