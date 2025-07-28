@@ -1,0 +1,4 @@
+#! /usr/bin/env bash
+
+NOTES_DIR="$HOME/Sync/notes/current/private/daily/"
+find "$NOTES_DIR" -name "*.md" -type f | sort -r | xargs cat | glow -p
