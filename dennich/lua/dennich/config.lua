@@ -140,15 +140,6 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
     end,
 })
 
-vim.api.nvim_create_autocmd('BufEnter', {
-    callback = function()
-        local file_path = vim.fn.expand('%:p')
-        if file_path == '/tmp/tmux_pane_content' then
-            vim.cmd('colorscheme tokyonight')
-        end
-    end,
-})
-
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 
@@ -216,7 +207,6 @@ end, { desc = 'Python import statement' })
 vim.keymap.set('n', '<leader>xl', ':.lua<cr>')
 vim.keymap.set('v', '<leader>xl', ':lua<cr>')
 
-local sql = require('dennich.sql')
 local dennich = require('dennich')
 
 vim.keymap.set('n', '<leader>;', '<cmd>Telescope buffers<CR>')
