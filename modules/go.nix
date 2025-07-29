@@ -10,7 +10,7 @@
   config = lib.mkIf config.go.enable {
     programs.go = {
       enable = true;
-      package = pkgs.go_1_23;
+      package = pkgs.go_1_24;
       goPath = "go-path";
     };
     home.packages = with pkgs; [

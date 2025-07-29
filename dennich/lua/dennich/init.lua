@@ -91,15 +91,6 @@ local function scandir(directory)
     return t
 end
 
-M.highlight_markdown_titles = function()
-    local palette = require('no-clown-fiesta.palette')
-    vim.api.nvim_set_hl(0, '@markup.heading.1', { fg = palette.blue })
-    vim.api.nvim_set_hl(0, '@markup.heading.2', { fg = palette.green })
-    vim.api.nvim_set_hl(0, '@markup.heading.3', { fg = palette.red })
-    vim.api.nvim_set_hl(0, '@markup.heading.4', { fg = palette.orange })
-    vim.api.nvim_set_hl(0, '@markup.heading.5', { fg = palette.yellow })
-end
-
 ---@alias RoutineItem { text: string, condition: function }
 ---@return string[]
 local routine = function()
@@ -262,47 +253,41 @@ INPUT:
 
                         title = 'Text editor: 2. Voice & Punch',
                         content = [[
-You are a precision editor. This pass is **clarity & concision only**: make each sentence convey the same idea with fewer, clearer words.
+You are a style editor. This pass is **voice & punch only**: make the prose more vivid and confident while preserving the author's intent.
 
 SCOPE (allowed):
-- Remove filler and redundancies.
-- Resolve vague references; tighten weak clauses.
-- Break needlessly complex phrasing into simpler equivalents **within the same sentence**.
-- Prefer concrete, plain language over abstractions—without changing meaning.
+- Swap weak verbs/adjectives for stronger, precise choices.
+- Remove clichés and hedging ("very," "really," "just," "I think" when not needed).
+- Improve parallelism and emphasis.
+- Tighten headlines/subheads if present (same meaning).
 
 HARD GUARDRAILS (forbidden):
-- No voice/tone changes (no punch-up).
-- No new information, examples, or claims.
-- No changing the intended stance.
-- No splitting/merging sentences; preserve one-sentence-per-line.
-- No section reordering or structural edits.
-- Do not edit code/inline code/fenced blocks, URLs, file paths, emails, hashtags, or numbers/units (except obvious clarity in surrounding text).
+- No new claims, data, or examples.
+- No tonal shift beyond “confident, direct” — keep the author’s persona.
+- No humor/sarcasm injections if not already present.
 
 OUTPUT RULES:
-- XML only. For each changed line:
+- XML only. For every change:
 
 <correction>
-    <type>clarity</type>
-    <description>Brief reason (e.g., "Remove filler," "Tighten clause").</description>
-    <oldLine>Original line here.</oldLine>
-    <newLine>Rewritten for clarity (same meaning, fewer words).</newLine>
+    <type>style</type>
+    <description>Brief reason (e.g., "Stronger verb," "Remove hedge").</description>
+    <oldPart>Original part here.</oldPart>
+    <newPart>Sharper, more vivid version (same claim).</newPart>
 </correction>
 
-- One <correction> per changed line; one sentence in <oldLine>/<newLine>.
 - After the last <correction>, output:
 
 <feedback>
     <summary>
-        • Top clarity issues (3–6 bullets).
-        • Average words per sentence (before→after, estimated).
-        • Lines that still feel ambiguous and need author input (list line numbers).
-        • Counts: total lines changed = N.
+        • Voice compass (3–5 bullets describing the resulting tone, e.g., "direct, crisp, pragmatic").
+        • Overused words/constructs removed (list).
     </summary>
 </feedback>
 
 INPUT:
 <draft>
-...one sentence per Markdown line...
+...
 </draft>
                         ]],
                     },
@@ -377,73 +362,6 @@ INPUT:
 <draft>
 
 </draft>
-                        ]],
-                    },
-                    {
-                        title = 'Text editor',
-                        content = [[
-You are a veteran, no‑nonsense blog editor whose only goal is to make every post more readable, engaging, and share‑worthy.
-Forget legal fine print and nit‑picky technical specs.
-Your job is to fix the prose and, when necessary, call out junk that belongs in the trash.
-
-1. What to Improve
-
-Rhythm & Flow Flag clunky cadence, monotonous sentence lengths, weak transitions, or anything that “sounds off” aloud.
-Clarity & Concision Cut fluff, kill filler phrases, choose vivid verbs.
-Voice & Punch Amp up personality without losing professionalism; maintain a consistent tone.
-Structure & Momentum Ensure paragraphs land with impact and each section pulls the reader forward.
-Completeness Point out glaring angles, counter‑arguments, or examples that are missing.
-Reality Check If a line or whole draft is hopeless, say so plainly: “Toss this and start over.”
-
-2. Your Output (strictly follow this structure)
-
-A. Line‑by‑Line Corrections
-
-For every individual line that needs tweaking, produce an XML block exactly like this:
-
-<correction>
-    <type>language|clarity|style|rhythm</type>
-    <description>Brief description of the issue (e.g., "The sentence is too long and convoluted.")</description>
-    <oldLine>Original line here.</oldLine>
-    <newLine>Revised line here.</newLine>
-</correction>
-
-One <correction> per line change.
-Keep <oldLine> / <newLine> to a single sentence (my drafts are one sentence per Markdown line).
-Valid <type> values: language, clarity, style, rhythm.
-
-B. Holistic Feedback & Rewrites
-
-After the last <correction> block, output a single <feedback> element covering big‑picture issues:
-
-<feedback>
-    <summary>
-        • Bullet list of the 3‑6 most critical problems (e.g., sagging intro, missing data, uneven tone).
-    </summary>
-    <rewriteSuggestions>
-        <rewrite target="paragraph 3">
-            Proposed replacement paragraph text…
-        </rewrite>
-        <rewrite target="section: Conclusion">
-            Suggested new angle or expansion…
-        </rewrite>
-    </rewriteSuggestions>
-    <verdict>
-        “Looks solid, polish and publish” •OR• “Needs a full rewrite—scrap it” •OR• any blunt truth.
-    </verdict>
-</feedback>
-
-3. Output Rules
-
-XML first, nothing else. No Markdown, no commentary outside tags.
-Give thorough, candid feedback.
-Focus on making the blog post successful with real readers (clarity, rhythm, engagement).
-Finally, here's the draft you need to edit:
-
-<draft>
-
-</draft>
-
                         ]],
                     },
                     {
@@ -652,48 +570,6 @@ M.find_anki_notes = function(opts)
         :find()
 end
 
-M.slugify = function(text)
-    if not text then
-        return ''
-    end
-
-    local function trim(s)
-        return s:match('^%s*(.-)%s*$')
-    end
-
-    local slug = text
-    -- Remove Markdown headers
-    slug = slug:gsub('#', '')
-    slug = trim(slug)
-    slug = slug:gsub('[^%w%s%-]', '') -- Remove special characters except spaces and hyphens
-    slug = slug:gsub('%s+', '-') -- Replace one or more spaces with a single hyphen
-    slug = slug:gsub('%-+', '-') -- Replace multiple hyphens with a single hyphen
-    return slug:lower()
-end
-
--- local slugify = M.slugify
--- -- Test case 1: Basic text
--- assert(slugify("Hello World") == "hello-world", "Test case 1 failed")
--- -- Test case 2: Text with numbers
--- assert(slugify("Lua 2024 version") == "lua-2024-version", "Test case 2 failed")
--- -- Test case 3: Text with special characters
--- assert(slugify("Special@#Characters!") == "specialcharacters", "Test case 3 failed")
--- -- Test case 4: Text with leading and trailing spaces
--- assert(slugify("  Space around  ") == "space-around", "Test case 4 failed")
--- -- Test case 5: Text with multiple consecutive spaces
--- assert(slugify("Multiple   spaces") == "multiple-spaces", "Test case 5 failed")
--- -- Test case 6: Empty string
--- assert(slugify("") == "", "Test case 6 failed")
--- -- Test case 7: Text with only special characters
--- assert(slugify("@#$%^&*()") == "", "Test case 7 failed")
--- -- Test case 8: Text with mixed case
--- assert(slugify("Mixed CASE text") == "mixed-case-text", "Test case 8 failed")
--- -- Test case 9: Numeric only string
--- assert(slugify("12345") == "12345", "Test case 9 failed")
--- -- Test case 10: String with hyphens
--- assert(slugify("Already-Has-Hyphens") == "already-has-hyphens", "Test case 10 failed")
--- print("All test cases passed!")
-
 M.python_test_file = function()
     -- Get relative path of the current file
     local current_file_path = vim.fn.expand('%:p')
@@ -883,10 +759,7 @@ end
 vim.api.nvim_create_user_command('SortMarkdownList', sort_markdown_list, {})
 
 M.telescope_insert_relative_file_path = function(selected)
-    print('Inserting relative file path...')
-    print(vim.inspect(selected))
     local selection = selected[1]
-    print(vim.inspect(selection))
     if selection then
         local full_path = selection.value
         if selection.path then
@@ -998,9 +871,7 @@ end
 
 M.run = function()
     print('here')
-
     M.open_track_md()
-
     print('there')
 end
 

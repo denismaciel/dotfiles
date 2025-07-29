@@ -11,63 +11,10 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 vim.opt.runtimepath:prepend(lazypath)
-
-local function read_file(file_path)
-    local file, error_message = io.open(file_path, 'r')
-    if file then
-        local content = file:read('*all')
-        -- trim trailing and
-        content = content:gsub('^%s+', ''):gsub('%s+$', '')
-        file:close()
-        return content
-    else
-        error(
-            'Unable to open the file: '
-                .. file_path
-                .. '\nError: '
-                .. error_message
-        )
-    end
-end
-
 -- ============================
 -- Plugins
 -- ============================
 require('lazy').setup({
-    {
-        'ThePrimeagen/harpoon',
-        branch = 'harpoon2',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        config = function()
-            local harpoon = require('harpoon')
-            harpoon:setup()
-
-            vim.keymap.set('n', '<leader>mn', function()
-                harpoon:list():add()
-            end)
-            vim.keymap.set('n', '<leader>ml', function()
-                harpoon.ui:toggle_quick_menu(harpoon:list())
-            end)
-
-            vim.keymap.set('n', '<leader>ma', function()
-                harpoon:list():select(1)
-            end)
-            vim.keymap.set('n', '<leader>ms', function()
-                harpoon:list():select(2)
-            end)
-            vim.keymap.set('n', '<leader>md', function()
-                harpoon:list():select(3)
-            end)
-            vim.keymap.set('n', '<leader>mf', function()
-                harpoon:list():select(4)
-            end)
-        end,
-    },
-
-    { 'nyoom-engineering/oxocarbon.nvim' },
-    { 'yorickpeterse/nvim-grey' },
-    { 'rebelot/kanagawa.nvim' },
-
     {
         'ibhagwan/fzf-lua',
         -- optional for icon support
@@ -75,149 +22,6 @@ require('lazy').setup({
         -- or if using mini.icons/mini.nvim
         -- dependencies = { "echasnovski/mini.icons" },
         opts = {},
-    },
-    {
-        'folke/snacks.nvim',
-        priority = 1000,
-        lazy = false,
-        ---@type snacks.Config
-        opts = {
-            bigfile = { enabled = true },
-            -- indent = { enabled = true },
-            input = { enabled = true },
-            -- notifier = { enabled = true },
-            quickfile = { enabled = true },
-            -- scroll = { enabled = true },
-            -- statuscolumn = { enabled = true },
-            -- words = { enabled = true },
-            -- terminal = { enabled = true },
-        },
-        keys = {
-            -- {
-            --     '<c-a>',
-            --     function()
-            --         Snacks.terminal.toggle()
-            --         vim.keymap.set({ 't' }, '<c-a>', Snacks.terminal.toggle)
-            --     end,
-            --     desc = 'Toggle Terminal',
-            -- },
-            -- {
-            --     '<leader>xt',
-            --     function()
-            --         Snacks.terminal.toggle()
-            --     end,
-            --     desc = 'Toggle Terminal',
-            -- },
-        },
-    },
-    {
-        'zbirenbaum/copilot.lua',
-        cmd = 'Copilot',
-        event = 'InsertEnter',
-        config = function()
-            require('copilot').setup({
-                suggestion = {
-                    auto_trigger = true,
-                },
-                panel = {
-                    enabled = true,
-                    auto_refresh = false,
-                    keymap = {
-                        jump_prev = '[[',
-                        jump_next = ']]',
-                        accept = '<CR>',
-                        refresh = 'gr',
-                        open = '<M-CR>',
-                    },
-                    layout = {
-                        position = 'right', -- | top | left | right | horizontal | vertical
-                        ratio = 0.4,
-                    },
-                },
-            })
-        end,
-    },
-    {
-        'mfussenegger/nvim-dap',
-        dependencies = {
-            'leoluz/nvim-dap-go',
-            'mfussenegger/nvim-dap-python',
-            'nvim-neotest/nvim-nio',
-            'rcarriga/nvim-dap-ui',
-            'theHamsta/nvim-dap-virtual-text',
-        },
-        config = function()
-            require('dap-python').setup('uv')
-            require('dapui').setup()
-            require('dap-go').setup()
-
-            require('nvim-dap-virtual-text').setup({})
-
-            -- Handled by nvim-dap-go
-            -- dap.adapters.go = {
-            --   type = "server",
-            --   port = "${port}",
-            --   executable = {
-            --     command = "dlv",
-            --     args = { "dap", "-l", "127.0.0.1:${port}" },
-            --   },
-            -- }
-
-            vim.keymap.set(
-                'n',
-                '<space>db',
-                require('dap').toggle_breakpoint,
-                { desc = '[dap] toogle breakpoint' }
-            )
-            vim.keymap.set(
-                'n',
-                '<space>dgb',
-                require('dap').run_to_cursor,
-                { desc = '[dap] run to cursor' }
-            )
-
-            -- Eval var under cursor
-            vim.keymap.set('n', '<space>?', function()
-                require('dapui').eval(nil, { enter = true })
-            end)
-            table.insert(require('dap').configurations.python, {
-                type = 'python',
-                request = 'launch',
-                name = 'pycap 🐝',
-                program = '${workspaceFolder}/src/pycap/risk_model/scripts/debug.py',
-                args = { 'run-risk-model' },
-                console = 'integratedTerminal',
-                cwd = '${workspaceFolder}',
-            })
-            table.insert(require('dap').configurations.python, {
-                type = 'python',
-                request = 'launch',
-                name = 'samwise',
-                program = '${workspaceFolder}/src/samwise/main.py',
-                console = 'integratedTerminal',
-                cwd = '${workspaceFolder}',
-            })
-            vim.keymap.set('n', '<leader>dc', require('dap').continue)
-            vim.keymap.set('n', '<leader>dsi', require('dap').step_into)
-            vim.keymap.set('n', '<leader>dsv', require('dap').step_over)
-            vim.keymap.set('n', '<leader>dsu', require('dap').step_out)
-            vim.keymap.set('n', '<leader>dsb', require('dap').step_back)
-            vim.keymap.set('n', '<leader>dr', require('dap').restart)
-            vim.keymap.set('n', '<leader>dui', require('dapui').toggle)
-
-            require('dap').listeners.before.attach.dapui_config = function()
-                require('dapui').open()
-            end
-            require('dap').listeners.before.launch.dapui_config = function()
-                require('dapui').open()
-            end
-            require('dap').listeners.before.event_terminated.dapui_config = function()
-                require('dapui').close()
-            end
-            require('dap').listeners.before.event_exited.dapui_config = function()
-                require('dapui').close()
-            end
-        end,
     },
     {
         'Pocco81/auto-save.nvim',
@@ -258,106 +62,15 @@ require('lazy').setup({
         end,
     },
     {
-        'yetone/avante.nvim',
-        event = 'VeryLazy',
-        build = 'make',
-        opts = {
-            file_selector = {
-                provider = 'telescope',
-            },
-            hints = { enabled = false },
-            debug = false,
-            provider = 'claude',
-            providers = {
-                claude = {
-                    api_key_name = 'cmd:cat /home/denis/credentials/anthropic-api-key',
-                },
-                openai = {
-                    api_key_name = 'cmd:cat /home/denis/credentials/openai-api-key',
-                },
-                gemini = {
-                    api_key_name = 'cmd:cat /home/denis/credentials/gemini-api-key',
-                    model = 'gemini-2.5-pro-preview-03-25',
-                },
-            },
-            windows = {
-                position = 'right', -- the position of the sidebar
-                wrap = true, -- similar to vim.o.wrap
-                width = 45, -- default % based on available width
-                sidebar_header = {
-                    align = 'right', -- left, center, right for title
-                    rounded = true,
-                },
-            },
-            behaviour = {
-                auto_set_highlight_group = true,
-                auto_set_keymaps = true,
-                support_paste_from_clipboard = true,
-            },
-        },
-        dependencies = {
-            'nvim-tree/nvim-web-devicons',
-            'stevearc/dressing.nvim',
-            'nvim-lua/plenary.nvim',
-            {
-                -- support for image pasting
-                'HakonHarnes/img-clip.nvim',
-                event = 'VeryLazy',
-                opts = {
-                    -- recommended settings
-                    default = {
-                        embed_image_as_base64 = false,
-                        prompt_for_file_name = false,
-                        drag_and_drop = {
-                            insert_mode = true,
-                        },
-                        -- required for Windows users
-                        use_absolute_path = true,
-                    },
-                },
-            },
-            {
-                'grapp-dev/nui-components.nvim',
-                dependencies = {
-                    'MunifTanjim/nui.nvim',
-                },
-            },
-        },
+        'catgoose/nvim-colorizer.lua',
+        event = 'BufReadPre',
+        opts = {},
     },
-    -- {
-    --     'frankroeder/parrot.nvim',
-    --     dependencies = { 'nvim-lua/plenary.nvim' },
-    --     config = function()
-    --         require('parrot').setup({
-    --             -- toggle_target = 'buffer',
-    --             providers = {
-    --                 -- openai = {
-    --                 --     api_key = read_file(
-    --                 --         '/home/denis/credentials/openai-api-key'
-    --                 --     ),
-    --                 -- },
-    --                 -- anthropic = {
-    --                 --     api_key = read_file(
-    --                 --         '/home/denis/credentials/anthropic-api-key'
-    --                 --     ),
-    --                 -- },
-    --                 -- gemini = {
-    --                 --     api_key = read_file(
-    --                 --         '/home/denis/credentials/gemini-api-key'
-    --                 --     ),
-    --                 -- },
-    --             },
-    --             hooks = {},
-    --         })
-    --     end,
-    -- },
     {
         'folke/which-key.nvim',
         opts = { icons = { mappings = false } },
     },
     { 'folke/neodev.nvim', opts = {} },
-    -- { 'kylechui/nvim-surround', opts = {} },
-    -- { 'echasnovski/mini.surround', opts = {} },
     'nvimtools/none-ls.nvim',
     {
         'j-hui/fidget.nvim',
@@ -452,7 +165,6 @@ require('lazy').setup({
             'JoosepAlviste/nvim-ts-context-commentstring',
         },
     },
-    'mbbill/undotree',
     {
         'windwp/nvim-ts-autotag',
         opts = {
@@ -463,7 +175,6 @@ require('lazy').setup({
             },
         },
     },
-    'APZelos/blamer.nvim',
     {
         'nvim-tree/nvim-tree.lua',
         opts = {
@@ -487,15 +198,7 @@ require('lazy').setup({
             'nvim-tree/nvim-web-devicons',
         },
     },
-    {
-        'folke/trouble.nvim',
-        dependencies = 'nvim-tree/nvim-web-devicons',
-        opts = {
-            colors = {
-                fg = '#ffffff',
-            },
-        },
-    },
+    { 'folke/trouble.nvim' },
     {
         dir = '~/dotfiles/dennich',
         config = function()
@@ -505,18 +208,13 @@ require('lazy').setup({
         end,
     },
     -- Colors
-    { 'folke/tokyonight.nvim', opts = { transparent = true } },
-    { 'rebelot/kanagawa.nvim', opts = { transparent = false } },
     {
-        -- local
-        -- dir = '~/github.com/denismaciel/no-clown-fiesta.nvim',
         'aktersnurra/no-clown-fiesta.nvim',
         opts = {
             transparent = false,
             styles = { type = { bold = true }, comments = { italic = true } },
         },
     },
-
     {
         'nvim-telescope/telescope.nvim',
         dependencies = {
@@ -529,26 +227,6 @@ require('lazy').setup({
             local actions_layout = require('telescope.actions.layout')
             local action_state = require('telescope.actions.state')
 
-            local open_in_nvim_tree = function(prompt_bufnr)
-                local Path = require('plenary.path')
-
-                local entry = action_state.get_selected_entry()[1]
-                local entry_path = Path:new(entry):parent():absolute()
-                actions.close(prompt_bufnr)
-                entry_path = Path:new(entry):parent():absolute()
-                entry_path = entry_path:gsub('\\', '\\\\')
-
-                vim.cmd('NvimTreeClose')
-                vim.cmd('NvimTreeOpen ' .. entry_path)
-
-                local file_name = nil
-                for s in string.gmatch(entry, '[^/]+') do
-                    file_name = s
-                end
-
-                vim.cmd('/' .. file_name)
-            end
-
             local dennich = require('dennich')
             require('telescope').setup({
                 extensions = {
@@ -560,12 +238,10 @@ require('lazy').setup({
                     mappings = {
                         n = {
                             ['h'] = actions_layout.toggle_preview,
-                            ['<c-e>'] = open_in_nvim_tree,
                             ['<C-y>'] = dennich.telescope_insert_relative_file_path,
                         },
                         i = {
                             ['<C-h>'] = actions_layout.toggle_preview,
-                            ['<c-e>'] = open_in_nvim_tree,
                             ['<C-y>'] = dennich.telescope_insert_relative_file_path,
                         },
                     },
@@ -628,29 +304,15 @@ require('lazy').setup({
     },
     {
         'saghen/blink.cmp',
-        version = 'v0.*',
+        version = '1.*',
         opts = {
-            keymap = {
-                preset = 'default',
-                -- ['<c-x>'] = {
-                --     function(cmp)
-                --         cmp.show({ providers = { 'minuet' } })
-                --     end,
-                -- },
-            },
+            keymap = { preset = 'default' },
             appearance = {
                 use_nvim_cmp_as_default = false,
                 nerd_font_variant = 'mono',
             },
             sources = {
                 default = { 'lsp', 'path', 'snippets', 'buffer' },
-                providers = {
-                    -- minuet = {
-                    --     name = 'minuet',
-                    --     module = 'minuet.blink',
-                    --     score_offset = 100,
-                    -- },
-                },
             },
             signature = { enabled = true },
         },
@@ -711,9 +373,6 @@ require('lazy').setup({
                     }),
                 },
             })
-            -- lspconfig.gopls.setup({
-            --     capabilities = capabilities,
-            -- })
             lspconfig.vtsls.setup({
                 capabilities = capabilities,
             })
@@ -769,27 +428,6 @@ require('lazy').setup({
             -- lspconfig.basedpyright.setup({})
             vim.lsp.enable('basedpyright')
             vim.lsp.enable('gopls')
-            -- vim.lsp.enable('ty')
-            -- lspconfig.pyright.setup({
-            --     capabilities = capabilities,
-            --     settings = {
-            --         python = {
-            --             stubPath = vim.fn.stdpath('data')
-            --                 .. '/lazy/python-type-stubs',
-            --             exclude = {
-            --                 'venv',
-            --                 'venv-*',
-            --             },
-            --             analysis = {
-            --                 autoSearchPaths = false,
-            --                 useLibraryCodeForTypes = true,
-            --                 -- typeCheckingMode = 'off',
-            --                 -- diagnosticMode = 'workspace',
-            --                 diagnosticMode = 'openFilesOnly',
-            --             },
-            --         },
-            --     },
-            -- })
             lspconfig.rust_analyzer.setup({ capabilities = capabilities })
             lspconfig.bashls.setup({ capabilities = capabilities })
             lspconfig.yamlls.setup({
@@ -1100,10 +738,6 @@ vim.filetype.add({
     },
 })
 
-vim.keymap.set({ 'n', 't' }, '<c-a>', function()
-    Snacks.terminal.toggle()
-end)
-
 vim.keymap.set('n', '<leader>g,g', function()
     require('dennich.llm').prompt({
         replace = false,
@@ -1128,10 +762,6 @@ vim.keymap.set('n', '<leader>g,r', function()
         replace = false,
     })
 end, { desc = 'Inspect LLM prompt' })
-
-vim.keymap.set('n', '<leader>p', function()
-    require('dennich.bluesky').post_from_neovim()
-end, { desc = 'Post to Bluesky' })
 
 local function convert_to_apy()
     -- Get the visual selection
@@ -1273,35 +903,4 @@ end
 vim.keymap.set('v', '<leader>sp', split_on_periods, {
     silent = true,
     desc = 'Split selection on periods',
-})
-
-local project_configs = {
-    ['denismaciel/sam'] = {
-        makeprg = 'uv run mypy src',
-        errorformat = '%f:%l: error: %m,%f:%l: note: %m',
-    },
-    ['recap-technologies/core'] = {
-        makeprg = 'npm run typecheck',
-        errorformat = '%f(%l\\,%c): %t%*[^:]: %m',
-    },
-    ['denis/dotfiles'] = {
-        makeprg = 'dennich format',
-        errorformat = '%f:%l:%c: %m',
-    },
-}
-
-vim.api.nvim_create_augroup('ProjectMakeConfig', { clear = true })
-vim.api.nvim_create_autocmd('FileType', {
-    group = 'ProjectMakeConfig',
-    pattern = '*',
-    callback = function()
-        local cwd = vim.fn.getcwd()
-        for pattern, config in pairs(project_configs) do
-            if cwd:match(pattern) then
-                vim.opt_local.makeprg = config.makeprg
-                vim.opt_local.errorformat = config.errorformat
-                break
-            end
-        end
-    end,
 })

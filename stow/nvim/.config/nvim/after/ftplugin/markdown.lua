@@ -34,8 +34,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
             smart_paste('+')
         end, { buffer = true, desc = 'Smart paste for URLs in markdown' })
 
-        dennich.highlight_markdown_titles()
-
         vim.api.nvim_create_user_command('Was', function(opts)
             vim.cmd('write' .. (opts.bang and '!' or ''))
             if vim.bo.filetype == 'markdown' then

@@ -43,7 +43,6 @@
     graphviz
     haskellPackages.greenclip
     htop
-    hugo
     hyperfine
     i3lock-fancy-rapid
     jq
