@@ -2,3 +2,4 @@ window-decoration = false
 theme = AtomOneLight
 app-notifications = no-clipboard-copy
 font-family = BlexMono Nerd Font Mono
+confirm-close-surface = false
