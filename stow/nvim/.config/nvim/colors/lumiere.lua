@@ -211,6 +211,14 @@ local treesitter = {
         italic = true,
         bold = true,
     },
+
+    -- Markdown headings - different color for each level
+    ['@markup.heading.1.markdown'] = { fg = colors.red, bold = true },
+    ['@markup.heading.2.markdown'] = { fg = colors.blue, bold = true },
+    ['@markup.heading.3.markdown'] = { fg = colors.green, bold = true },
+    ['@markup.heading.4.markdown'] = { fg = colors.orange, bold = true },
+    ['@markup.heading.5.markdown'] = { fg = colors.magenta, bold = true },
+    ['@markup.heading.6.markdown'] = { fg = colors.gray5, bold = true },
 }
 
 -- ============================================================================
