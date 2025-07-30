@@ -198,7 +198,10 @@ require('lazy').setup({
             'nvim-tree/nvim-web-devicons',
         },
     },
-    { 'folke/trouble.nvim' },
+    {
+        'folke/trouble.nvim',
+        opts = {},
+    },
     {
         dir = '~/dotfiles/dennich',
         config = function()
@@ -729,7 +732,7 @@ require('lazy').setup({
     },
 })
 
-require('dennich.config')
+require('config')
 
 -- Set filetype for MDX files to markdown
 vim.filetype.add({

@@ -213,7 +213,7 @@
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
     initContent = builtins.readFile ../configs/_zshrc;
     enableCompletion = true;
     completionInit = "autoload -Uz compinit && compinit -C";

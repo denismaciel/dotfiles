@@ -303,7 +303,7 @@
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
     initContent = let
       source = map (source: "source ${source}") [
         "${pkgs.fzf}/share/fzf/completion.zsh"

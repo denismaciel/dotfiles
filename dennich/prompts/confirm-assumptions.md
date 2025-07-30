@@ -1,0 +1,1 @@
+Please ask questions and confirm assumptions before generating code.

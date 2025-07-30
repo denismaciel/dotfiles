@@ -98,7 +98,7 @@ vim.cmd('cabbrev bd! Bdd')
 vim.cmd('cabbrev Bd! Bdd')
 
 vim.diagnostic.config({
-    virtual_text = true,
+    virtual_text = false,
     severity_sort = true,
     underline = true,
     update_in_insert = false,
