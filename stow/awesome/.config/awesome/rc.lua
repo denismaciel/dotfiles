@@ -51,7 +51,7 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. 'default/theme.lua')
 
 -- This is used later as the default terminal and editor to run.
-terminal = 'alacritty'
+terminal = 'ghostty'
 editor = os.getenv('EDITOR') or 'editor'
 
 -- Default modkey.
@@ -161,18 +161,18 @@ globalkeys = gears.table.join(
         utils.getenv('work_mode')
         utils.toggle_or_spawn(
             'Notebook',
-            [[ alacritty --class Notebook -e "env" "MODE=notebook" "nvim" "-c" "lua require(\"dennich\").create_weekly_note()" ]]
+            [[ ghostty --class Notebook -e "env" "MODE=notebook" "nvim" "-c" "lua require(\"dennich\").create_weekly_note()" ]]
         )
     end),
 
     awful.key({ modkey }, 'x', function()
-        utils.toggle_or_spawn('Scratchpad', [[ alacritty --class Scratchpad ]])
+        utils.toggle_or_spawn('Scratchpad', [[ ghostty --class Scratchpad ]])
     end),
 
     awful.key({ modkey }, 'f', function()
         utils.toggle_or_spawn(
             'com.denis.scratchpad',
-            'alacritty --class=com.denis.scratchpad'
+            'ghostty --class=com.denis.scratchpad'
         )
     end),
 
@@ -230,7 +230,7 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey }, 'r', function()
         awful.util.spawn(
-            [[  alacritty --class FloatThatThing -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
+            [[  ghostty --class FloatThatThing -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
         )
     end)
 )

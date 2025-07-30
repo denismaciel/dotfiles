@@ -10,11 +10,13 @@
     ../../modules/go.nix
     ../../modules/firefox.nix
     ../../modules/git.nix
+    ../../modules/starship.nix
   ];
   go.enable = true;
   autorandr.enable = true;
   firefox.enable = true;
   git.enable = true;
+  starship.enable = true;
   home.packages = with pkgs; [
     # clang
     # code-cursor
@@ -352,63 +354,6 @@
         src = pkgs.zsh-syntax-highlighting;
       }
     ];
-  };
-
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = true;
-    settings = {
-      add_newline = true;
-      character = {
-        success_symbol = "[\\$](white)";
-        error_symbol = "[*](red)";
-        vicmd_symbol = "[*](blue)";
-      };
-      env_var = {
-        variable = "ENV";
-        format = "[$env_value]($style) ";
-        symbol = " ";
-        style = "dimmed white";
-      };
-      directory = {
-        style = "white";
-      };
-      aws = {
-        disabled = true;
-      };
-      gcloud = {
-        disabled = true;
-      };
-      package = {
-        disabled = true;
-      };
-      git_branch = {
-        style = "dimmed white";
-        format = "[$symbol$branch(:$remote_branch)]($style) ";
-      };
-      git_status = {
-        style = "white";
-        disabled = true;
-      };
-      cmd_duration = {
-        style = "white";
-        format = "[$duration]($style) ";
-      };
-      python = {
-        symbol = " ";
-        format = "[\${symbol}(\($virtualenv\) )]($style)";
-        style = "dimmed white";
-      };
-      golang = {
-        disabled = true;
-      };
-      lua = {
-        disabled = true;
-      };
-      nodejs = {
-        disabled = true;
-      };
-    };
   };
 
   services.polybar = {
