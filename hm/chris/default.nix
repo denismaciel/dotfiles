@@ -10,13 +10,11 @@
     ../../modules/go.nix
     ../../modules/firefox.nix
     ../../modules/git.nix
-    ../../modules/starship.nix
   ];
   go.enable = true;
   autorandr.enable = true;
   firefox.enable = true;
   git.enable = true;
-  starship.enable = true;
   home.packages = with pkgs; [
     # clang
     # code-cursor
@@ -348,11 +346,11 @@
           sha256 = "1h0vm2dgrmb8i2pvsgis3lshc5b0ad846836m62y8h3rdb3zmpy1";
         };
       }
-      {
-        name = "zsh-syntax-highlighting";
-        file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
-        src = pkgs.zsh-syntax-highlighting;
-      }
+      # {
+      #   name = "zsh-syntax-highlighting";
+      #   file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
+      #   src = pkgs.zsh-syntax-highlighting;
+      # }
     ];
   };
 

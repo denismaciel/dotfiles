@@ -421,3 +421,15 @@ alias nvim='echo "💡 use '\''nv'\'' instead"'
 # Show profiling results - run 'zprof' in shell to see startup performance
 # zprof
 
+# Simple prompt - only show "> " when starship is disabled
+if [[ -z "$STARSHIP_SHELL" ]]; then
+    PROMPT="> "
+    PS1="> "
+    # Disable default zsh prompt components
+    unsetopt PROMPT_SP
+    setopt NO_PROMPT_CR
+    # Clear any right prompt
+    RPROMPT=""
+    RPS1=""
+fi
+

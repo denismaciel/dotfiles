@@ -26,12 +26,14 @@ run = [
 run = [
   "stow -t ~ -d stow nvim",
   "stow -t ~ -d stow awesome",
-  "stow -t ~ -d stow nix"
+  "stow -t ~ -d stow nix",
+  "stow -t ~ -d stow ghostty"
 ]
 
 [tasks.stow-delete]
 run = [
   "stow -D -t ~ -d stow nvim",
   "stow -D -t ~ -d stow awesome",
-  "stow -D -t ~ -d stow nix"
+  "stow -D -t ~ -d stow nix",
+  "stow -D -t ~ -d stow ghostty"
 ]
