@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   pkgs,
   ...
@@ -13,7 +14,7 @@
     csvlens
     dbmate
     dig
-    direnv
+
     dockerfile-language-server-nodejs
     fd
     ffmpeg
@@ -67,7 +68,7 @@
     ".npmrc".source = ../configs/_npmrc;
     ".ipython/profile_default/ipython_config.py".source = ../configs/_ipython/profile_default/ipython_config.py;
     ".ipython/profile_default/custom_init.py".source = ../configs/_ipython/profile_default/custom_init.py;
-    ".config/direnv/direnv.toml".source = ../configs/direnv/direnv.toml;
+
     ".config/fd/ignore".source = ../configs/fd/ignore;
     ".config/pgcli/config".source = ../configs/pgcli/config;
     ".ctags.d/default.ctags".source = ../configs/_ctags.d/default.ctags;
@@ -105,6 +106,17 @@
       tmux-fzf
     ];
     extraConfig = builtins.readFile ../configs/.tmux.conf;
+  };
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    config = {
+      global = {
+        log_filter = "^$"; # Silence all direnv output
+        load_dotenv = true; # Keep existing setting from configs/direnv/direnv.toml
+      };
+    };
   };
 
   programs.zsh = {
@@ -150,66 +162,8 @@
       }
     ];
   };
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = true;
-    settings = {
-      add_newline = true;
-      character = {
-        success_symbol = "[\\$](white)";
-        error_symbol = "[●](red)";
-        vicmd_symbol = "[●](blue)";
-      };
-      env_var = {
-        variable = "ENV";
-        format = "[$env_value]($style) ";
-        symbol = " ";
-        style = "dimmed white";
-      };
-      directory = {
-        style = "white";
-      };
-      aws = {
-        disabled = true;
-      };
-      gcloud = {
-        disabled = true;
-      };
-      package = {
-        disabled = true;
-      };
-      git_branch = {
-        style = "dimmed white";
-        format = "[$symbol$branch(:$remote_branch)]($style) ";
-      };
-      git_status = {
-        style = "white";
-        disabled = true;
-      };
-      cmd_duration = {
-        style = "white";
-        format = "[$duration]($style) ";
-      };
-      python = {
-        symbol = " ";
-        format = "[\${symbol}(\($virtualenv\) )]($style)";
-        style = "dimmed white";
-      };
-      golang = {
-        disabled = true;
-      };
-      lua = {
-        disabled = true;
-      };
-      nodejs = {
-        disabled = true;
-      };
-    };
-  };
-
   services.udiskie.enable = true; # Auto mount devices
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
   nixpkgs = {
     overlays = [
       inputs.neovim-nightly-overlay.overlays.default

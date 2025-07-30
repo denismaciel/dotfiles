@@ -56,7 +56,7 @@
     # '';
   };
 
-  time.timeZone = "Europe/Lisbon";
+  time.timeZone = "America/Recife";
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
@@ -198,10 +198,13 @@
   system.stateVersion = "23.11"; # Did you read the comment?
 
   virtualisation.docker.enable = true;
-  # location.provider = "geoclue2";
-  location = {
-    latitude = 39.3999;
-    longitude = 8.2245;
+  location.provider = "geoclue2";
+  services.geoclue2 = {
+    enable = true;
+    appConfig.redshift = {
+      isAllowed = true;
+      isSystem = true;
+    };
   };
   services.redshift = {
     enable = true;

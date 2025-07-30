@@ -54,7 +54,7 @@
     csvlens
     dbmate
     dig
-    direnv
+
     dockerfile-language-server-nodejs
     duckdb
     fd
@@ -156,7 +156,7 @@
     ".npmrc".source = ../../configs/_npmrc;
     ".ipython/profile_default/ipython_config.py".source = ../../configs/_ipython/profile_default/ipython_config.py;
     ".ipython/profile_default/custom_init.py".source = ../../configs/_ipython/profile_default/custom_init.py;
-    ".config/direnv/direnv.toml".source = ../../configs/direnv/direnv.toml;
+
     ".config/fd/ignore".source = ../../configs/fd/ignore;
     ".config/greenclip.toml".source = ../../configs/greenclip.toml;
     ".config/pgcli/config".source = ../../configs/pgcli/config;
@@ -299,6 +299,17 @@
     enable = true;
     # It seems this is doing nothing for the autocompletion.
     enableZshIntegration = true;
+  };
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    config = {
+      global = {
+        log_filter = "^$"; # Silence all direnv output
+        load_dotenv = true; # Keep existing setting from configs/direnv/direnv.toml
+      };
+    };
   };
   programs.zsh = {
     enable = true;

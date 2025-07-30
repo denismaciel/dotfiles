@@ -160,19 +160,22 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, 'd', function()
         utils.getenv('work_mode')
         utils.toggle_or_spawn(
-            'Notebook',
-            [[ ghostty --class Notebook -e "env" "MODE=notebook" "nvim" "-c" "lua require(\"dennich\").create_weekly_note()" ]]
+            'com.denis.notebook',
+            [[ alacritty --class=com.denis.notebook -e "env" "MODE=notebook" "nvim" "-c" "lua require(\"dennich\").create_weekly_note()" ]]
         )
     end),
 
     awful.key({ modkey }, 'x', function()
-        utils.toggle_or_spawn('Scratchpad', [[ ghostty --class Scratchpad ]])
+        utils.toggle_or_spawn(
+            'com.denis.scratchpad',
+            [[ alacritty --class=com.denis.scratchpad ]]
+        )
     end),
 
     awful.key({ modkey }, 'f', function()
         utils.toggle_or_spawn(
-            'com.denis.scratchpad',
-            'ghostty --class=com.denis.scratchpad'
+            'com.denis.terminal',
+            'ghostty --class=com.denis.terminal'
         )
     end),
 
@@ -230,7 +233,7 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey }, 'r', function()
         awful.util.spawn(
-            [[  ghostty --class FloatThatThing -e sh -c '/home/denis/.local/bin/dennich-todo start-pomodoro' ]]
+            [[  alacritty --class=com.denis.float -e '/home/denis/.local/bin/dennich-todo' 'start-pomodoro' ]]
         )
     end)
 )
@@ -341,8 +344,8 @@ awful.rules.rules = {
                 'Wpa_gui',
                 'veromix',
                 'xtightvncviewer',
-                'Scratchpad',
-                'FloatThatThing',
+                'com.denis.scratchpad',
+                'com.denis.float',
                 'Dragon',
                 'mpv',
             },
@@ -385,7 +388,7 @@ awful.rules.rules = {
         },
     },
     {
-        rule_any = { class = { 'Notebook' } },
+        rule_any = { class = { 'com.denis.notebook' } },
         properties = {
             floating = true,
             width = 1500,
