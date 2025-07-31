@@ -3,7 +3,6 @@ local dennich = require('dennich')
 local function smart_paste(register)
     register = register or '+'
     local clipboard_content = vim.fn.getreg(register)
-
     if dennich.is_url(clipboard_content) then
         local formatted_text = '[](' .. clipboard_content .. ')'
         vim.api.nvim_put({ formatted_text }, '', false, true)
@@ -114,25 +113,7 @@ vim.keymap.set('n', '<leader>ck', toggle_checkbox, {
     buffer = 0,
 })
 
-local function highlight_tags()
-    -- Tag definitions with their colors
-    local tags = {
-        { name = 'Recap', color = '#D4AF37', pattern = '#recap' },
-        { name = 'Sam', color = '#90EE90', pattern = '#sam' },
-        { name = 'Home', color = '#87CEFA', pattern = '#home' },
-        { name = 'Hoy', color = '#FFA500', pattern = '#hoy' },
-        { name = 'Wait', color = '#DDA0DD', pattern = '#wait' },
-        { name = 'P0', color = '#FF0000', pattern = '#p0' },
-        { name = 'P1', color = '#FF7F00', pattern = '#p1' },
-        { name = 'P2', color = '#FFFF00', pattern = '#p2' },
-    }
-
-    -- Apply highlights and matches for each tag
-    for _, tag in ipairs(tags) do
-        vim.api.nvim_set_hl(0, tag.name .. 'Tag', { fg = tag.color })
-        vim.fn.matchadd(tag.name .. 'Tag', tag.pattern)
-    end
-
+local function highlights()
     vim.api.nvim_set_hl(0, '@unchecked_list_item', { fg = '#F8F8F2' })
     vim.api.nvim_set_hl(0, '@checked_list_item', { fg = '#375749' })
     vim.api.nvim_set_hl(0, '@text.todo.unchecked', { fg = '#F8F8F2' })
@@ -141,6 +122,6 @@ end
 
 -- Apply the highlighting on buffer read and window enter
 vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWinEnter' }, {
-    callback = highlight_tags,
+    callback = highlights,
     group = augroup,
 })
