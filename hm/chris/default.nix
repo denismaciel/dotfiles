@@ -259,42 +259,6 @@
   };
   services.syncthing.enable = true;
   services.syncthing.tray.enable = true;
-
-  programs.nushell = {
-    enable = true;
-    extraConfig = ''
-      $env.config.show_banner = false
-
-      $env.config.completions.algorithm = "fuzzy"
-      $env.config.completions.external.completer = {|spans|
-          let carapace_completer = {|spans|
-              carapace $spans.0 nushell ...$spans
-              | from json
-          }
-          let zoxide_completer = {|spans|
-              $spans | skip 1 | zoxide query -l $in | lines | where {|x| $x != $env.PWD}
-          }
-
-          let expanded_alias = scope aliases | where name == $spans.0 | get -i 0 | get -i expansion
-          let spans = if $expanded_alias != null  {
-              $spans | skip 1 | prepend ($expanded_alias | split row " " | take 1)
-          } else {
-              $spans
-          }
-
-          match $spans.0 {
-              __zoxide_z | __zoxide_zi => $zoxide_completer,
-              _ => $carapace_completer
-          } | do $in $spans
-      }
-
-
-      $env.config.cursor_shape.vi_insert = "line"
-      $env.config.cursor_shape.vi_normal = "block"
-      $env.config.edit_mode = "vi"
-      $env.config.buffer_editor = "nvim"
-    '';
-  };
   programs.mise = {
     enable = true;
     # It seems this is doing nothing for the autocompletion.
@@ -317,7 +281,6 @@
     dotDir = "${config.xdg.configHome}/zsh";
     initContent = builtins.readFile ../../configs/_zshrc;
     enableCompletion = true;
-    # completionInit = "autoload -U compinit; compinit";
     plugins = [
       {
         name = "zsh-defer";
@@ -328,10 +291,6 @@
           sha256 = "/rcIS2AbTyGw2HjsLPkHtt50c2CrtAFDnLuV5wsHcLc=";
         };
       }
-      # {
-      #   name = "zsh-completions";
-      #   src = "${pkgs.zsh-completions}/share/zsh/site-functions";
-      # }
       {
         name = "fzf-tab";
         src = pkgs.zsh-fzf-tab;
@@ -348,6 +307,10 @@
         };
       }
       # {
+      #   name = "zsh-completions";
+      #   src = "${pkgs.zsh-completions}/share/zsh/site-functions";
+      # }
+      # {
       #   name = "zsh-syntax-highlighting";
       #   file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
       #   src = pkgs.zsh-syntax-highlighting;
@@ -361,17 +324,16 @@
     script = builtins.readFile ../../configs/polybar/launch.sh;
   };
 
-  services.pasystray.enable = true;
-
   services.screen-locker = {
     enable = false;
     inactiveInterval = 15;
     lockCmd = "${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 10 15";
   };
 
+  services.pasystray.enable = true;
   services.udiskie.enable = true; # Auto mount devices
-
   nixpkgs.config.allowUnfree = true;
+
   nixpkgs = {
     overlays = [
       inputs.neovim-nightly-overlay.overlays.default
