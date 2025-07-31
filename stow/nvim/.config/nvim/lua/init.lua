@@ -202,14 +202,7 @@ require('lazy').setup({
         'folke/trouble.nvim',
         opts = {},
     },
-    {
-        dir = '~/dotfiles/dennich',
-        config = function()
-            require('dennich.llm').setup({
-                timeout_ms = 10000,
-            })
-        end,
-    },
+
     -- Colors
     {
         'aktersnurra/no-clown-fiesta.nvim',
@@ -230,7 +223,6 @@ require('lazy').setup({
             local actions_layout = require('telescope.actions.layout')
             local action_state = require('telescope.actions.state')
 
-            local dennich = require('dennich')
             require('telescope').setup({
                 extensions = {
                     ['ui-select'] = {
@@ -241,11 +233,9 @@ require('lazy').setup({
                     mappings = {
                         n = {
                             ['h'] = actions_layout.toggle_preview,
-                            ['<C-y>'] = dennich.telescope_insert_relative_file_path,
                         },
                         i = {
                             ['<C-h>'] = actions_layout.toggle_preview,
-                            ['<C-y>'] = dennich.telescope_insert_relative_file_path,
                         },
                     },
                     path_display = { 'truncate' },
@@ -740,31 +730,6 @@ vim.filetype.add({
         mdx = 'markdown',
     },
 })
-
-vim.keymap.set('n', '<leader>g,g', function()
-    require('dennich.llm').prompt({
-        replace = false,
-        service = 'gemini',
-    })
-end, { desc = 'Prompt with Gemini' })
-vim.keymap.set('n', '<leader>g,c', function()
-    require('dennich.llm').prompt({
-        replace = false,
-        service = 'anthropic',
-    })
-end, { desc = 'Prompt with Claude' })
-vim.keymap.set('n', '<leader>g,o', function()
-    require('dennich.llm').prompt({
-        replace = false,
-        service = 'anthropic',
-    })
-end, { desc = 'Prompt with OpenAI' })
-vim.keymap.set('n', '<leader>g,r', function()
-    require('dennich.llm').inspect_prompt({
-        service = 'anthropic',
-        replace = false,
-    })
-end, { desc = 'Inspect LLM prompt' })
 
 local function convert_to_apy()
     -- Get the visual selection

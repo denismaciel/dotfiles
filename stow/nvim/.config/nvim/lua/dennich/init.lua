@@ -135,7 +135,7 @@ local routine = function()
 end
 
 local function load_prompt_files()
-    local prompts_dir = vim.fn.expand('~/dotfiles/dennich/prompts')
+    local prompts_dir = vim.fn.stdpath('config') .. '/prompts'
     local prompt_files = vim.fn.glob(prompts_dir .. '/*.md', false, true)
     local results = {}
 
