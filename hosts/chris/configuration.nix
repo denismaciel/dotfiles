@@ -7,11 +7,13 @@
     ./hardware-configuration.nix
     ../../modules/warp.nix
     ../../modules/stylix.nix
+    ../../modules/redshift.nix
   ];
 
   nix.settings.trusted-users = ["denis"];
   boot.binfmt.emulatedSystems = ["aarch64-linux"]; # necessary to build nixos for raspberrypi
   warp.enable = false;
+  redshift.enable = true;
   hardware.keyboard.zsa.enable = true;
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
@@ -198,23 +200,4 @@
   system.stateVersion = "23.11"; # Did you read the comment?
 
   virtualisation.docker.enable = true;
-  location.provider = "geoclue2";
-  services.geoclue2 = {
-    enable = true;
-    appConfig.redshift = {
-      isAllowed = true;
-      isSystem = true;
-    };
-  };
-  services.redshift = {
-    enable = true;
-    temperature = {
-      day = 4500; # Lowered from 6000K to 4500K for a warmer daytime
-      night = 2700; # Lowered from 3700K to 2700K for a redder night
-    };
-    brightness = {
-      day = "1";
-      night = "0.9";
-    };
-  };
 }

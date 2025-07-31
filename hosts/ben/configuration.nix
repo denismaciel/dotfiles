@@ -227,15 +227,4 @@
     latitude = 39.3999;
     longitude = 8.2245;
   };
-  services.redshift = {
-    enable = true;
-    temperature = {
-      day = 4500; # Lowered from 6000K to 4500K for a warmer daytime
-      night = 2700; # Lowered from 3700K to 2700K for a redder night
-    };
-    brightness = {
-      day = "1";
-      night = "0.9";
-    };
-  };
 }
