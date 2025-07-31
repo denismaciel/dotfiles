@@ -13,20 +13,6 @@ export PYTHONBREAKPOINT=ipdb.set_trace
 export VISUAL=nvim
 export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH # Fixes dynamically linked binaries in NixOS: `import numpy as np` just works
 
-# ---------------------------
-# --------- fzf -------------
-# ---------------------------
-export FZF_DEFAULT_OPTS="--height 100%"
-export FZF_DEFAULT_COMmAND="rg --files --no-ignore-vcs --ignore-file ~/.ripgrep_ignore"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-function _fzf_compgen_dir() {
-  fd --type d --hidden --follow --exclude ".git" --exclude "venv" . "$1"
-}
-
-function  _fzf_compgen_path() {
-  fd --hidden --follow --exclude ".git" --exclude "venv" . "$1"
-}
 
 function act() {
     if [ -d "venv" ]; then
@@ -314,9 +300,7 @@ function is_in_git_repo() {
     git rev-parse HEAD > /dev/null 2>&1
 }
 
-function fzf-down() {
-    fzf --height 50% "$@" --border
-}
+
 
 # Untracked files
 function gu() {

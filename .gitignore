@@ -6,6 +6,9 @@ recap-cli
 duckdb
 cache.db
 
+# Personal theme preference - not tracked in git
+theme-preference
+
 tools/.newsboat/cache.db.lock
 tools/.config/pgcli/history
 tools/.config/pgcli/log

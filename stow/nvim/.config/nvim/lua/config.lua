@@ -72,20 +72,56 @@ if os.getenv('MODE') == 'notebook' then
     vim.keymap.set('n', '<c-k>', ':tabprev<cr>')
 end
 
--- vim.cmd([[ colorscheme oxocarbon ]])
--- vim.cmd([[ colorscheme kanagawa-lotus ]])
--- vim.cmd([[ colorscheme no-clown-fiesta ]])
--- vim.cmd([[ colorscheme kanagawa ]])
-vim.cmd([[ colorscheme lumiere ]])
+-- Theme detection and switching
+local function get_system_theme()
+    local theme_file = os.getenv('HOME') .. '/dotfiles/theme-preference'
+    local file = io.open(theme_file, 'r')
+    if file then
+        local theme = file:read('*line')
+        file:close()
+        return theme and theme:match('^%s*(.-)%s*$') or 'light'
+    end
+    -- Create default file if it doesn't exist
+    local default_file = io.open(theme_file, 'w')
+    if default_file then
+        default_file:write('light')
+        default_file:close()
+    end
+    return 'light'
+end
 
--- Configure cursor shapes for different modes
-vim.opt.guicursor = {
-    'n-v-c:block-TermCursor', -- Normal/Visual/Command: block cursor
-    'i-ci-ve:ver25-TermCursor', -- Insert: thin vertical line (25% width)
-    'r-cr:hor20-TermCursor', -- Replace: horizontal line (20% height)
-    'o:hor50-TermCursor', -- Operator-pending: thicker horizontal line
-    'a:blinkwait700-blinkoff400-blinkon250', -- All modes: blinking settings
-}
+local function apply_theme()
+    local theme = get_system_theme()
+    if theme == 'dark' then
+        vim.cmd([[ colorscheme no-clown-fiesta ]])
+    else
+        vim.cmd([[ colorscheme lumiere ]])
+    end
+end
+
+-- Apply theme on startup
+apply_theme()
+
+-- Add manual toggle command
+vim.api.nvim_create_user_command('ToggleTheme', function()
+    local current = get_system_theme()
+    local new_theme = current == 'light' and 'dark' or 'light'
+
+    -- Write new preference
+    local theme_file = os.getenv('HOME') .. '/dotfiles/theme-preference'
+    local file = io.open(theme_file, 'w')
+    if file then
+        file:write(new_theme)
+        file:close()
+    end
+
+    -- Apply immediately
+    apply_theme()
+    print('Switched to ' .. new_theme .. ' theme')
+end, {})
+
+-- Respect terminal cursor - let tmux handle cursor styling
+vim.opt.guicursor = ''
 
 vim.cmd('cabbrev W w')
 vim.cmd('cabbrev Wq wq')
@@ -502,3 +538,11 @@ vim.keymap.set('n', '<leader>rr', function()
     package.loaded['dennich'] = nil
     require('dennich').run()
 end)
+
+-- Theme toggle keymap
+vim.keymap.set(
+    'n',
+    '<leader>tt',
+    '<cmd>ToggleTheme<cr>',
+    { desc = 'Toggle theme' }
+)

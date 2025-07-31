@@ -10,6 +10,7 @@
     ../../modules/go.nix
     ../../modules/firefox.nix
     ../../modules/git.nix
+    ../../modules/fzf.nix
   ];
   go.enable = true;
   autorandr.enable = true;
@@ -59,7 +60,6 @@
     duckdb
     fd
     ffmpeg
-    fzf
     gcc
     gh
     gnumake
@@ -315,17 +315,7 @@
     enable = true;
     defaultKeymap = "viins";
     dotDir = "${config.xdg.configHome}/zsh";
-    initContent = let
-      source = map (source: "source ${source}") [
-        "${pkgs.fzf}/share/fzf/completion.zsh"
-        "${pkgs.fzf}/share/fzf/key-bindings.zsh"
-      ];
-      plugins = builtins.concatStringsSep "\n" source;
-    in
-      ''
-        ${plugins}
-      ''
-      + builtins.readFile ../../configs/_zshrc;
+    initContent = builtins.readFile ../../configs/_zshrc;
     enableCompletion = true;
     # completionInit = "autoload -U compinit; compinit";
     plugins = [

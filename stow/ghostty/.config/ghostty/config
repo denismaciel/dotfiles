@@ -1,5 +1,9 @@
 window-decoration = false
-theme = AtomOneLight
+theme = Operator Mono Dark
 app-notifications = no-clipboard-copy
 font-family = BlexMono Nerd Font Mono
 confirm-close-surface = false
+cursor-style = underline
+cursor-color = #383a42
+cursor-style-blink = false
+cursor-invert-fg-bg = true

@@ -6,6 +6,7 @@
 }: {
   imports = [
     ../modules/git.nix
+    ../modules/fzf.nix
   ];
   home.packages = with pkgs; [
     biome
@@ -18,7 +19,6 @@
     dockerfile-language-server-nodejs
     fd
     ffmpeg
-    fzf
     gcc
     gnumake
     gofumpt
