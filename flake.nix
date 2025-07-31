@@ -99,19 +99,6 @@
           }
         ];
       };
-      gcp = nixpkgs.lib.nixosSystem {
-        modules = [
-          ./hosts/gcp/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./hm/sam.nix;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
-          }
-        ];
-      };
     };
   };
 }
