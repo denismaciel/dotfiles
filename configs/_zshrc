@@ -10,6 +10,11 @@ export EDITOR=nvim
 export VISUAL=nvim
 export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH # Fixes dynamically linked binaries in NixOS: `import numpy as np` just works
 
+PROMPT="> "
+PS1="> "
+unsetopt PROMPT_SP
+setopt NO_PROMPT_CR
+
 function act() {
     if [ -d "venv" ]; then
         source venv/bin/activate
@@ -343,19 +348,6 @@ cap() {
 
 alias nv='nvim-server'
 alias nvim='echo "💡 use '\''nv'\'' instead"'
-
-
-# Simple prompt - only show "> " when starship is disabled
-if [[ -z "$STARSHIP_SHELL" ]]; then
-    PROMPT="> "
-    PS1="> "
-    # Disable default zsh prompt components
-    unsetopt PROMPT_SP
-    setopt NO_PROMPT_CR
-    # Clear any right prompt
-    RPROMPT=""
-    RPS1=""
-fi
 
 # Show profiling results automatically on startup
 # Comment out the line below if you don't want to see profiling on every shell startup

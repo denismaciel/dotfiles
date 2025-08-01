@@ -2,7 +2,8 @@
 uv = "latest"
 
 [tasks.rebuild-chris]
-run = "sudo nixos-rebuild switch --flake ~/dotfiles#chris"
+# run = "sudo nixos-rebuild switch --flake ~/dotfiles#chris"
+run = "nh os switch ~/dotfiles -H chris"
 
 [tasks.rebuild-sam]
 run = "nixos-rebuild switch --flake ~/dotfiles#sam --target-host sam --sudo"
