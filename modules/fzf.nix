@@ -1,14 +1,8 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{lib, ...}: {
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
 
-    # Default options from _zshrc
     defaultOptions = [
       "--height 100%"
       "--reverse"
