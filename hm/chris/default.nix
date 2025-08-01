@@ -17,107 +17,63 @@
   firefox.enable = true;
   git.enable = true;
   home.packages = with pkgs; [
-    # clang
-    # code-cursor
-    # code-cursor
-    # ghostty
-    # golden-cheetah
-    # libreoffice
-    # nodePackages_latest.prettier
-    # nodePackages_latest.typescript-language-server
-    obs-studio
-    # python312Packages.mdformat -- Installed used uv
-    # python312Packages.mdformat-gfm
-    # tor-browser-bundle-bin
-    # vscode
-    # vscode-js-debug
-    # zed-editor
-    glow
     age
-    sops
-    ghostty
-    nmap
-    pgsync
-    bitwarden
-    stripe-cli
-    envsubst
-    arandr
-    kdePackages.dolphin
-    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
     alejandra
     anki
+    arandr
     biome
+    bitwarden
     btop
     bun
     calibre
-    cargo
-    circumflex
-    csvlens
     dbmate
     dig
-
-    dockerfile-language-server-nodejs
     duckdb
+    envsubst
     fd
     ffmpeg
     gcc
     gh
+    ghostty
+    glow
     gnumake
     gofumpt
     gomi
     google-chrome
-    graphviz
     haskellPackages.greenclip
-    htop
-    hyperfine
-    i3lock-fancy-rapid
     jq
-    jsonnet
-    jsonnet-language-server
+    kdePackages.dolphin
     keepassxc
     kubectl
     lazydocker
     lazygit
-    lf
-    libinput
     litecli
     lsof
     lua
     markdownlint-cli
-    mpv
     nerd-fonts.blex-mono
     nerd-fonts.comic-shanns-mono
-    # newsboat
-    ngrok
     nil
     nixfmt-rfc-style
-    nodePackages_latest.bash-language-server
     nodejs
     openssl
-    pandoc
-    papirus-icon-theme
     pgcli
+    pgsync
     postgresql
-    pqrs
-    pv
-    pyright
-    rclone
     ripgrep
-    rust-analyzer
-    rustc
     sioyek
     slack
+    sops
     spotify-unwrapped
     sqlite
-    st
     statix
     stow
+    stripe-cli
     stylua
     sumneko-lua-language-server
     tailwindcss-language-server
     terraform
     terraform-ls
-    tree
     typescript
     universal-ctags
     unzip
@@ -127,12 +83,12 @@
     xorg.xbacklight
     xorg.xev
     yaml-language-server
-    yq-go
     yt-dlp
     zenity
     zoxide
     (rofi.override {plugins = [pkgs.rofi-emoji pkgs.rofi-calc];})
     (google-fonts.override {fonts = ["Poppins"];})
+    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
   ];
 
   xdg.userDirs = let
@@ -142,7 +98,7 @@
     enable = true;
     desktop = "${home}/dirs/desktop";
     documents = "${home}/dirs/documents";
-    download = "${home}/downloads";
+    download = "${home}/dirs/downloads";
     music = "${home}/dirs/music";
     pictures = "${home}/dirs/pictures";
     publicShare = "${home}/dirs/public";
@@ -156,7 +112,6 @@
     ".npmrc".source = ../../configs/_npmrc;
     ".ipython/profile_default/ipython_config.py".source = ../../configs/_ipython/profile_default/ipython_config.py;
     ".ipython/profile_default/custom_init.py".source = ../../configs/_ipython/profile_default/custom_init.py;
-
     ".config/fd/ignore".source = ../../configs/fd/ignore;
     ".config/greenclip.toml".source = ../../configs/greenclip.toml;
     ".config/pgcli/config".source = ../../configs/pgcli/config;
@@ -296,16 +251,16 @@
         src = pkgs.zsh-fzf-tab;
         file = "share/fzf-tab/fzf-tab.plugin.zsh";
       }
-      {
-        name = "zsh-autopair";
-        file = "zsh-autopair.plugin.zsh";
-        src = pkgs.fetchFromGitHub {
-          owner = "hlissner";
-          repo = "zsh-autopair";
-          rev = "34a8bca0c18fcf3ab1561caef9790abffc1d3d49";
-          sha256 = "1h0vm2dgrmb8i2pvsgis3lshc5b0ad846836m62y8h3rdb3zmpy1";
-        };
-      }
+      # {
+      #   name = "zsh-autopair";
+      #   file = "zsh-autopair.plugin.zsh";
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "hlissner";
+      #     repo = "zsh-autopair";
+      #     rev = "34a8bca0c18fcf3ab1561caef9790abffc1d3d49";
+      #     sha256 = "1h0vm2dgrmb8i2pvsgis3lshc5b0ad846836m62y8h3rdb3zmpy1";
+      #   };
+      # }
       # {
       #   name = "zsh-completions";
       #   src = "${pkgs.zsh-completions}/share/zsh/site-functions";

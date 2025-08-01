@@ -1,18 +1,14 @@
-zmodload zsh/zprof  # Enable profiling
+# zmodload zsh/zprof  # Enable profiling
+zsh-defer -c 'autoload -Uz compinit && compinit'
 export PATH=$GOROOT/bin:$PATH
 export PATH="$HOME/node/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
 export PATH=$HOME/dotfiles/scripts:$PATH
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=/etc/profiles/per-user/denis/bin/:$PATH # so that the default Python is the one from Home Manager
-
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 export EDITOR=nvim
-command -v go >/dev/null 2>&1 && export GOPATH=$(go env GOPATH)
-export PYTHONBREAKPOINT=ipdb.set_trace
 export VISUAL=nvim
 export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH # Fixes dynamically linked binaries in NixOS: `import numpy as np` just works
-
 
 function act() {
     if [ -d "venv" ]; then
@@ -58,8 +54,7 @@ function run-sam() {
         elif [ $exit_status -ne 0 ]; then
            # You could check for other specific fzf error codes if needed
            echo "fzf exited with error status: $exit_status" >&2
-        kkkelse
-           # This covers the case where fzf exited 0 but returned an empty selection
+         else           # This covers the case where fzf exited 0 but returned an empty selection
            echo "No command selected."
         fi
         # Return a non-zero status to indicate the command was not executed
@@ -122,49 +117,9 @@ if [ -e /home/denis/credentials/recap.sh ]; then . /home/denis/credentials/recap
 if [ -e /home/denis/credentials/secrets.sh ]; then . /home/denis/credentials/secrets.sh; fi
 
 
-eval "$(scmpuff init -s)"
-eval "$(direnv hook zsh)"
-eval "$(zoxide init zsh)"
-
-# Docker completion
-if command -v docker > /dev/null 2>&1; then
-  source <(docker completion zsh)
-fi
-
-# # disable sort when completing `git checkout`
-# zstyle ':completion:*:git-checkout:*' sort false
-# # set descriptions format to enable group support
-# # NOTE: don't use escape sequences here, fzf-tab will ignore them
-# zstyle ':completion:*:descriptions' format '[%d]'
-# # set list-colors to enable filename colorizing
-# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
-# zstyle ':completion:*' menu no
-# # preview directory's content with eza when completing cd
-# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-# # switch group using `<` and `>`
-# zstyle ':fzf-tab:*' switch-group '<' '>'
-# zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-
-# ==================
-# === Functions ====
-# ==================
-function mv-last {
-    local source_folder="$1"
-    local destination_folder="$2"
-
-    # Find the last downloaded file
-    last_downloaded_file=$(ls -t1 "$source_folder" | head -n 1)
-
-    # Check if a file was found
-    if [ -n "$last_downloaded_file" ]; then
-        # Move the file to the destination folder
-        mv "$source_folder/$last_downloaded_file" "$destination_folder/$last_downloaded_file"
-        echo "Moved the last downloaded file ($last_downloaded_file) to the destination folder."
-    else
-        echo "No files found in the source folder."
-    fi
-}
+zsh-defer eval "$(scmpuff init -s)"
+zsh-defer eval "$(direnv hook zsh)"
+zsh-defer eval "$(zoxide init zsh)"
 
 function gbl {
     is_in_git_repo || return
@@ -194,11 +149,6 @@ function togglep() {
 
 function open() {
     nohup xdg-open "$*" >> /dev/null &
-}
-
-function addin() {
-    printf "Addressed in $(git rev-parse HEAD)" | xclip -selection clipboard 
-    git push origin HEAD
 }
 
 function list-branches() {
@@ -307,14 +257,6 @@ function gu() {
     git -C "$(git rev-parse --show-toplevel)" status --porcelain --untracked-files=all | grep "^??" | awk '/^??/ {print $2}'
 }
 
-function gf() {
-    is_in_git_repo || return
-    git -c color.status=always status --short |
-        fzf-down -m --ansi --nth 2..,.. \
-        --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
-        cut -c4- | sed 's/.* -> //'
-}
-
 function organize-downloads() {
   # Create a directory name with today's date in format YYYY-MM-DD
   local TODAY=$(date +"%Y-%m-%d-%H%M%S")
@@ -402,8 +344,6 @@ cap() {
 alias nv='nvim-server'
 alias nvim='echo "💡 use '\''nv'\'' instead"'
 
-# Show profiling results - run 'zprof' in shell to see startup performance
-# zprof
 
 # Simple prompt - only show "> " when starship is disabled
 if [[ -z "$STARSHIP_SHELL" ]]; then
@@ -417,3 +357,6 @@ if [[ -z "$STARSHIP_SHELL" ]]; then
     RPS1=""
 fi
 
+# Show profiling results automatically on startup
+# Comment out the line below if you don't want to see profiling on every shell startup
+# zprof

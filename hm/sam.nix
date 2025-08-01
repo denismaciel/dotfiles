@@ -11,12 +11,9 @@
   home.packages = with pkgs; [
     biome
     btop
-    cargo
     csvlens
     dbmate
     dig
-
-    dockerfile-language-server-nodejs
     fd
     ffmpeg
     gcc
@@ -26,8 +23,6 @@
     htop
     hyperfine
     jq
-    jsonnet
-    jsonnet-language-server
     kubectl
     lazydocker
     lsof
@@ -39,12 +34,8 @@
     nodePackages_latest.prettier
     nodePackages_latest.typescript-language-server
     openssl
-    pyright
     python313Packages.mdformat
-    rclone
     ripgrep
-    rust-analyzer
-    rustc
     sqlite
     statix
     stow
@@ -52,14 +43,11 @@
     sumneko-lua-language-server
     tailwindcss-language-server
     terraform-ls
-    tree
-    typescript
     universal-ctags
     unzip
     uv
     vscode-langservers-extracted
     yaml-language-server
-    yq-go
     zoxide
   ];
   home.username = "denis";
