@@ -11,6 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 vim.opt.runtimepath:prepend(lazypath)
+
 -- ============================
 -- Plugins
 -- ============================
@@ -872,3 +873,31 @@ vim.keymap.set('v', '<leader>sp', split_on_periods, {
     silent = true,
     desc = 'Split selection on periods',
 })
+
+require('config')
+require('dennich')
+
+vim.keymap.set('n', '<leader>g,g', function()
+    require('dennich.llm').prompt({
+        replace = false,
+        service = 'gemini',
+    })
+end, { desc = 'Prompt with Gemini' })
+vim.keymap.set('n', '<leader>g,c', function()
+    require('dennich.llm').prompt({
+        replace = false,
+        service = 'anthropic',
+    })
+end, { desc = 'Prompt with Claude' })
+vim.keymap.set('n', '<leader>g,o', function()
+    require('dennich.llm').prompt({
+        replace = false,
+        service = 'anthropic',
+    })
+end, { desc = 'Prompt with OpenAI' })
+vim.keymap.set('n', '<leader>g,r', function()
+    require('dennich.llm').inspect_prompt({
+        service = 'anthropic',
+        replace = false,
+    })
+end, { desc = 'Inspect LLM prompt' })

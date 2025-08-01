@@ -176,6 +176,15 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
     end,
 })
 
+vim.api.nvim_create_autocmd('BufEnter', {
+    callback = function()
+        local file_path = vim.fn.expand('%:p')
+        if file_path == '/tmp/tmux_pane_content' then
+            vim.cmd('colorscheme tokyonight')
+        end
+    end,
+})
+
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 
@@ -243,6 +252,9 @@ end, { desc = 'Python import statement' })
 vim.keymap.set('n', '<leader>xl', ':.lua<cr>')
 vim.keymap.set('v', '<leader>xl', ':lua<cr>')
 
+local sql = require('dennich.sql')
+local dennich = require('dennich')
+
 vim.keymap.set('n', '<leader>;', '<cmd>Telescope buffers<CR>')
 vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeFindFileToggle<CR>')
 
@@ -283,6 +295,18 @@ vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
 vim.keymap.set('v', '//', [[ y/\V<C-R>=escape(@",'/\')<CR><CR> ]]) --- Search currenlty selected text
 
+vim.keymap.set(
+    'n',
+    '<leader>fc',
+    require('dennich').copy_file_path_to_clipboard,
+    { desc = 'Copy file path to clipboard' }
+)
+vim.keymap.set(
+    'n',
+    '<leader>fl',
+    require('dennich').copy_file_path_with_line_to_clipboard,
+    { desc = 'Copy file path with line number to clipboard' }
+)
 vim.keymap.set('n', '<leader>ff', function()
     vim.lsp.buf.format()
     require('conform').format()
@@ -332,8 +356,23 @@ vim.keymap.set(
     { desc = 'Undotree' }
 )
 
+vim.keymap.set({ 'n' }, '<leader>ao', function()
+    dennich.find_anki_notes(require('telescope.themes').get_dropdown({}))
+end, {
+    desc = '[anki] find note',
+})
+
+vim.keymap.set({ 'n' }, '<leader>ae', function()
+    dennich.anki_edit_note()
+end, {
+    desc = '[anki] edit note',
+})
+
 vim.keymap.set('n', 'tt', function()
     require('fzf-lua').files({
+        actions = {
+            ['ctrl-y'] = dennich.fzf_lua_insert_relative_file_path,
+        },
         cmd = 'rg --files --hidden '
             .. '--glob "!.git" '
             .. '--glob "!*.png" '
@@ -352,7 +391,12 @@ vim.keymap.set('n', 'tt', function()
         -- prompt = "Files> ",
     })
 end, { desc = '[T]elescope Find Files' })
-
+vim.keymap.set(
+    'n',
+    'td',
+    dennich.insert_text,
+    { desc = 'Insert block of text' }
+)
 vim.keymap.set(
     'n',
     'tc',
@@ -420,7 +464,7 @@ local function open_test_file()
     if ft == 'go' then
         open_test_file_go()
     elseif ft == 'python' then
-        print('Python test file functionality removed')
+        require('dennich').python_test_file()
     else
         print('No implementation for filetype: ' .. ft)
     end
