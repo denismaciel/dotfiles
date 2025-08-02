@@ -16,7 +16,7 @@
   redshift.enable = false;
   colorscheme = {
     enable = true;
-    theme = "light";
+    theme = "dark";
   };
   hardware.keyboard.zsa.enable = true;
   hardware.bluetooth.enable = true;

@@ -1,4 +1,8 @@
-{lib, ...}: {
+{
+  lib,
+  config,
+  ...
+}: {
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
@@ -12,22 +16,8 @@
       "--preview-window=right:70%"
     ];
 
-    # Colors based on lumiere.lua colorscheme
-    colors = lib.mkForce {
-      bg = "#F1F1F1";
-      fg = "#424242";
-      hl = "#001280";
-      "bg+" = "#d3d3d3";
-      "fg+" = "#000000";
-      "hl+" = "#001280";
-      info = "#00802c";
-      prompt = "#800013";
-      pointer = "#001280";
-      marker = "#cc4c00";
-      spinner = "#410080";
-      header = "#727272";
-      border = "#cac7bd";
-    };
+    # Colors from colorscheme module
+    colors = config.colorscheme.fzfColors or {};
 
     # Default command from _zshrc (with typo fix)
     defaultCommand = "rg --files --no-ignore-vcs --ignore-file ~/.ripgrep_ignore";

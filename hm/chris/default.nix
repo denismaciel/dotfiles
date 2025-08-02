@@ -10,6 +10,7 @@
     ../../modules/go.nix
     ../../modules/firefox.nix
     ../../modules/git.nix
+    ../../modules/fzf.nix
   ];
   go.enable = true;
   autorandr.enable = true;
