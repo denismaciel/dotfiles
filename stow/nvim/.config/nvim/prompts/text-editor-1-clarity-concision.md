@@ -18,7 +18,6 @@ OUTPUT RULES:
 - XML only. For each changed line:
 
 <correction>
-    <type>clarity</type>
     <description>Brief reason (e.g., "Remove filler," "Tighten clause").</description>
     <oldLine>Original line here.</oldLine>
     <newLine>Rewritten for clarity (same meaning, fewer words).</newLine>
@@ -38,5 +37,4 @@ OUTPUT RULES:
 
 INPUT:
 <draft>
-...one sentence per Markdown line...
 </draft>

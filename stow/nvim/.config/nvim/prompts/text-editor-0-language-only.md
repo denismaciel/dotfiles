@@ -19,8 +19,7 @@ OUTPUT RULES:
 - XML only. For each changed line, output exactly:
 
 <correction>
-    <type>language</type>
-    <description>Brief reason (e.g., "Comma splice").</description>
+    <description>Brief reason (e.g., "Comma splice and typo").</description>
     <oldLine>Original line here.</oldLine>
     <newLine>Corrected line here.</newLine>
 </correction>
@@ -46,5 +45,4 @@ WHEN THERE ARE NO ERRORS:
 INPUT:
 Provide the draft inside:
 <draft>
-...one sentence per Markdown line...
 </draft>

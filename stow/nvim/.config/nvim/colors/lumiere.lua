@@ -1,6 +1,6 @@
 -- ============================================================================
 -- LUMIERE COLORSCHEME - Simplified & Hackable
--- A clean, light colorscheme that's easy to customize
+-- A clean, adaptive colorscheme that reads theme preference from file
 -- ============================================================================
 
 -- Reset existing highlights
@@ -11,44 +11,101 @@
 vim.g.colors_name = 'lumiere'
 
 -- ============================================================================
--- COLOR PALETTE - Modify these to change the entire theme
+-- THEME DETECTION - Read theme preference from file
 -- ============================================================================
-local colors = {
-    -- Base colors
-    bg = '#F1F1F1', -- Main background
-    fg = '#424242', -- Main foreground text
+local function read_theme_preference()
+    local config_path = vim.fn.expand('~/.config/dennich-colorscheme')
+    local file = io.open(config_path, 'r')
+    if file then
+        local theme = file:read('*line')
+        file:close()
+        return theme and theme:match('^%s*(.-)%s*$') or 'light' -- trim whitespace
+    end
+    return 'light' -- default fallback
+end
 
-    -- Grays (light to dark)
-    gray1 = '#e4e4e4', -- Light gray
-    gray2 = '#d3d3d3', -- Medium light gray
-    gray3 = '#b8b8b8', -- Medium gray
-    gray4 = '#9e9e9e', -- Medium dark gray
-    gray5 = '#727272', -- Dark gray
+local current_theme = read_theme_preference()
 
-    -- UI colors
-    ui_bg = '#dfddd7', -- UI background (statusline, etc)
-    ui_border = '#cac7bd', -- Borders and separators
-    cursor_line = '#dfddd7', -- Current line highlight
+-- ============================================================================
+-- COLOR PALETTES - Light and Dark themes
+-- ============================================================================
+local palettes = {
+    light = {
+        -- Base colors
+        bg = '#F1F1F1', -- Main background
+        fg = '#424242', -- Main foreground text
 
-    -- Semantic colors
-    red = '#800013', -- Errors, deletions
-    green = '#00802c', -- Success, additions
-    blue = '#001280', -- Info, links
-    yellow = '#ffda40', -- Warnings, search
-    orange = '#cc4c00', -- Modified, special
-    magenta = '#410080', -- Keywords, constants
+        -- Grays (light to dark)
+        gray1 = '#e4e4e4', -- Light gray
+        gray2 = '#d3d3d3', -- Medium light gray
+        gray3 = '#b8b8b8', -- Medium gray
+        gray4 = '#9e9e9e', -- Medium dark gray
+        gray5 = '#727272', -- Dark gray
 
-    -- Highlight backgrounds (subtle)
-    red_bg = '#faf1f1', -- Error background
-    green_bg = '#f1faf4', -- Success background
-    blue_bg = '#f1f4fa', -- Info background
-    yellow_bg = '#fff7d8', -- Warning background
+        -- UI colors
+        ui_bg = '#dfddd7', -- UI background (statusline, etc)
+        ui_border = '#cac7bd', -- Borders and separators
+        cursor_line = '#dfddd7', -- Current line highlight
 
-    -- Special
-    none = 'NONE',
-    black = '#000000',
-    white = '#ffffff',
+        -- Semantic colors
+        red = '#800013', -- Errors, deletions
+        green = '#00802c', -- Success, additions
+        blue = '#001280', -- Info, links
+        yellow = '#ffda40', -- Warnings, search
+        orange = '#cc4c00', -- Modified, special
+        magenta = '#410080', -- Keywords, constants
+
+        -- Highlight backgrounds (subtle)
+        red_bg = '#faf1f1', -- Error background
+        green_bg = '#f1faf4', -- Success background
+        blue_bg = '#f1f4fa', -- Info background
+        yellow_bg = '#fff7d8', -- Warning background
+
+        -- Special
+        none = 'NONE',
+        black = '#000000',
+        white = '#ffffff',
+    },
+    dark = {
+        -- Base colors (oxocarbon inspired)
+        bg = '#161616', -- Main background
+        fg = '#f2f4f8', -- Main foreground text
+
+        -- Grays (dark to light)
+        gray1 = '#262626', -- Dark gray
+        gray2 = '#393939', -- Medium dark gray
+        gray3 = '#525252', -- Medium gray
+        gray4 = '#dde1e6', -- Medium light gray
+        gray5 = '#ffffff', -- Light gray
+
+        -- UI colors
+        ui_bg = '#262626', -- UI background (statusline, etc)
+        ui_border = '#393939', -- Borders and separators
+        cursor_line = '#262626', -- Current line highlight
+
+        -- Semantic colors (oxocarbon palette)
+        red = '#3ddbd9', -- Errors, deletions
+        green = '#42be65', -- Success, additions
+        blue = '#33b1ff', -- Info, links
+        yellow = '#ee5396', -- Warnings, search
+        orange = '#78a9ff', -- Modified, special
+        magenta = '#be95ff', -- Keywords, constants
+
+        -- Highlight backgrounds (subtle)
+        red_bg = '#2d1b1b', -- Error background
+        green_bg = '#1b2d20', -- Success background
+        blue_bg = '#1b202d', -- Info background
+        yellow_bg = '#2d1b26', -- Warning background
+
+        -- Special
+        none = 'NONE',
+        black = '#000000',
+        white = '#ffffff',
+    },
 }
+
+-- Select the current palette
+local colors = palettes[current_theme]
 
 -- ============================================================================
 -- CORE EDITOR HIGHLIGHTS

@@ -17,6 +17,14 @@ vim.opt.runtimepath:prepend(lazypath)
 -- ============================
 require('lazy').setup({
     {
+        'folke/snacks.nvim',
+        priority = 1000,
+        lazy = false,
+        opts = {
+            bigfile = { enabled = true },
+        },
+    },
+    {
         'ibhagwan/fzf-lua',
         -- optional for icon support
         dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -876,6 +884,7 @@ vim.keymap.set('v', '<leader>sp', split_on_periods, {
 
 require('config')
 require('dennich')
+require('dennich.llm').setup({})
 
 vim.keymap.set('n', '<leader>g,g', function()
     require('dennich.llm').prompt({

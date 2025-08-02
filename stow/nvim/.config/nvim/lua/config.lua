@@ -252,7 +252,6 @@ end, { desc = 'Python import statement' })
 vim.keymap.set('n', '<leader>xl', ':.lua<cr>')
 vim.keymap.set('v', '<leader>xl', ':lua<cr>')
 
-local sql = require('dennich.sql')
 local dennich = require('dennich')
 
 vim.keymap.set('n', '<leader>;', '<cmd>Telescope buffers<CR>')

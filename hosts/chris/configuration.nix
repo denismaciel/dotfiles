@@ -6,7 +6,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/warp.nix
-    ../../modules/stylix.nix
+    ../../modules/colorscheme.nix
     ../../modules/redshift.nix
   ];
 
@@ -14,6 +14,10 @@
   boot.binfmt.emulatedSystems = ["aarch64-linux"]; # necessary to build nixos for raspberrypi
   warp.enable = false;
   redshift.enable = false;
+  colorscheme = {
+    enable = true;
+    theme = "light";
+  };
   hardware.keyboard.zsa.enable = true;
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
