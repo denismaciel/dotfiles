@@ -2,11 +2,12 @@
   pkgs,
   lib,
   ...
-}: {
+}: let
+  colors = import ../../modules/color.nix;
+in {
   imports = [
     ./hardware-configuration.nix
     ../../modules/warp.nix
-    ../../modules/colorscheme.nix
     ../../modules/redshift.nix
   ];
 
@@ -14,10 +15,41 @@
   boot.binfmt.emulatedSystems = ["aarch64-linux"]; # necessary to build nixos for raspberrypi
   warp.enable = false;
   redshift.enable = false;
-  colorscheme = {
+
+  stylix = {
     enable = true;
-    theme = "dark";
+    polarity = colors.theme;
+    image = ../../assets/black.png;
+    base16Scheme =
+      if colors.theme == "light"
+      then "${pkgs.base16-schemes}/share/themes/github.yaml"
+      else "${pkgs.base16-schemes}/share/themes/oxocarbon-dark.yaml";
+    fonts = {
+      serif = {
+        name = "Poppins";
+        package = pkgs.google-fonts.override {fonts = ["Poppins"];};
+      };
+      sansSerif = {
+        name = "Poppins";
+        package = pkgs.google-fonts.override {fonts = ["Poppins"];};
+      };
+      monospace = {
+        name = "Blex Mono Nerd Font";
+        package = pkgs.nerd-fonts.blex-mono;
+      };
+      emoji = {
+        name = "Noto Color Emoji";
+        package = pkgs.noto-fonts-emoji;
+      };
+    };
+    fonts.sizes = {
+      applications = 9;
+      terminal = 10;
+      desktop = 9;
+      popups = 9;
+    };
   };
+
   hardware.keyboard.zsa.enable = true;
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
@@ -26,7 +58,11 @@
     useRoutingFeatures = "client";
     # --exit-node-allow-lan-access=true is necessay so I can access docker containers
     # via loccalhost.
-    extraUpFlags = ["--accept-dns=true" "--exit-node=100.74.57.103" "--exit-node-allow-lan-access=true"];
+    extraUpFlags = [
+      "--accept-dns=true"
+      "--exit-node=100.74.57.103"
+      "--exit-node-allow-lan-access=true"
+    ];
   };
   hardware.uinput.enable = true;
   users.groups.uinput.members = ["denis"];
@@ -48,7 +84,10 @@
     networkmanager.enable = true;
     firewall = {
       trustedInterfaces = ["tailscale0"];
-      allowedTCPPorts = [3000 8200];
+      allowedTCPPorts = [
+        3000
+        8200
+      ];
     };
     # extraHosts = ''
     #   # 127.0.0.1 linkedin.com
@@ -123,7 +162,12 @@
   users.users.denis = {
     isNormalUser = true;
     description = "denis";
-    extraGroups = ["networkmanager" "wheel" "docker" "audio"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "audio"
+    ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICFJLQFWmH33Gmo2pGMtaQ0gPfAuqMZwodMUvDJwFTMy denispmaciel@gmail.com"

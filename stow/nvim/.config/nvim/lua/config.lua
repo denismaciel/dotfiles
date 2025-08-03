@@ -74,18 +74,13 @@ end
 
 -- Theme detection and switching
 local function get_system_theme()
-    local theme_file = os.getenv('HOME') .. '/dotfiles/theme-preference'
+    local theme_file = os.getenv('HOME') .. '/.config/dennich-colorscheme'
     local file = io.open(theme_file, 'r')
     if file then
         local theme = file:read('*line')
+        print('found there' .. theme)
         file:close()
         return theme and theme:match('^%s*(.-)%s*$') or 'light'
-    end
-    -- Create default file if it doesn't exist
-    local default_file = io.open(theme_file, 'w')
-    if default_file then
-        default_file:write('light')
-        default_file:close()
     end
     return 'light'
 end

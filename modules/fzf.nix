@@ -16,9 +16,6 @@
       "--preview-window=right:70%"
     ];
 
-    # Colors from colorscheme module
-    colors = config.colorscheme.fzfColors or {};
-
     # Default command from _zshrc (with typo fix)
     defaultCommand = "rg --files --no-ignore-vcs --ignore-file ~/.ripgrep_ignore";
 

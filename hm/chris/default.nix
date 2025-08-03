@@ -4,18 +4,22 @@
   pkgs,
   lib,
   ...
-}: {
+}: let
+  color = import ../../modules/color.nix;
+in {
   imports = [
     ./autorandr.nix
     ../../modules/go.nix
     ../../modules/firefox.nix
     ../../modules/git.nix
     ../../modules/fzf.nix
+    ../../modules/ghostty.nix
   ];
   go.enable = true;
   autorandr.enable = true;
   firefox.enable = true;
   git.enable = true;
+  ghostty.enable = true;
   home.packages = with pkgs; [
     age
     alejandra
@@ -86,7 +90,12 @@
     yt-dlp
     zenity
     zoxide
-    (rofi.override {plugins = [pkgs.rofi-emoji pkgs.rofi-calc];})
+    (rofi.override {
+      plugins = [
+        pkgs.rofi-emoji
+        pkgs.rofi-calc
+      ];
+    })
     (google-fonts.override {fonts = ["Poppins"];})
     (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
   ];
@@ -105,13 +114,15 @@
     templates = "${home}/dirs/templates";
     videos = "${home}/dirs/videos";
   };
-  stylix.targets.neovim.enable = false;
   home.username = "denis";
   home.homeDirectory = "/home/denis";
   home.file = {
+    ".config/dennich-colorscheme".text = color.theme;
     ".npmrc".source = ../../configs/_npmrc;
-    ".ipython/profile_default/ipython_config.py".source = ../../configs/_ipython/profile_default/ipython_config.py;
-    ".ipython/profile_default/custom_init.py".source = ../../configs/_ipython/profile_default/custom_init.py;
+    ".ipython/profile_default/ipython_config.py".source =
+      ../../configs/_ipython/profile_default/ipython_config.py;
+    ".ipython/profile_default/custom_init.py".source =
+      ../../configs/_ipython/profile_default/custom_init.py;
     ".config/fd/ignore".source = ../../configs/fd/ignore;
     ".config/greenclip.toml".source = ../../configs/greenclip.toml;
     ".config/pgcli/config".source = ../../configs/pgcli/config;
@@ -328,7 +339,9 @@
       Description = "greenclip daemon";
       After = ["graphical-session.target"];
     };
-    Install = {WantedBy = ["graphical-session.target"];};
+    Install = {
+      WantedBy = ["graphical-session.target"];
+    };
     Service = {
       ExecStart = "${pkgs.haskellPackages.greenclip}/bin/greenclip daemon";
     };

@@ -6,7 +6,6 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/stylix.nix
     ../../modules/vaultwarden-backup.nix
   ];
 

@@ -9,7 +9,6 @@
     firefox.enable = lib.mkEnableOption "enables firefox";
   };
   config = lib.mkIf config.firefox.enable {
-    stylix.targets.firefox.enable = false;
     programs.firefox = {
       package = pkgs.firefox-bin;
       enable = true;
