@@ -114,6 +114,8 @@ in {
     templates = "${home}/dirs/templates";
     videos = "${home}/dirs/videos";
   };
+  stylix.targets.neovim.enable = false;
+  stylix.targets.fzf.enable = true;
   home.username = "denis";
   home.homeDirectory = "/home/denis";
   home.file = {
