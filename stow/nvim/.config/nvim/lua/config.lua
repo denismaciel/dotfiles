@@ -78,7 +78,6 @@ local function get_system_theme()
     local file = io.open(theme_file, 'r')
     if file then
         local theme = file:read('*line')
-        print('found there' .. theme)
         file:close()
         return theme and theme:match('^%s*(.-)%s*$') or 'light'
     end
@@ -180,65 +179,14 @@ vim.api.nvim_create_autocmd('BufEnter', {
     end,
 })
 
-local actions = require('telescope.actions')
-local action_state = require('telescope.actions.state')
-
-local create_import_from_file_path = function(file_path)
-    local parts = vim.fn.split(file_path, '/')
-    local src_index = vim.fn.index(parts, 'src')
-    if src_index == -1 then
-        error('Error: \'src\' directory not found in the file path.')
-        return
-    end
-
-    -- Find the index of 'src' in the table and remove every element before
-    -- 'src' including 'src' itself.
-    for i = 1, #parts do
-        if parts[i] == 'src' then
-            for _ = 1, i do
-                table.remove(parts, 1)
-            end
-            break
-        end
-    end
-
-    -- remove .py
-    parts[#parts] = string.gsub(parts[#parts], '.py', '')
-
-    local import_path = table.concat(parts, '.')
-    local statement = string.format('from %s import ', import_path)
-    return statement
-end
-
-local create_python_import_symbol = function()
-    local current_file = vim.fn.expand('%:p')
-    local statement = create_import_from_file_path(current_file)
-    local cword = vim.fn.expand('<cword>')
-    local out = statement .. cword
-    print('Copying to clipboard: ' .. out)
-    vim.fn.setreg('+', out)
-end
-
-local create_python_import_file = function(prompt_bufnr)
-    local selection = action_state.get_selected_entry()
-    if selection == nil then
-        error('No file selected')
-        return
-    end
-
-    local out = create_import_from_file_path(selection.value)
-    vim.fn.setreg('+', out)
-    -- Close the Telescope window
-    actions.close(prompt_bufnr)
-    print('statement avilable in the clipboard: ' .. out)
-end
+local dennich = require('dennich')
 
 -- Keymaps
-vim.keymap.set({ 'n' }, '<leader>is', create_python_import_symbol)
+vim.keymap.set({ 'n' }, '<leader>is', dennich.create_python_import_symbol)
 vim.keymap.set({ 'n' }, '<leader>if', function()
     require('telescope.builtin').find_files({
         attach_mappings = function(_, map)
-            map('i', '<cr>', create_python_import_file)
+            map('i', '<cr>', dennich.create_python_import_file)
             return true
         end,
     })
@@ -246,8 +194,6 @@ end, { desc = 'Python import statement' })
 
 vim.keymap.set('n', '<leader>xl', ':.lua<cr>')
 vim.keymap.set('v', '<leader>xl', ':lua<cr>')
-
-local dennich = require('dennich')
 
 vim.keymap.set('n', '<leader>;', '<cmd>Telescope buffers<CR>')
 vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeFindFileToggle<CR>')
