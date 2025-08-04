@@ -1,0 +1,10 @@
+return {
+    { 'projekt0n/github-nvim-theme', name = 'github-theme' },
+    {
+        'aktersnurra/no-clown-fiesta.nvim',
+        opts = {
+            transparent = false,
+            styles = { type = { bold = true }, comments = { italic = true } },
+        },
+    },
+}

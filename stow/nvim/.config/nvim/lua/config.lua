@@ -3,6 +3,7 @@ vim.g.mapleader = ' '
 ---@class vim.opt
 local o = vim.opt
 
+o.winborder = 'double'
 o.signcolumn = 'yes'
 o.clipboard = 'unnamedplus'
 o.formatoptions = o.formatoptions + 'cro'
