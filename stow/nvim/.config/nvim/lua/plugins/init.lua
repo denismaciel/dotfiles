@@ -56,7 +56,7 @@ return {
     {
         'catgoose/nvim-colorizer.lua',
         event = 'BufReadPre',
-        opts = {},
+        opts = { user_default_options = { names = false } },
     },
     {
         'folke/which-key.nvim',
