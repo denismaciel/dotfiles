@@ -197,26 +197,6 @@ vim.keymap.set('v', '<leader>xl', ':lua<cr>')
 
 vim.keymap.set('n', '<leader>;', '<cmd>Telescope buffers<CR>')
 vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeFindFileToggle<CR>')
-
-vim.keymap.set('n', 'gtt', function()
-    local opts = require('telescope.themes').get_dropdown({
-        layout_strategy = 'vertical',
-        border = true,
-        fname_width = 90,
-        layout_config = {
-            prompt_position = 'bottom',
-            preview_cutoff = 10,
-            width = function(_, max_columns, _)
-                return max_columns - 10
-            end,
-            height = function(_, _, max_lines)
-                return max_lines - 10
-            end,
-        },
-    })
-    opts.ctags_file = vim.fn.getcwd() .. '/tags'
-    require('telescope.builtin').tags(opts)
-end, { desc = 'Tags' })
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '$', 'g$')
 vim.keymap.set('n', '<c>o', '<c>ozz')
