@@ -186,15 +186,11 @@ return {
                 },
             },
         },
-        dependencies = {
-            'nvim-tree/nvim-web-devicons',
-        },
     },
     {
         'folke/trouble.nvim',
         opts = {},
     },
-
     -- Colors
     {
         'aktersnurra/no-clown-fiesta.nvim',
