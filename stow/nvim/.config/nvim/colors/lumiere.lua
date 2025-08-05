@@ -185,7 +185,7 @@ local syntax = {
 
     -- Identifiers and functions
     Identifier = { fg = colors.fg },
-    Function = { fg = colors.blue, bold = true },
+    Function = { fg = colors.fg, bold = true },
 
     -- Statements and keywords
     Statement = { fg = colors.red, bold = true },
@@ -193,7 +193,7 @@ local syntax = {
     Repeat = { fg = colors.red, bold = true },
     Label = { fg = colors.red, bold = true },
     Operator = { fg = colors.fg },
-    Keyword = { fg = colors.red, bold = true },
+    Keyword = { fg = colors.black, bold = true },
     Exception = { fg = colors.red, bold = true },
 
     -- Preprocessor
