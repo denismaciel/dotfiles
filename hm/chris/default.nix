@@ -35,7 +35,6 @@ in {
     duckdb
     envsubst
     fd
-    ffmpeg
     gcc
     gh
     ghostty
