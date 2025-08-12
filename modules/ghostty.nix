@@ -16,13 +16,14 @@ in {
       enable = true;
       settings = {
         theme = "dennich-${theme}";
-        font-family = "BlexMono Nerd Font Mono";
+        font-family = "BlexMono Nerd Font";
         window-decoration = false;
         app-notifications = "no-clipboard-copy";
         confirm-close-surface = false;
         cursor-style = "block";
         cursor-style-blink = false;
         cursor-invert-fg-bg = true;
+        shell-integration-features = "no-cursor";
       };
       themes."dennich-${theme}" = {
         background = palette.base00;
