@@ -14,12 +14,14 @@ in {
     ../../modules/git.nix
     ../../modules/fzf.nix
     ../../modules/ghostty.nix
+    ../../modules/starship.nix
   ];
   go.enable = true;
   autorandr.enable = true;
   firefox.enable = true;
   git.enable = true;
   ghostty.enable = true;
+  starship.enable = true;
   home.packages = with pkgs; [
     age
     alejandra
@@ -115,6 +117,7 @@ in {
   };
   stylix.targets.neovim.enable = false;
   stylix.targets.fzf.enable = true;
+  stylix.targets.starship.enable = false;
   home.username = "denis";
   home.homeDirectory = "/home/denis";
   home.file = {

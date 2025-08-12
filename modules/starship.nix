@@ -5,7 +5,7 @@
   ...
 }: {
   options = {
-    starship.enable = lib.mkEnableOption "enables starship with lumiere theme";
+    starship.enable = lib.mkEnableOption "enables starship with Stylix-based theme";
   };
 
   config = lib.mkIf config.starship.enable {
@@ -14,7 +14,7 @@
       enableZshIntegration = true;
       settings = {
         add_newline = true;
-        palette = "lumiere";
+        palette = lib.mkForce "stylix_auto";
 
         character = {
           success_symbol = "[\\$](fg)";
@@ -67,22 +67,35 @@
         };
 
         palettes = {
-          lumiere = {
-            bg = "#F1F1F1";
-            fg = "#424242";
-            gray1 = "#e4e4e4";
-            gray2 = "#d3d3d3";
-            gray3 = "#b8b8b8";
-            gray4 = "#9e9e9e";
-            gray5 = "#727272";
-            red = "#800013";
-            green = "#00802c";
-            blue = "#001280";
-            yellow = "#cc7a00";
-            orange = "#cc4c00";
-            magenta = "#410080";
-            black = "#000000";
-            white = "#ffffff";
+          stylix_auto = with config.lib.stylix.colors.withHashtag; {
+            # Main colors from Stylix base16 scheme
+            bg = base00; # Background
+            fg = base05; # Foreground
+
+            # Grays (gradients for UI elements)
+            gray1 = base01; # Lighter background
+            gray2 = base02; # Selection background
+            gray3 = base03; # Comments
+            gray4 = base04; # Dark foreground
+            gray5 = base06; # Light foreground
+
+            # Semantic colors
+            red = base08; # Variables, errors
+            orange = base09; # Constants, modified
+            yellow = base0A; # Strings, warnings
+            green = base0B; # Functions, success
+            blue = base0D; # Keywords, info
+            magenta = base0E; # Types, special
+
+            # Pure black/white for contrast
+            black =
+              if config.stylix.polarity == "light"
+              then "#000000"
+              else "#ffffff";
+            white =
+              if config.stylix.polarity == "light"
+              then "#ffffff"
+              else "#000000";
           };
         };
       };
