@@ -15,6 +15,7 @@ in {
     ../../modules/fzf.nix
     ../../modules/ghostty.nix
     ../../modules/starship.nix
+    ../../modules/pageshot.nix
   ];
   go.enable = true;
   autorandr.enable = true;
@@ -22,6 +23,7 @@ in {
   git.enable = true;
   ghostty.enable = true;
   starship.enable = true;
+  pageshot.enable = true;
   home.packages = with pkgs; [
     age
     alejandra
