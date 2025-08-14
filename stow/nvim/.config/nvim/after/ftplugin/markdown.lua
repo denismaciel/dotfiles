@@ -113,15 +113,15 @@ vim.keymap.set('n', '<leader>ck', toggle_checkbox, {
     buffer = 0,
 })
 
-local function highlights()
-    vim.api.nvim_set_hl(0, '@unchecked_list_item', { fg = '#F8F8F2' })
-    vim.api.nvim_set_hl(0, '@checked_list_item', { fg = '#375749' })
-    vim.api.nvim_set_hl(0, '@text.todo.unchecked', { fg = '#F8F8F2' })
-    vim.api.nvim_set_hl(0, '@text.todo.checked', { fg = '#375749' })
-end
-
--- Apply the highlighting on buffer read and window enter
-vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWinEnter' }, {
-    callback = highlights,
-    group = augroup,
-})
+-- local function highlights()
+--     vim.api.nvim_set_hl(0, '@unchecked_list_item', { fg = '#F8F8F2' })
+--     vim.api.nvim_set_hl(0, '@checked_list_item', { fg = '#375749' })
+--     vim.api.nvim_set_hl(0, '@text.todo.unchecked', { fg = '#F8F8F2' })
+--     vim.api.nvim_set_hl(0, '@text.todo.checked', { fg = '#375749' })
+-- end
+--
+-- -- Apply the highlighting on buffer read and window enter
+-- vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWinEnter' }, {
+--     callback = highlights,
+--     group = augroup,
+-- })
