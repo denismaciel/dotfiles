@@ -2,6 +2,7 @@
   "Comment.nvim": { "branch": "master", "commit": "e30b7f2008e52442154b66f7c519bfd2f1e32acb" },
   "auto-save.nvim": { "branch": "main", "commit": "979b6c82f60cfa80f4cf437d77446d0ded0addf0" },
   "blink.cmp": { "branch": "main", "commit": "bae4bae0eedd1fa55f34b685862e94a222d5c6f8" },
+  "catppuccin": { "branch": "main", "commit": "3aaf3ab60221bca8edb1354e41bd514a22c89de2" },
   "conform.nvim": { "branch": "master", "commit": "973f3cb73887d510321653044791d7937c7ec0fa" },
   "fidget.nvim": { "branch": "main", "commit": "c99541aac9a8f806aa344c4b2d80c86deff91fe1" },
   "fzf-lua": { "branch": "main", "commit": "9bdb62771ce8dbeb286b641d59d2d4b492613d5c" },

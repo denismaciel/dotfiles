@@ -90,7 +90,7 @@ local function apply_theme()
     if theme == 'dark' then
         vim.cmd([[ colorscheme no-clown-fiesta ]])
     else
-        vim.cmd([[ colorscheme lumiere ]])
+        vim.cmd([[ colorscheme catppuccin-latte ]])
     end
 end
 
@@ -175,7 +175,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     callback = function()
         local file_path = vim.fn.expand('%:p')
         if file_path == '/tmp/tmux_pane_content' then
-            vim.cmd('colorscheme tokyonight')
+            -- vim.cmd('colorscheme tokyonight')
         end
     end,
 })
