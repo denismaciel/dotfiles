@@ -1,4 +1,4 @@
-.PHONY: rebuild-chris rebuild-sam rebuild-ben rebuild-anton install-python-tools stow stow-delete
+.PHONY: rebuild-chris rebuild-sam rebuild-ben rebuild-anton install-python-tools stow stow-delete stow-conf stow-conf-delete migrate-to-stow-conf ensure-config-dirs
 
 # NixOS rebuilds
 rebuild-chris:
@@ -33,3 +33,25 @@ stow-delete:
 	stow -D -t ~ -d stow awesome
 	stow -D -t ~ -d stow nix
 	stow -D -t ~ -d stow ghostty
+
+# New stow-conf operations (cleaner structure)
+stow-conf: ensure-config-dirs
+	stow --verbose --target ~/.config/nvim --dir stow-conf nvim
+	stow --verbose --target ~/.config/awesome --dir stow-conf awesome
+	stow --verbose --target ~/.config/nix --dir stow-conf nix
+
+stow-conf-delete:
+	stow --delete --verbose --target ~/.config/nvim --dir stow-conf nvim
+	stow --delete --verbose --target ~/.config/awesome --dir stow-conf awesome
+	stow --delete --verbose --target ~/.config/nix --dir stow-conf nix
+
+# Migration helper
+migrate-to-stow-conf:
+	mkdir -p stow-conf
+	cp -r stow/nvim/.config/nvim stow-conf/nvim
+	cp -r stow/awesome/.config/awesome stow-conf/awesome
+	cp -r stow/nix/.config/nix stow-conf/nix
+
+# Ensure target directories exist
+ensure-config-dirs:
+	mkdir -p ~/.config/nvim ~/.config/awesome ~/.config/nix
