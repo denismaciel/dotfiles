@@ -73,32 +73,13 @@ in {
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
-    nameservers = [
-      # "127.0.0.1"     # localhost first for Docker
-      # "100.74.57.103" # ben's tailscale IP
-      "8.8.8.8"
-      "1.1.1.1"
-      "9.9.9.9"
-    ];
+    nameservers = ["1.1.1.1"];
     hostName = "nixos-chris";
     networkmanager.enable = true;
     firewall = {
       trustedInterfaces = ["tailscale0"];
-      allowedTCPPorts = [
-        3000
-        8200
-      ];
+      allowedTCPPorts = [3000];
     };
-    # extraHosts = ''
-    #   # 127.0.0.1 linkedin.com
-    #   # 127.0.0.1 www.linkedin.com
-    #   # 127.0.0.1 youtube.com
-    #   # 127.0.0.1 www.youtube.com
-    #   # 127.0.0.1 twitter.com
-    #   # 127.0.0.1 www.twitter.com
-    #   # 127.0.0.1 x.com
-    #   # 127.0.0.1 www.x.com
-    # '';
   };
 
   time.timeZone = "America/Recife";

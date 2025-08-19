@@ -33,7 +33,7 @@ in {
     bitwarden
     btop
     bun
-    calibre
+    # calibre
     dbmate
     dig
     duckdb
