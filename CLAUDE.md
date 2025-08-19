@@ -10,9 +10,9 @@ To check the system in other hosts, you can `ssh <hostname> <command>`. For exam
 
 ## Repository Structure
 
-`mise.toml`: there you have commands to rebuild the nixos system on the host machine but also remote machines.
+**Makefile** - Contains commands to rebuild the nixos system on the host machine and remote machines.
 
-To rebuild the configuration of any of the hosts, use `mise run rebuild-<host>`.
+To rebuild the configuration of any of the hosts, use `make rebuild-<host>`.
 
 ### Core Infrastructure
 

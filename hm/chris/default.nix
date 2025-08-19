@@ -232,11 +232,6 @@ in {
   };
   services.syncthing.enable = true;
   services.syncthing.tray.enable = true;
-  programs.mise = {
-    enable = true;
-    # It seems this is doing nothing for the autocompletion.
-    enableZshIntegration = true;
-  };
 
   programs.direnv = {
     enable = true;
