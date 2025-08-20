@@ -63,7 +63,6 @@ return {
         opts = { icons = { mappings = false } },
     },
     { 'folke/neodev.nvim', opts = {} },
-    'nvimtools/none-ls.nvim',
     {
         'j-hui/fidget.nvim',
         opts = {},

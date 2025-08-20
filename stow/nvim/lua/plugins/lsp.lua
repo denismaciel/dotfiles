@@ -32,9 +32,23 @@ local implementation = function()
 end
 
 return {
-
     {
         'stevearc/conform.nvim',
+        event = { 'BufWritePre' },
+        cmd = { 'ConformInfo' },
+        keys = {
+            {
+                '<leader>f',
+                function()
+                    require('conform').format({
+                        async = true,
+                        lsp_format = 'fallback',
+                    })
+                end,
+                mode = '',
+                desc = 'Format buffer',
+            },
+        },
         opts = {
             formatters_by_ft = {
                 lua = { 'stylua' },
@@ -43,6 +57,9 @@ return {
                 typescriptreact = { 'biome' },
                 javascript = { 'biome' },
                 javascriptreact = { 'biome' },
+                go = { 'golines' },
+                markdown = { 'mdformat' },
+                nix = { 'alejandra' },
             },
             formatters = {
                 biome = {
@@ -50,8 +67,38 @@ return {
                         return '/home/denis'
                     end,
                 },
+                golines = {
+                    append_args = { '-m', '120' },
+                },
+            },
+            format_on_save = {
+                timeout_ms = 500,
+                lsp_format = 'fallback',
             },
         },
+    },
+    {
+        'mfussenegger/nvim-lint',
+        event = { 'BufReadPre', 'BufNewFile' },
+        config = function()
+            local lint = require('lint')
+
+            lint.linters_by_ft = {
+                cloudformation = { 'cfn_lint' },
+                yaml = { 'cfn_lint' }, -- For CloudFormation YAML files
+                nix = { 'statix' },
+                python = { 'dmypy' }, -- Fast mypy daemon for Python type checking
+            }
+            -- Create autocommand to trigger linting
+            vim.api.nvim_create_autocmd(
+                { 'BufEnter', 'BufWritePost', 'InsertLeave' },
+                {
+                    callback = function()
+                        require('lint').try_lint()
+                    end,
+                }
+            )
+        end,
     },
     {
         'neovim/nvim-lspconfig',
@@ -74,37 +121,15 @@ return {
             --
             local capabilities = require('blink.cmp').get_lsp_capabilities()
             local lspconfig = require('lspconfig')
-            local null_ls = require('null-ls')
 
-            -- vim.lsp.enable('basedpyright')
+            vim.lsp.enable('basedpyright')
             vim.lsp.enable('gopls')
             vim.lsp.enable('ty')
             vim.lsp.enable('tsgo')
-
-            null_ls.setup({
-                sources = {
-                    null_ls.builtins.formatting.stylua,
-                    null_ls.builtins.diagnostics.cfn_lint,
-                    null_ls.builtins.diagnostics.statix.with({
-                        filetypes = { 'nix' },
-                    }),
-                    null_ls.builtins.formatting.golines,
-                    null_ls.builtins.formatting.mdformat.with({
-                        filetypes = { 'markdown' },
-                    }),
-                },
-            })
-            -- lspconfig.vtsls.setup({
-            --     capabilities = capabilities,
-            -- })
-            lspconfig.terraformls.setup({
-                capabilities = capabilities,
-                filetypes = { 'terraform', 'hcl' },
-            })
-            lspconfig.biome.setup({
-                capabilities = capabilities,
-            })
-            lspconfig.lua_ls.setup({
+            vim.lsp.enable('terraformls')
+            vim.lsp.enable('vtsls')
+            vim.lsp.enable('biome')
+            vim.lsp.config('lua_lsl', {
                 capabilities = capabilities,
                 settings = {
                     Lua = {
@@ -124,27 +149,8 @@ return {
                     },
                 },
             })
-            lspconfig.jsonnet_ls.setup({
-                capabilities = capabilities,
-                ext_vars = {
-                    foo = 'bar',
-                },
-                formatting = {
-                    -- default values
-                    Indent = 2,
-                    MaxBlankLines = 2,
-                    StringStyle = 'single',
-                    CommentStyle = 'slash',
-                    PrettyFieldNames = true,
-                    PadArrays = false,
-                    PadObjects = true,
-                    SortImports = true,
-                    UseImplicitPlus = true,
-                    StripEverything = false,
-                    StripComments = false,
-                    StripAllButComments = false,
-                },
-            })
+            vim.lsp.enable('lua_ls')
+            vim.lsp.enable('jsonnet_ls')
             lspconfig.cssls.setup({ capabilities = capabilities })
             lspconfig.rust_analyzer.setup({ capabilities = capabilities })
             lspconfig.bashls.setup({ capabilities = capabilities })
@@ -161,7 +167,6 @@ return {
                 },
             })
             lspconfig.dockerls.setup({ capabilities = capabilities })
-            lspconfig.cmake.setup({ capabilities = capabilities })
             lspconfig.bashls.setup({ capabilities = capabilities })
             lspconfig.tailwindcss.setup({ capabilities = capabilities })
             lspconfig.nil_ls.setup({
@@ -184,7 +189,6 @@ return {
                     { clear = true }
                 ),
                 callback = function(event)
-                    -- Rounded borders
                     local _border = 'rounded'
                     vim.lsp.handlers['textDocument/hover'] =
                         vim.lsp.with(vim.lsp.handlers.hover, {
@@ -205,19 +209,19 @@ return {
                         )
                     end
 
-                    -- map('gdd', vim.lsp.buf.declaration, 'Declaration')
                     vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition)
                     vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
                     vim.keymap.set('n', 'gD', implementation)
                     vim.keymap.set('n', 'gtd', vim.lsp.buf.type_definition)
-                    vim.keymap.set('n', 'grn', vim.lsp.buf.rename)
                     vim.keymap.set('n', 'K', vim.lsp.buf.hover)
                     map('ga', vim.lsp.buf.code_action, 'Code action')
-                    map('gr', function()
-                        require('telescope.builtin').lsp_references(
-                            require('telescope.themes').get_dropdown({})
-                        )
-                    end, 'References')
+                    -- map('gr', function()
+                    --     require('telescope.builtin').lsp_references(
+                    --         require('telescope.themes').get_dropdown({})
+                    --     )
+                    -- end, 'References')
+                    --
+                    map('gr', vim.lsp.buf.references, 'References')
                 end,
             })
         end,
