@@ -215,12 +215,6 @@ return {
                     vim.keymap.set('n', 'gtd', vim.lsp.buf.type_definition)
                     vim.keymap.set('n', 'K', vim.lsp.buf.hover)
                     map('ga', vim.lsp.buf.code_action, 'Code action')
-                    -- map('gr', function()
-                    --     require('telescope.builtin').lsp_references(
-                    --         require('telescope.themes').get_dropdown({})
-                    --     )
-                    -- end, 'References')
-                    --
                     map('gr', vim.lsp.buf.references, 'References')
                 end,
             })
