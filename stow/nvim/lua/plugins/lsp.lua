@@ -76,8 +76,10 @@ return {
             local lspconfig = require('lspconfig')
             local null_ls = require('null-ls')
 
-            vim.lsp.enable('basedpyright')
+            -- vim.lsp.enable('basedpyright')
             vim.lsp.enable('gopls')
+            vim.lsp.enable('ty')
+            vim.lsp.enable('tsgo')
 
             null_ls.setup({
                 sources = {
@@ -92,9 +94,9 @@ return {
                     }),
                 },
             })
-            lspconfig.vtsls.setup({
-                capabilities = capabilities,
-            })
+            -- lspconfig.vtsls.setup({
+            --     capabilities = capabilities,
+            -- })
             lspconfig.terraformls.setup({
                 capabilities = capabilities,
                 filetypes = { 'terraform', 'hcl' },

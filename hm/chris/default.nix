@@ -25,6 +25,7 @@ in {
   starship.enable = true;
   pageshot.enable = true;
   home.packages = with pkgs; [
+    cargo
     age
     alejandra
     anki
@@ -108,14 +109,14 @@ in {
     home = "${top}/dirs";
   in {
     enable = true;
-    desktop = "${home}/dirs/desktop";
-    documents = "${home}/dirs/documents";
-    download = "${home}/dirs/downloads";
-    music = "${home}/dirs/music";
-    pictures = "${home}/dirs/pictures";
-    publicShare = "${home}/dirs/public";
-    templates = "${home}/dirs/templates";
-    videos = "${home}/dirs/videos";
+    desktop = "${home}/desktop";
+    documents = "${home}/documents";
+    download = "${home}/downloads";
+    music = "${home}/music";
+    pictures = "${home}/pictures";
+    publicShare = "${home}/public";
+    templates = "${home}/templates";
+    videos = "${home}/videos";
   };
   stylix.targets.neovim.enable = false;
   stylix.targets.fzf.enable = true;
