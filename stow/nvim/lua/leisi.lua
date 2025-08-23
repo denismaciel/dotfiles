@@ -38,4 +38,9 @@ require('lazy').setup({
     -- colorscheme that will be used when installing plugins.
     install = { colorscheme = { 'habamax' } },
     checker = { enabled = false },
+    git = {
+        -- Increase timeout for git operations (including builds)
+        -- Default is 120 seconds, increasing to 5 minutes for slow builds
+        timeout = 300,
+    },
 })

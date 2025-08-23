@@ -18,7 +18,7 @@ DESIRED_WINDOWS = {
     'recap-run': '~/github.com/recap-technologies/core',
     'sam': '~/github.com/denismaciel/sam',
     'sam-run': '~/github.com/denismaciel/sam',
-    'sam-run': '~/github.com/denismaciel/finance',
+    'finance': '~/github.com/denismaciel/finance',
     'denis': '~/github.com/denismaciel/denis',
     'dotfiles': '~/dotfiles',
 }

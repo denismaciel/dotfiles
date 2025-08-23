@@ -50,6 +50,13 @@
         pager = {
           difftool = true;
         };
+        fetch = {
+          prune = true;
+        };
+        "background-fetch" = {
+          enabled = true;
+          interval = 300; # fetch every 5 minutes
+        };
       };
     };
     home.packages = with pkgs; [
