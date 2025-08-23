@@ -1,4 +1,5 @@
 return {
+    { 'sindrets/diffview.nvim' },
     {
         'folke/snacks.nvim',
         priority = 1000,
