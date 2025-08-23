@@ -28,7 +28,7 @@ in {
     cargo
     age
     alejandra
-    anki
+    # anki
     arandr
     biome
     bitwarden
@@ -122,6 +122,14 @@ in {
   stylix.targets.fzf.enable = true;
   stylix.targets.starship.enable = false;
   stylix.targets.ghostty.enable = false;
+
+  # Explicitly disable Qt theming since we're not using a Qt-based desktop
+  stylix.targets.qt.enable = false;
+
+  # Or alternatively, set Qt platform theme explicitly to avoid plasma5 detection
+  # qt.enable = true;
+  # qt.platformTheme.name = "gtk";
+  # qt.style.name = "adwaita-dark";
   home.username = "denis";
   home.homeDirectory = "/home/denis";
   home.file = {

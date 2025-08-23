@@ -24,6 +24,7 @@ in {
       if colors.theme == "light"
       then "${pkgs.base16-schemes}/share/themes/github.yaml"
       else "${pkgs.base16-schemes}/share/themes/oxocarbon-dark.yaml";
+    targets.qt.enable = false;
     fonts = {
       serif = {
         name = "Poppins";
