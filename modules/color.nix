@@ -1,5 +1,5 @@
 let
-  theme = "dark";
+  theme = "light";
   palettes = {
     light = {
       # Base16 mapping using lumiere colors

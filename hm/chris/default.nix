@@ -25,32 +25,30 @@ in {
   starship.enable = true;
   pageshot.enable = true;
   home.packages = with pkgs; [
-    cargo
+    # calibre
+    # anki
+    # kdePackages.dolphin
+    # cargo
     age
     alejandra
-    # anki
     arandr
     biome
     bitwarden
     btop
     bun
-    # calibre
     dbmate
     dig
     duckdb
-    envsubst
     fd
     gcc
     gh
     ghostty
-    glow
     gnumake
     gofumpt
     gomi
     google-chrome
     haskellPackages.greenclip
     jq
-    kdePackages.dolphin
     keepassxc
     kubectl
     lazydocker
@@ -132,6 +130,18 @@ in {
   # qt.style.name = "adwaita-dark";
   home.username = "denis";
   home.homeDirectory = "/home/denis";
+
+  # Fix PATH for all spawned processes from window manager
+  # home.sessionPath = [
+  #   "/run/current-system/sw/bin"
+  #   "${config.home.homeDirectory}/.nix-profile/bin"
+  #   "${config.home.homeDirectory}/.local/bin"
+  # ];
+
+  # Ensure user systemd and DBus know the environment
+  # systemd.user.sessionVariables = {
+  #   PATH = lib.mkForce "/run/current-system/sw/bin:${config.home.homeDirectory}/.nix-profile/bin:${config.home.homeDirectory}/.local/bin:$PATH";
+  # };
   home.file = {
     ".config/dennich-colorscheme".text = color.theme;
     ".npmrc".source = ../../configs/_npmrc;

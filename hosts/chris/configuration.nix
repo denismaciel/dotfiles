@@ -178,6 +178,7 @@ in {
   environment.systemPackages = with pkgs; [
     git
     groff
+    kdePackages.dolphin
     neovim
     portaudio
     wget
