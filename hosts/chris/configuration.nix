@@ -11,7 +11,6 @@ in {
     ../../modules/unfree.nix
     ../../modules/warp.nix
     ../../modules/redshift.nix
-    ../../modules/awesome.nix
     ../../modules/polybar.nix
   ];
 
@@ -116,6 +115,11 @@ in {
     enable = true;
     autoRepeatDelay = 200;
     autoRepeatInterval = 40;
+
+    windowManager.awesome = {
+      enable = true;
+      luaModules = with pkgs.luaPackages; [luarocks];
+    };
 
     xkb = {
       layout = "us";

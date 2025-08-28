@@ -89,11 +89,6 @@
               inherit inputs dennichPkg;
               inherit (config.polybar-dennich) processedConfigPath processedScriptPath;
             };
-            # Configure the awesome-dennich module
-            awesome-dennich = {
-              enable = true;
-              dennichPkg = dennichPkg;
-            };
             # Configure the polybar-dennich module
             polybar-dennich = {
               enable = true;

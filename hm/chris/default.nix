@@ -160,6 +160,14 @@ in {
     ".newsboat/urls".source = ../../configs/_newsboat/urls;
     ".ripgrep_ignore".source = ../../configs/_ripgrep_ignore;
     ".tmuxp/core.yml".source = ../../configs/_tmuxp/core.yaml;
+    # Awesome WM configuration
+    ".config/awesome/rc.lua".text =
+      builtins.replaceStrings
+      ["@dennichTodoPath@"]
+      ["${dennichPkg}/bin/dennich-todo"]
+      (builtins.readFile ../../configs/awesome/rc.lua);
+    ".config/awesome/main/utils.lua".source = ../../configs/awesome/main/utils.lua;
+    ".config/awesome/main/dkjson.lua".source = ../../configs/awesome/main/dkjson.lua;
   };
   xdg.enable = true;
   xdg.mimeApps = {
