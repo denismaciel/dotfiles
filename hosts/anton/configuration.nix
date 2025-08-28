@@ -70,6 +70,9 @@
     wget
   ];
 
+  # Enable touchpad support (laptop server - emergency use)
+  services.libinput.enable = true;
+
   # System programs
   programs.zsh.enable = true;
   security.sudo.wheelNeedsPassword = false;
