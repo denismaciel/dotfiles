@@ -84,7 +84,7 @@ in {
 
   networking = {
     nameservers = ["1.1.1.1"];
-    hostName = "nixos-chris";
+    hostName = "chris";
     networkmanager.enable = true;
     firewall = {
       trustedInterfaces = ["tailscale0"];
