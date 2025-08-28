@@ -106,13 +106,13 @@
       anton = mkNixosSystem "anton" [
         ./hosts/anton/configuration.nix
         home-manager.nixosModules.home-manager
-        (hmFor ./hm/sam.nix (_: {}))
+        (hmFor ./hm/server-base.nix (_: {}))
       ];
 
       sam = mkNixosSystem "sam" [
         ./hosts/sam/configuration.nix
         home-manager.nixosModules.home-manager
-        (hmFor ./hm/sam.nix (_: {}))
+        (hmFor ./hm/server-base.nix (_: {}))
       ];
     };
   };
