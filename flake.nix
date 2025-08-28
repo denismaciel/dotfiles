@@ -13,6 +13,10 @@
   };
 
   inputs = {
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
@@ -37,6 +41,8 @@
     nixos-hardware,
     nixpkgs,
     nur,
+    sops-nix,
+    stylix,
     ...
   }: let
     # Define systems for each host
@@ -61,7 +67,7 @@
     nixosConfigurations = {
       ben = mkNixosSystem "ben" [
         ./hosts/ben/configuration.nix
-        inputs.stylix.nixosModules.stylix
+        stylix.nixosModules.stylix
         home-manager.nixosModules.home-manager
         {
           home-manager.useUserPackages = true;
@@ -80,7 +86,8 @@
       in
         mkNixosSystem "chris" [
           ./hosts/chris/configuration.nix
-          inputs.stylix.nixosModules.stylix
+          sops-nix.nixosModules.sops
+          stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           ({config, ...}: {
             home-manager.useUserPackages = true;
