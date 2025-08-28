@@ -24,9 +24,14 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    dennich = {
+      url = "path:./python-packages/dennich";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
+    dennich,
     firefox-addons,
     home-manager,
     nixos-hardware,
@@ -62,15 +67,41 @@
           inputs.stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
+            nixpkgs.overlays = [
+              (final: prev: {
+                dennich = inputs.dennich.packages.${final.system}.default;
+              })
+            ];
             home-manager.useUserPackages = true;
             home-manager.users.denis = import ./hm/chris/default.nix;
-            home-manager.extraSpecialArgs = {
+            home-manager.extraSpecialArgs = let
+              dennichPkg = inputs.dennich.packages.x86_64-linux.default;
+              pkgsForProcessing = nixpkgs.legacyPackages.x86_64-linux;
+            in {
               inherit inputs;
+              dennichPkg = dennichPkg;
+              # Pass polybar processed configs to Home Manager
+              polybarProcessedConfig = pkgsForProcessing.replaceVars ./configs/polybar/config.ini {
+                dennichTodoPath = "${dennichPkg}/bin/dennich-todo";
+              };
+              polybarProcessedScript = ./configs/polybar/launch.sh;
+            };
+            # Configure the awesome-dennich module
+            awesome-dennich = {
+              enable = true;
+              dennichPkg = inputs.dennich.packages.x86_64-linux.default;
+            };
+            # Configure the polybar-dennich module
+            polybar-dennich = {
+              enable = true;
+              dennichPkg = inputs.dennich.packages.x86_64-linux.default;
             };
           }
-          {
-            environment.systemPackages = [];
-          }
+          ({pkgs, ...}: {
+            environment.systemPackages = with pkgs; [
+              inputs.dennich.packages.x86_64-linux.default
+            ];
+          })
         ];
       };
       anton = nixpkgs.lib.nixosSystem {

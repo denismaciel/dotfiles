@@ -3,6 +3,9 @@
   inputs,
   pkgs,
   lib,
+  dennichPkg,
+  polybarProcessedConfig,
+  polybarProcessedScript,
   ...
 }: let
   color = import ../../modules/color.nix;
@@ -307,8 +310,8 @@ in {
 
   services.polybar = {
     enable = true;
-    extraConfig = builtins.readFile ../../configs/polybar/config.ini;
-    script = builtins.readFile ../../configs/polybar/launch.sh;
+    extraConfig = builtins.readFile polybarProcessedConfig;
+    script = builtins.readFile polybarProcessedScript;
   };
 
   services.screen-locker = {
@@ -349,7 +352,7 @@ in {
       WantedBy = ["graphical-session.target"];
     };
     Service = {
-      ExecStart = "/home/denis/.local/bin/dennich-pomodoro start-server";
+      ExecStart = "${dennichPkg}/bin/dennich-pomodoro start-server";
       Restart = "always";
       RestartSec = 3;
     };
@@ -374,7 +377,7 @@ in {
     };
     Service = {
       Type = "oneshot";
-      ExecStart = "/home/denis/.local/bin/dennich-danki dump";
+      ExecStart = "${dennichPkg}/bin/dennich-danki dump";
     };
   };
 

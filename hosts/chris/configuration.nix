@@ -9,6 +9,8 @@ in {
     ./hardware-configuration.nix
     ../../modules/warp.nix
     ../../modules/redshift.nix
+    ../../modules/awesome.nix
+    ../../modules/polybar.nix
   ];
 
   nix.settings.trusted-users = ["denis"];
@@ -106,10 +108,7 @@ in {
     enable = true;
     autoRepeatDelay = 200;
     autoRepeatInterval = 40;
-    windowManager.awesome = {
-      enable = true;
-      luaModules = with pkgs.luaPackages; [luarocks];
-    };
+
     xkb = {
       layout = "us";
       variant = "";
