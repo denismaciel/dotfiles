@@ -14,6 +14,7 @@
     ../../modules/unfree.nix
   ];
 
+  nix.settings.trusted-users = ["denis"];
   nix.settings.auto-optimise-store = true;
   nix.gc = {
     automatic = true;
@@ -30,7 +31,7 @@
   systemd.targets.hibernate.enable = false;
   systemd.targets.hybrid-sleep.enable = false;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "anton"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary

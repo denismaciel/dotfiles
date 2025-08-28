@@ -62,7 +62,7 @@
     mpv
     nerd-fonts.blex-mono
     nerd-fonts.comic-shanns-mono
-    ngrok
+
     nil
     nixfmt-rfc-style
     nodePackages_latest.bash-language-server

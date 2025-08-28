@@ -10,8 +10,6 @@ export EDITOR=nvim
 export VISUAL=nvim
 export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH # Fixes dynamically linked binaries in NixOS: `import numpy as np` just works
 
-PROMPT="> "
-PS1="> "
 unsetopt PROMPT_SP
 setopt NO_PROMPT_CR
 
