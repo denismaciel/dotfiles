@@ -10,61 +10,55 @@
     ../modules/fzf.nix
   ];
   home.packages = with pkgs; [
-    biome
+    # System monitoring
     btop
-    csvlens
-    dbmate
+    htop
+    lsof
+
+    # Core utilities
+    git
+    neovim
+    tmux
+    unzip
+
+    # Network tools
     dig
+    jq
+
+    # File operations
     fd
-    ffmpeg
+    ripgrep
+    zoxide
+
+    # Development essentials
     gcc
     gnumake
-    gofumpt
-    gomi
-    htop
-    hyperfine
-    jq
+
+    # Container management
     kubectl
     lazydocker
-    lsof
-    lua
-    markdownlint-cli
-    nil
-    nixfmt-rfc-style
-    nodePackages_latest.bash-language-server
-    nodePackages_latest.prettier
-    nodePackages_latest.typescript-language-server
-    openssl
-    python313Packages.mdformat
-    ripgrep
+
+    # Database tools
+    dbmate
     sqlite
+
+    # Nix tools
+    nixfmt-rfc-style
     statix
+
+    # System tools
+    openssl
     stow
-    stylua
-    lua-language-server
-    tailwindcss-language-server
-    terraform-ls
-    universal-ctags
-    unzip
-    uv
-    vscode-langservers-extracted
-    yaml-language-server
-    zoxide
   ];
   home.username = "denis";
   home.homeDirectory = "/home/denis";
   home.file = {
-    ".npmrc".source = ../configs/_npmrc;
-    ".ipython/profile_default/ipython_config.py".source = ../configs/_ipython/profile_default/ipython_config.py;
-    ".ipython/profile_default/custom_init.py".source = ../configs/_ipython/profile_default/custom_init.py;
-
+    # Essential server configs only
     ".config/fd/ignore".source = ../configs/fd/ignore;
-    ".config/pgcli/config".source = ../configs/pgcli/config;
     ".ctags.d/default.ctags".source = ../configs/_ctags.d/default.ctags;
     ".ripgrep_ignore".source = ../configs/_ripgrep_ignore;
     ".tmuxp/core.yml".source = ../configs/_tmuxp/core.yaml;
   };
-  targets.genericLinux.enable = true;
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
@@ -125,33 +119,14 @@
           sha256 = "/rcIS2AbTyGw2HjsLPkHtt50c2CrtAFDnLuV5wsHcLc=";
         };
       }
-      # {
-      #   name = "zsh-completions";
-      #   src = pkgs.zsh-completions;
-      # }
       {
         name = "fzf-tab";
         src = pkgs.zsh-fzf-tab;
         file = "share/fzf-tab/fzf-tab.plugin.zsh";
       }
-      {
-        name = "zsh-autopair";
-        file = "zsh-autopair.plugin.zsh";
-        src = pkgs.fetchFromGitHub {
-          owner = "hlissner";
-          repo = "zsh-autopair";
-          rev = "34a8bca0c18fcf3ab1561caef9790abffc1d3d49";
-          sha256 = "1h0vm2dgrmb8i2pvsgis3lshc5b0ad846836m62y8h3rdb3zmpy1";
-        };
-      }
-      {
-        name = "zsh-syntax-highlighting";
-        file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
-        src = pkgs.zsh-syntax-highlighting;
-      }
     ];
   };
-  services.udiskie.enable = true; # Auto mount devices
+
   nixpkgs = {
     overlays = [
       inputs.neovim-nightly-overlay.overlays.default
