@@ -76,7 +76,7 @@
         ./hosts/ben/configuration.nix
         stylix.nixosModules.stylix
         home-manager.nixosModules.home-manager
-        (hmFor ./hm/ben.nix (_: {}))
+        (hmFor ./hm/server-base.nix (_: {}))
       ];
 
       chris = mkNixosSystem "chris" [

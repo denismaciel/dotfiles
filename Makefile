@@ -1,4 +1,20 @@
-.PHONY: rebuild-chris rebuild-sam rebuild-ben rebuild-anton install-python-tools stow stow-delete ensure-config-dirs
+.PHONY: rebuild-chris rebuild-sam rebuild-ben rebuild-anton bootstrap install-python-tools stow stow-delete ensure-config-dirs help
+
+# Show available commands
+help:
+	@echo "Available commands:"
+	@echo "  bootstrap HOST=hostname  - Bootstrap new NixOS machine with experimental features"
+	@echo "  rebuild-chris           - Rebuild chris configuration"
+	@echo "  rebuild-sam             - Rebuild sam configuration (remote)"
+	@echo "  rebuild-ben             - Rebuild ben configuration (remote)"
+	@echo "  rebuild-anton           - Rebuild anton configuration (remote)"
+	@echo "  install-python-tools    - Install Python development tools"
+	@echo "  stow                   - Stow config files"
+	@echo "  stow-delete            - Remove stowed config files"
+	@echo ""
+	@echo "Examples:"
+	@echo "  make bootstrap HOST=anton"
+	@echo "  make rebuild-chris"
 
 # NixOS rebuilds
 rebuild-chris:
@@ -13,6 +29,27 @@ rebuild-ben:
 rebuild-anton:
 	nixos-rebuild switch --flake ~/dotfiles#anton --target-host anton --sudo
 
+# Bootstrap command for new machines
+# Usage: make bootstrap HOST=hostname
+bootstrap:
+	@if [ -z "$(HOST)" ]; then \
+		echo "Error: HOST parameter is required"; \
+		echo "Usage: make bootstrap HOST=hostname"; \
+		echo "Example: make bootstrap HOST=anton"; \
+		exit 1; \
+	fi
+	@echo "Bootstrapping NixOS configuration for host: $(HOST)"
+	@echo "Enabling experimental features temporarily..."
+	@export NIX_CONFIG="experimental-features = nix-command flakes" && \
+	export NIXPKGS_ALLOW_UNFREE=1 && \
+	nix build .#nixosConfigurations.$(HOST).config.system.build.toplevel
+	@echo "Configuration built successfully! Applying to system..."
+	@export NIX_CONFIG="experimental-features = nix-command flakes" && \
+	export NIXPKGS_ALLOW_UNFREE=1 && \
+	sudo nixos-rebuild switch --flake .#$(HOST)
+	@echo "🎉 Bootstrap complete! Experimental features are now permanently configured."
+	@echo "Future rebuilds can use: make rebuild-$(HOST)"
+
 # Python tools installation
 install-python-tools:
 	uv tool install --upgrade apyanki
@@ -25,13 +62,11 @@ install-python-tools:
 stow: ensure-config-dirs
 	stow --verbose --target ~/.config/nvim --dir stow nvim
 	stow --verbose --target ~/.config/awesome --dir stow awesome
-	stow --verbose --target ~/.config/nix --dir stow nix
 
 stow-delete:
 	stow --delete --verbose --target ~/.config/nvim --dir stow nvim
 	stow --delete --verbose --target ~/.config/awesome --dir stow awesome
-	stow --delete --verbose --target ~/.config/nix --dir stow nix
 
 # Ensure target directories exist
 ensure-config-dirs:
-	mkdir -p ~/.config/nvim ~/.config/awesome ~/.config/nix
+	mkdir -p ~/.config/nvim ~/.config/awesome

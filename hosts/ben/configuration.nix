@@ -6,22 +6,21 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/graphics.nix
+    ../../modules/base-core.nix
+    ../../modules/denis-user.nix
+
     ../../modules/unfree.nix
     ../../modules/vaultwarden-backup.nix
   ];
 
-  nix.settings.trusted-users = ["denis"];
-  nix.settings.auto-optimise-store = true;
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
   boot.binfmt.emulatedSystems = ["aarch64-linux"]; # necessary to build nixos for raspberrypi
-  hardware.keyboard.zsa.enable = true;
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
+
+  # Disable sleep/suspend for server
+  systemd.targets.sleep.enable = false;
+  systemd.targets.suspend.enable = false;
+  systemd.targets.hibernate.enable = false;
+  systemd.targets.hybrid-sleep.enable = false;
+
   services.tailscale = {
     enable = true;
     extraUpFlags = ["--accept-dns" "--advertise-exit-node"];
@@ -101,51 +100,6 @@
   };
 
   # services.gnome.gnome-keyring.enable = true;
-  services.displayManager = {
-    sddm.enable = true;
-    defaultSession = "none+awesome";
-  };
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-
-    autoRepeatDelay = 200;
-    autoRepeatInterval = 40;
-
-    windowManager.awesome = {
-      enable = true;
-      luaModules = with pkgs.luaPackages; [luarocks];
-    };
-    xkb = {
-      layout = "us";
-      variant = "";
-      options = "ctrl:nocaps"; # Remap CapsLock to Control
-    };
-  };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    # openFirewall = true;
-    publish = {
-      enable = true;
-      addresses = true;
-      workstation = true;
-    };
-  };
-
-  # Enable sound with pipewire.
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    # jack.enable = true;
-  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
@@ -154,27 +108,7 @@
   services.logind.lidSwitch = "ignore";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.denis = {
-    isNormalUser = true;
-    description = "denis";
-    extraGroups = ["networkmanager" "wheel" "docker" "audio"];
-    shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICFJLQFWmH33Gmo2pGMtaQ0gPfAuqMZwodMUvDJwFTMy denispmaciel@gmail.com"
-    ];
-  };
 
-  # Enable passwordless sudo for wheel group
-  security.sudo.wheelNeedsPassword = false;
-
-  programs._1password.enable = true;
-  programs._1password-gui = {
-    enable = true;
-    # Certain features, including CLI integration and system authentication support,
-    # require enabling PolKit integration on some desktop environments (e.g. Plasma).
-    polkitPolicyOwners = ["denis"];
-  };
-  security.polkit.enable = true;
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
@@ -197,7 +131,7 @@
   '';
 
   programs.dconf.enable = true;
-  programs.zsh.enable = true;
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -207,7 +141,13 @@
   };
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+
+  # SSH server configuration
+  services.openssh = {
+    ports = [22 443 2222 7422];
+    settings.PasswordAuthentication = false;
+  };
+
   programs.ssh = {
     startAgent = true;
     extraConfig = ''

@@ -2,17 +2,10 @@
 {pkgs, ...}: {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/base-core.nix
+    ../../modules/denis-user.nix
     ../../modules/unfree.nix
   ];
-
-  # Nix settings
-  nix.settings.trusted-users = ["denis"];
-  nix.settings.auto-optimise-store = true;
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
 
   # Bootloader
   boot.loader.systemd-boot.enable = true;
@@ -47,40 +40,22 @@
     LC_TIME = "pt_PT.UTF-8";
   };
 
-  # User configuration
-  users.users.denis = {
-    isNormalUser = true;
-    description = "denis";
-    extraGroups = ["networkmanager" "wheel" "docker"];
-    shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICFJLQFWmH33Gmo2pGMtaQ0gPfAuqMZwodMUvDJwFTMy denispmaciel@gmail.com"
-    ];
-    packages = with pkgs; [
-      btop
-      tmux
-      zip
-    ];
-  };
-
-  # Essential system packages
+  # System packages (essential + previously user packages)
   environment.systemPackages = with pkgs; [
     neovim
     git
     wget
+    btop
+    tmux
+    zip
   ];
 
   # Enable touchpad support (laptop server - emergency use)
   services.libinput.enable = true;
 
-  # System programs
-  programs.zsh.enable = true;
-  security.sudo.wheelNeedsPassword = false;
-
   # Services
   services.tailscale.enable = true;
   services.openssh = {
-    enable = true;
     ports = [22 443 2222 7422];
     settings.PasswordAuthentication = false;
   };

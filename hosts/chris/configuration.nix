@@ -7,6 +7,8 @@
 in {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/base-core.nix
+    ../../modules/denis-user.nix
     ../../modules/graphics.nix
     ../../modules/unfree.nix
     ../../modules/warp.nix
@@ -14,13 +16,6 @@ in {
     ../../modules/polybar.nix
   ];
 
-  nix.settings.trusted-users = ["denis"];
-  nix.settings.auto-optimise-store = true;
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
   boot.binfmt.emulatedSystems = ["aarch64-linux"]; # necessary to build nixos for raspberrypi
   warp.enable = false;
   redshift.enable = false;
@@ -154,20 +149,8 @@ in {
   services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.denis = {
-    isNormalUser = true;
-    description = "denis";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "docker"
-      "audio"
-    ];
-    shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICFJLQFWmH33Gmo2pGMtaQ0gPfAuqMZwodMUvDJwFTMy denispmaciel@gmail.com"
-    ];
-  };
+  # Additional groups for desktop user (extends base config)
+  users.users.denis.extraGroups = ["audio"];
 
   programs.nh = {
     enable = true;
@@ -182,8 +165,6 @@ in {
   };
   security.polkit.enable = true;
 
-  # Enable passwordless sudo for wheel group
-  security.sudo.wheelNeedsPassword = false;
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
@@ -206,7 +187,7 @@ in {
   '';
 
   programs.dconf.enable = true;
-  programs.zsh.enable = true;
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -217,7 +198,7 @@ in {
 
   services.gnome.gnome-keyring.enable = true;
   services.gnome.gcr-ssh-agent.enable = false;
-  services.openssh.enable = true;
+
   programs.ssh = {
     startAgent = true;
     extraConfig = ''
