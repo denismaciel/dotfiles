@@ -184,7 +184,6 @@ in {
     git
     groff
     kdePackages.dolphin
-    neovim
     portaudio
     wget
     zenity

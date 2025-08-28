@@ -177,7 +177,6 @@ in {
       "text/plain" = ["sioyek.desktop"];
     };
   };
-  targets.genericLinux.enable = true;
   xsession = {
     enable = true;
     windowManager.awesome = {
