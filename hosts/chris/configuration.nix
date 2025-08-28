@@ -14,6 +14,12 @@ in {
   ];
 
   nix.settings.trusted-users = ["denis"];
+  nix.settings.auto-optimise-store = true;
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
   boot.binfmt.emulatedSystems = ["aarch64-linux"]; # necessary to build nixos for raspberrypi
   warp.enable = false;
   redshift.enable = false;
