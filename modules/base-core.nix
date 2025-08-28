@@ -1,8 +1,11 @@
 {
   nix.settings = {
-    trusted-users = ["denis"];
+    trusted-users = [ "denis" ];
     auto-optimise-store = true;
-    experimental-features = ["nix-command" "flakes"];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
   nix.gc = {
     automatic = true;

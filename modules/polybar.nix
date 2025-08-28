@@ -4,7 +4,8 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.polybar-dennich;
 
   # Create processed versions of the config files with dennich paths substituted
@@ -13,7 +14,8 @@ with lib; let
   };
 
   processedLaunchScript = ../configs/polybar/launch.sh;
-in {
+in
+{
   options.polybar-dennich = {
     enable = mkEnableOption "Polybar status bar with dennich integration";
 

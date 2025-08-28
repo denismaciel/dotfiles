@@ -6,13 +6,15 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = {
-    nixpkgs,
-    flake-utils,
-    ...
-  }:
+  outputs =
+    {
+      nixpkgs,
+      flake-utils,
+      ...
+    }:
     flake-utils.lib.eachDefaultSystem (
-      system: let
+      system:
+      let
         pkgs = nixpkgs.legacyPackages.${system};
 
         pageshot = pkgs.buildGoModule {
@@ -26,7 +28,7 @@
           meta = with pkgs.lib; {
             description = "Browser screenshot tool using Chromium headless";
             license = licenses.mit;
-            maintainers = [];
+            maintainers = [ ];
             platforms = platforms.linux ++ platforms.darwin;
           };
         };
@@ -51,7 +53,8 @@
           # Run pageshot with proper environment
           exec ${pageshot}/bin/pageshot "$@"
         '';
-      in {
+      in
+      {
         packages = {
           inherit default pageshot pageshot-wrapped;
         };

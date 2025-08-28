@@ -3,7 +3,8 @@
   inputs,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     ../modules/unfree.nix
     ../modules/git.nix

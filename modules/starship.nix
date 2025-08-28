@@ -2,7 +2,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   options = {
     starship.enable = lib.mkEnableOption "enables starship with Stylix-based theme";
   };
@@ -87,14 +88,8 @@
             magenta = base0E; # Types, special
 
             # Pure black/white for contrast
-            black =
-              if config.stylix.polarity == "light"
-              then "#000000"
-              else "#ffffff";
-            white =
-              if config.stylix.polarity == "light"
-              then "#ffffff"
-              else "#000000";
+            black = if config.stylix.polarity == "light" then "#000000" else "#ffffff";
+            white = if config.stylix.polarity == "light" then "#ffffff" else "#000000";
           };
         };
       };

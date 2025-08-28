@@ -3,7 +3,8 @@
   inputs,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     ben/autorandr.nix
     ../modules/unfree.nix
@@ -18,8 +19,8 @@
   git.enable = true;
   home.packages = with pkgs; [
     arandr
-    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
-    alejandra
+    (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
+    nixfmt-rfc-style
     anki
     biome
     btop
@@ -106,8 +107,13 @@
     yt-dlp
     zenity
     zoxide
-    (rofi.override {plugins = [pkgs.rofi-emoji pkgs.rofi-calc];})
-    (google-fonts.override {fonts = ["Poppins"];})
+    (rofi.override {
+      plugins = [
+        pkgs.rofi-emoji
+        pkgs.rofi-calc
+      ];
+    })
+    (google-fonts.override { fonts = [ "Poppins" ]; })
   ];
   xdg.userDirs = {
     enable = true;
@@ -124,8 +130,10 @@
   home.homeDirectory = "/home/denis";
   home.file = {
     ".npmrc".source = ../configs/_npmrc;
-    ".ipython/profile_default/ipython_config.py".source = ../configs/_ipython/profile_default/ipython_config.py;
-    ".ipython/profile_default/custom_init.py".source = ../configs/_ipython/profile_default/custom_init.py;
+    ".ipython/profile_default/ipython_config.py".source =
+      ../configs/_ipython/profile_default/ipython_config.py;
+    ".ipython/profile_default/custom_init.py".source =
+      ../configs/_ipython/profile_default/custom_init.py;
 
     ".config/fd/ignore".source = ../configs/fd/ignore;
     ".config/greenclip.toml".source = ../configs/greenclip.toml;
@@ -141,15 +149,15 @@
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
-      "text/html" = ["google-chrome.desktop"];
-      "x-scheme-handler/http" = ["google-chrome.desktop"];
-      "x-scheme-handler/https" = ["google-chrome.desktop"];
-      "x-scheme-handler/about" = ["google-chrome.desktop"];
-      "x-scheme-handler/unknown" = ["google-chrome.desktop"];
-      "application/pdf" = ["sioyek.desktop"];
+      "text/html" = [ "google-chrome.desktop" ];
+      "x-scheme-handler/http" = [ "google-chrome.desktop" ];
+      "x-scheme-handler/https" = [ "google-chrome.desktop" ];
+      "x-scheme-handler/about" = [ "google-chrome.desktop" ];
+      "x-scheme-handler/unknown" = [ "google-chrome.desktop" ];
+      "application/pdf" = [ "sioyek.desktop" ];
     };
     associations.added = {
-      "text/plain" = ["sioyek.desktop"];
+      "text/plain" = [ "sioyek.desktop" ];
     };
   };
   targets.genericLinux.enable = true;
@@ -274,9 +282,11 @@
   systemd.user.services.greenclip = {
     Unit = {
       Description = "greenclip daemon";
-      After = ["graphical-session.target"];
+      After = [ "graphical-session.target" ];
     };
-    Install = {WantedBy = ["graphical-session.target"];};
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
     Service = {
       ExecStart = "${pkgs.haskellPackages.greenclip}/bin/greenclip daemon";
     };

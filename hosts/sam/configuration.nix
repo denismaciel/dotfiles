@@ -1,5 +1,6 @@
 # Lean print server configuration for sam
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   imports = [
     ./hardware-configuration.nix
     ../../modules/base-core.nix
@@ -23,8 +24,17 @@
   networking.networkmanager.enable = true;
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [22 443 2222 7422 631]; # SSH + printer
-    allowedUDPPorts = [5353 631]; # Avahi + printer
+    allowedTCPPorts = [
+      22
+      443
+      2222
+      7422
+      631
+    ]; # SSH + printer
+    allowedUDPPorts = [
+      5353
+      631
+    ]; # Avahi + printer
   };
 
   # Localization
@@ -61,7 +71,12 @@
   warp.enable = true;
   services.tailscale.enable = true;
   services.openssh = {
-    ports = [22 443 2222 7422];
+    ports = [
+      22
+      443
+      2222
+      7422
+    ];
     settings.PasswordAuthentication = true; # Keep for local access
   };
 
@@ -70,8 +85,8 @@
     enable = true;
     browsing = true;
     defaultShared = true;
-    listenAddresses = ["*:631"];
-    allowFrom = ["all"];
+    listenAddresses = [ "*:631" ];
+    allowFrom = [ "all" ];
     openFirewall = true;
     drivers = with pkgs; [
       brlaser

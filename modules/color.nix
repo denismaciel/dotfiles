@@ -40,7 +40,8 @@ let
       base0F = "#82cfff"; # Brown
     };
   };
-in {
+in
+{
   inherit theme;
   palette = palettes.${theme};
 }

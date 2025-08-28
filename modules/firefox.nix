@@ -4,7 +4,8 @@
   config,
   inputs,
   ...
-}: {
+}:
+{
   options = {
     firefox.enable = lib.mkEnableOption "enables firefox";
   };
@@ -50,7 +51,10 @@
             }
             {
               name = "Hacker News Search";
-              tags = ["news" "tech"];
+              tags = [
+                "news"
+                "tech"
+              ];
               keyword = "hn";
               url = "https://hn.algolia.com/?q=%s";
             }

@@ -59,7 +59,7 @@ return {
                 javascriptreact = { 'biome' },
                 go = { 'golines' },
                 markdown = { 'mdformat' },
-                nix = { 'alejandra' },
+                nix = { 'nixfmt-rfc-style' },
             },
             formatters = {
                 biome = {
@@ -168,7 +168,7 @@ return {
                 settings = {
                     ['nil'] = {
                         formatting = {
-                            command = { 'alejandra', '-qq' },
+                            command = { 'nixfmt-rfc-style' },
                         },
                     },
                 },

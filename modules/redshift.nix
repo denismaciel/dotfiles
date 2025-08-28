@@ -2,7 +2,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   options = {
     redshift.enable = lib.mkEnableOption "enables redshift with geoclue2 location provider";
   };

@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   # Modern graphics configuration (NixOS 24.05+)
   # Replaces the legacy hardware.opengl options
   hardware.graphics = {
@@ -33,7 +34,7 @@
   };
 
   # Use modesetting driver by default (best for modern Intel/AMD GPUs)
-  services.xserver.videoDrivers = lib.mkDefault ["modesetting"];
+  services.xserver.videoDrivers = lib.mkDefault [ "modesetting" ];
 
   # Hardware video acceleration environment variables
   environment.sessionVariables = {

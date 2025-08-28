@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   imports = [
     ./hardware-configuration.nix
     ../../modules/base-core.nix
@@ -13,7 +14,7 @@
     ../../modules/vaultwarden-backup.nix
   ];
 
-  boot.binfmt.emulatedSystems = ["aarch64-linux"]; # necessary to build nixos for raspberrypi
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; # necessary to build nixos for raspberrypi
 
   # Disable sleep/suspend for server
   systemd.targets.sleep.enable = false;
@@ -23,7 +24,10 @@
 
   services.tailscale = {
     enable = true;
-    extraUpFlags = ["--accept-dns" "--advertise-exit-node"];
+    extraUpFlags = [
+      "--accept-dns"
+      "--advertise-exit-node"
+    ];
   };
   # Enable IP forwarding for exit node functionality
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
@@ -33,17 +37,20 @@
     settings = {
       dns = {
         bind_port = 53;
-        bind_hosts = ["0.0.0.0" "::"];
+        bind_hosts = [
+          "0.0.0.0"
+          "::"
+        ];
       };
     };
   };
 
   # Trust Tailscale and local network interfaces in firewall
   networking.firewall.enable = true;
-  networking.firewall.trustedInterfaces = ["tailscale0"];
+  networking.firewall.trustedInterfaces = [ "tailscale0" ];
   hardware.uinput.enable = true;
-  users.groups.uinput.members = ["denis"];
-  users.groups.input.members = ["denis"];
+  users.groups.uinput.members = [ "denis" ];
+  users.groups.input.members = [ "denis" ];
 
   services.vaultwarden = {
     enable = true;
@@ -69,11 +76,14 @@
   '';
 
   # DroidCamX
-  boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
-  boot.kernelModules = ["v4l2loopback"];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+  boot.kernelModules = [ "v4l2loopback" ];
   programs.adb.enable = true; # enable android proper data tethering
-  networking.firewall.allowedTCPPorts = [22 4747];
-  networking.firewall.allowedUDPPorts = [4747];
+  networking.firewall.allowedTCPPorts = [
+    22
+    4747
+  ];
+  networking.firewall.allowedUDPPorts = [ 4747 ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -82,7 +92,7 @@
   networking = {
     hostName = "ben";
     networkmanager.enable = true;
-    nameservers = ["127.0.0.1"];
+    nameservers = [ "127.0.0.1" ];
   };
 
   time.timeZone = "Europe/Lisbon";
@@ -144,7 +154,12 @@
 
   # SSH server configuration
   services.openssh = {
-    ports = [22 443 2222 7422];
+    ports = [
+      22
+      443
+      2222
+      7422
+    ];
     settings.PasswordAuthentication = false;
   };
 

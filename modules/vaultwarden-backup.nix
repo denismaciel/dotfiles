@@ -4,7 +4,8 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.services.vaultwarden-backup;
 
   backupScript = pkgs.writeShellScript "vaultwarden-backup" ''
@@ -263,7 +264,8 @@ with lib; let
     success "Test instance ready at http://localhost:$TEST_PORT"
     info "Run 'docker stop $CONTAINER_NAME && docker rm $CONTAINER_NAME' when done testing"
   '';
-in {
+in
+{
   options.services.vaultwarden-backup = {
     enable = mkEnableOption "Vaultwarden backup service";
 
@@ -323,7 +325,7 @@ in {
     # Backup timer
     systemd.timers.vaultwarden-backup = {
       description = "Run Vaultwarden backup";
-      wantedBy = ["timers.target"];
+      wantedBy = [ "timers.target" ];
       timerConfig = {
         OnCalendar = cfg.schedule;
         Persistent = true;

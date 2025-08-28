@@ -2,10 +2,12 @@
   lib,
   config,
   ...
-}: let
+}:
+let
   colors = import ./color.nix;
   inherit (colors) theme palette;
-in {
+in
+{
   options = {
     ghostty.enable = lib.mkEnableOption "enables ghostty";
   };

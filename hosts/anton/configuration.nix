@@ -1,5 +1,6 @@
 # Lean server configuration for anton
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   imports = [
     ./hardware-configuration.nix
     ../../modules/base-core.nix
@@ -22,7 +23,12 @@
   networking.networkmanager.enable = true;
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [22 443 2222 7422];
+    allowedTCPPorts = [
+      22
+      443
+      2222
+      7422
+    ];
   };
 
   # Localization
@@ -56,7 +62,12 @@
   # Services
   services.tailscale.enable = true;
   services.openssh = {
-    ports = [22 443 2222 7422];
+    ports = [
+      22
+      443
+      2222
+      7422
+    ];
     settings.PasswordAuthentication = false;
   };
 

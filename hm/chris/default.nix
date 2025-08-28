@@ -7,9 +7,11 @@
   processedConfigPath,
   processedScriptPath,
   ...
-}: let
+}:
+let
   color = import ../../modules/color.nix;
-in {
+in
+{
   imports = [
     ./autorandr.nix
     ../../modules/unfree.nix
@@ -34,7 +36,7 @@ in {
     # kdePackages.dolphin
     # cargo
     age
-    alejandra
+    nixfmt-rfc-style
     arandr
     biome
     bitwarden
@@ -101,28 +103,30 @@ in {
         pkgs.rofi-calc
       ];
     })
-    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
+    (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
   ];
 
-  xdg.userDirs = let
-    top = config.home.homeDirectory;
-    home = "${top}/dirs";
-  in {
-    enable = true;
-    desktop = "${home}/desktop";
-    documents = "${home}/documents";
-    download = "${home}/downloads";
-    music = "${home}/music";
-    pictures = "${home}/pictures";
-    publicShare = "${home}/public";
-    templates = "${home}/templates";
-    videos = "${home}/videos";
-  };
+  xdg.userDirs =
+    let
+      top = config.home.homeDirectory;
+      home = "${top}/dirs";
+    in
+    {
+      enable = true;
+      desktop = "${home}/desktop";
+      documents = "${home}/documents";
+      download = "${home}/downloads";
+      music = "${home}/music";
+      pictures = "${home}/pictures";
+      publicShare = "${home}/public";
+      templates = "${home}/templates";
+      videos = "${home}/videos";
+    };
   stylix.targets.neovim.enable = false;
   stylix.targets.fzf.enable = true;
   stylix.targets.starship.enable = false;
   stylix.targets.ghostty.enable = false;
-  stylix.targets.firefox.profileNames = ["default"];
+  stylix.targets.firefox.profileNames = [ "default" ];
 
   # Explicitly disable Qt theming since we're not using a Qt-based desktop
   stylix.targets.qt.enable = false;
@@ -163,10 +167,8 @@ in {
     ".tmuxp/core.yml".source = ../../configs/_tmuxp/core.yaml;
     # Awesome WM configuration
     ".config/awesome/rc.lua".text =
-      builtins.replaceStrings
-      ["@dennichTodoPath@"]
-      ["${dennichPkg}/bin/dennich-todo"]
-      (builtins.readFile ../../configs/awesome/rc.lua);
+      builtins.replaceStrings [ "@dennichTodoPath@" ] [ "${dennichPkg}/bin/dennich-todo" ]
+        (builtins.readFile ../../configs/awesome/rc.lua);
     ".config/awesome/main/utils.lua".source = ../../configs/awesome/main/utils.lua;
     ".config/awesome/main/dkjson.lua".source = ../../configs/awesome/main/dkjson.lua;
   };
@@ -174,15 +176,15 @@ in {
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
-      "text/html" = ["google-chrome.desktop"];
-      "x-scheme-handler/http" = ["google-chrome.desktop"];
-      "x-scheme-handler/https" = ["google-chrome.desktop"];
-      "x-scheme-handler/about" = ["google-chrome.desktop"];
-      "x-scheme-handler/unknown" = ["google-chrome.desktop"];
-      "application/pdf" = ["sioyek.desktop"];
+      "text/html" = [ "google-chrome.desktop" ];
+      "x-scheme-handler/http" = [ "google-chrome.desktop" ];
+      "x-scheme-handler/https" = [ "google-chrome.desktop" ];
+      "x-scheme-handler/about" = [ "google-chrome.desktop" ];
+      "x-scheme-handler/unknown" = [ "google-chrome.desktop" ];
+      "application/pdf" = [ "sioyek.desktop" ];
     };
     associations.added = {
-      "text/plain" = ["sioyek.desktop"];
+      "text/plain" = [ "sioyek.desktop" ];
     };
   };
   xsession = {
@@ -342,7 +344,7 @@ in {
       Description = "Feh";
     };
     Install = {
-      WantedBy = ["graphical-session.target"];
+      WantedBy = [ "graphical-session.target" ];
     };
     Service = {
       Type = "oneshot";
@@ -355,7 +357,7 @@ in {
       Description = "Pomodoro Server";
     };
     Install = {
-      WantedBy = ["graphical-session.target"];
+      WantedBy = [ "graphical-session.target" ];
     };
     Service = {
       ExecStart = "${dennichPkg}/bin/dennich-pomodoro start-server";
@@ -367,10 +369,10 @@ in {
   systemd.user.services.greenclip = {
     Unit = {
       Description = "greenclip daemon";
-      After = ["graphical-session.target"];
+      After = [ "graphical-session.target" ];
     };
     Install = {
-      WantedBy = ["graphical-session.target"];
+      WantedBy = [ "graphical-session.target" ];
     };
     Service = {
       ExecStart = "${pkgs.haskellPackages.greenclip}/bin/greenclip daemon";
@@ -390,6 +392,6 @@ in {
   systemd.user.timers.dump-anki = {
     Timer.OnCalendar = "*:0/2";
     Timer.Persistent = true;
-    Install.WantedBy = ["timers.target"];
+    Install.WantedBy = [ "timers.target" ];
   };
 }

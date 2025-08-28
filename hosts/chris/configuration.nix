@@ -2,9 +2,11 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   colors = import ../../modules/color.nix;
-in {
+in
+{
   imports = [
     ./hardware-configuration.nix
     ../../modules/base-core.nix
@@ -16,7 +18,7 @@ in {
     ../../modules/polybar.nix
   ];
 
-  boot.binfmt.emulatedSystems = ["aarch64-linux"]; # necessary to build nixos for raspberrypi
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; # necessary to build nixos for raspberrypi
   warp.enable = false;
   redshift.enable = false;
 
@@ -25,18 +27,19 @@ in {
     polarity = colors.theme;
     image = ../../assets/black.png;
     base16Scheme =
-      if colors.theme == "light"
-      then "${pkgs.base16-schemes}/share/themes/github.yaml"
-      else "${pkgs.base16-schemes}/share/themes/oxocarbon-dark.yaml";
+      if colors.theme == "light" then
+        "${pkgs.base16-schemes}/share/themes/github.yaml"
+      else
+        "${pkgs.base16-schemes}/share/themes/oxocarbon-dark.yaml";
     targets.qt.enable = false;
     fonts = {
       serif = {
         name = "Poppins";
-        package = pkgs.google-fonts.override {fonts = ["Poppins"];};
+        package = pkgs.google-fonts.override { fonts = [ "Poppins" ]; };
       };
       sansSerif = {
         name = "Poppins";
-        package = pkgs.google-fonts.override {fonts = ["Poppins"];};
+        package = pkgs.google-fonts.override { fonts = [ "Poppins" ]; };
       };
       monospace = {
         name = "Blex Mono Nerd Font";
@@ -70,20 +73,20 @@ in {
     ];
   };
   hardware.uinput.enable = true;
-  users.groups.uinput.members = ["denis"];
-  users.groups.input.members = ["denis"];
+  users.groups.uinput.members = [ "denis" ];
+  users.groups.input.members = [ "denis" ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
-    nameservers = ["1.1.1.1"];
+    nameservers = [ "1.1.1.1" ];
     hostName = "chris";
     networkmanager.enable = true;
     firewall = {
-      trustedInterfaces = ["tailscale0"];
-      allowedTCPPorts = [3000];
+      trustedInterfaces = [ "tailscale0" ];
+      allowedTCPPorts = [ 3000 ];
     };
   };
 
@@ -122,7 +125,7 @@ in {
 
     windowManager.awesome = {
       enable = true;
-      luaModules = with pkgs.luaPackages; [luarocks];
+      luaModules = with pkgs.luaPackages; [ luarocks ];
     };
 
     xkb = {
@@ -150,7 +153,7 @@ in {
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   # Additional groups for desktop user (extends base config)
-  users.users.denis.extraGroups = ["audio"];
+  users.users.denis.extraGroups = [ "audio" ];
 
   programs.nh = {
     enable = true;
@@ -161,7 +164,7 @@ in {
     enable = true;
     # Certain features, including CLI integration and system authentication support,
     # require enabling PolKit integration on some desktop environments (e.g. Plasma).
-    polkitPolicyOwners = ["denis"];
+    polkitPolicyOwners = [ "denis" ];
   };
   security.polkit.enable = true;
 
