@@ -59,3 +59,7 @@ examples/target/
 
 # Rust dependency lock file
 Cargo.lock
+.pre-commit-config.yaml
+
+# Pre-commit cache directory
+.pre-commit

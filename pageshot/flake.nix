@@ -7,9 +7,9 @@
   };
 
   outputs = {
-    self,
     nixpkgs,
     flake-utils,
+    ...
   }:
     flake-utils.lib.eachDefaultSystem (
       system: let
@@ -53,9 +53,7 @@
         '';
       in {
         packages = {
-          default = pageshot-wrapped;
-          pageshot = pageshot;
-          pageshot-wrapped = pageshot-wrapped;
+          inherit default pageshot pageshot-wrapped;
         };
 
         apps = {

@@ -1,11 +1,10 @@
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from dennich.todo.models import Base
 from dennich.todo.models import get_db_url
+from sqlalchemy import engine_from_config
+from sqlalchemy import pool
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

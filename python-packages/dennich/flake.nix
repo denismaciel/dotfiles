@@ -43,7 +43,7 @@
     };
 
     # Build fixups overlay for packages that need special handling
-    pyprojectOverrides = final: prev: {
+    pyprojectOverrides = _: _: {
       # Anki might need special handling for Qt dependencies
       # Add overrides here if needed during build
     };

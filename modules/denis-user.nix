@@ -1,9 +1,5 @@
 # Universal user module for denis across ALL machines
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   # Standard user configuration for denis
   users.users.denis = {
     isNormalUser = true;

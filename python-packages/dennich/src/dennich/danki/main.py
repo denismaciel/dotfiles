@@ -123,8 +123,8 @@ def cli() -> int:
     parser = argparse.ArgumentParser()
     subparser = parser.add_subparsers(dest='command')
 
-    dump_parser = subparser.add_parser('dump')
-    search_parser = subparser.add_parser('search')
+    subparser.add_parser('dump')
+    subparser.add_parser('search')
 
     args = parser.parse_args()
 

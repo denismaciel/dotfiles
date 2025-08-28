@@ -186,7 +186,7 @@ ${BLUE}Test Instructions:${NC}
 
 ${BLUE}Backup Information:${NC}
   Source: $FULL_BACKUP_PATH
-  Database: $(ls -lh "$FULL_BACKUP_PATH/db.sqlite3" | awk '{print $5}')
+  Database: $(find "$FULL_BACKUP_PATH" -name "db.sqlite3" -exec ls -lh {} \; | awk '{print $5}')
   Files: $(find "$FULL_BACKUP_PATH" -type f | wc -l) files total
 
 ${YELLOW}Commands:${NC}

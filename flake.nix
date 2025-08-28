@@ -32,15 +32,17 @@
       url = "path:./python-packages/dennich";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
     dennich,
-    firefox-addons,
+    git-hooks,
     home-manager,
-    nixos-hardware,
     nixpkgs,
-    nur,
     sops-nix,
     stylix,
     ...
@@ -59,9 +61,8 @@
       dennichPkg = inputs.dennich.packages.${system}.default;
     in
       nixpkgs.lib.nixosSystem {
-        inherit system;
+        inherit system modules;
         specialArgs = {inherit inputs dennichPkg;};
-        modules = modules;
       };
 
     # Small helper to reduce repeated Home Manager boilerplate
@@ -70,6 +71,47 @@
       home-manager.users.denis = import path;
       home-manager.extraSpecialArgs = {inherit inputs;} // (extraSpecialArgsFn {inherit config;});
     };
+
+    # All supported systems for git-hooks
+    allSystems = ["x86_64-linux" "aarch64-linux"];
+    forAllSystems = nixpkgs.lib.genAttrs allSystems;
+
+    # Git hooks configuration
+    gitHooksFor = system:
+      git-hooks.lib.${system}.run {
+        src = ./.;
+        hooks = {
+          # Nix tooling
+          alejandra.enable = true;
+          statix.enable = true;
+          deadnix.enable = true;
+
+          # Shell scripting
+          # shfmt.enable = true;  # temporarily disabled due to formatting conflicts
+          # shellcheck.enable = true;  # temporarily disabled
+
+          # Lua
+          stylua.enable = true;
+
+          # Python - ruff for linting and formatting
+          ruff = {
+            enable = true;
+            excludes = ["configs/_ipython/.*"];
+          };
+          ruff-format = {
+            enable = true;
+            excludes = ["configs/_ipython/.*"];
+          };
+
+          # Secrets scanning
+          ripsecrets.enable = true;
+
+          # Basic file checks - using correct hook names
+          check-json.enable = true;
+          check-merge-conflicts.enable = true;
+          check-yaml.enable = true;
+        };
+      };
   in {
     nixosConfigurations = {
       ben = mkNixosSystem "ben" [
@@ -85,19 +127,19 @@
         stylix.nixosModules.stylix
         home-manager.nixosModules.home-manager
         # Home Manager with extra args for polybar + dennich
-        (hmFor ./hm/chris/default.nix ({config, ...}: let
+        (hmFor ./hm/chris/default.nix (config: let
           dennichPkg = inputs.dennich.packages.${systems.chris}.default;
         in {
           inherit dennichPkg;
           inherit (config.polybar-dennich) processedConfigPath processedScriptPath;
         }))
         # Configure the polybar-dennich module
-        ({pkgs, ...}: let
+        (let
           dennichPkg = inputs.dennich.packages.${systems.chris}.default;
         in {
           polybar-dennich = {
             enable = true;
-            dennichPkg = dennichPkg;
+            inherit dennichPkg;
           };
           environment.systemPackages = [dennichPkg];
         })
@@ -115,5 +157,26 @@
         (hmFor ./hm/server-base.nix (_: {}))
       ];
     };
+
+    # Git hooks configuration for development and CI
+    checks = forAllSystems (system: {
+      pre-commit = gitHooksFor system;
+    });
+
+    # Development shells with git-hooks integration
+    devShells = forAllSystems (
+      system: let
+        pkgs = import nixpkgs {inherit system;};
+        preCommit = gitHooksFor system;
+      in {
+        default = pkgs.mkShell {
+          # Tools needed by hooks become available to developers
+          packages = preCommit.packages or [];
+
+          # Installs .git/hooks and keeps them updated when entering the shell
+          inherit (preCommit) shellHook;
+        };
+      }
+    );
   };
 }

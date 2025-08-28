@@ -1,4 +1,4 @@
-{...}: {
+{
   nix.settings = {
     trusted-users = ["denis"];
     auto-optimise-store = true;

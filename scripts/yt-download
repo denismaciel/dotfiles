@@ -7,7 +7,7 @@ set -euo pipefail
 
 # Configuration
 REMOTE_HOST="sam"
-REMOTE_DOWNLOAD_DIR="~/downloads"
+REMOTE_DOWNLOAD_DIR="$HOME/downloads"
 LOCAL_DOWNLOAD_DIR="$HOME/Downloads"
 REMOTE_USER=$(whoami)
 
@@ -114,10 +114,10 @@ print_status "Transferring file from $REMOTE_HOST to local machine..."
 LOCAL_FILENAME="$LOCAL_DOWNLOAD_DIR/$REMOTE_FILENAME"
 
 if scp "$REMOTE_HOST:$REMOTE_DOWNLOAD_DIR/$REMOTE_FILENAME" "$LOCAL_FILENAME"; then
-    print_success "File transferred to: $LOCAL_FILENAME"
+	print_success "File transferred to: $LOCAL_FILENAME"
 else
-    print_error "Failed to transfer file"
-    exit 1
+	print_error "Failed to transfer file"
+	exit 1
 fi
 
 # Clean up remote file
@@ -127,24 +127,24 @@ print_success "Remote file cleaned up"
 
 # Play video if requested
 if [ "$PLAY_AFTER_DOWNLOAD" = true ]; then
-    print_status "Opening video..."
-    if command -v mpv >/dev/null 2>&1; then
-        mpv "$LOCAL_FILENAME" &
-    elif command -v xdg-open >/dev/null 2>&1; then
-        xdg-open "$LOCAL_FILENAME" &
-    elif command -v vlc >/dev/null 2>&1; then
-        vlc "$LOCAL_FILENAME" &
-    else
-        print_warning "No video player found. Video saved to: $LOCAL_FILENAME"
-    fi
+	print_status "Opening video..."
+	if command -v mpv >/dev/null 2>&1; then
+		mpv "$LOCAL_FILENAME" &
+	elif command -v xdg-open >/dev/null 2>&1; then
+		xdg-open "$LOCAL_FILENAME" &
+	elif command -v vlc >/dev/null 2>&1; then
+		vlc "$LOCAL_FILENAME" &
+	else
+		print_warning "No video player found. Video saved to: $LOCAL_FILENAME"
+	fi
 fi
 
 # Always open with mpv after download
 print_status "Opening video with mpv..."
 if command -v mpv >/dev/null 2>&1; then
-    mpv "$LOCAL_FILENAME" &
+	mpv "$LOCAL_FILENAME" &
 else
-    print_warning "mpv not found. Video saved to: $LOCAL_FILENAME"
+	print_warning "mpv not found. Video saved to: $LOCAL_FILENAME"
 fi
 
 print_success "Done! Video saved to: $LOCAL_FILENAME"
