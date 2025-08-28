@@ -125,7 +125,7 @@ return {
             vim.lsp.enable('terraformls')
             vim.lsp.enable('vtsls')
             vim.lsp.enable('biome')
-            vim.lsp.config('lua_lsl', {
+            vim.lsp.config('lua_ls', {
                 capabilities = capabilities,
                 settings = {
                     Lua = {

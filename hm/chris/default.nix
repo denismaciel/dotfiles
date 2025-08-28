@@ -79,7 +79,7 @@ in {
     stow
     stripe-cli
     stylua
-    sumneko-lua-language-server
+    lua-language-server
     tailwindcss-language-server
     terraform
     terraform-ls

@@ -88,7 +88,7 @@
     statix
     stow
     stylua
-    sumneko-lua-language-server
+    lua-language-server
     tailwindcss-language-server
     terraform
     terraform-ls

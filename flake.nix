@@ -53,87 +53,67 @@
       sam = "x86_64-linux";
     };
 
-    # Helper function to create nixosSystem with proper system handling
+    # Helper to construct a NixOS system for a host
     mkNixosSystem = hostname: modules: let
       system = systems.${hostname};
       dennichPkg = inputs.dennich.packages.${system}.default;
     in
       nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs dennichPkg;};
         inherit system;
-        inherit modules;
+        specialArgs = {inherit inputs dennichPkg;};
+        modules = modules;
       };
+
+    # Small helper to reduce repeated Home Manager boilerplate
+    hmFor = path: extraSpecialArgsFn: {config, ...}: {
+      home-manager.useUserPackages = true;
+      home-manager.users.denis = import path;
+      home-manager.extraSpecialArgs = {inherit inputs;} // (extraSpecialArgsFn {inherit config;});
+    };
   in {
     nixosConfigurations = {
       ben = mkNixosSystem "ben" [
         ./hosts/ben/configuration.nix
         stylix.nixosModules.stylix
         home-manager.nixosModules.home-manager
-        {
-          home-manager.useUserPackages = true;
-          home-manager.users.denis = import ./hm/ben.nix;
-          home-manager.extraSpecialArgs = {
-            inherit inputs;
-          };
-        }
-        {
-          environment.systemPackages = [];
-        }
+        (hmFor ./hm/ben.nix (_: {}))
       ];
-      chris = let
-        system = systems.chris;
-        dennichPkg = inputs.dennich.packages.${system}.default;
-      in
-        mkNixosSystem "chris" [
-          ./hosts/chris/configuration.nix
-          sops-nix.nixosModules.sops
-          stylix.nixosModules.stylix
-          home-manager.nixosModules.home-manager
-          ({config, ...}: {
-            home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./hm/chris/default.nix;
-            home-manager.extraSpecialArgs = {
-              inherit inputs dennichPkg;
-              inherit (config.polybar-dennich) processedConfigPath processedScriptPath;
-            };
-            # Configure the polybar-dennich module
-            polybar-dennich = {
-              enable = true;
-              dennichPkg = dennichPkg;
-            };
-          })
-          ({pkgs, ...}: {
-            environment.systemPackages = with pkgs; [
-              dennichPkg
-            ];
-          })
-        ];
-      anton = nixpkgs.lib.nixosSystem {
-        modules = [
-          ./hosts/anton/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./hm/sam.nix;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
-          }
-        ];
-      };
-      sam = nixpkgs.lib.nixosSystem {
-        modules = [
-          ./hosts/sam/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./hm/sam.nix;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
-          }
-        ];
-      };
+
+      chris = mkNixosSystem "chris" [
+        ./hosts/chris/configuration.nix
+        sops-nix.nixosModules.sops
+        stylix.nixosModules.stylix
+        home-manager.nixosModules.home-manager
+        # Home Manager with extra args for polybar + dennich
+        (hmFor ./hm/chris/default.nix ({config, ...}: let
+          dennichPkg = inputs.dennich.packages.${systems.chris}.default;
+        in {
+          inherit dennichPkg;
+          inherit (config.polybar-dennich) processedConfigPath processedScriptPath;
+        }))
+        # Configure the polybar-dennich module
+        ({pkgs, ...}: let
+          dennichPkg = inputs.dennich.packages.${systems.chris}.default;
+        in {
+          polybar-dennich = {
+            enable = true;
+            dennichPkg = dennichPkg;
+          };
+          environment.systemPackages = [dennichPkg];
+        })
+      ];
+
+      anton = mkNixosSystem "anton" [
+        ./hosts/anton/configuration.nix
+        home-manager.nixosModules.home-manager
+        (hmFor ./hm/sam.nix (_: {}))
+      ];
+
+      sam = mkNixosSystem "sam" [
+        ./hosts/sam/configuration.nix
+        home-manager.nixosModules.home-manager
+        (hmFor ./hm/sam.nix (_: {}))
+      ];
     };
   };
 }
