@@ -154,7 +154,7 @@ in {
     ];
   programs.nh = {
     enable = true;
-    flake = "/home/denis/dotfiles#chris";
+    flake = "../../.#chris";
   };
   programs._1password.enable = true;
   programs._1password-gui = {

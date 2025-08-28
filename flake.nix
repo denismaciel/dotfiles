@@ -38,72 +38,74 @@
     nixpkgs,
     nur,
     ...
-  }: {
-    nixosConfigurations = {
-      ben = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/ben/configuration.nix
-          inputs.stylix.nixosModules.stylix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./hm/ben.nix;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
-          }
-          {
-            environment.systemPackages = [];
-          }
-        ];
+  }: let
+    # Define systems for each host
+    systems = {
+      ben = "x86_64-linux";
+      chris = "x86_64-linux";
+      anton = "x86_64-linux";
+      sam = "x86_64-linux";
+    };
+
+    # Helper function to create nixosSystem with proper system handling
+    mkNixosSystem = hostname: modules: let
+      system = systems.${hostname};
+      dennichPkg = inputs.dennich.packages.${system}.default;
+    in
+      nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs dennichPkg;};
+        inherit system;
+        inherit modules;
       };
-      chris = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        system = "x86_64-linux";
-        modules = [
+  in {
+    nixosConfigurations = {
+      ben = mkNixosSystem "ben" [
+        ./hosts/ben/configuration.nix
+        inputs.stylix.nixosModules.stylix
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useUserPackages = true;
+          home-manager.users.denis = import ./hm/ben.nix;
+          home-manager.extraSpecialArgs = {
+            inherit inputs;
+          };
+        }
+        {
+          environment.systemPackages = [];
+        }
+      ];
+      chris = let
+        system = systems.chris;
+        dennichPkg = inputs.dennich.packages.${system}.default;
+      in
+        mkNixosSystem "chris" [
           ./hosts/chris/configuration.nix
           inputs.stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
-          {
-            nixpkgs.overlays = [
-              (final: prev: {
-                dennich = inputs.dennich.packages.${final.system}.default;
-              })
-            ];
+          ({config, ...}: {
             home-manager.useUserPackages = true;
             home-manager.users.denis = import ./hm/chris/default.nix;
-            home-manager.extraSpecialArgs = let
-              dennichPkg = inputs.dennich.packages.x86_64-linux.default;
-              pkgsForProcessing = nixpkgs.legacyPackages.x86_64-linux;
-            in {
-              inherit inputs;
-              dennichPkg = dennichPkg;
-              # Pass polybar processed configs to Home Manager
-              polybarProcessedConfig = pkgsForProcessing.replaceVars ./configs/polybar/config.ini {
-                dennichTodoPath = "${dennichPkg}/bin/dennich-todo";
-              };
-              polybarProcessedScript = ./configs/polybar/launch.sh;
+            home-manager.extraSpecialArgs = {
+              inherit inputs dennichPkg;
+              inherit (config.polybar-dennich) processedConfigPath processedScriptPath;
             };
             # Configure the awesome-dennich module
             awesome-dennich = {
               enable = true;
-              dennichPkg = inputs.dennich.packages.x86_64-linux.default;
+              dennichPkg = dennichPkg;
             };
             # Configure the polybar-dennich module
             polybar-dennich = {
               enable = true;
-              dennichPkg = inputs.dennich.packages.x86_64-linux.default;
+              dennichPkg = dennichPkg;
             };
-          }
+          })
           ({pkgs, ...}: {
             environment.systemPackages = with pkgs; [
-              inputs.dennich.packages.x86_64-linux.default
+              dennichPkg
             ];
           })
         ];
-      };
       anton = nixpkgs.lib.nixosSystem {
         modules = [
           ./hosts/anton/configuration.nix

@@ -4,8 +4,8 @@
   pkgs,
   lib,
   dennichPkg,
-  polybarProcessedConfig,
-  polybarProcessedScript,
+  processedConfigPath,
+  processedScriptPath,
   ...
 }: let
   color = import ../../modules/color.nix;
@@ -310,8 +310,8 @@ in {
 
   services.polybar = {
     enable = true;
-    extraConfig = builtins.readFile polybarProcessedConfig;
-    script = builtins.readFile polybarProcessedScript;
+    extraConfig = builtins.readFile processedConfigPath;
+    script = builtins.readFile processedScriptPath;
   };
 
   services.screen-locker = {

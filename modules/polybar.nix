@@ -12,9 +12,7 @@ with lib; let
     dennichTodoPath = "${cfg.dennichPkg}/bin/dennich-todo";
   };
 
-  processedLaunchScript = pkgs.replaceVars ../configs/polybar/launch.sh {
-    dennichTodoPath = "${cfg.dennichPkg}/bin/dennich-todo";
-  };
+  processedLaunchScript = ../configs/polybar/launch.sh;
 in {
   options.polybar-dennich = {
     enable = mkEnableOption "Polybar status bar with dennich integration";

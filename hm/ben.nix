@@ -262,11 +262,7 @@
       };
     };
   };
-  services.polybar = {
-    enable = true;
-    extraConfig = builtins.readFile ../configs/polybar/config.ini;
-    script = builtins.readFile ../configs/polybar/launch.sh;
-  };
+
   services.udiskie.enable = true; # Auto mount devices
   nixpkgs.config.allowUnfree = true;
   nixpkgs = {
