@@ -3,7 +3,6 @@ vim.g.mapleader = ' '
 ---@class vim.opt
 local o = vim.opt
 
-o.winborder = 'double'
 o.signcolumn = 'yes'
 o.clipboard = 'unnamedplus'
 o.formatoptions = o.formatoptions + 'cro'
@@ -23,7 +22,6 @@ o.showmatch = true -- highlight matching parenthesis
 
 o.backup = false
 o.swapfile = false
-o.wrap = false
 
 -- Search
 o.incsearch = true -- search as characters are entered
@@ -55,7 +53,6 @@ o.listchars = {
 o.fillchars = { eob = ' ' } -- hide ~ at end of buffer
 
 o.undofile = true
-o.showmatch = true
 
 o.splitbelow = true
 o.splitright = true
@@ -66,7 +63,6 @@ o.completeopt = { 'menu', 'menuone', 'noselect' }
 -- o.cmdheight =
 o.showmode = true
 o.ruler = false
-o.showcmd = false
 
 if os.getenv('MODE') == 'notebook' then
     vim.keymap.set('n', '<c-j>', ':tabnext<cr>')
@@ -136,14 +132,20 @@ vim.diagnostic.config({
     float = { border = 'rounded' },
     signs = {
         text = {
-            [vim.diagnostic.severity.ERROR] = '•',
-            [vim.diagnostic.severity.WARN] = '•',
-            [vim.diagnostic.severity.HINT] = '•',
-            [vim.diagnostic.severity.INFO] = '•',
-            ['DapBreakpoint'] = '•',
+            [vim.diagnostic.severity.ERROR] = '✗',
+            [vim.diagnostic.severity.WARN] = '▲',
+            [vim.diagnostic.severity.HINT] = '◇',
+            [vim.diagnostic.severity.INFO] = '◆',
+            ['DapBreakpoint'] = '●',
         },
     },
 })
+
+-- Colorized diagnostic sign highlights
+vim.api.nvim_set_hl(0, 'DiagnosticSignError', { fg = '#ff6c6b', bold = true })
+vim.api.nvim_set_hl(0, 'DiagnosticSignWarn', { fg = '#da8548', bold = true })
+vim.api.nvim_set_hl(0, 'DiagnosticSignHint', { fg = '#4db5bd', bold = true })
+vim.api.nvim_set_hl(0, 'DiagnosticSignInfo', { fg = '#98be65', bold = true })
 
 -- Autocommands
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -156,9 +158,21 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 vim.api.nvim_create_autocmd('BufEnter', {
     group = vim.api.nvim_create_augroup('CustomizeWebDev', { clear = true }),
-    pattern = { '*.js', '*.jsx', '*.ts', '*.tsx', '*.html', '*.css', '*.scss' },
+    pattern = { '*.js', '*.jsx', '*.ts', '*.tsx' },
     callback = function()
-        vim.api.nvim_buf_set_option(0, 'shiftwidth', 4)
+        vim.bo.shiftwidth = 2
+        vim.bo.tabstop = 2
+        vim.bo.softtabstop = 2
+    end,
+})
+
+vim.api.nvim_create_autocmd('BufEnter', {
+    group = vim.api.nvim_create_augroup('CustomizeNix', { clear = true }),
+    pattern = { '*.nix' },
+    callback = function()
+        vim.bo.shiftwidth = 2
+        vim.bo.tabstop = 2
+        vim.bo.softtabstop = 2
     end,
 })
 
@@ -167,7 +181,13 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
     pattern = { '.env.*', '*.env' },
     callback = function()
         vim.bo.filetype = 'sh'
-        vim.lsp.buf_detach_client(0, 1) -- 0: current buffer, 1: bash clients (the only lsp running)
+        -- Detach bashls clients by name instead of hard-coding client ID
+        local clients = vim.lsp.get_clients({ bufnr = 0 })
+        for _, client in ipairs(clients) do
+            if client.name == 'bashls' then
+                vim.lsp.buf_detach_client(0, client.id)
+            end
+        end
     end,
 })
 

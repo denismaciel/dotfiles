@@ -80,8 +80,6 @@ return {
             local lint = require('lint')
 
             lint.linters_by_ft = {
-                cloudformation = { 'cfn_lint' },
-                yaml = { 'cfn_lint' }, -- For CloudFormation YAML files
                 nix = { 'statix' },
                 python = { 'dmypy' }, -- Fast mypy daemon for Python type checking
             }

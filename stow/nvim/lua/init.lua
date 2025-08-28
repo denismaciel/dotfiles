@@ -166,7 +166,7 @@ end, { desc = 'Prompt with Claude' })
 vim.keymap.set('n', '<leader>g,o', function()
     require('dennich.llm').prompt({
         replace = false,
-        service = 'anthropic',
+        service = 'openai',
     })
 end, { desc = 'Prompt with OpenAI' })
 vim.keymap.set('n', '<leader>g,r', function()

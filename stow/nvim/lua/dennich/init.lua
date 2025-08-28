@@ -471,7 +471,6 @@ local function sort_markdown_list()
 
     local function sort_list(list_node)
         local items = {}
-        print(vim.inspect(list_node))
         for child in list_node:iter_children() do
             if child:type() == 'list_item' then
                 local item_text = get_list_item_text(child)
@@ -519,7 +518,6 @@ local function sort_markdown_list()
     end
 
     for _, match in query:iter_matches(root, bufnr) do
-        print(vim.inspect(match))
         for id, node in pairs(match) do
             if query.captures[id] == 'list' then
                 sort_list(node)
