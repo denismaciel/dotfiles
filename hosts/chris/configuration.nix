@@ -7,6 +7,8 @@
 in {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/graphics.nix
+    ../../modules/unfree.nix
     ../../modules/warp.nix
     ../../modules/redshift.nix
     ../../modules/awesome.nix
@@ -128,7 +130,11 @@ in {
   # Enable sound with pipewire.
   services.pipewire = {
     enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
     pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    # jack.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -150,14 +156,6 @@ in {
     ];
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "1password-gui"
-      "1password"
-    ];
   programs.nh = {
     enable = true;
     flake = "../../.#chris";

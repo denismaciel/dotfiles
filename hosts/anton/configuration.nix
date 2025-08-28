@@ -10,6 +10,8 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/graphics.nix
+    ../../modules/unfree.nix
   ];
 
   nix.settings.auto-optimise-store = true;
@@ -113,9 +115,6 @@
   # Install firefox.
   programs.firefox.enable = true;
   programs.zsh.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

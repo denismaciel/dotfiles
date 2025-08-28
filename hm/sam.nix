@@ -5,6 +5,7 @@
   ...
 }: {
   imports = [
+    ../modules/unfree.nix
     ../modules/git.nix
     ../modules/fzf.nix
   ];
@@ -151,7 +152,6 @@
     ];
   };
   services.udiskie.enable = true; # Auto mount devices
-  nixpkgs.config.allowUnfree = true;
   nixpkgs = {
     overlays = [
       inputs.neovim-nightly-overlay.overlays.default

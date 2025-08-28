@@ -6,6 +6,8 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/graphics.nix
+    ../../modules/unfree.nix
     ../../modules/vaultwarden-backup.nix
   ];
 
@@ -138,7 +140,11 @@
   # Enable sound with pipewire.
   services.pipewire = {
     enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
     pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    # jack.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -161,14 +167,6 @@
   # Enable passwordless sudo for wheel group
   security.sudo.wheelNeedsPassword = false;
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "1password-gui"
-      "1password"
-    ];
   programs._1password.enable = true;
   programs._1password-gui = {
     enable = true;

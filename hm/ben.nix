@@ -6,6 +6,7 @@
 }: {
   imports = [
     ben/autorandr.nix
+    ../modules/unfree.nix
     ../modules/go.nix
     ../modules/firefox.nix
     ../modules/git.nix
@@ -264,7 +265,6 @@
   };
 
   services.udiskie.enable = true; # Auto mount devices
-  nixpkgs.config.allowUnfree = true;
   nixpkgs = {
     overlays = [
       inputs.neovim-nightly-overlay.overlays.default

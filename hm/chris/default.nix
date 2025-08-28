@@ -12,6 +12,7 @@
 in {
   imports = [
     ./autorandr.nix
+    ../../modules/unfree.nix
     ../../modules/go.nix
     ../../modules/firefox.nix
     ../../modules/git.nix
@@ -60,7 +61,6 @@ in {
     lsof
     lua
     markdownlint-cli
-    nerd-fonts.blex-mono
     nerd-fonts.comic-shanns-mono
     nil
     nixfmt-rfc-style
@@ -101,7 +101,6 @@ in {
         pkgs.rofi-calc
       ];
     })
-    (google-fonts.override {fonts = ["Poppins"];})
     (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
   ];
 
@@ -321,7 +320,6 @@ in {
 
   services.pasystray.enable = true;
   services.udiskie.enable = true; # Auto mount devices
-  nixpkgs.config.allowUnfree = true;
 
   nixpkgs = {
     overlays = [

@@ -5,6 +5,8 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/graphics.nix
+    ../../modules/unfree.nix
     ../../modules/warp.nix
   ];
 
@@ -138,8 +140,6 @@
   # Install firefox.
   programs.firefox.enable = true;
   programs.zsh.enable = true;
-
-  nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
     neovim
