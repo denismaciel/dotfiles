@@ -122,6 +122,7 @@ in {
   stylix.targets.fzf.enable = true;
   stylix.targets.starship.enable = false;
   stylix.targets.ghostty.enable = false;
+  stylix.targets.firefox.profileNames = ["default"];
 
   # Explicitly disable Qt theming since we're not using a Qt-based desktop
   stylix.targets.qt.enable = false;

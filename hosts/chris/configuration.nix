@@ -92,7 +92,16 @@ in {
     };
   };
 
-  time.timeZone = "America/Recife";
+  # Automatically set timezone based on location
+  location.provider = "geoclue2";
+  services.geoclue2 = {
+    enable = true;
+    appConfig.automatic-timezoned = {
+      isAllowed = true;
+      isSystem = true;
+    };
+  };
+  services.automatic-timezoned.enable = true;
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
