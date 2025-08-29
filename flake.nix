@@ -103,7 +103,10 @@
           hooks = {
             # Nix tooling
             nixfmt-rfc-style.enable = true;
-            statix.enable = true;
+            statix = {
+              enable = true;
+              settings.ignore = [ ".direnv" ];
+            };
             deadnix.enable = true;
 
             # Shell scripting
