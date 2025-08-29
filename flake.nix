@@ -8,10 +8,12 @@
     substituters = [
       "https://cache.nixos.org/"
       "https://nix-community.cachix.org"
+      "https://nixos-raspberrypi.cachix.org"
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
     ];
   };
 
@@ -58,6 +60,7 @@
         chris = "x86_64-linux";
         anton = "x86_64-linux";
         sam = "x86_64-linux";
+        zeze = "aarch64-linux";
       };
 
       # Helper to construct a NixOS system for a host
@@ -181,6 +184,12 @@
           home-manager.nixosModules.home-manager
           (hmFor ./hm/server-base.nix (_: { }))
         ];
+
+        zeze = mkNixosSystem "zeze" [
+          ./hosts/zeze/configuration.nix
+          home-manager.nixosModules.home-manager
+          (hmFor ./hm/server-base.nix (_: { }))
+        ];
       };
 
       # Git hooks configuration for development and CI
@@ -201,7 +210,10 @@
             packages = preCommit.packages or [ ];
 
             # Installs .git/hooks and keeps them updated when entering the shell
-            inherit (preCommit) shellHook;
+            shellHook = ''
+              unset LD_LIBRARY_PATH
+              ${preCommit.shellHook}
+            '';
           };
         }
       );

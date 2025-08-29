@@ -12,6 +12,8 @@
 
     ../../modules/unfree.nix
     ../../modules/vaultwarden-backup.nix
+    ../../modules/calibre-web.nix
+    ../../modules/koreader-sync.nix
   ];
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; # necessary to build nixos for raspberrypi

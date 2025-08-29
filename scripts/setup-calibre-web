@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+set -e
+
+echo "Calibre-Web Setup Script for ben.tail0b5947.ts.net"
+echo "===================================================="
+
+# Check if running on ben
+if [[ "$(hostname)" != "ben" ]]; then
+    echo "This script should be run on the ben host."
+    echo "Use: ssh ben 'bash -s' < scripts/setup-calibre-web"
+    exit 1
+fi
+
+# Step 1: Ensure Calibre library exists
+echo "1. Checking Calibre library directory..."
+if [[ ! -d "/srv/books/calibre" ]]; then
+    echo "   Creating /srv/books/calibre..."
+    sudo mkdir -p /srv/books/calibre
+    sudo chown calibre-web:media /srv/books/calibre
+    sudo chmod 775 /srv/books/calibre
+fi
+
+# Step 2: Initialize metadata.db if it doesn't exist
+if [[ ! -f "/srv/books/calibre/metadata.db" ]]; then
+    echo "2. Initializing Calibre library..."
+    # Create an empty Calibre library
+    calibredb add --empty --library-path=/srv/books/calibre || true
+    sudo chown -R calibre-web:media /srv/books/calibre
+    echo "   Library initialized."
+else
+    echo "2. Calibre library already exists."
+fi
+
+# Step 3: Check if Calibre-Web is running
+echo "3. Checking Calibre-Web service..."
+if systemctl is-active --quiet calibre-web; then
+    echo "   Calibre-Web is running."
+else
+    echo "   Starting Calibre-Web..."
+    sudo systemctl start calibre-web
+fi
+
+# Step 4: Setup Tailscale serve for HTTPS
+echo "4. Setting up Tailscale HTTPS serve..."
+# Remove any existing serve configuration
+sudo tailscale serve --https=443 off 2>/dev/null || true
+
+# Set up new serve configuration (will persist across reboots)
+sudo tailscale serve --https=443 http://127.0.0.1:8083 &
+sleep 2
+kill %1 2>/dev/null || true
+
+echo ""
+echo "Setup complete!"
+echo ""
+echo "Access Calibre-Web at: https://ben.tail0b5947.ts.net"
+echo "OPDS catalog URL: https://ben.tail0b5947.ts.net/opds"
+echo ""
+echo "Default credentials: admin / admin123"
+echo "⚠️  CHANGE THESE IMMEDIATELY after first login!"
+echo ""
+echo "To upload books:"
+echo "1. Via web UI at https://ben.tail0b5947.ts.net"
+echo "2. Or copy directly to /srv/books/calibre/"
+echo ""
+echo "For KOReader on your phone:"
+echo "1. Install Tailscale app and join your tailnet"
+echo "2. In KOReader: OPDS catalog → Add → https://ben.tail0b5947.ts.net/opds"

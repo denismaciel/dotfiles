@@ -96,10 +96,20 @@ return {
     },
     {
         'windwp/nvim-ts-autotag',
+        event = { 'BufReadPre', 'BufNewFile' },
         opts = {
-            enable_close = true,
-            enable_rename = true,
-            enable_close_on_slash = true,
+            opts = {
+                enable_close = true,
+                enable_rename = true,
+                enable_close_on_slash = true,
+            },
+            -- Per-filetype overrides if needed
+            per_filetype = {
+                -- Example: disable auto close for HTML but keep rename
+                -- ["html"] = {
+                --     enable_close = false
+                -- }
+            },
         },
     },
     {
@@ -136,7 +146,6 @@ return {
         config = function()
             local actions = require('telescope.actions')
             local actions_layout = require('telescope.actions.layout')
-            local action_state = require('telescope.actions.state')
 
             require('telescope').setup({
                 extensions = {
@@ -215,12 +224,8 @@ return {
         version = '1.*',
         opts = {
             keymap = { preset = 'default' },
-            appearance = {
-                use_nvim_cmp_as_default = false,
-                nerd_font_variant = 'mono',
-            },
             sources = {
-                default = { 'lsp', 'path', 'snippets', 'buffer' },
+                default = { 'lsp', 'path', 'buffer' },
             },
             signature = { enabled = true },
         },
