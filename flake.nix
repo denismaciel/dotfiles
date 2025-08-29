@@ -82,6 +82,7 @@
         {
           home-manager.useUserPackages = true;
           home-manager.users.denis = import path;
+          home-manager.backupFileExtension = "backup";
           home-manager.extraSpecialArgs = {
             inherit inputs;
           }
@@ -150,18 +151,7 @@
           sops-nix.nixosModules.sops
           stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
-          # Home Manager with extra args for polybar + dennich
-          (hmFor ./hm/chris/default.nix (
-            config:
-            let
-              dennichPkg = inputs.dennich.packages.${systems.chris}.default;
-            in
-            {
-              inherit dennichPkg;
-              inherit (config.polybar-dennich) processedConfigPath processedScriptPath;
-            }
-          ))
-          # Configure the polybar-dennich module
+          # Configure the polybar-dennich module first
           (
             let
               dennichPkg = inputs.dennich.packages.${systems.chris}.default;
@@ -174,6 +164,17 @@
               environment.systemPackages = [ dennichPkg ];
             }
           )
+          # Then pass the processed paths to Home Manager
+          (hmFor ./hm/chris/default.nix (
+            { config, ... }:
+            let
+              dennichPkg = inputs.dennich.packages.${systems.chris}.default;
+            in
+            {
+              inherit dennichPkg;
+              inherit (config.polybar-dennich) processedConfigPath processedScriptPath;
+            }
+          ))
         ];
 
         anton = mkNixosSystem "anton" [

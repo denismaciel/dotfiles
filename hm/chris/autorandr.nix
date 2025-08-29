@@ -32,11 +32,30 @@
           "home" = {
             fingerprint = {
               "DP-1" = dell;
+              "DP-3" = dell;
             };
             config = {
               DP-1 = {
                 mode = "2560x1440";
                 position = "1920x0";
+                rotate = "normal";
+                primary = true;
+              };
+              DP-3 = {
+                mode = "2560x1440";
+                position = "0x0";
+                rotate = "normal";
+              };
+            };
+          };
+          "home-single" = {
+            fingerprint = {
+              "DP-3" = dell;
+            };
+            config = {
+              DP-3 = {
+                mode = "2560x1440";
+                position = "0x0";
                 rotate = "normal";
                 primary = true;
               };
