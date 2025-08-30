@@ -117,7 +117,7 @@
   services.libinput.enable = true;
 
   # Don't suspend when lid is closed (server mode)
-  services.logind.lidSwitch = "ignore";
+  services.logind.settings.Login.HandleLidSwitch = "ignore";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
 

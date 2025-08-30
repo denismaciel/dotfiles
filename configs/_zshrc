@@ -120,7 +120,7 @@ if [ -e /home/denis/credentials/recap.sh ]; then . /home/denis/credentials/recap
 if [ -e /home/denis/credentials/secrets.sh ]; then . /home/denis/credentials/secrets.sh; fi
 
 
-zsh-defer eval "$(scmpuff init -s)"
+command -v scmpuff >/dev/null 2>&1 && zsh-defer eval "$(scmpuff init -s)"
 zsh-defer eval "$(direnv hook zsh)"
 zsh-defer eval "$(zoxide init zsh)"
 
