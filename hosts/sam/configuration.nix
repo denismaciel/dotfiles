@@ -8,6 +8,7 @@
     ../../modules/unfree.nix
     ../../modules/warp.nix
     ../../modules/openttd.nix
+    ../../modules/gaming.nix
   ];
 
   # Bootloader
@@ -19,6 +20,15 @@
   systemd.targets.suspend.enable = false;
   systemd.targets.hibernate.enable = false;
   systemd.targets.hybrid-sleep.enable = false;
+
+  gaming = {
+    enable = true;
+    steam.enable = false; # Server doesn't need Steam
+    firewall.openGamePorts = [
+      20595 # 0 A.D. multiplayer
+      34197 # Factorio multiplayer default port
+    ];
+  };
 
   # Networking
   networking.hostName = "sam";
@@ -36,8 +46,7 @@
     allowedUDPPorts = [
       5353
       631
-      34197 # Factorio multiplayer default port
-    ]; # Avahi + printer + Factorio
+    ]; # Avahi + printer
   };
 
   # Localization
@@ -54,6 +63,11 @@
     LC_TELEPHONE = "pt_PT.UTF-8";
     LC_TIME = "pt_PT.UTF-8";
   };
+
+  # Enable Plasma Desktop Environment
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # System packages (essential + previously user packages)
   environment.systemPackages = with pkgs; [

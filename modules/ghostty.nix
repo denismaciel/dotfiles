@@ -16,7 +16,8 @@ in
       enable = true;
       settings = {
         theme = "dennich-${theme}";
-        font-family = "BlexMono Nerd Font";
+        font-family = "BlexMono Nerd Font Mono";
+        font-thicken = true;
         window-decoration = false;
         app-notifications = "no-clipboard-copy";
         confirm-close-surface = false;

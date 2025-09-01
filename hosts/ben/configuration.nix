@@ -14,9 +14,15 @@
     ../../modules/vaultwarden-backup.nix
     ../../modules/calibre-web.nix
     ../../modules/koreader-sync.nix
+    ../../modules/gaming.nix
   ];
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; # necessary to build nixos for raspberrypi
+
+  gaming = {
+    enable = true;
+    steam.enable = false; # Server doesn't need Steam
+  };
 
   # Disable sleep/suspend for server
   systemd.targets.sleep.enable = false;
@@ -87,7 +93,6 @@
   ];
   networking.firewall.allowedUDPPorts = [
     4747
-    20595 # 0 A.D. multiplayer
   ];
 
   # Bootloader.
@@ -144,8 +149,6 @@
     wget
     zenity
     zip
-    zeroad
-    openttd
   ];
 
   environment.extraInit = ''
