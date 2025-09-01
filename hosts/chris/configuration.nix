@@ -87,6 +87,7 @@ in
     firewall = {
       trustedInterfaces = [ "tailscale0" ];
       allowedTCPPorts = [ 3000 ];
+      allowedUDPPorts = [ 20595 ]; # 0 A.D. multiplayer
     };
   };
 
@@ -183,6 +184,7 @@ in
     wget
     zenity
     zip
+    openttd
   ];
 
   environment.extraInit = ''
@@ -190,6 +192,13 @@ in
   '';
 
   programs.dconf.enable = true;
+
+  # Steam for gaming (includes Factorio)
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports for Source Dedicated Server
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

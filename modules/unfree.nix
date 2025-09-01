@@ -20,6 +20,12 @@
       "spotify"
       "spotify-unwrapped"
 
+      # Gaming
+      "steam"
+      "steam-unwrapped"
+      "steam-run"
+      "steamPackages.steamcmd"
+
       # Development tools
       "terraform"
 

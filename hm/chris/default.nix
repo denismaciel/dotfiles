@@ -35,6 +35,7 @@ in
     # anki
     # kdePackages.dolphin
     # cargo
+    zeroad
     age
     nixfmt-rfc-style
     arandr

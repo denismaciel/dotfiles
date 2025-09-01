@@ -7,6 +7,7 @@
     ../../modules/denis-user.nix
     ../../modules/unfree.nix
     ../../modules/warp.nix
+    ../../modules/openttd.nix
   ];
 
   # Bootloader
@@ -30,11 +31,13 @@
       2222
       7422
       631
+
     ]; # SSH + printer
     allowedUDPPorts = [
       5353
       631
-    ]; # Avahi + printer
+      34197 # Factorio multiplayer default port
+    ]; # Avahi + printer + Factorio
   };
 
   # Localization
@@ -140,6 +143,30 @@
 
   # Virtualization
   virtualisation.docker.enable = true;
+
+  ##############################################################################
+  # Factorio dedicated server (LAN-only, kid-friendly peaceful mode)
+  ##############################################################################
+
+  # Allow unfree for Factorio headless server
+  nixpkgs.config.allowUnfree = true;
+
+  services.factorio = {
+    enable = true;
+    openFirewall = true; # Opens UDP 34197 automatically
+    lan = true; # Broadcast on LAN only
+    public = false; # Do not publish on the master server
+    port = 34197; # Default UDP port
+    game-name = "KidsFactory";
+    description = "Ben & Chris' peaceful factory";
+    saveName = "KidsFactory"; # Will load KidsFactory.zip if present
+    loadLatestSave = true; # Continue the most recent save
+    requireUserVerification = false; # LAN with no factorio.com login
+    # Optional quality-of-life:
+    extraSettings = {
+      "autosave-interval" = 5; # Autosave every 5 minutes
+    };
+  };
 
   system.stateVersion = "24.05";
 }

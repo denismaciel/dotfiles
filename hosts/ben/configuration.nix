@@ -85,7 +85,10 @@
     22
     4747
   ];
-  networking.firewall.allowedUDPPorts = [ 4747 ];
+  networking.firewall.allowedUDPPorts = [
+    4747
+    20595 # 0 A.D. multiplayer
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -110,6 +113,11 @@
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
   };
+
+  # Enable Plasma Desktop Environment
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # services.gnome.gnome-keyring.enable = true;
 
@@ -136,6 +144,8 @@
     wget
     zenity
     zip
+    zeroad
+    openttd
   ];
 
   environment.extraInit = ''
