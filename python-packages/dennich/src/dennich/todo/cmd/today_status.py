@@ -1,4 +1,5 @@
 import datetime
+import json
 import re
 import subprocess
 import sys
@@ -37,9 +38,12 @@ def remove_pattern(name: str, patterns: tuple[str, ...]) -> str:
     return name.strip()
 
 
-def color(is_running: bool) -> str:
+def color(is_running: bool, format_type: str = 'polybar') -> str:
     if is_running:
         return ''
+
+    if format_type == 'waybar':
+        return ''  # waybar doesn't support polybar color codes
 
     if datetime.datetime.now().second % 2 == 0:
         return RED
@@ -62,22 +66,49 @@ def compute_minutes_today() -> int:
     return minutes_today
 
 
-def main() -> int:
+def main(format_type: str = 'polybar') -> int:
     client = Client()
     response = client.get_status()
-    if response['status_code'] == 404:
-        sys.stdout.write(color(is_running=False) + ' • ' + '󱁆' + ' • ')
-        return 0
-    elif response['status_code'] == 200:
-        sys.stdout.write(
-            color(True)
-            + response['task_name']
-            + ' •'
-            + format_seconds_to_minutes(response['remaining_time'])
-            + '• ('
-            + format_seconds_to_hours_minutes(response['task_time_spent'])
-            + ')'
-        )
+
+    if format_type == 'waybar-json':
+        if response['status_code'] == 404:
+            # Not running - should blink
+            output = {
+                'text': ' • 󱁆 • ',
+                'class': 'pomodoro-idle'
+                if datetime.datetime.now().second % 2 == 0
+                else 'pomodoro-idle-blink',
+            }
+        elif response['status_code'] == 200:
+            # Running - normal display
+            text = (
+                response['task_name']
+                + ' •'
+                + format_seconds_to_minutes(response['remaining_time'])
+                + '• ('
+                + format_seconds_to_hours_minutes(response['task_time_spent'])
+                + ')'
+            )
+            output = {'text': text, 'class': 'pomodoro-running'}
+        else:
+            output = {'text': 'error', 'class': 'pomodoro-error'}
+        sys.stdout.write(json.dumps(output))
+    else:
+        # Original polybar/waybar text format
+        if response['status_code'] == 404:
+            sys.stdout.write(
+                color(is_running=False, format_type=format_type) + ' • ' + '󱁆' + ' • '
+            )
+        elif response['status_code'] == 200:
+            sys.stdout.write(
+                color(True, format_type=format_type)
+                + response['task_name']
+                + ' •'
+                + format_seconds_to_minutes(response['remaining_time'])
+                + '• ('
+                + format_seconds_to_hours_minutes(response['task_time_spent'])
+                + ')'
+            )
     return 0
 
 

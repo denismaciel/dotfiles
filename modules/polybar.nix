@@ -41,8 +41,8 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Install polybar system-wide
-    environment.systemPackages = with pkgs; [
+    # Install polybar via Home Manager
+    home.packages = with pkgs; [
       polybar
     ];
   };

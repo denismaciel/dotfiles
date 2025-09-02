@@ -9,11 +9,13 @@
       "https://cache.nixos.org/"
       "https://nix-community.cachix.org"
       "https://nixos-raspberrypi.cachix.org"
+      "https://niri.cachix.org"
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
+      "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
     ];
   };
 
@@ -37,6 +39,10 @@
       url = "path:./python-packages/dennich";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    niri-flake = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,6 +52,7 @@
   outputs =
     inputs@{
       dennich,
+      niri-flake,
       git-hooks,
       home-manager,
       nixpkgs,
@@ -150,29 +157,35 @@
           ./hosts/chris/configuration.nix
           sops-nix.nixosModules.sops
           stylix.nixosModules.stylix
+          # Niri via sodiboo/niri-flake
+          niri-flake.nixosModules.niri
           home-manager.nixosModules.home-manager
           # Configure the polybar-dennich module first
-          (
-            let
-              dennichPkg = inputs.dennich.packages.${systems.chris}.default;
-            in
-            {
-              polybar-dennich = {
-                enable = true;
-                inherit dennichPkg;
-              };
-              environment.systemPackages = [ dennichPkg ];
-            }
-          )
+          # (
+          #   let
+          #     dennichPkg = inputs.dennich.packages.${systems.chris}.default;
+          #   in
+          #   {
+          #     polybar-dennich = {
+          #       enable = true;
+          #       inherit dennichPkg;
+          #     };
+          #     environment.systemPackages = [ dennichPkg ];
+          #   }
+          # )
+          # Enable Niri system-wide (module is provided by nixosModules.niri)
+          (_: {
+            programs.niri.enable = true;
+          })
           # Then pass the processed paths to Home Manager
           (hmFor ./hm/chris/default.nix (
-            { config, ... }:
+            _:
             let
               dennichPkg = inputs.dennich.packages.${systems.chris}.default;
             in
             {
               inherit dennichPkg;
-              inherit (config.polybar-dennich) processedConfigPath processedScriptPath;
+              # inherit (config.polybar-dennich) processedConfigPath processedScriptPath;
             }
           ))
         ];

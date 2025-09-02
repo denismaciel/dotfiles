@@ -4,8 +4,6 @@
   pkgs,
   lib,
   dennichPkg,
-  processedConfigPath,
-  processedScriptPath,
   ...
 }:
 let
@@ -22,6 +20,8 @@ in
     ../../modules/ghostty.nix
     ../../modules/starship.nix
     ../../modules/pageshot.nix
+    ../../modules/niri.nix
+    # ../../modules/polybar.nix
   ];
   go.enable = true;
   autorandr.enable = true;
@@ -30,6 +30,10 @@ in
   ghostty.enable = true;
   starship.enable = true;
   pageshot.enable = true;
+  niri.enable = true;
+  niri.dennichPkg = dennichPkg;
+  # polybar-dennich.enable = true;
+  # polybar-dennich.dennichPkg = dennichPkg;
   home.packages = with pkgs; [
     # calibre
     # anki
@@ -43,18 +47,22 @@ in
     bitwarden
     btop
     bun
+    cliphist
     dbmate
     dig
     duckdb
     fd
+    foot
     gcc
     gh
     ghostty
     gnumake
+    grim
+    slurp
+    satty
     gofumpt
     gomi
     google-chrome
-    haskellPackages.greenclip
     jq
     keepassxc
     kubectl
@@ -90,6 +98,8 @@ in
     universal-ctags
     unzip
     vscode-langservers-extracted
+    waybar
+    wl-clipboard
     xclip
     xdragon
     xorg.xbacklight
@@ -98,12 +108,7 @@ in
     yt-dlp
     zenity
     zoxide
-    (rofi.override {
-      plugins = [
-        pkgs.rofi-emoji
-        pkgs.rofi-calc
-      ];
-    })
+    fuzzel
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
   ];
 
@@ -158,7 +163,6 @@ in
     ".ipython/profile_default/custom_init.py".source =
       ../../configs/_ipython/profile_default/custom_init.py;
     ".config/fd/ignore".source = ../../configs/fd/ignore;
-    ".config/greenclip.toml".source = ../../configs/greenclip.toml;
     ".config/pgcli/config".source = ../../configs/pgcli/config;
     ".config/sioyek/prefs_user.config".source = ../../configs/sioyek/prefs_user.config;
     ".ctags.d/default.ctags".source = ../../configs/_ctags.d/default.ctags;
@@ -265,6 +269,25 @@ in
   services.syncthing.enable = true;
   services.syncthing.tray.enable = true;
 
+  services.cliphist = {
+    enable = true;
+  };
+
+  programs.fuzzel.enable = true;
+
+  programs.foot = {
+    enable = true;
+    settings = {
+      main = {
+        font = lib.mkForce "Comic Shanns Mono Nerd Font:size=14";
+      };
+      cursor = {
+        style = "block";
+        blink = "no";
+      };
+    };
+  };
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
@@ -318,11 +341,11 @@ in
     ];
   };
 
-  services.polybar = {
-    enable = true;
-    extraConfig = builtins.readFile processedConfigPath;
-    script = builtins.readFile processedScriptPath;
-  };
+  # services.polybar = {
+  #   enable = true;
+  #   extraConfig = builtins.readFile config.polybar-dennich.processedConfigPath;
+  #   script = builtins.readFile config.polybar-dennich.processedScriptPath;
+  # };
 
   services.screen-locker = {
     enable = false;
@@ -367,19 +390,6 @@ in
     };
   };
 
-  systemd.user.services.greenclip = {
-    Unit = {
-      Description = "greenclip daemon";
-      After = [ "graphical-session.target" ];
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.haskellPackages.greenclip}/bin/greenclip daemon";
-    };
-  };
-
   systemd.user.services.dump-anki = {
     Unit = {
       Description = "Dump Anki Notes to index.json";
@@ -395,4 +405,5 @@ in
     Timer.Persistent = true;
     Install.WantedBy = [ "timers.target" ];
   };
+
 }

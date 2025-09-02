@@ -15,7 +15,7 @@ in
     ../../modules/unfree.nix
     ../../modules/warp.nix
     ../../modules/redshift.nix
-    ../../modules/polybar.nix
+    # ../../modules/polybar.nix
     ../../modules/gaming.nix
   ];
 
@@ -117,7 +117,9 @@ in
 
   services.displayManager = {
     sddm.enable = true;
-    defaultSession = "none+awesome";
+    # Use SDDM on Wayland and start Niri by default
+    sddm.wayland.enable = true;
+    defaultSession = "niri";
   };
   # Enable the X11 windowing system.
   services.xserver = {
@@ -181,6 +183,7 @@ in
     git
     groff
     kdePackages.dolphin
+    niri
     portaudio
     wget
     zenity
@@ -192,6 +195,21 @@ in
   '';
 
   programs.dconf.enable = true;
+
+  # Wayland desktop portals (screen share, file dialogs, screenshots)
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-wlr
+      pkgs.xdg-desktop-portal-gtk
+    ];
+  };
+
+  # Helpful Wayland environment flags for apps
+  environment.sessionVariables = {
+    MOZ_ENABLE_WAYLAND = "1"; # Firefox
+    NIXOS_OZONE_WL = "1"; # Electron/Chromium (Ozone/Wayland)
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

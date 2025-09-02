@@ -306,7 +306,13 @@ def main() -> int:
     subparsers = parser.add_subparsers(dest='command')
 
     _ = subparsers.add_parser('start-pomodoro')
-    _ = subparsers.add_parser('today-status')
+    today_status_parser = subparsers.add_parser('today-status')
+    today_status_parser.add_argument(
+        '--format',
+        choices=['polybar', 'waybar', 'waybar-json'],
+        default='polybar',
+        help='Output format (default: polybar)',
+    )
     time_report_parser = subparsers.add_parser(
         'time-report', help='Report time spent on tags over X days'
     )
@@ -324,7 +330,7 @@ def main() -> int:
         start_pomodoro(selector)
         return 0
     elif args.command == 'today-status':
-        return today_status.main()
+        return today_status.main(args.format)
     elif args.command == 'time-report':
         return time_report(args.days, args.chart)
     elif args.command is None:
