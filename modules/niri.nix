@@ -42,7 +42,7 @@ in
             ${pkgs.niri}/bin/niri msg action focus-window-previous
           else
             # Not focused, focus it and center
-            ${pkgs.niri}/bin/niri msg action focus-window --id "$ID" && sleep 0.2 && ${pkgs.niri}/bin/niri msg action center-column
+            ${pkgs.niri}/bin/niri msg action focus-window --id "$ID" && ${pkgs.niri}/bin/niri msg action center-column
           fi
         else
           # Window doesn't exist, spawn it
@@ -50,36 +50,7 @@ in
         fi
       '')
 
-      # Custom run-or-focus script for regular windows (no close when focused)
-      (pkgs.writeShellScriptBin "run-or-focus" ''
-        #!/usr/bin/env bash
-        # Usage: run-or-focus <app-id> <command...>
-        # For regular windows - does NOT close window if already focused, centers window when focusing
-        set -euo pipefail
-        APP_ID="$1"; shift || true
-        CMD="''${*:-$APP_ID}"
 
-        # Get focused window info
-        FOCUSED_WINDOW="$(${pkgs.niri}/bin/niri msg -j focused-window 2>/dev/null || echo "{}")"
-        FOCUSED_APP_ID="$(echo "$FOCUSED_WINDOW" | ${pkgs.jq}/bin/jq -r '.app_id // empty' 2>/dev/null || echo "")"
-
-        # Find first matching window
-        ID="$(${pkgs.niri}/bin/niri msg -j windows | ${pkgs.jq}/bin/jq -r --arg id "$APP_ID" '.[] | select(.app_id==$id) | .id' | head -n1)"
-
-        if [ -n "''${ID:-}" ]; then
-          # Window exists - check if it's currently focused
-          if [ "$FOCUSED_APP_ID" = "$APP_ID" ]; then
-            # Already focused, center it
-            ${pkgs.niri}/bin/niri msg action center-column
-          else
-            # Not focused, focus it and then center
-            ${pkgs.niri}/bin/niri msg action focus-window --id "$ID" && sleep 0.2 && ${pkgs.niri}/bin/niri msg action center-column
-          fi
-        else
-          # Window doesn't exist, spawn it
-          exec sh -lc "$CMD"
-        fi
-      '')
     ];
 
     programs.waybar = {
@@ -283,7 +254,7 @@ in
         slowdown = 0.1; # Speed multiplier (0.1 = 10x faster)
       };
 
-      # Window rules - keeping only corner radius, removed floating behavior
+      # Window rules - keeping only corner radius, removed floating except for pomodoro launcher
       window-rules = [
         # Generic rounded corners for all windows
         {
@@ -295,18 +266,23 @@ in
           };
         }
 
+        # Floating dialog for pomodoro launcher (Mod+R) - ONLY floating window
+        {
+          matches = [ { app-id = "^com\\.denis\\.float$"; } ];
+          open-floating = true;
+          default-column-width = {
+            fixed = 800;
+          };
+          default-window-height = {
+            fixed = 400;
+          };
+        }
+
         # Set default column widths for previously floating apps (now tiled)
         {
           matches = [ { app-id = "^com\\.denis\\.scratchpad$"; } ];
           default-column-width = {
             fixed = 900;
-          };
-        }
-
-        {
-          matches = [ { app-id = "^com\\.denis\\.float$"; } ];
-          default-column-width = {
-            fixed = 800;
           };
         }
 
@@ -340,13 +316,13 @@ in
         "Mod+Q".action = close-window;
         "Mod+Shift+E".action = quit;
 
-        # Regular window launchers (run-or-focus: no close when focused)
-        "Mod+F".action = spawn-sh "run-or-focus com.denis.terminal 'ghostty --class=com.denis.terminal'";
-        "Mod+G".action = spawn-sh "run-or-focus Google-chrome 'google-chrome-stable'";
-        "Mod+S".action = spawn-sh "run-or-focus slack 'slack'";
-        "Mod+B".action = spawn-sh "run-or-focus firefox 'firefox'";
+        # Regular window launchers (using run-or-raise)
+        "Mod+F".action = spawn-sh "run-or-raise com.denis.terminal 'ghostty --class=com.denis.terminal'";
+        "Mod+G".action = spawn-sh "run-or-raise google-chrome 'google-chrome-stable'";
+        "Mod+S".action = spawn-sh "run-or-raise Slack 'slack'";
+        "Mod+B".action = spawn-sh "run-or-raise firefox 'firefox'";
 
-        # Floating window launchers (run-or-raise: closes when focused - scratchpad behavior)
+        # Scratchpad window launchers (run-or-raise behavior)
         "Mod+X".action = spawn-sh "run-or-raise com.denis.scratchpad 'foot --app-id com.denis.scratchpad'";
         "Mod+D".action =
           spawn-sh "run-or-raise com.denis.notebook 'foot --app-id com.denis.notebook -e env MODE=notebook nvim -c \"lua require(\\\"dennich\\\").create_weekly_note()\"'";
