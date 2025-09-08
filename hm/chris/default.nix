@@ -11,7 +11,7 @@ let
 in
 {
   imports = [
-    ./autorandr.nix
+
     ../../modules/unfree.nix
     ../../modules/go.nix
     ../../modules/firefox.nix
@@ -21,10 +21,10 @@ in
     ../../modules/starship.nix
     ../../modules/pageshot.nix
     ../../modules/niri.nix
-    # ../../modules/polybar.nix
+
   ];
   go.enable = true;
-  autorandr.enable = true;
+
   firefox.enable = true;
   git.enable = true;
   ghostty.enable = true;
@@ -32,8 +32,7 @@ in
   pageshot.enable = true;
   niri.enable = true;
   niri.dennichPkg = dennichPkg;
-  # polybar-dennich.enable = true;
-  # polybar-dennich.dennichPkg = dennichPkg;
+
   home.packages = with pkgs; [
     # calibre
     # anki
@@ -42,7 +41,7 @@ in
     zeroad
     age
     nixfmt-rfc-style
-    arandr
+
     biome
     bitwarden
     btop
@@ -100,10 +99,7 @@ in
     vscode-langservers-extracted
     waybar
     wl-clipboard
-    xclip
-    xdragon
-    xorg.xbacklight
-    xorg.xev
+
     yaml-language-server
     yt-dlp
     zenity
@@ -170,12 +166,7 @@ in
     ".newsboat/urls".source = ../../configs/_newsboat/urls;
     ".ripgrep_ignore".source = ../../configs/_ripgrep_ignore;
     ".tmuxp/core.yml".source = ../../configs/_tmuxp/core.yaml;
-    # Awesome WM configuration
-    ".config/awesome/rc.lua".text =
-      builtins.replaceStrings [ "@dennichTodoPath@" ] [ "${dennichPkg}/bin/dennich-todo" ]
-        (builtins.readFile ../../configs/awesome/rc.lua);
-    ".config/awesome/main/utils.lua".source = ../../configs/awesome/main/utils.lua;
-    ".config/awesome/main/dkjson.lua".source = ../../configs/awesome/main/dkjson.lua;
+
   };
   xdg.enable = true;
   xdg.mimeApps = {
@@ -192,19 +183,9 @@ in
       "text/plain" = [ "sioyek.desktop" ];
     };
   };
-  xsession = {
-    enable = true;
-    windowManager.awesome = {
-      enable = true;
-    };
-    # These two lines are needed so xdg-open doesn't
-    # get confused and can correctly open links in a browser
-    # Source: https://discourse.nixos.org/t/clicked-links-in-desktop-apps-not-opening-browers/29114/3
-    initExtra = ''
-      unset XDG_CURRENT_DESKTOP
-      unset DESKTOP_SESSION
-      export NODE_OPTIONS="--max-old-space-size=8192"
-    '';
+  # Environment variables for applications
+  home.sessionVariables = {
+    NODE_OPTIONS = "--max-old-space-size=8192";
   };
 
   # This value determines the Home Manager release that your
@@ -263,9 +244,6 @@ in
     extraConfig = builtins.readFile ../../configs/.tmux.conf;
   };
 
-  services.flameshot = {
-    enable = true;
-  };
   services.syncthing.enable = true;
   services.syncthing.tray.enable = true;
 
@@ -341,18 +319,6 @@ in
     ];
   };
 
-  # services.polybar = {
-  #   enable = true;
-  #   extraConfig = builtins.readFile config.polybar-dennich.processedConfigPath;
-  #   script = builtins.readFile config.polybar-dennich.processedScriptPath;
-  # };
-
-  services.screen-locker = {
-    enable = false;
-    inactiveInterval = 15;
-    lockCmd = "${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 10 15";
-  };
-
   services.pasystray.enable = true;
   services.udiskie.enable = true; # Auto mount devices
 
@@ -362,19 +328,6 @@ in
     ];
   };
   systemd.user.startServices = true;
-
-  systemd.user.services.feh = {
-    Unit = {
-      Description = "Feh";
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.feh}/bin/feh --bg-scale ${../../assets/black.png}";
-    };
-  };
 
   systemd.user.services.pomodoro-server = {
     Unit = {

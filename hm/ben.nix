@@ -6,7 +6,7 @@
 }:
 {
   imports = [
-    ben/autorandr.nix
+
     ../modules/unfree.nix
     ../modules/go.nix
     ../modules/firefox.nix
@@ -14,11 +14,11 @@
     ../modules/fzf.nix
   ];
   go.enable = true;
-  autorandr.enable = true;
+
   firefox.enable = true;
   git.enable = true;
   home.packages = with pkgs; [
-    arandr
+
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
     nixfmt-rfc-style
     anki
@@ -43,10 +43,10 @@
     gomi
     google-chrome
     graphviz
-    haskellPackages.greenclip
+    cliphist
     htop
     hyperfine
-    i3lock-fancy-rapid
+    swaylock
     jq
     jsonnet
     jsonnet-language-server
@@ -98,21 +98,13 @@
     universal-ctags
     unzip
     vscode-langservers-extracted
-    xclip
-    xdragon
-    xorg.xbacklight
-    xorg.xev
+
     yaml-language-server
     yq-go
     yt-dlp
     zenity
     zoxide
-    (rofi.override {
-      plugins = [
-        pkgs.rofi-emoji
-        pkgs.rofi-calc
-      ];
-    })
+    fuzzel
     (google-fonts.override { fonts = [ "Poppins" ]; })
   ];
   xdg.userDirs = {
@@ -136,7 +128,7 @@
       ../configs/_ipython/profile_default/custom_init.py;
 
     ".config/fd/ignore".source = ../configs/fd/ignore;
-    ".config/greenclip.toml".source = ../configs/greenclip.toml;
+
     ".config/pgcli/config".source = ../configs/pgcli/config;
     ".config/sioyek/prefs_user.config".source = ../configs/sioyek/prefs_user.config;
     ".ctags.d/default.ctags".source = ../configs/_ctags.d/default.ctags;
@@ -161,19 +153,9 @@
     };
   };
   targets.genericLinux.enable = true;
-  xsession = {
-    enable = true;
-    windowManager.awesome = {
-      enable = true;
-    };
-    # These two lines are needed so xdg-open doesn't
-    # get confused and can correctly open links in a browser
-    # Source: https://discourse.nixos.org/t/clicked-links-in-desktop-apps-not-opening-browers/29114/3
-    initExtra = ''
-      unset XDG_CURRENT_DESKTOP
-      unset DESKTOP_SESSION
-      export NODE_OPTIONS="--max-old-space-size=8192"
-    '';
+  # Environment variables for applications
+  home.sessionVariables = {
+    NODE_OPTIONS = "--max-old-space-size=8192";
   };
 
   # This value determines the Home Manager release that your
@@ -215,7 +197,7 @@
     ];
     extraConfig = builtins.readFile ../configs/.tmux.conf;
   };
-  services.flameshot.enable = true;
+
   services.syncthing.enable = true;
   services.syncthing.tray.enable = true;
   programs.zsh = {
@@ -279,16 +261,7 @@
     ];
   };
   systemd.user.startServices = true;
-  systemd.user.services.greenclip = {
-    Unit = {
-      Description = "greenclip daemon";
-      After = [ "graphical-session.target" ];
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.haskellPackages.greenclip}/bin/greenclip daemon";
-    };
+  services.cliphist = {
+    enable = true;
   };
 }

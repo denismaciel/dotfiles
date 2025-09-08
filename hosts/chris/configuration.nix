@@ -14,14 +14,13 @@ in
     ../../modules/graphics.nix
     ../../modules/unfree.nix
     ../../modules/warp.nix
-    ../../modules/redshift.nix
-    # ../../modules/polybar.nix
+
     ../../modules/gaming.nix
   ];
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; # necessary to build nixos for raspberrypi
   warp.enable = false;
-  redshift.enable = false;
+
   gaming.enable = true;
 
   stylix = {
@@ -121,22 +120,12 @@ in
     sddm.wayland.enable = true;
     defaultSession = "niri";
   };
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-    autoRepeatDelay = 200;
-    autoRepeatInterval = 40;
-
-    windowManager.awesome = {
-      enable = true;
-      luaModules = with pkgs.luaPackages; [ luarocks ];
-    };
-
-    xkb = {
-      layout = "us";
-      variant = "";
-      options = "ctrl:nocaps"; # Remap CapsLock to Control
-    };
+  # Keyboard configuration for console
+  console.keyMap = "us";
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+    options = "ctrl:nocaps"; # Remap CapsLock to Control
   };
 
   # Enable CUPS to print documents.
@@ -180,11 +169,13 @@ in
     ];
   };
   environment.systemPackages = with pkgs; [
+    factorio-demo
     git
     groff
     kdePackages.dolphin
     niri
     portaudio
+    prismlauncher
     wget
     zenity
     zip

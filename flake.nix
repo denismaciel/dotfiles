@@ -160,19 +160,7 @@
           # Niri via sodiboo/niri-flake
           niri-flake.nixosModules.niri
           home-manager.nixosModules.home-manager
-          # Configure the polybar-dennich module first
-          # (
-          #   let
-          #     dennichPkg = inputs.dennich.packages.${systems.chris}.default;
-          #   in
-          #   {
-          #     polybar-dennich = {
-          #       enable = true;
-          #       inherit dennichPkg;
-          #     };
-          #     environment.systemPackages = [ dennichPkg ];
-          #   }
-          # )
+
           # Enable Niri system-wide (module is provided by nixosModules.niri)
           (_: {
             programs.niri.enable = true;
@@ -185,7 +173,7 @@
             in
             {
               inherit dennichPkg;
-              # inherit (config.polybar-dennich) processedConfigPath processedScriptPath;
+
             }
           ))
         ];

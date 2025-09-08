@@ -19,11 +19,11 @@ in
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      # Custom run-or-raise script for niri with toggle functionality (for floating windows)
+      # Custom run-or-raise script for niri with centering behavior
       (pkgs.writeShellScriptBin "run-or-raise" ''
         #!/usr/bin/env bash
         # Usage: run-or-raise <app-id> <command...>
-        # For floating windows - closes window if already focused (scratchpad behavior)
+        # For scratchpad-like windows - centers and focuses, or focuses previous window if already focused
         set -euo pipefail
         APP_ID="$1"; shift || true
         CMD="''${*:-$APP_ID}"
@@ -38,11 +38,11 @@ in
         if [ -n "''${ID:-}" ]; then
           # Window exists - check if it's currently focused
           if [ "$FOCUSED_APP_ID" = "$APP_ID" ]; then
-            # Already focused, close it to "hide" it (scratchpad behavior)
-            exec ${pkgs.niri}/bin/niri msg action close-window
+            # Already focused, focus previous window instead of closing
+            ${pkgs.niri}/bin/niri msg action focus-window-previous
           else
-            # Not focused, focus it
-            exec ${pkgs.niri}/bin/niri msg action focus-window --id "$ID"
+            # Not focused, focus it and center
+            ${pkgs.niri}/bin/niri msg action focus-window --id "$ID" && sleep 0.2 && ${pkgs.niri}/bin/niri msg action center-column
           fi
         else
           # Window doesn't exist, spawn it
@@ -54,7 +54,7 @@ in
       (pkgs.writeShellScriptBin "run-or-focus" ''
         #!/usr/bin/env bash
         # Usage: run-or-focus <app-id> <command...>
-        # For regular windows - does NOT close window if already focused
+        # For regular windows - does NOT close window if already focused, centers window when focusing
         set -euo pipefail
         APP_ID="$1"; shift || true
         CMD="''${*:-$APP_ID}"
@@ -69,11 +69,11 @@ in
         if [ -n "''${ID:-}" ]; then
           # Window exists - check if it's currently focused
           if [ "$FOCUSED_APP_ID" = "$APP_ID" ]; then
-            # Already focused, do nothing (keep it focused)
-            exit 0
+            # Already focused, center it
+            ${pkgs.niri}/bin/niri msg action center-column
           else
-            # Not focused, focus it
-            exec ${pkgs.niri}/bin/niri msg action focus-window --id "$ID"
+            # Not focused, focus it and then center
+            ${pkgs.niri}/bin/niri msg action focus-window --id "$ID" && sleep 0.2 && ${pkgs.niri}/bin/niri msg action center-column
           fi
         else
           # Window doesn't exist, spawn it
@@ -95,6 +95,9 @@ in
           modules-center = [ "niri/window" ];
           modules-right = [
             "custom/pomodoro"
+            "memory"
+            "cpu"
+            "disk"
             "network"
             "battery"
             "clock"
@@ -126,8 +129,25 @@ in
             format-disconnected = "Disconnected ⚠";
           };
 
+          memory = {
+            interval = 2;
+            format = "󰍛 {percentage}%";
+          };
+
+          cpu = {
+            interval = 2;
+            format = "󰻠 {usage}%";
+          };
+
+          disk = {
+            interval = 25;
+            format = "󰋊 {percentage_used}%";
+            path = "/";
+          };
+
           battery = {
-            format = "{capacity}% {icon}";
+            format = "󰁹 {capacity}% {icon}";
+            format-charging = "󰂄 {capacity}% {icon}";
             format-icons = [
               ""
               ""
@@ -263,7 +283,7 @@ in
         slowdown = 0.1; # Speed multiplier (0.1 = 10x faster)
       };
 
-      # Window rules for custom apps and floating behavior
+      # Window rules - keeping only corner radius, removed floating behavior
       window-rules = [
         # Generic rounded corners for all windows
         {
@@ -275,74 +295,38 @@ in
           };
         }
 
-        # Scratchpad terminal (custom app-id via --class)
+        # Set default column widths for previously floating apps (now tiled)
         {
           matches = [ { app-id = "^com\\.denis\\.scratchpad$"; } ];
-          open-floating = true;
           default-column-width = {
             fixed = 900;
           };
-          default-window-height = {
-            fixed = 600;
-          };
         }
 
-        # Floating dialog for pomodoro launcher
         {
           matches = [ { app-id = "^com\\.denis\\.float$"; } ];
-          open-floating = true;
           default-column-width = {
             fixed = 800;
           };
-          default-window-height = {
-            fixed = 400;
-          };
         }
 
-        # Notebook terminal
         {
           matches = [ { app-id = "^com\\.denis\\.notebook$"; } ];
-          open-floating = true;
           default-column-width = {
-            fixed = 1500;
-          };
-          default-window-height = {
-            fixed = 1000;
+            fixed = 1200;
           };
         }
 
-        # Password managers
         {
           matches = [ { app-id = "^(?i)(keepassxc|1password|bitwarden)$"; } ];
-          open-floating = true;
           default-column-width = {
-            fixed = 1200;
-          };
-          default-window-height = {
             fixed = 1000;
           };
         }
 
-        # mpv: half-screen bottom-right
-        {
-          matches = [ { app-id = "^mpv$"; } ];
-          open-floating = true;
-          default-column-width = {
-            proportion = 0.5;
-          };
-          default-window-height = {
-            proportion = 0.5;
-          };
-        }
-
-        # Anki, Chat, Todos
         {
           matches = [ { app-id = "^(?i)(anki|chat|todos)$"; } ];
-          open-floating = true;
           default-column-width = {
-            fixed = 1200;
-          };
-          default-window-height = {
             fixed = 1000;
           };
         }

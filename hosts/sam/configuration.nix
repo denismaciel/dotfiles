@@ -9,6 +9,7 @@
     ../../modules/warp.nix
     ../../modules/openttd.nix
     ../../modules/gaming.nix
+    ../../modules/minecraft-server.nix
   ];
 
   # Bootloader
@@ -77,6 +78,8 @@
     usbutils # For printer USB detection
     btop
     direnv
+    firefox
+    prismlauncher
     tmux
     zip
   ];

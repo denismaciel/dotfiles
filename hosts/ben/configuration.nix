@@ -15,6 +15,8 @@
     ../../modules/calibre-web.nix
     ../../modules/koreader-sync.nix
     ../../modules/gaming.nix
+    ../../modules/minecraft-server.nix
+    ../../modules/factorio-server.nix
   ];
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; # necessary to build nixos for raspberrypi
@@ -23,6 +25,10 @@
     enable = true;
     steam.enable = false; # Server doesn't need Steam
   };
+
+  # Enable minecraft server
+  minecraft-server.enable = true;
+  factorio-server.enable = true;
 
   # Disable sleep/suspend for server
   systemd.targets.sleep.enable = false;
@@ -142,10 +148,12 @@
     ];
   };
   environment.systemPackages = with pkgs; [
+    firefox
     git
     groff
     neovim
     portaudio
+    prismlauncher
     wget
     zenity
     zip

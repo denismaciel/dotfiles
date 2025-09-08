@@ -25,6 +25,10 @@
       "steam-unwrapped"
       "steam-run"
       "steamPackages.steamcmd"
+      "factorio-headless"
+      "factorio"
+      "factorio-alpha"
+      "factorio-demo"
 
       # Development tools
       "terraform"
