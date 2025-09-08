@@ -58,14 +58,14 @@ in
       package = pkgs.papermc;
       jvmOpts = "-Xms${cfg.memoryMin} -Xmx${cfg.memoryMax} -Djava.net.preferIPv4Stack=true";
       serverProperties = {
-        motd = cfg.motd;
+        inherit (cfg) motd;
         max-players = cfg.maxPlayers;
         white-list = false; # Allow anyone to join
         online-mode = false; # Allow offline/cracked clients
         gamemode = "creative"; # Creative mode by default
         force-gamemode = true; # Enforce gamemode for all players
       };
-      whitelist = cfg.whitelist;
+      inherit (cfg) whitelist;
     };
   };
 }

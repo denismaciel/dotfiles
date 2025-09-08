@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 
@@ -48,10 +47,10 @@ in
       openFirewall = true; # opens UDP port automatically
       lan = true; # broadcast on LAN
       public = false; # don't publish on the global list
-      port = cfg.port;
+      inherit (cfg) port;
       game-name = cfg.gameName;
-      description = cfg.description;
-      saveName = cfg.saveName;
+      inherit (cfg) description;
+      inherit (cfg) saveName;
       loadLatestSave = true; # Continue the most recent save
       requireUserVerification = false; # LAN with no factorio.com login
 

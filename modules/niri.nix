@@ -50,7 +50,6 @@ in
         fi
       '')
 
-
     ];
 
     programs.waybar = {
