@@ -381,24 +381,25 @@ M.copy_file_path_to_clipboard = function()
         local cfile = vim.api.nvim_buf_get_name(0)
         local relative_path = vim.fn.fnamemodify(cfile, ':.')
 
-        if vim.bo.filetype ~= 'python' then
-            return relative_path
-        end
+        -- Python-specific behavior commented out - use relative path for all files
+        -- if vim.bo.filetype ~= 'python' then
+        return relative_path
+        -- end
 
-        local path_parts = vim.split(relative_path, '/')
-        local src_index = vim.fn.index(path_parts, 'src')
+        -- local path_parts = vim.split(relative_path, '/')
+        -- local src_index = vim.fn.index(path_parts, 'src')
 
-        -- If `src` is not found, we return the relative path as is.
-        if src_index == -1 then
-            return relative_path
-        end
-        -- If `src` is the first part, we are already at the root of the project.
-        if src_index == 0 then
-            return relative_path
-        end
+        -- -- If `src` is not found, we return the relative path as is.
+        -- if src_index == -1 then
+        --     return relative_path
+        -- end
+        -- -- If `src` is the first part, we are already at the root of the project.
+        -- if src_index == 0 then
+        --     return relative_path
+        -- end
 
-        -- If `src` is found, we remove everything before it.
-        return table.concat(path_parts, '/', src_index + 1)
+        -- -- If `src` is found, we remove everything before it.
+        -- return table.concat(path_parts, '/', src_index + 1)
     end
 
     local result = determine_file_path()
@@ -420,24 +421,25 @@ M.copy_file_path_with_line_to_clipboard = function()
         local cfile = vim.api.nvim_buf_get_name(0)
         local relative_path = vim.fn.fnamemodify(cfile, ':.')
 
-        if vim.bo.filetype ~= 'python' then
-            return relative_path
-        end
+        -- Python-specific behavior commented out - use relative path for all files
+        -- if vim.bo.filetype ~= 'python' then
+        return relative_path
+        -- end
 
-        local path_parts = vim.split(relative_path, '/')
-        local src_index = vim.fn.index(path_parts, 'src')
+        -- local path_parts = vim.split(relative_path, '/')
+        -- local src_index = vim.fn.index(path_parts, 'src')
 
-        -- If `src` is not found, we return the relative path as is.
-        if src_index == -1 then
-            return relative_path
-        end
-        -- If `src` is the first part, we are already at the root of the project.
-        if src_index == 0 then
-            return relative_path
-        end
+        -- -- If `src` is not found, we return the relative path as is.
+        -- if src_index == -1 then
+        --     return relative_path
+        -- end
+        -- -- If `src` is the first part, we are already at the root of the project.
+        -- if src_index == 0 then
+        --     return relative_path
+        -- end
 
-        -- If `src` is found, we remove everything before it.
-        return table.concat(path_parts, '/', src_index + 1)
+        -- -- If `src` is found, we remove everything before it.
+        -- return table.concat(path_parts, '/', src_index + 1)
     end
 
     local file_path = determine_file_path()

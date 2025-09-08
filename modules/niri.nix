@@ -18,7 +18,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
+    home.packages = [
       # Custom run-or-raise script for niri with centering behavior
       (pkgs.writeShellScriptBin "run-or-raise" ''
         #!/usr/bin/env bash
@@ -61,17 +61,19 @@ in
           height = 30;
           spacing = 4;
 
-          modules-left = [ "niri/workspaces" ];
+          modules-left = [
+            "niri/workspaces"
+            "tray"
+          ];
           modules-center = [ "niri/window" ];
           modules-right = [
             "custom/pomodoro"
+            "network"
             "memory"
             "cpu"
             "disk"
-            "network"
             "battery"
             "clock"
-            "tray"
           ];
 
           "niri/workspaces" = {
@@ -96,7 +98,7 @@ in
             format-wifi = "{essid} ({signalStrength}%) ";
             format-ethernet = "{ipaddr}/{cidr} ";
             tooltip-format = "{ifname} via {gwaddr} ";
-            format-disconnected = "Disconnected ⚠";
+            format-disconnected = "⚠";
           };
 
           memory = {
@@ -180,20 +182,21 @@ in
         }
 
         #window {
-          background-color: rgba(17, 17, 27, 0.8);
+          background-color: transparent;
           padding: 0 15px;
           margin: 0 5px;
-          border-radius: 5px;
         }
 
         #clock,
         #battery,
         #network,
+        #memory,
+        #cpu,
+        #disk,
         #tray {
           padding: 0 10px;
           margin: 0 2px;
-          background-color: rgba(17, 17, 27, 0.8);
-          border-radius: 5px;
+          background-color: transparent;
         }
 
         #battery.critical:not(.charging) {
@@ -211,12 +214,12 @@ in
 
         /* Pomodoro status styles */
         #custom-pomodoro.pomodoro-running {
-          background-color: rgba(17, 17, 27, 0.8);
+          background-color: transparent;
           color: #cdd6f4;
         }
 
         #custom-pomodoro.pomodoro-idle {
-          background-color: rgba(17, 17, 27, 0.8);
+          background-color: transparent;
           color: #cdd6f4;
         }
 

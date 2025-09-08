@@ -377,7 +377,8 @@ vim.keymap.set(
 vim.keymap.set(
     'n',
     '<leader>rg',
-    require('telescope').extensions.egrepify.egrepify
+    -- require('telescope').extensions.egrepify.egrepify
+    require('fzf-lua').live_grep
 )
 vim.keymap.set('n', '<leader>/', require('telescope.builtin').treesitter)
 

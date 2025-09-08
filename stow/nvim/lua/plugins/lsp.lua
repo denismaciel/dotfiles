@@ -116,9 +116,9 @@ return {
             local capabilities = require('blink.cmp').get_lsp_capabilities()
             local lspconfig = require('lspconfig')
 
-            -- vim.lsp.enable('basedpyright')
+            vim.lsp.enable('basedpyright')
             vim.lsp.enable('gopls')
-            vim.lsp.enable('ty')
+            -- vim.lsp.enable('ty')
             -- vim.lsp.enable('tsgo')
             vim.lsp.enable('terraformls')
             vim.lsp.enable('vtsls')
