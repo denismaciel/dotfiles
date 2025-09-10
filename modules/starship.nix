@@ -65,6 +65,11 @@
         nodejs = {
           disabled = true;
         };
+        nix_shell = {
+          symbol = "❄ ";
+          format = "[$symbol]($style)";
+          style = "blue";
+        };
 
         palettes = {
           stylix_auto = with config.lib.stylix.colors.withHashtag; {
