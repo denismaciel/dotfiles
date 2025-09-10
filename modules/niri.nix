@@ -68,6 +68,7 @@ in
           modules-center = [ "niri/window" ];
           modules-right = [
             "custom/pomodoro"
+            "custom/media"
             "network"
             "memory"
             "cpu"
@@ -143,12 +144,50 @@ in
             exec = "${cfg.dennichPkg}/bin/dennich-todo today-status --format waybar-json";
             return-type = "json";
           };
+
+          "custom/media" = {
+            format = "{icon} {}";
+            return-type = "json";
+            max-length = 40;
+            format-icons = {
+              spotify = "";
+              default = "🎜";
+            };
+            escape = true;
+            exec = "${pkgs.writeShellScript "waybar-media" ''
+              #!/usr/bin/env bash
+              # Get volume info
+              volume=$(${pkgs.wireplumber}/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}')
+              volume_text="🔊 $volume%"
+
+              player_status=$(${pkgs.playerctl}/bin/playerctl status 2>/dev/null)
+              if [ "$player_status" = "Playing" ]; then
+                title=$(${pkgs.playerctl}/bin/playerctl metadata title 2>/dev/null || echo "Unknown")
+                artist=$(${pkgs.playerctl}/bin/playerctl metadata artist 2>/dev/null || echo "Unknown")
+                player=$(${pkgs.playerctl}/bin/playerctl metadata --format '{{ lc(playerName) }}' 2>/dev/null || echo "default")
+                echo "{\"text\":\"$artist - $title | $volume_text\",\"class\":\"playing\",\"alt\":\"$player\"}"
+              elif [ "$player_status" = "Paused" ]; then
+                title=$(${pkgs.playerctl}/bin/playerctl metadata title 2>/dev/null || echo "Paused")
+                artist=$(${pkgs.playerctl}/bin/playerctl metadata artist 2>/dev/null || echo "")
+                player=$(${pkgs.playerctl}/bin/playerctl metadata --format '{{ lc(playerName) }}' 2>/dev/null || echo "default")
+                echo "{\"text\":\"$artist - $title | $volume_text\",\"class\":\"paused\",\"alt\":\"$player\"}"
+              else
+                echo "{\"text\":\"$volume_text\",\"class\":\"stopped\",\"alt\":\"none\"}"
+              fi
+            ''}";
+            on-click = "${pkgs.playerctl}/bin/playerctl play-pause";
+            on-click-right = "${pkgs.playerctl}/bin/playerctl next";
+            on-click-middle = "${pkgs.playerctl}/bin/playerctl previous";
+            on-scroll-up = "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+            on-scroll-down = "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+            interval = 2;
+          };
         };
       };
 
       style = ''
         * {
-          font-family: "Comic Shanns Mono Nerd Font";
+          font-family: "BlexMono Nerd Font Mono";
           font-size: 13px;
           border: none;
           border-radius: 0;
@@ -193,7 +232,8 @@ in
         #memory,
         #cpu,
         #disk,
-        #tray {
+        #tray,
+        #custom-media {
           padding: 0 10px;
           margin: 0 2px;
           background-color: transparent;
@@ -226,6 +266,22 @@ in
         #custom-pomodoro.pomodoro-idle-blink {
           background-color: #f38ba8;
           color: #1e1e2e;
+        }
+
+        /* Media control styles */
+        #custom-media.playing {
+          background-color: transparent;
+          color: #94e2d5;
+        }
+
+        #custom-media.paused {
+          background-color: transparent;
+          color: #f9e2af;
+        }
+
+        #custom-media.stopped {
+          background-color: transparent;
+          color: #6c7086;
         }
       '';
     };

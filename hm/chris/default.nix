@@ -257,7 +257,7 @@ in
     enable = true;
     settings = {
       main = {
-        font = lib.mkForce "Comic Shanns Mono Nerd Font:size=14";
+        font = lib.mkForce "BlexMono Nerd Font Mono:size=14";
       };
       cursor = {
         style = "block";
