@@ -28,7 +28,7 @@
     home-manager.url = "github:nix-community/home-manager";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs.url = "github:nixos/nixpkgs/master";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
     stylix.url = "github:danth/stylix";
     firefox-addons = {
@@ -51,7 +51,6 @@
 
   outputs =
     inputs@{
-      dennich,
       niri-flake,
       git-hooks,
       home-manager,

@@ -69,6 +69,7 @@ in
           modules-right = [
             "custom/pomodoro"
             "custom/media"
+            "custom/audio-selector"
             "network"
             "memory"
             "cpu"
@@ -104,23 +105,23 @@ in
 
           memory = {
             interval = 2;
-            format = "󰍛 {percentage}%";
+            format = "󰍛 {percentage:02}%";
           };
 
           cpu = {
             interval = 2;
-            format = "󰻠 {usage}%";
+            format = "󰻠 {usage:02}%";
           };
 
           disk = {
             interval = 25;
-            format = "󰋊 {percentage_used}%";
+            format = "󰋊 {percentage_used:02}%";
             path = "/";
           };
 
           battery = {
-            format = "󰁹 {capacity}% {icon}";
-            format-charging = "󰂄 {capacity}% {icon}";
+            format = "󰁹 {capacity:02}% {icon}";
+            format-charging = "󰂄 {capacity:02}% {icon}";
             format-icons = [
               ""
               ""
@@ -145,20 +146,75 @@ in
             return-type = "json";
           };
 
+          "custom/audio-selector" = {
+            format = "󰓃";
+            tooltip-format = "Click to select audio device";
+            on-click = "${pkgs.writeShellScript "audio-selector" ''
+              #!/usr/bin/env bash
+
+              # Function to get and select audio sinks (outputs)
+              select_output() {
+                # Get list of sinks with descriptions
+                sinks=$(${pkgs.wireplumber}/bin/wpctl status | awk '/Audio/,/Video/ {if (/Sinks:/) flag=1; else if (/Sources:/ || /Video/) flag=0; if (flag && /\│/ && /\[vol:/) print}' | sed 's/[│├└]//g' | sed 's/^[ \t]*//')
+                
+                # Format for fuzzel and get selection
+                selected=$(echo "$sinks" | while IFS= read -r line; do
+                  id=$(echo "$line" | awk '{print $1}' | sed 's/[.*]//g')
+                  name=$(echo "$line" | sed 's/^[0-9]*\. *//; s/ *\[vol:.*\]//')
+                  active=$(echo "$line" | grep -q '\*' && echo "[ACTIVE]" || echo "")
+                  echo "$id: $name $active"
+                done | ${pkgs.fuzzel}/bin/fuzzel --dmenu --prompt "Select Audio Output: " --width 60)
+                
+                if [ -n "$selected" ]; then
+                  sink_id=$(echo "$selected" | cut -d: -f1)
+                  ${pkgs.wireplumber}/bin/wpctl set-default "$sink_id"
+                fi
+              }
+
+              # Function to get and select audio sources (inputs)
+              select_input() {
+                # Get list of sources with descriptions
+                sources=$(${pkgs.wireplumber}/bin/wpctl status | awk '/Sources:/,/Sink endpoints:/ {if (/Sources:/) flag=1; else if (/Sink endpoints:/) flag=0; if (flag && /\│/ && /\[vol:/) print}' | sed 's/[│├└]//g' | sed 's/^[ \t]*//')
+                
+                # Format for fuzzel and get selection
+                selected=$(echo "$sources" | while IFS= read -r line; do
+                  id=$(echo "$line" | awk '{print $1}' | sed 's/[.*]//g')
+                  name=$(echo "$line" | sed 's/^[0-9]*\. *//; s/ *\[vol:.*\]//')
+                  active=$(echo "$line" | grep -q '\*' && echo "[ACTIVE]" || echo "")
+                  echo "$id: $name $active"
+                done | ${pkgs.fuzzel}/bin/fuzzel --dmenu --prompt "Select Audio Input: " --width 60)
+                
+                if [ -n "$selected" ]; then
+                  source_id=$(echo "$selected" | cut -d: -f1)
+                  ${pkgs.wireplumber}/bin/wpctl set-default "$source_id"
+                fi
+              }
+
+              # Main menu
+              choice=$(echo -e "Audio Output (Speakers/Headphones)\nAudio Input (Microphone)" | ${pkgs.fuzzel}/bin/fuzzel --dmenu --prompt "Select Device Type: " --width 40)
+
+              case "$choice" in
+                "Audio Output"*) select_output ;;
+                "Audio Input"*) select_input ;;
+              esac
+            ''}";
+            interval = "once";
+          };
+
           "custom/media" = {
             format = "{icon} {}";
             return-type = "json";
             max-length = 40;
             format-icons = {
               spotify = "";
-              default = "🎜";
+              default = "♪";
             };
             escape = true;
             exec = "${pkgs.writeShellScript "waybar-media" ''
               #!/usr/bin/env bash
               # Get volume info
-              volume=$(${pkgs.wireplumber}/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}')
-              volume_text="🔊 $volume%"
+              volume=$(${pkgs.wireplumber}/bin/wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{printf "%02d", int($2*100)}')
+              volume_text="$volume%"
 
               player_status=$(${pkgs.playerctl}/bin/playerctl status 2>/dev/null)
               if [ "$player_status" = "Playing" ]; then
@@ -233,7 +289,8 @@ in
         #cpu,
         #disk,
         #tray,
-        #custom-media {
+        #custom-media,
+        #custom-audio-selector {
           padding: 0 10px;
           margin: 0 2px;
           background-color: transparent;
@@ -282,6 +339,15 @@ in
         #custom-media.stopped {
           background-color: transparent;
           color: #6c7086;
+        }
+
+        /* Audio selector styles */
+        #custom-audio-selector {
+          color: #89b4fa;
+        }
+
+        #custom-audio-selector:hover {
+          background-color: rgba(69, 71, 90, 0.8);
         }
       '';
     };
