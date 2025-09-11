@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   ...
 }:
 let
@@ -82,14 +81,31 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
-    nameservers = [ "1.1.1.1" ];
+    nameservers = [ ]; # Empty - let systemd-resolved handle DNS
     hostName = "chris";
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      dns = "systemd-resolved"; # Use systemd-resolved for DNS
+    };
     firewall = {
       trustedInterfaces = [ "tailscale0" ];
       allowedTCPPorts = [ 3000 ];
     };
   };
+
+  # Global DNS: AdGuard (zeze) first, then fallbacks
+  services.resolved = {
+    enable = true;
+    llmnr = "false";
+    dnssec = "false"; # Set to "allow-downgrade" if you want DNSSEC
+    extraConfig = ''
+      DNS=100.117.76.42
+      FallbackDNS=1.1.1.1 1.0.0.1 8.8.8.8 8.8.4.4
+      Domains=~.
+    '';
+  };
+
+  # systemd-resolved configuration for split DNS
 
   # Automatically set timezone based on location
   location.provider = "geoclue2";

@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ../../modules/base-core.nix
     ../../modules/denis-user.nix
+    ../../modules/adguard.nix
   ];
 
   # Use the extlinux boot loader for Raspberry Pi
@@ -14,6 +15,7 @@
   # Networking
   networking.hostName = "zeze";
   networking.networkmanager.enable = true;
+  networking.nameservers = [ "127.0.0.1" ];
 
   networking.firewall = {
     enable = true;

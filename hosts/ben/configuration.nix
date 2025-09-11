@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  lib,
   ...
 }:
 {
@@ -45,36 +44,6 @@
   };
   # Enable IP forwarding for exit node functionality
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
-  services.adguardhome = {
-    enable = true;
-    openFirewall = true;
-    settings = {
-      dns = {
-        bind_port = 53;
-        bind_hosts = [
-          "0.0.0.0"
-          "::"
-        ];
-      };
-    };
-  };
-
-  # Trust Tailscale and local network interfaces in firewall
-  networking.firewall.enable = true;
-  networking.firewall.trustedInterfaces = [ "tailscale0" ];
-  hardware.uinput.enable = true;
-  users.groups.uinput.members = [ "denis" ];
-  users.groups.input.members = [ "denis" ];
-
-  services.vaultwarden = {
-    enable = true;
-    config = {
-      ROCKET_PORT = 8222;
-      ROCKET_ADDRESS = "0.0.0.0";
-      DOMAIN = "https://ben.tail0b5947.ts.net:8222";
-      ROCKET_TLS = ''{certs="/etc/vaultwarden/ben.tail0b5947.ts.net.crt",key="/etc/vaultwarden/ben.tail0b5947.ts.net.key"}'';
-    };
-  };
 
   services.vaultwarden-backup = {
     enable = true;
@@ -108,7 +77,6 @@
   networking = {
     hostName = "ben";
     networkmanager.enable = true;
-    nameservers = [ "127.0.0.1" ];
   };
 
   time.timeZone = "Europe/Lisbon";
