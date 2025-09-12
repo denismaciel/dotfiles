@@ -6,6 +6,7 @@
     ../../modules/base-core.nix
     ../../modules/denis-user.nix
     ../../modules/adguard.nix
+    ../../modules/brother-hl1110-printer.nix
   ];
 
   # Use the extlinux boot loader for Raspberry Pi
@@ -19,7 +20,10 @@
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 22 ]; # SSH
+    allowedTCPPorts = [
+      22 # SSH
+    ];
+    allowedUDPPorts = [ ];
     trustedInterfaces = [ "tailscale0" ]; # Trust Tailscale interface
   };
 
@@ -50,6 +54,14 @@
     extraUpFlags = [
       "--accept-dns"
     ];
+  };
+
+  # Brother HL-1110 printer setup
+  services.brotherHL1110 = {
+    enable = true;
+    deviceUri = "usb://Brother/HL-1110%20series?serial=D0N609455";
+    networkSharing = true;
+    setAsDefault = true;
   };
 
   # System packages (minimal for Pi)

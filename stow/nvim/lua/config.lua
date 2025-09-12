@@ -469,13 +469,27 @@ vim.keymap.set('n', '<leader>gt', function()
 end)
 
 vim.keymap.set('n', '<leader>gs', function()
-    local HOME = os.getenv('HOME') .. '/'
-    local cwd = vim.fn.getcwd()
+    local branch = vim.fn
+        .system('git rev-parse --abbrev-ref HEAD 2>/dev/null')
+        :gsub('\n', '')
 
-    if vim.startswith(cwd, HOME .. 'Sync/notes') then
-        require('dennich').create_weekly_note()
+    if vim.v.shell_error == 0 and branch ~= '' then
+        -- In a git repo, open track/<branch>.md
+        local track_dir = './track'
+        vim.fn.mkdir(track_dir, 'p')
+        local safe_branch = branch:gsub('/', '-')
+        local file_path = track_dir .. '/' .. safe_branch .. '.md'
+        vim.cmd('edit ' .. file_path)
     else
-        require('dennich').open_track_md()
+        -- Not in a git repo, fallback to original behavior
+        local HOME = os.getenv('HOME') .. '/'
+        local cwd = vim.fn.getcwd()
+
+        if vim.startswith(cwd, HOME .. 'Sync/notes') then
+            require('dennich').create_weekly_note()
+        else
+            require('dennich').open_track_md()
+        end
     end
     vim.cmd('normal! G') -- Go to the end of the file
 end)

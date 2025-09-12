@@ -371,6 +371,18 @@ in
           active.color = "#888888"; # Muted gray for active window
           inactive.color = "#333333"; # Darker gray for inactive windows
         };
+
+        # Preset column widths for equal split
+        preset-column-widths = [
+          { proportion = 0.5; } # 50% width - equal split
+          { proportion = 0.33333; } # One third
+          { proportion = 0.66667; } # Two thirds
+        ];
+
+        # Default to first preset (50%)
+        default-column-width = {
+          proportion = 0.5;
+        };
       };
 
       # Animation settings - make them faster

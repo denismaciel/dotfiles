@@ -29,6 +29,7 @@
         "snaps"
         "t.py"
         "tags"
+        "track"
         "track-core.md"
         "venv"
         ".mise.toml"
