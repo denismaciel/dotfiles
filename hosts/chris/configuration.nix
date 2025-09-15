@@ -13,8 +13,8 @@ in
     ../../modules/graphics.nix
     ../../modules/unfree.nix
     ../../modules/warp.nix
-
     ../../modules/gaming.nix
+    ../../modules/chris-networking.nix
   ];
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; # necessary to build nixos for raspberrypi
@@ -61,17 +61,7 @@ in
   hardware.keyboard.zsa.enable = true;
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
-  services.tailscale = {
-    enable = true;
-    useRoutingFeatures = "client";
-    # --exit-node-allow-lan-access=true is necessay so I can access docker containers
-    # via loccalhost.
-    extraUpFlags = [
-      "--accept-dns=true"
-      "--exit-node=100.74.57.103"
-      "--exit-node-allow-lan-access=true"
-    ];
-  };
+  # Networking moved to ../../modules/chris-networking.nix
   hardware.uinput.enable = true;
   users.groups.uinput.members = [ "denis" ];
   users.groups.input.members = [ "denis" ];
@@ -80,30 +70,9 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking = {
-    nameservers = [ ]; # Empty - let systemd-resolved handle DNS
-    hostName = "chris";
-    networkmanager = {
-      enable = true;
-      dns = "systemd-resolved"; # Use systemd-resolved for DNS
-    };
-    firewall = {
-      trustedInterfaces = [ "tailscale0" ];
-      allowedTCPPorts = [ 3000 ];
-    };
-  };
+  # networking configuration imported from module
 
-  # Global DNS: AdGuard (zeze) first, then fallbacks
-  services.resolved = {
-    enable = true;
-    llmnr = "false";
-    dnssec = "false"; # Set to "allow-downgrade" if you want DNSSEC
-    extraConfig = ''
-      DNS=100.117.76.42
-      FallbackDNS=1.1.1.1 1.0.0.1 8.8.8.8 8.8.4.4
-      Domains=~.
-    '';
-  };
+  # DNS configuration imported from module
 
   # systemd-resolved configuration for split DNS
 
