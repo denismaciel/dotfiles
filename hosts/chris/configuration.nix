@@ -14,7 +14,7 @@ in
     ../../modules/unfree.nix
     ../../modules/warp.nix
     ../../modules/gaming.nix
-    ../../modules/chris-networking.nix
+    # ../../modules/chris-networking.nix
   ];
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; # necessary to build nixos for raspberrypi
