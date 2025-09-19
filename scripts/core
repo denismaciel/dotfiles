@@ -191,7 +191,7 @@ def main():
     )
 
     BARE_REPOS = [
-        # '/home/denis/github.com/recap-technologies/core-bare',
+        '/home/denis/github.com/recap-technologies/core-worktree/',
     ]
 
     args = parser.parse_args()

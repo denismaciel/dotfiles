@@ -38,6 +38,7 @@ in
     # anki
     # kdePackages.dolphin
     # cargo
+    mise
     zeroad
     age
     nixfmt-rfc-style

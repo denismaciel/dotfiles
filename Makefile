@@ -25,7 +25,7 @@ rebuild-sam:
 	nixos-rebuild switch --flake ~/dotfiles#sam --target-host 192.168.1.28 --sudo
 
 rebuild-ben:
-	nixos-rebuild switch --flake ~/dotfiles#ben --target-host ben --sudo
+	nixos-rebuild switch --flake ~/dotfiles#ben --target-host 192.168.1.75 --sudo
 
 rebuild-anton:
 	nixos-rebuild switch --flake ~/dotfiles#anton --target-host anton --sudo

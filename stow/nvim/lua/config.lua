@@ -252,18 +252,94 @@ vim.keymap.set('n', '<leader>ff', function()
     vim.lsp.buf.format()
     require('conform').format()
 end, { desc = 'Format current buffer' })
-vim.keymap.set(
-    'n',
-    '<leader>xx',
-    '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
-    { desc = '[Trouble] File Diagnostics' }
-)
-vim.keymap.set(
-    'n',
-    '<leader>xa',
-    '<cmd>Trouble diagnostics toggle<cr>',
-    { desc = '[Trouble] Project Diagnostics' }
-)
+-- Built-in replacements for Trouble.nvim
+local function _is_loclist_open()
+    return vim.fn.getloclist(0, { winid = 0 }).winid ~= 0
+end
+local function _is_qflist_open()
+    return vim.fn.getqflist({ winid = 0 }).winid ~= 0
+end
+local function _open_loclist_keep_focus()
+    local cur = vim.api.nvim_get_current_win()
+    vim.cmd('lopen')
+    if vim.api.nvim_get_current_win() ~= cur then
+        vim.cmd('wincmd p')
+    end
+end
+
+local function toggle_file_diagnostics_loclist()
+    if _is_loclist_open() then
+        vim.cmd('lclose')
+    else
+        -- Populate current window's location list with buffer diagnostics
+        vim.diagnostic.setloclist({ open = false })
+        _open_loclist_keep_focus()
+    end
+end
+
+local function toggle_workspace_diagnostics_qflist()
+    if _is_qflist_open() then
+        vim.cmd('cclose')
+    else
+        -- Populate quickfix with diagnostics from all buffers
+        local cur = vim.api.nvim_get_current_win()
+        vim.diagnostic.setqflist({ open = true })
+        -- Return focus to the previous window
+        if vim.api.nvim_get_current_win() ~= cur then
+            vim.cmd('wincmd p')
+        end
+    end
+end
+
+local function _populate_symbols_loclist_and_open()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local params = { textDocument = vim.lsp.util.make_text_document_params() }
+    vim.lsp.buf_request(
+        bufnr,
+        'textDocument/documentSymbol',
+        params,
+        function(err, result)
+            if err then
+                vim.notify(
+                    'LSP symbols error: ' .. (err.message or ''),
+                    vim.log.levels.ERROR
+                )
+                return
+            end
+            if not result or vim.tbl_isempty(result) then
+                vim.notify('No symbols from LSP', vim.log.levels.INFO)
+                return
+            end
+            local items = vim.lsp.util.symbols_to_items(result, bufnr) or {}
+            if vim.tbl_isempty(items) then
+                vim.notify('No symbols found', vim.log.levels.INFO)
+                return
+            end
+            vim.fn.setloclist(
+                0,
+                {},
+                ' ',
+                { title = 'Document Symbols', items = items }
+            )
+            _open_loclist_keep_focus()
+        end
+    )
+end
+
+local function toggle_symbols_loclist()
+    if _is_loclist_open() then
+        vim.cmd('lclose')
+    else
+        _populate_symbols_loclist_and_open()
+    end
+end
+
+vim.keymap.set('n', '<leader>xx', toggle_file_diagnostics_loclist, {
+    desc = 'File Diagnostics (loclist)',
+})
+vim.keymap.set('n', '<leader>xa', toggle_workspace_diagnostics_qflist, {
+    desc = 'Workspace Diagnostics (quickfix)',
+})
 vim.keymap.set(
     'n',
     '<leader>xk',
@@ -271,12 +347,9 @@ vim.keymap.set(
     { desc = 'Line Diagnostics (floating)' }
 )
 
-vim.keymap.set(
-    'n',
-    '<leader>cs',
-    '<cmd>Trouble symbols toggle focus=false<cr>',
-    { desc = 'Symbols (Trouble)' }
-)
+vim.keymap.set('n', '<leader>cs', toggle_symbols_loclist, {
+    desc = 'Document Symbols (loclist)',
+})
 
 vim.keymap.set(
     'n',

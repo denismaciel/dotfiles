@@ -50,13 +50,24 @@
     schedule = "daily";
   };
 
-  system.activationScripts.vaultwarden-certs = ''
-    mkdir -p /etc/vaultwarden
-    cp /home/denis/dotfiles/ben.tail0b5947.ts.net.crt /etc/vaultwarden/
-    cp /home/denis/dotfiles/ben.tail0b5947.ts.net.key /etc/vaultwarden/
-    chown vaultwarden:vaultwarden /etc/vaultwarden/ben.tail0b5947.ts.net.*
-    chmod 600 /etc/vaultwarden/ben.tail0b5947.ts.net.*
-  '';
+  system.activationScripts.vaultwarden-certs = {
+    deps = [ "users" ];
+    text = ''
+      set -eu
+
+      mkdir -p /etc/vaultwarden
+      cp /home/denis/dotfiles/ben.tail0b5947.ts.net.crt /etc/vaultwarden/
+      cp /home/denis/dotfiles/ben.tail0b5947.ts.net.key /etc/vaultwarden/
+
+      if id -u vaultwarden >/dev/null 2>&1; then
+        chown vaultwarden:vaultwarden /etc/vaultwarden/ben.tail0b5947.ts.net.*
+      else
+        echo "vaultwarden user not found; skipping ownership adjustment" >&2
+      fi
+
+      chmod 600 /etc/vaultwarden/ben.tail0b5947.ts.net.*
+    '';
+  };
 
   # DroidCamX
   boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];

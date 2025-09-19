@@ -6,7 +6,6 @@
 }:
 {
   imports = [
-
     ../modules/unfree.nix
     ../modules/go.nix
     ../modules/firefox.nix
