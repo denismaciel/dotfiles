@@ -68,7 +68,7 @@ return {
         'j-hui/fidget.nvim',
         opts = {},
     },
-    { 'windwp/nvim-autopairs', opts = {} },
+    -- { 'windwp/nvim-autopairs', opts = {} },
     {
         'ggandor/leap.nvim',
         opts = function()

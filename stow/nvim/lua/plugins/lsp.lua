@@ -114,7 +114,6 @@ return {
             -- local capabilities = vim.lsp.protocol.make_client_capabilities()
             --
             local capabilities = require('blink.cmp').get_lsp_capabilities()
-            local lspconfig = require('lspconfig')
 
             vim.lsp.enable('basedpyright')
             vim.lsp.enable('gopls')
@@ -145,10 +144,13 @@ return {
             })
             vim.lsp.enable('lua_ls')
             vim.lsp.enable('jsonnet_ls')
-            lspconfig.cssls.setup({ capabilities = capabilities })
-            lspconfig.rust_analyzer.setup({ capabilities = capabilities })
-            lspconfig.bashls.setup({ capabilities = capabilities })
-            lspconfig.yamlls.setup({
+            vim.lsp.config('cssls', { capabilities = capabilities })
+            vim.lsp.enable('cssls')
+
+            vim.lsp.config('rust_analyzer', { capabilities = capabilities })
+            vim.lsp.enable('rust_analyzer')
+
+            vim.lsp.config('yamlls', {
                 capabilities = capabilities,
                 settings = {
                     yaml = {
@@ -160,10 +162,15 @@ return {
                     },
                 },
             })
-            lspconfig.dockerls.setup({ capabilities = capabilities })
-            lspconfig.bashls.setup({ capabilities = capabilities })
-            lspconfig.tailwindcss.setup({ capabilities = capabilities })
-            lspconfig.nil_ls.setup({
+            vim.lsp.enable('yamlls')
+
+            vim.lsp.config('dockerls', { capabilities = capabilities })
+            vim.lsp.enable('dockerls')
+
+            vim.lsp.config('tailwindcss', { capabilities = capabilities })
+            vim.lsp.enable('tailwindcss')
+
+            vim.lsp.config('nil_ls', {
                 capabilities = capabilities,
                 settings = {
                     ['nil'] = {
@@ -173,7 +180,10 @@ return {
                     },
                 },
             })
-            lspconfig.hls.setup({ capabilities = capabilities })
+            vim.lsp.enable('nil_ls')
+
+            vim.lsp.config('hls', { capabilities = capabilities })
+            vim.lsp.enable('hls')
 
             -- Autocommand for LSP.
             -- Key mpas should go in here.
