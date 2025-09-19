@@ -51,9 +51,17 @@
   # Tailscale VPN
   services.tailscale = {
     enable = true;
-    extraUpFlags = [
-      "--accept-dns"
+    extraSetFlags = [
+      "--accept-dns=true"
+      "--advertise-exit-node"
     ];
+    useRoutingFeatures = "server";
+  };
+
+  # Enable IP forwarding for exit node functionality
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = 1;
+    "net.ipv6.conf.all.forwarding" = 1;
   };
 
   # Brother HL-1110 printer setup

@@ -12,6 +12,20 @@ _:
           "::"
         ];
       };
+
+      filtering = {
+        blocked_services = {
+          ids = [ "youtube" ];
+          schedule = {
+            time_zone = "Local";
+          };
+        };
+      };
+
+      user_rules = [
+        "||linkedin.com^$client=100.74.209.23"
+        "||licdn.com^$client=100.74.209.23"
+      ];
     };
   };
 }
