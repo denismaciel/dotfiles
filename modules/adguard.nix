@@ -15,7 +15,10 @@ _:
 
       filtering = {
         blocked_services = {
-          ids = [ "youtube" ];
+          ids = [
+            "youtube"
+            "linkedin"
+          ];
           schedule = {
             time_zone = "Local";
           };
@@ -23,8 +26,7 @@ _:
       };
 
       user_rules = [
-        "||linkedin.com^$client=100.74.209.23"
-        "||licdn.com^$client=100.74.209.23"
+        "@@||umami.is^"
       ];
     };
   };
