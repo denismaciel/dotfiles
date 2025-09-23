@@ -347,6 +347,24 @@ cap() {
 alias nv='nvim-server'
 alias nvim='echo "💡 use '\''nv'\'' instead"'
 
+codex_update() {
+    local installed=$(command codex --version | awk '{print $NF}')
+    local latest=$(npm view @openai/codex version 2>/dev/null)
+    [[ "$installed" != "$latest" ]] && npm install -g @openai/codex >/dev/null 2>&1
+}
+
+codex_base() {
+    command codex \
+        -m "gpt-5-codex" \
+        -c "model_reasoning_effort=$1" \
+        --dangerously-bypass-approvals-and-sandbox \
+        --search "${@:2}"
+}
+
+alias codexh='codex_base high'
+alias codexm='codex_base medium'
+alias codexl='codex_base low'
+
 # Show profiling results automatically on startup
 # Comment out the line below if you don't want to see profiling on every shell startup
 # zprof
