@@ -12,7 +12,7 @@
     programs.go = {
       enable = true;
       package = pkgs.go_1_24;
-      env.GOPATH = "go-path";
+      env.GOPATH = "/home/denis/go-path";
     };
     home.packages = with pkgs; [
       delve

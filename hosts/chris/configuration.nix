@@ -70,6 +70,12 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_watches" = 2097152; # 2M
+    "fs.inotify.max_user_instances" = 1024;
+    "fs.inotify.max_queued_events" = 65536;
+  };
+
   # networking configuration imported from module
 
   # DNS configuration imported from module

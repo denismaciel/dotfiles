@@ -135,7 +135,7 @@ def apply_update_plan(session_name, plan):
                 pane = window.active_pane
                 
                 # Split horizontally to create second pane
-                pane2 = window.split_window(vertical=False, start_directory=os.path.join(expanded_dir, 'frontend''))
+                pane2 = window.split_window(vertical=False, start_directory=os.path.join(expanded_dir, 'frontend'))
 
                 # Split the second pane horizontally to create third pane
                 pane3 = pane2.split_window(vertical=False, start_directory=os.path.join(expanded_dir, 'pycap'))
