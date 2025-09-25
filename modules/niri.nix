@@ -50,6 +50,146 @@ in
         fi
       '')
 
+      (pkgs.writeShellScriptBin "toggle-notebook" ''
+        #!/usr/bin/env bash
+        set -euo pipefail
+
+        # Toggle the floating Vim notebook scratchpad between the active workspace and a stash workspace.
+        APP_ID="com.denis.notebook"
+        CMD="foot --app-id com.denis.notebook -e env MODE=notebook nvim -c \"lua require('dennich').create_weekly_note()\""
+        NIRI="${pkgs.niri}/bin/niri"
+        JQ="${pkgs.jq}/bin/jq"
+
+        windows_json="$($NIRI msg -j windows 2>/dev/null || echo '[]')"
+        workspaces_json="$($NIRI msg -j workspaces 2>/dev/null || echo '[]')"
+        focused_window_json="$($NIRI msg -j focused-window 2>/dev/null || echo '{}')"
+
+        notebook_info="$(echo "$windows_json" | $JQ -c --arg id "$APP_ID" 'map(select(.app_id==$id)) | first')"
+
+        if [ -z "$notebook_info" ] || [ "$notebook_info" = "null" ]; then
+          exec sh -lc "$CMD"
+        fi
+
+        focused_workspace_id="$(echo "$focused_window_json" | $JQ -r '.workspace_id // empty')"
+        if [ -z "$focused_workspace_id" ]; then
+          focused_workspace_id="$(echo "$workspaces_json" | $JQ -r '(map(select(.is_focused == true)) | first | .id) // empty')"
+        fi
+        if [ -z "$focused_workspace_id" ]; then
+          focused_workspace_id="$(echo "$workspaces_json" | $JQ -r '(first(.[]?).id) // 1')"
+        fi
+        if ! [[ "$focused_workspace_id" =~ ^[0-9]+$ ]]; then
+          focused_workspace_id="1"
+        fi
+
+        focused_workspace_idx="$(echo "$workspaces_json" | $JQ -r --argjson ws_id "$focused_workspace_id" '(map(select(.id == $ws_id)) | first | .idx) // 1')"
+        stash_idx="$(echo "$workspaces_json" | $JQ -r 'if length == 0 then 1 else (map(.idx) | max) end')"
+
+        if ! [[ "$focused_workspace_idx" =~ ^[0-9]+$ ]]; then
+          focused_workspace_idx="1"
+        fi
+        if ! [[ "$stash_idx" =~ ^[0-9]+$ ]]; then
+          stash_idx="$focused_workspace_idx"
+        fi
+        if [ "$stash_idx" = "$focused_workspace_idx" ]; then
+          stash_idx=$((focused_workspace_idx + 1))
+        fi
+
+        notebook_id="$(echo "$notebook_info" | $JQ -r '.id')"
+        notebook_workspace_id="$(echo "$notebook_info" | $JQ -r '.workspace_id')"
+        notebook_is_focused="$(echo "$notebook_info" | $JQ -r '.is_focused')"
+
+        if [ "$notebook_workspace_id" != "$focused_workspace_id" ]; then
+          $NIRI msg action move-window-to-workspace "$focused_workspace_idx" --window-id "$notebook_id" --focus=false
+          $NIRI msg action move-window-to-floating --id "$notebook_id"
+          $NIRI msg action focus-window --id "$notebook_id"
+          $NIRI msg action center-window --id "$notebook_id"
+          exit 0
+        fi
+
+        if [ "$notebook_is_focused" = "true" ]; then
+          $NIRI msg action focus-window-previous || true
+          $NIRI msg action move-window-to-workspace "$stash_idx" --window-id "$notebook_id" --focus=false
+          exit 0
+        fi
+
+        $NIRI msg action move-window-to-floating --id "$notebook_id"
+        $NIRI msg action focus-window --id "$notebook_id"
+        $NIRI msg action center-window --id "$notebook_id"
+      '')
+
+      (pkgs.writeShellScriptBin "toggle-scratchpad" ''
+        #!/usr/bin/env bash
+        set -euo pipefail
+
+        # Toggle the floating terminal scratchpad between the active workspace and a stash workspace.
+        APP_ID="com.denis.scratchpad"
+        CMD="foot --app-id com.denis.scratchpad --override main.initial-window-size-pixels=1000x1000"
+        NIRI="${pkgs.niri}/bin/niri"
+        JQ="${pkgs.jq}/bin/jq"
+        TARGET_SIZE=1000
+        SIZE_CHANGE="$TARGET_SIZE"
+
+        windows_json="$($NIRI msg -j windows 2>/dev/null || echo '[]')"
+        workspaces_json="$($NIRI msg -j workspaces 2>/dev/null || echo '[]')"
+        focused_window_json="$($NIRI msg -j focused-window 2>/dev/null || echo '{}')"
+
+        scratchpad_info="$(echo "$windows_json" | $JQ -c --arg id "$APP_ID" 'map(select(.app_id==$id)) | first')"
+
+        if [ -z "$scratchpad_info" ] || [ "$scratchpad_info" = "null" ]; then
+          exec sh -lc "$CMD"
+        fi
+
+        focused_workspace_id="$(echo "$focused_window_json" | $JQ -r '.workspace_id // empty')"
+        if [ -z "$focused_workspace_id" ]; then
+          focused_workspace_id="$(echo "$workspaces_json" | $JQ -r '(map(select(.is_focused == true)) | first | .id) // empty')"
+        fi
+        if [ -z "$focused_workspace_id" ]; then
+          focused_workspace_id="$(echo "$workspaces_json" | $JQ -r '(first(.[]?).id) // 1')"
+        fi
+        if ! [[ "$focused_workspace_id" =~ ^[0-9]+$ ]]; then
+          focused_workspace_id="1"
+        fi
+
+        focused_workspace_idx="$(echo "$workspaces_json" | $JQ -r --argjson ws_id "$focused_workspace_id" '(map(select(.id == $ws_id)) | first | .idx) // 1')"
+        stash_idx="$(echo "$workspaces_json" | $JQ -r 'if length == 0 then 1 else (map(.idx) | max) end')"
+
+        if ! [[ "$focused_workspace_idx" =~ ^[0-9]+$ ]]; then
+          focused_workspace_idx="1"
+        fi
+        if ! [[ "$stash_idx" =~ ^[0-9]+$ ]]; then
+          stash_idx="$focused_workspace_idx"
+        fi
+        if [ "$stash_idx" = "$focused_workspace_idx" ]; then
+          stash_idx=$((focused_workspace_idx + 1))
+        fi
+
+        scratchpad_id="$(echo "$scratchpad_info" | $JQ -r '.id')"
+        scratchpad_workspace_id="$(echo "$scratchpad_info" | $JQ -r '.workspace_id')"
+        scratchpad_is_focused="$(echo "$scratchpad_info" | $JQ -r '.is_focused')"
+
+        if [ "$scratchpad_workspace_id" != "$focused_workspace_id" ]; then
+          $NIRI msg action move-window-to-workspace "$focused_workspace_idx" --window-id "$scratchpad_id" --focus=false
+          $NIRI msg action move-window-to-floating --id "$scratchpad_id"
+          $NIRI msg action set-window-width "$SIZE_CHANGE" --id "$scratchpad_id" || true
+          $NIRI msg action set-window-height "$SIZE_CHANGE" --id "$scratchpad_id" || true
+          $NIRI msg action focus-window --id "$scratchpad_id"
+          $NIRI msg action center-window --id "$scratchpad_id"
+          exit 0
+        fi
+
+        if [ "$scratchpad_is_focused" = "true" ]; then
+          $NIRI msg action focus-window-previous || true
+          $NIRI msg action move-window-to-workspace "$stash_idx" --window-id "$scratchpad_id" --focus=false
+          exit 0
+        fi
+
+        $NIRI msg action move-window-to-floating --id "$scratchpad_id"
+        $NIRI msg action set-window-width "$SIZE_CHANGE" --id "$scratchpad_id" || true
+        $NIRI msg action set-window-height "$SIZE_CHANGE" --id "$scratchpad_id" || true
+        $NIRI msg action focus-window --id "$scratchpad_id"
+        $NIRI msg action center-window --id "$scratchpad_id"
+      '')
+
     ];
 
     programs.waybar = {
@@ -414,16 +554,21 @@ in
           };
         }
 
-        # Set default column widths for previously floating apps (now tiled)
+        # Floating scratchpad terminal sizing
         {
           matches = [ { app-id = "^com\\.denis\\.scratchpad$"; } ];
+          open-floating = true;
           default-column-width = {
-            fixed = 900;
+            fixed = 1000;
+          };
+          default-window-height = {
+            fixed = 1000;
           };
         }
 
         {
           matches = [ { app-id = "^com\\.denis\\.notebook$"; } ];
+          open-floating = true;
           default-column-width = {
             fixed = 1200;
           };
@@ -458,10 +603,9 @@ in
         "Mod+S".action = spawn-sh "run-or-raise Slack 'slack'";
         "Mod+B".action = spawn-sh "run-or-raise firefox 'firefox'";
 
-        # Scratchpad window launchers (run-or-raise behavior)
-        "Mod+X".action = spawn-sh "run-or-raise com.denis.scratchpad 'foot --app-id com.denis.scratchpad'";
-        "Mod+D".action =
-          spawn-sh "run-or-raise com.denis.notebook 'foot --app-id com.denis.notebook -e env MODE=notebook nvim -c \"lua require(\\\"dennich\\\").create_weekly_note()\"'";
+        # Scratchpad window launchers
+        "Mod+X".action = spawn "toggle-scratchpad";
+        "Mod+D".action = spawn "toggle-notebook";
 
         # Launchers and tools
         "Mod+Y".action = spawn "fuzzel";
