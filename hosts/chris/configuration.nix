@@ -86,9 +86,15 @@ in
   location.provider = "geoclue2";
   services.geoclue2 = {
     enable = true;
-    appConfig.automatic-timezoned = {
-      isAllowed = true;
-      isSystem = true;
+    appConfig = {
+      automatic-timezoned = {
+        isAllowed = true;
+        isSystem = true;
+      };
+      gammastep = {
+        isAllowed = true;
+        isSystem = false;
+      };
     };
   };
   services.automatic-timezoned.enable = true;

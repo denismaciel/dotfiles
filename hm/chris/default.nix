@@ -30,6 +30,22 @@ in
   ghostty.enable = true;
   starship.enable = true;
   pageshot.enable = true;
+  services.gammastep = {
+    enable = true;
+    provider = "geoclue2";
+    tray = true;
+    temperature = {
+      day = 6500;
+      night = 5100;
+    };
+    settings = {
+      general = {
+        adjustment-method = "wayland";
+        brightness-day = "1.0";
+        brightness-night = "0.97";
+      };
+    };
+  };
   niri.enable = true;
   niri.dennichPkg = dennichPkg;
 
