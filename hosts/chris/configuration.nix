@@ -171,6 +171,7 @@ in
     groff
     kdePackages.dolphin
     niri
+    xwayland-satellite
     portaudio
     prismlauncher
     wget
