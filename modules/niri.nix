@@ -570,7 +570,10 @@ in
           matches = [ { app-id = "^com\\.denis\\.notebook$"; } ];
           open-floating = true;
           default-column-width = {
-            fixed = 1200;
+            fixed = 1000;
+          };
+          default-window-height = {
+            fixed = 1000;
           };
         }
 
