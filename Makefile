@@ -61,6 +61,8 @@ install-python-tools:
 	uv tool install --upgrade mdformat --with mdformat-gfm
 	uv tool install --upgrade pre-commit
 	uv tool install --upgrade ruff
+	uv tool install --upgrade ty
+	uv tool install --upgrade pyrefly
 
 # Stow operations
 stow: ensure-config-dirs

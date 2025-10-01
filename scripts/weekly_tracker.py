@@ -28,12 +28,13 @@ from reportlab.lib.pagesizes import landscape
 from reportlab.pdfgen import canvas as _canvas
 
 activity_list = [
+    'TODO',
     'wake up',
     'suplements',
     'weight',
     'kids',
     're:cap',
-    'casatoo.pt',
+    'sam',
     'coffee',
     'blood pressure',
     'marinheiro',
