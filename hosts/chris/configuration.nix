@@ -171,6 +171,7 @@ in
     groff
     kdePackages.dolphin
     niri
+    swaylock
     xwayland-satellite
     portaudio
     prismlauncher
