@@ -25,6 +25,7 @@ in
         cursor-style-blink = false;
         cursor-invert-fg-bg = true;
         shell-integration-features = "no-cursor";
+        keybind = "f11=unbind";
       };
       themes."dennich-${theme}" = {
         background = palette.base00;
