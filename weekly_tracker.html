@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Activity Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 0.5in;
+        }
+
+        @media print {
+            body {
+                @apply p-0;
+            }
+
+            .tracker-container {
+                @apply max-w-none;
+            }
+        }
+    </style>
+</head>
+<body class="font-['Helvetica','Arial',sans-serif] m-0 p-0 bg-white h-screen">
+    <div id="root" class="h-full"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const activities = [
+            'TODO',
+            'wake up',
+            'weight',
+            'blood pressure',
+            'suplements',
+            'coffee',
+            'marinheiro',
+            'roda',
+            'kids',
+            're:cap',
+            'sam'
+        ];
+
+        const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+        function getCurrentWeekDates() {
+            const today = new Date();
+            const monday = new Date(today);
+            monday.setDate(today.getDate() - today.getDay() + 1);
+
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(monday);
+                date.setDate(monday.getDate() + i);
+                dates.push(date);
+            }
+            return dates;
+        }
+
+        function formatWeekRange(dates) {
+            const start = dates[0];
+            const end = dates[dates.length - 1];
+            const startStr = start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            const endStr = end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            return `${startStr} → ${endStr}`;
+        }
+
+        function WeeklyTracker() {
+            const [dates, setDates] = useState([]);
+            const [weekRange, setWeekRange] = useState('');
+
+            useEffect(() => {
+                const currentDates = getCurrentWeekDates();
+                setDates(currentDates);
+                setWeekRange(formatWeekRange(currentDates));
+            }, []);
+
+            const renderDataCell = (activity, dataCellCount) => {
+                const baseClasses = `bg-white border border-gray-300 min-h-[40px] ${dataCellCount % 2 === 0 ? 'bg-gray-50' : ''}`;
+
+                if (activity === 'marinheiro' || activity === 'roda') {
+                    return (
+                        <div className={`${baseClasses} text-lg tracking-wider text-center flex items-center justify-center`}>
+                            □ □ □ □ □
+                        </div>
+                    );
+                }
+
+                if (activity === 'suplements') {
+                    return (
+                        <div className={`${baseClasses} text-xs tracking-wider text-left flex flex-col items-start justify-center p-1`}
+                             dangerouslySetInnerHTML={{ __html: '□ creatine<br>□ omega3' }}>
+                        </div>
+                    );
+                }
+
+                return <div className={baseClasses}></div>;
+            };
+
+            return (
+                <div className="tracker-container max-w-full mx-auto h-full flex flex-col">
+                    <div className="title text-lg font-bold text-center mb-2 flex-shrink-0">
+                        Weekly Tracker — {weekRange}
+                    </div>
+                    <div className="tracker-grid grid grid-cols-[100px_repeat(7,1fr)] grid-rows-[40px_1fr_repeat(10,40px)] gap-px border-2 border-black bg-black flex-1 min-h-0" style={{ gridTemplateRows: '40px 1fr repeat(10, 40px)' }}>
+                        {/* Header row */}
+                        <div className="bg-white"></div>
+                        {dates.map((date, index) => (
+                            <div key={index} className="bg-white flex flex-col items-center justify-center font-bold p-1">
+                                <div className="text-xs">{dayNames[index]}</div>
+                                <div className="text-[10px] font-normal">{date.getDate()}</div>
+                            </div>
+                        ))}
+
+                        {/* Activity rows */}
+                        {activities.map((activity, activityIndex) => (
+                            <React.Fragment key={activity}>
+                                <div className="bg-white flex items-center justify-start text-[9px] font-bold p-1 text-left">
+                                    {activity}
+                                </div>
+                                {Array.from({ length: 7 }, (_, dayIndex) => {
+                                    const dataCellCount = activityIndex * 7 + dayIndex;
+                                    return (
+                                        <React.Fragment key={dayIndex}>
+                                            {renderDataCell(activity, dataCellCount)}
+                                        </React.Fragment>
+                                    );
+                                })}
+                            </React.Fragment>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<WeeklyTracker />);
+    </script>
+</body>
+</html>

@@ -26,7 +26,7 @@ in
     enable = true;
     polarity = colors.theme;
     image = ../../assets/black.png;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-material-dark-hard.yaml";
     targets.qt.enable = false;
     fonts = {
       serif = {
