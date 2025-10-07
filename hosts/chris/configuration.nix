@@ -26,11 +26,7 @@ in
     enable = true;
     polarity = colors.theme;
     image = ../../assets/black.png;
-    base16Scheme =
-      if colors.theme == "light" then
-        "${pkgs.base16-schemes}/share/themes/github.yaml"
-      else
-        "${pkgs.base16-schemes}/share/themes/oxocarbon-dark.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
     targets.qt.enable = false;
     fonts = {
       serif = {

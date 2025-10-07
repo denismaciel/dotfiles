@@ -104,6 +104,58 @@ If you see "Could not instantiate WebCryptoFunctionService", ensure:
 - Rebuild NixOS: `sudo nixos-rebuild switch`
 - Verify permissions: certificates should be owned by vaultwarden user
 
+## Certificate Renewal
+
+Tailscale HTTPS certificates are valid for approximately 90 days. When certificates expire, follow these steps to renew them:
+
+### 1. Check Certificate Expiration
+```bash
+# Check current certificate validity
+sudo openssl x509 -in /etc/vaultwarden/ben.tail0b5947.ts.net.crt -text -noout | grep "Not After"
+```
+
+### 2. Generate New Certificate
+```bash
+# Generate fresh certificate from Tailscale
+sudo tailscale cert ben.tail0b5947.ts.net
+
+# This creates new .crt and .key files in current directory
+```
+
+### 3. Update Certificate Files
+```bash
+# Copy new certificates to dotfiles directory
+sudo cp ben.tail0b5947.ts.net.crt ben.tail0b5947.ts.net.key /home/denis/dotfiles/
+
+# Copy to vaultwarden directory with correct permissions
+sudo cp /home/denis/dotfiles/ben.tail0b5947.ts.net.crt /home/denis/dotfiles/ben.tail0b5947.ts.net.key /etc/vaultwarden/
+sudo chown vaultwarden:vaultwarden /etc/vaultwarden/ben.tail0b5947.ts.net.*
+sudo chmod 600 /etc/vaultwarden/ben.tail0b5947.ts.net.*
+```
+
+### 4. Restart Vaultwarden
+```bash
+# Restart service to load new certificate
+sudo systemctl restart vaultwarden
+
+# Verify service is running
+systemctl status vaultwarden
+```
+
+### 5. Clean Up
+```bash
+# Remove temporary certificate files
+rm -f ben.tail0b5947.ts.net.crt ben.tail0b5947.ts.net.key
+```
+
+### 6. Verify Renewal
+```bash
+# Confirm new certificate is valid
+sudo openssl x509 -in /etc/vaultwarden/ben.tail0b5947.ts.net.crt -text -noout | grep -E "(Not Before|Not After)"
+```
+
+**Note**: The activation script in the NixOS configuration will automatically copy updated certificates from `/home/denis/dotfiles/` during future system rebuilds.
+
 ## Automated Backup System
 
 ### Backup Configuration
