@@ -24,7 +24,7 @@ in
       type = types.listOf types.package;
       default = with pkgs; [
         openttd
-        zeroad
+        # zeroad
       ];
       description = "Additional gaming packages to install";
     };
