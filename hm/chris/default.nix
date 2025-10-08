@@ -226,31 +226,6 @@ in
     extraLuaConfig = "require('init')";
   };
 
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      env = {
-        TERM = "xterm-256color";
-      };
-      font = {
-        # normal.family = "Blex Mono Nerd Font";
-        # size = 10.0;
-      };
-      cursor = {
-        style = {
-          shape = "Block";
-          blinking = "Off";
-        };
-      };
-      colors = {
-        cursor = {
-          text = lib.mkForce "#F1F1F1"; # Light background from lumiere theme
-          cursor = lib.mkForce "#800013"; # Red from lumiere theme
-        };
-      };
-    };
-  };
-
   programs.tmux = {
     enable = true;
     tmuxp.enable = true;
