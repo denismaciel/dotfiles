@@ -333,6 +333,10 @@ in
       ExecStart = "${dennichPkg}/bin/dennich-pomodoro start-server";
       Restart = "always";
       RestartSec = 3;
+      Environment = [
+        "DISPLAY=:0"
+        "XAUTHORITY=%h/.Xauthority"
+      ];
     };
   };
 
