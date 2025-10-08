@@ -9,7 +9,7 @@
     ../../modules/warp.nix
     ../../modules/openttd.nix
     ../../modules/gaming.nix
-    ../../modules/minecraft-server.nix
+    # ../../modules/minecraft-server.nix
   ];
 
   # Bootloader
@@ -23,7 +23,7 @@
   systemd.targets.hybrid-sleep.enable = false;
 
   gaming = {
-    enable = true;
+    enable = false;
     steam.enable = false; # Server doesn't need Steam
     firewall.openGamePorts = [
       20595 # 0 A.D. multiplayer
@@ -42,7 +42,6 @@
       2222
       7422
       631
-
     ]; # SSH + printer
     allowedUDPPorts = [
       5353
@@ -75,7 +74,6 @@
     neovim
     git
     wget
-    usbutils # For printer USB detection
     btop
     direnv
     firefox
@@ -98,38 +96,6 @@
       7422
     ];
     settings.PasswordAuthentication = true; # Keep for local access
-  };
-
-  # Printer services
-  services.printing = {
-    enable = true;
-    browsing = true;
-    defaultShared = true;
-    listenAddresses = [ "*:631" ];
-    allowFrom = [ "all" ];
-    openFirewall = true;
-    drivers = with pkgs; [
-      brlaser
-      brgenml1cupswrapper
-      brgenml1lpr
-    ];
-  };
-
-  # Brother HL-1110 printer configuration
-  hardware.printers = {
-    ensurePrinters = [
-      {
-        name = "Brother-HL-1110";
-        location = "Home";
-        description = "Brother HL-1110 series";
-        deviceUri = "usb://Brother/HL-1110%20series?serial=D0N609455";
-        model = "drv:///brlaser.drv/br1110.ppd";
-        ppdOptions = {
-          printer-is-shared = "true";
-        };
-      }
-    ];
-    ensureDefaultPrinter = "Brother-HL-1110";
   };
 
   # Avahi for network printer discovery
