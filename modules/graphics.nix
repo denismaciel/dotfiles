@@ -19,7 +19,7 @@
 
       # VDPAU to VA-API adapter
       vaapiVdpau
-      libvdpau-va-gl
+      # libvdpau-va-gl  # Temporarily disabled due to CMake compatibility issue
 
       # Intel VA-API implementation
       vaapiIntel
@@ -28,7 +28,7 @@
     # 32-bit versions for compatibility
     extraPackages32 = with pkgs.pkgsi686Linux; [
       vaapiVdpau
-      libvdpau-va-gl
+      # libvdpau-va-gl  # Temporarily disabled due to CMake compatibility issue
       vaapiIntel
     ];
   };

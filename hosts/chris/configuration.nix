@@ -20,7 +20,7 @@ in
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; # necessary to build nixos for raspberrypi
   warp.enable = false;
 
-  gaming.enable = true;
+  gaming.enable = false;
 
   stylix = {
     enable = true;
@@ -162,7 +162,6 @@ in
     ];
   };
   environment.systemPackages = with pkgs; [
-    factorio-demo
     git
     groff
     kdePackages.dolphin

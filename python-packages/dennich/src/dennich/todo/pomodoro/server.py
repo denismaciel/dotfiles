@@ -1,5 +1,4 @@
 import asyncio
-import atexit
 import datetime as dt
 import getpass
 import json
@@ -150,17 +149,20 @@ class Server:
 
     async def serve(self) -> None:
         socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        socket_server.bind(('0.0.0.0', self.port))
-        atexit.register(socket_server.close)
+        socket_server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        socket_server.bind(('localhost', self.port))
         socket_server.listen(5)
         socket_server.setblocking(False)
 
-        _nag_task = asyncio.create_task(nag(self.config))
+        try:
+            _nag_task = asyncio.create_task(nag(self.config))
 
-        loop = asyncio.get_event_loop()
-        while True:
-            client_socket, _ = await loop.sock_accept(socket_server)
-            loop.create_task(self._handle_client(loop, client_socket))
+            loop = asyncio.get_event_loop()
+            while True:
+                client_socket, _ = await loop.sock_accept(socket_server)
+                loop.create_task(self._handle_client(loop, client_socket))
+        finally:
+            socket_server.close()
 
     async def _handle_client(
         self, loop: asyncio.AbstractEventLoop, client_socket: socket.socket
@@ -231,16 +233,22 @@ async def nag(config: Config) -> None:
             zenity_windows = count_zenity_notifications()
             if zenity_windows <= MAX_NUMBER_OF_ZENITY_WINDOWS:
                 try:
-                    cmd = [
+                    # Set environment variables for GUI access
+                    env = os.environ.copy()
+                    env['DISPLAY'] = env.get('DISPLAY', ':0')
+                    if 'XAUTHORITY' not in env and os.path.exists(
+                        os.path.expanduser('~/.Xauthority')
+                    ):
+                        env['XAUTHORITY'] = os.path.expanduser('~/.Xauthority')
+
+                    await asyncio.create_subprocess_exec(
                         config.zenity_bin,
                         '--error',
                         '--text',
-                        "'Track your time!'",
-                    ]
-                    await asyncio.create_subprocess_shell(
-                        ' '.join(cmd),
+                        'Track your time!',
                         stdout=asyncio.subprocess.PIPE,
                         stderr=asyncio.subprocess.PIPE,
+                        env=env,
                     )
                 except Exception as e:
                     log.error(f'Error executing zenity command: {e}')

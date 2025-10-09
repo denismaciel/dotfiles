@@ -55,7 +55,6 @@ in
     # kdePackages.dolphin
     # cargo
     mise
-    zeroad
     age
     nixfmt-rfc-style
 
@@ -91,7 +90,7 @@ in
     nerd-fonts.comic-shanns-mono
     nil
     nixfmt-rfc-style
-    nodejs
+    # nodejs
     openssl
     pgcli
     pgsync
