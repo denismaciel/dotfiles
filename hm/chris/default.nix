@@ -141,7 +141,7 @@ in
       templates = "${home}/templates";
       videos = "${home}/videos";
     };
-  stylix.targets.neovim.enable = true;
+  stylix.targets.neovim.enable = false;
   stylix.targets.fzf.enable = true;
   stylix.targets.starship.enable = false;
   stylix.targets.ghostty.enable = true;

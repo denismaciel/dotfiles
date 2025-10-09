@@ -85,7 +85,7 @@ local function apply_theme()
     local theme = get_system_theme()
     if theme == 'dark' then
         -- vim.cmd([[ colorscheme no-clown-fiesta ]])
-        vim.cmd([[ colorscheme gruvbox ]])
+        vim.cmd([[ colorscheme gruvbox-material ]])
     else
         vim.cmd([[ colorscheme catppuccin-latte ]])
     end
