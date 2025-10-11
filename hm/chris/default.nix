@@ -51,7 +51,7 @@ in
 
   home.packages = with pkgs; [
     # calibre
-    # anki
+    anki
     # kdePackages.dolphin
     # cargo
     mise
@@ -90,7 +90,7 @@ in
     nerd-fonts.comic-shanns-mono
     nil
     nixfmt-rfc-style
-    # nodejs
+    nodejs
     openssl
     pgcli
     pgsync
