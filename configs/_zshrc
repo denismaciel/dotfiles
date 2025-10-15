@@ -4,6 +4,7 @@ export PATH=$GOROOT/bin:$PATH
 export PATH="$HOME/node/bin:$PATH"
 export PATH=$HOME/dotfiles/scripts:$PATH
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="/home/denis/.cache/.bun/bin:$PATH"
 export PATH=/etc/profiles/per-user/denis/bin/:$PATH # so that the default Python is the one from Home Manager
 export DISABLE_AUTO_TITLE='true' # For tmuxp, no idea what it does
 export EDITOR=nvim
