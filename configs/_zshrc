@@ -81,10 +81,10 @@ alias vi=nvim
 alias gdd="GIT_EXTERNAL_DIFF='difft --syntax-highlight off' git diff"
 alias gdds="GIT_EXTERNAL_DIFF='difft --syntax-highlight off' git diff --staged"
 alias gds="git diff --staged"
-alias clip='xclip -selection clipboard'
-alias tss="date +'%Y-%m-%d %H:%M:%S' | tr -d '\n' | xclip -selection clipboard && xclip -selection clipboard -o"
-alias tsd="date +'%Y-%m-%d' | tr -d '\n' | xclip -selection clipboard && xclip -selection clipboard -o"
-alias tsw="date +'%Y-%W' | tr -d '\n' | xclip -selection clipboard && xclip -selection clipboard -o"
+ alias clip='wl-copy'
+ alias tss="date +'%Y-%m-%d %H:%M:%S' | tr -d '\n' | wl-copy && wl-paste"
+ alias tsd="date +'%Y-%m-%d' | tr -d '\n' | wl-copy && wl-paste"
+ alias tsw="date +'%Y-%W' | tr -d '\n' | wl-copy && wl-paste"
 alias kz="pkill zenity"
 
 # ---------------------------
@@ -197,6 +197,10 @@ function gh-view-pr() {
     else
         echo "Failed to retrieve PR URL."
     fi
+}
+
+function gh-merge-pr() {
+    gh pr merge --merge
 }
 
 function gh-clone() {
