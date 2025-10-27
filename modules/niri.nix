@@ -616,8 +616,8 @@ in
           spawn-sh "cliphist list | fuzzel --dmenu --prompt '📋 ' --width 56 | cliphist decode | wl-copy";
 
         # Screenshots
-        "Print".action = screenshot;
-        "Alt+Print".action = screenshot-window;
+        # "Print".action = screenshot;
+        # "Alt+Print".action = screenshot-window;
         "Mod+Shift+S".action =
           spawn "bash" "-lc"
             "grim -g \"$(slurp)\" -t ppm - | satty --filename - --fullscreen --output-filename \"$HOME/Pictures/Screenshots/satty-$(date '+%Y%m%d-%H-%M-%S').png\"";

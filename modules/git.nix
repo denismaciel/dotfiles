@@ -11,8 +11,6 @@
   config = lib.mkIf config.git.enable {
     programs.git = {
       enable = true;
-      userName = "Denis Maciel";
-      userEmail = "denispmaciel@gmail.com";
       ignores = [
         ".DS_Store"
         ".avante_chat_history"
@@ -34,12 +32,16 @@
         "venv"
         ".mise.toml"
       ];
-      aliases = {
-        last = "for-each-ref --sort=-committerdate --count=20 --format='%(align:70,left)%(refname:short)%(end)%(committerdate:relative)' refs/heads/";
-        lastco = "!git last | fzf | awk '{print $1}' | xargs git checkout";
-        please = "push origin HEAD --force-with-lease";
-      };
-      extraConfig = {
+      settings = {
+        user = {
+          name = "Denis Maciel";
+          email = "denispmaciel@gmail.com";
+        };
+        alias = {
+          last = "for-each-ref --sort=-committerdate --count=20 --format='%(align:70,left)%(refname:short)%(end)%(committerdate:relative)' refs/heads/";
+          lastco = "!git last | fzf | awk '{print $1}' | xargs git checkout";
+          please = "push origin HEAD --force-with-lease";
+        };
         diff = {
           tool = "difftastic";
         };

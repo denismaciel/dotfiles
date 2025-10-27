@@ -170,7 +170,7 @@ def apply_update_plan(session_name, plan):
                 pane2 = window.split_window(vertical=False, start_directory=os.path.join(expanded_dir, 'backend'))
 
                 # Set up each pane with clean environment
-                for p, subdir in [(pane, 'frontend'), (pane2, 'backend')]:
+                for p, subdir in [(pane, ''), (pane2, '')]:
                     p.send_keys(f'cd {os.path.join(expanded_dir, subdir)}', enter=True)
                     p.send_keys(f'export PATH="{clean_path}"', enter=True)
                     p.send_keys('unset VIRTUAL_ENV', enter=True)

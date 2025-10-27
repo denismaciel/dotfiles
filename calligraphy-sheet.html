@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Folha de Caligrafia - Cursiva Portuguesa</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: white;
+        }
+        #content {
+            page-break-inside: avoid;
+        }
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .line {
+            height: 45px;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .line::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            border-top: 1px dotted black;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <h1>Tutu é bonitão</h1>
+      <div id="sheet">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+  </body>
+</html>
