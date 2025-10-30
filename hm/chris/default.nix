@@ -19,7 +19,6 @@ in
     ../../modules/fzf.nix
     ../../modules/ghostty.nix
     ../../modules/starship.nix
-    ../../modules/pageshot.nix
     ../../modules/niri.nix
 
   ];
@@ -29,7 +28,6 @@ in
   git.enable = true;
   ghostty.enable = true;
   starship.enable = true;
-  pageshot.enable = true;
   services.gammastep = {
     enable = true;
     provider = "geoclue2";
@@ -58,8 +56,7 @@ in
     age
     nixfmt-rfc-style
 
-    biome
-    bitwarden
+    bitwarden-desktop
     btop
     bun
     cliphist
@@ -99,7 +96,7 @@ in
     sioyek
     slack
     sops
-    spotify-unwrapped
+    spotify
     sqlite
     statix
     stow

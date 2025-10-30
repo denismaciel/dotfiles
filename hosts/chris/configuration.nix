@@ -166,11 +166,10 @@ in
     groff
     kdePackages.dolphin
     niri
-    swaylock
-    xwayland-satellite
     portaudio
-    prismlauncher
+    swaylock
     wget
+    xwayland-satellite
     zenity
     zip
   ];
