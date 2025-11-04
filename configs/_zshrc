@@ -359,11 +359,14 @@ codex_update() {
 }
 
 codex_base() {
+    local effort="$1"
+    shift
     command codex \
         -m "gpt-5-codex" \
-        -c "model_reasoning_effort=$1" \
+        -c "model_reasoning_effort=${effort}" \
+        -c 'web_search_request.mode="auto"' \
         --dangerously-bypass-approvals-and-sandbox \
-        --search "${@:2}"
+        "$@"
 }
 
 alias codexh='codex_base high'

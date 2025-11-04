@@ -20,7 +20,7 @@ DESIRED_WINDOWS = {
     'sam-run': '~/github.com/denismaciel/sam',
     'beluga': '~/github.com/belem-ai/belugaweb/',
     'beluga-run': '~/github.com/belem-ai/belugaweb/',
-    'heraclito': '~/github.com/heraclito-ai/heraclito/',
+    'heraclito': '~/github.com/belem-ai/heraclito/',
     'mini-heraclito': '~/github.com/belem-ai/mini-heraclito/',
     'finance': '~/github.com/denismaciel/finance',
     'denis': '~/github.com/denismaciel/denis',

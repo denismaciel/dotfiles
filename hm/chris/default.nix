@@ -459,7 +459,7 @@ in
     Install.WantedBy = [ "timers.target" ];
   };
 
-  # Idle management: lock after 10 minutes, sleep after 15 minutes
+  # Idle management: lock after 10 minutes
   systemd.user.services.swayidle = {
     Unit = {
       Description = "Idle manager for Wayland";
@@ -469,7 +469,7 @@ in
       WantedBy = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.swayidle}/bin/swayidle -w timeout 600 '${pkgs.swaylock}/bin/swaylock -f' timeout 900 '${pkgs.systemd}/bin/systemctl suspend' before-sleep '${pkgs.swaylock}/bin/swaylock -f'";
+      ExecStart = "${pkgs.swayidle}/bin/swayidle -w timeout 600 '${pkgs.swaylock}/bin/swaylock -f'";
       Restart = "always";
       RestartSec = 3;
     };
