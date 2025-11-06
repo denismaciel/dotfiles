@@ -199,6 +199,13 @@ function gh-view-pr() {
     fi
 }
 
+function gh-open-prs() {
+    if ! gh pr list --web >/dev/null 2>&1; then
+        echo "Failed to open PR list."
+        return 1
+    fi
+}
+
 function gh-merge-pr() {
     gh pr merge --merge
 }
@@ -365,6 +372,9 @@ codex_base() {
         -m "gpt-5-codex" \
         -c "model_reasoning_effort=${effort}" \
         -c 'web_search_request.mode="auto"' \
+        -c 'shell_environment_policy.inherit=all' \
+        -c 'shell_environment_policy.ignore_default_excludes=true' \
+        -c 'shell_environment_policy.experimental_use_profile=true' \
         --dangerously-bypass-approvals-and-sandbox \
         "$@"
 }
