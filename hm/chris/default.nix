@@ -331,7 +331,7 @@ in
 
   programs.tmux = {
     enable = true;
-    tmuxp.enable = true;
+    # tmuxp.enable = true;
     plugins = with pkgs.tmuxPlugins; [
       vim-tmux-navigator
       yank
