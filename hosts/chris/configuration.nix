@@ -162,6 +162,7 @@ in
     ];
   };
   environment.systemPackages = with pkgs; [
+    docker-buildx
     git
     groff
     kdePackages.dolphin

@@ -17,6 +17,8 @@ tools/.newsboat/history.cmdline
 tools/.newsboat/history.search
 tools/bin/gh
 
+.gcloud/
+
 # Files automatically created by home-manager
 nvim/.config/nvim/init.lua
 nvim/.config/nvim/init.lua
