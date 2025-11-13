@@ -71,8 +71,20 @@ return {
     -- { 'windwp/nvim-autopairs', opts = {} },
     {
         'ggandor/leap.nvim',
-        opts = function()
-            require('leap').create_default_mappings()
+        config = function()
+            local map = vim.keymap.set
+            map({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward)', {
+                silent = true,
+                desc = 'Leap forward',
+            })
+            map({ 'n', 'x', 'o' }, 'S', '<Plug>(leap-backward)', {
+                silent = true,
+                desc = 'Leap backward',
+            })
+            map({ 'n', 'x', 'o' }, 'gs', '<Plug>(leap-from-window)', {
+                silent = true,
+                desc = 'Leap from window',
+            })
         end,
     },
     'christoomey/vim-tmux-navigator',
