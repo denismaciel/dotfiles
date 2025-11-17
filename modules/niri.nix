@@ -525,6 +525,34 @@ in
         };
       };
 
+      # Output layout - make external Dell the primary (origin) display
+      outputs = {
+        "DP-3" = {
+          mode = {
+            width = 2560;
+            height = 1440;
+            refresh = 60.0;
+          };
+          position = {
+            x = 0;
+            y = 0;
+          };
+          scale = 1.0;
+        };
+        "eDP-1" = {
+          mode = {
+            width = 1920;
+            height = 1200;
+            refresh = 60.0;
+          };
+          position = {
+            x = 2560;
+            y = 0;
+          };
+          scale = 1.0;
+        };
+      };
+
       # Animation settings - make them faster
       animations = {
         slowdown = 0.1; # Speed multiplier (0.1 = 10x faster)

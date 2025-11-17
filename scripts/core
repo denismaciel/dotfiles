@@ -25,6 +25,7 @@ DESIRED_WINDOWS = {
     'finance': '~/github.com/denismaciel/finance',
     'denis': '~/github.com/denismaciel/denis',
     'dotfiles': '~/dotfiles',
+    'split': '~/',
 }
 
 
