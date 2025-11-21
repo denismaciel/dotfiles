@@ -369,7 +369,7 @@ codex_base() {
     local effort="$1"
     shift
     command codex \
-        -m "gpt-5.1-codex" \
+        -m "gpt-5.1-codex-max" \
         -c "model_reasoning_effort=${effort}" \
         -c 'web_search_request.mode="auto"' \
         -c 'shell_environment_policy.inherit=all' \
@@ -379,9 +379,25 @@ codex_base() {
         "$@"
 }
 
+
+codex_base_mini () {
+    local effort="$1"
+    shift
+    command codex \
+        -m "gpt-5.1-codex-mini" \
+        -c "model_reasoning_effort=${effort}" \
+        -c 'web_search_request.mode="auto"' \
+        -c 'shell_environment_policy.inherit=all' \
+        -c 'shell_environment_policy.ignore_default_excludes=true' \
+        -c 'shell_environment_policy.experimental_use_profile=true' \
+        --dangerously-bypass-approvals-and-sandbox \
+        "$@"
+}
 alias codexh='codex_base high'
 alias codexm='codex_base medium'
 alias codexl='codex_base low'
+alias codex-minil='codex_base_mini medium'
+alias codex-minih='codex_base_mini high'
 
 # Show profiling results automatically on startup
 # Comment out the line below if you don't want to see profiling on every shell startup

@@ -12,25 +12,17 @@
     programs.git = {
       enable = true;
       ignores = [
-        ".DS_Store"
-        ".avante_chat_history"
+        ".aws"
         ".direnv"
         ".envrc"
+        ".gcloud"
         ".llm"
-        ".mypy_cache"
-        ".pytest_cache"
-        ".python-version"
-        ".vim"
-        ".vscode"
+        ".mise.toml"
         "__pycache__"
         "play"
-        "snaps"
-        "t.py"
-        "tags"
         "track"
         "track-core.md"
         "venv"
-        ".mise.toml"
       ];
       settings = {
         user = {
