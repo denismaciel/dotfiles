@@ -396,7 +396,7 @@ codex_base_mini () {
 alias codexh='codex_base high'
 alias codexm='codex_base medium'
 alias codexl='codex_base low'
-alias codex-minil='codex_base_mini medium'
+alias codex-minil='codex_base_mini low'
 alias codex-minih='codex_base_mini high'
 
 # Show profiling results automatically on startup
