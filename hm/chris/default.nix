@@ -93,7 +93,7 @@ in
     openssl
     pgcli
     pgsync
-    postgresql
+    # postgresql
     ripgrep
     sioyek
     slack

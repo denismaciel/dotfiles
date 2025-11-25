@@ -76,3 +76,6 @@ stow-delete:
 # Ensure target directories exist
 ensure-config-dirs:
 	mkdir -p ~/.config/nvim ~/.config/awesome
+
+reinstall-opencode-plugins:
+	(cd ~ && sed -i.bak '/"opencode-openai-codex-auth"/d' .cache/opencode/package.json && rm -rf .cache/opencode/node_modules/opencode-openai-codex-auth)

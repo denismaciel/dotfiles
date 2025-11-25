@@ -17,8 +17,12 @@ let
           store = false;
         };
         models = {
-          "gpt-5-codex-low" = {
-            name = "GPT 5 Codex Low (OAuth)";
+          "gpt-5.1-codex-low" = {
+            name = "GPT 5.1 Codex Low (OAuth)";
+            limit = {
+              context = 272000;
+              output = 128000;
+            };
             options = {
               reasoningEffort = "low";
               reasoningSummary = "auto";
@@ -27,8 +31,12 @@ let
               store = false;
             };
           };
-          "gpt-5-codex-medium" = {
-            name = "GPT 5 Codex Medium (OAuth)";
+          "gpt-5.1-codex-medium" = {
+            name = "GPT 5.1 Codex Medium (OAuth)";
+            limit = {
+              context = 272000;
+              output = 128000;
+            };
             options = {
               reasoningEffort = "medium";
               reasoningSummary = "auto";
@@ -37,8 +45,12 @@ let
               store = false;
             };
           };
-          "gpt-5-codex-high" = {
-            name = "GPT 5 Codex High (OAuth)";
+          "gpt-5.1-codex-high" = {
+            name = "GPT 5.1 Codex High (OAuth)";
+            limit = {
+              context = 272000;
+              output = 128000;
+            };
             options = {
               reasoningEffort = "high";
               reasoningSummary = "detailed";
@@ -47,28 +59,12 @@ let
               store = false;
             };
           };
-          "gpt-5-minimal" = {
-            name = "GPT 5 Minimal (OAuth)";
-            options = {
-              reasoningEffort = "minimal";
-              reasoningSummary = "auto";
-              textVerbosity = "low";
-              include = [ "reasoning.encrypted_content" ];
-              store = false;
+          "gpt-5.1-codex-mini-medium" = {
+            name = "GPT 5.1 Codex Mini Medium (OAuth)";
+            limit = {
+              context = 272000;
+              output = 128000;
             };
-          };
-          "gpt-5-low" = {
-            name = "GPT 5 Low (OAuth)";
-            options = {
-              reasoningEffort = "low";
-              reasoningSummary = "auto";
-              textVerbosity = "low";
-              include = [ "reasoning.encrypted_content" ];
-              store = false;
-            };
-          };
-          "gpt-5-medium" = {
-            name = "GPT 5 Medium (OAuth)";
             options = {
               reasoningEffort = "medium";
               reasoningSummary = "auto";
@@ -77,32 +73,58 @@ let
               store = false;
             };
           };
-          "gpt-5-high" = {
-            name = "GPT 5 High (OAuth)";
+          "gpt-5.1-codex-mini-high" = {
+            name = "GPT 5.1 Codex Mini High (OAuth)";
+            limit = {
+              context = 272000;
+              output = 128000;
+            };
+            options = {
+              reasoningEffort = "high";
+              reasoningSummary = "detailed";
+              textVerbosity = "medium";
+              include = [ "reasoning.encrypted_content" ];
+              store = false;
+            };
+          };
+          "gpt-5.1-low" = {
+            name = "GPT 5.1 Low (OAuth)";
+            limit = {
+              context = 272000;
+              output = 128000;
+            };
+            options = {
+              reasoningEffort = "low";
+              reasoningSummary = "auto";
+              textVerbosity = "low";
+              include = [ "reasoning.encrypted_content" ];
+              store = false;
+            };
+          };
+          "gpt-5.1-medium" = {
+            name = "GPT 5.1 Medium (OAuth)";
+            limit = {
+              context = 272000;
+              output = 128000;
+            };
+            options = {
+              reasoningEffort = "medium";
+              reasoningSummary = "auto";
+              textVerbosity = "medium";
+              include = [ "reasoning.encrypted_content" ];
+              store = false;
+            };
+          };
+          "gpt-5.1-high" = {
+            name = "GPT 5.1 High (OAuth)";
+            limit = {
+              context = 272000;
+              output = 128000;
+            };
             options = {
               reasoningEffort = "high";
               reasoningSummary = "detailed";
               textVerbosity = "high";
-              include = [ "reasoning.encrypted_content" ];
-              store = false;
-            };
-          };
-          "gpt-5-mini" = {
-            name = "GPT 5 Mini (OAuth)";
-            options = {
-              reasoningEffort = "low";
-              reasoningSummary = "auto";
-              textVerbosity = "low";
-              include = [ "reasoning.encrypted_content" ];
-              store = false;
-            };
-          };
-          "gpt-5-nano" = {
-            name = "GPT 5 Nano (OAuth)";
-            options = {
-              reasoningEffort = "minimal";
-              reasoningSummary = "auto";
-              textVerbosity = "low";
               include = [ "reasoning.encrypted_content" ];
               store = false;
             };
