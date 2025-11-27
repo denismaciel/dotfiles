@@ -1,6 +1,7 @@
 require('leisi')
 require('config')
 require('dennich')
+require('dennich.note').setup()
 require('dennich.llm').setup({})
 
 vim.filetype.add({

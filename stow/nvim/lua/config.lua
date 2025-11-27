@@ -218,7 +218,9 @@ vim.keymap.set('n', '<leader>xl', ':.lua<cr>')
 vim.keymap.set('v', '<leader>xl', ':lua<cr>')
 
 vim.keymap.set('n', '<leader>;', '<cmd>Telescope buffers<CR>')
-vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeFindFileToggle<CR>')
+vim.keymap.set('n', '<leader>e', function()
+    require('dennich.note').focus_tree_on_note_or_toggle()
+end)
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '$', 'g$')
 vim.keymap.set('n', '<c>o', '<c>ozz')
@@ -489,53 +491,43 @@ end
 vim.keymap.set('n', '<leader>ro', open_test_file)
 
 vim.keymap.set('n', '<leader>gn', function()
-    local HOME = os.getenv('HOME') .. '/'
-    local NOTES_FOLDER = HOME .. 'Sync/notes'
-    local PARROT_FOLDER = HOME .. '.local/share/nvim/parrot/chats/'
-    local bufnr = vim.api.nvim_get_current_buf()
-    local buf_name = vim.api.nvim_buf_get_name(bufnr)
-    local cwd = vim.fn.getcwd()
-
-    if true then
-        vim.cmd([[ LLM ]])
-        return
+    local note_dir = require('dennich.note').get_note_dir()
+    if vim.fn.isdirectory(note_dir) == 0 then
+        vim.fn.mkdir(note_dir, 'p')
     end
 
-    -- If cwd is not notes folder, run LLM command
-    print(cwd)
-    if not vim.startswith(cwd, NOTES_FOLDER) then
-        vim.cmd([[ LLM ]])
-        return
-    end
+    local files = vim.fn.globpath(note_dir, '*.md', false, true) or {}
+    local latest_path = nil
+    local latest_mtime = -1
 
-    -- If the current buffer is a chat, open a new blank chat.
-    if vim.startswith(buf_name, PARROT_FOLDER) then
-        vim.cmd([[PrtChatNew]])
-        return
-    end
-
-    local parrot_buffers = {}
-    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-        local name = vim.api.nvim_buf_get_name(buf)
-        if
-            vim.startswith(name, PARROT_FOLDER)
-            and vim.api.nvim_buf_is_loaded(buf)
-        then
-            table.insert(parrot_buffers, name)
+    for _, path in ipairs(files) do
+        local stat = vim.loop.fs_stat(path)
+        local mtime = stat and stat.mtime and (stat.mtime.sec or stat.mtime)
+        if mtime and mtime > latest_mtime then
+            latest_mtime = mtime
+            latest_path = path
         end
     end
 
-    -- If there are already open parrot buffers, and we're not in one alread,
-    -- focus on the latest one.
-    if #parrot_buffers > 0 then
-        table.sort(parrot_buffers)
-        vim.cmd(
-            'buffer ' .. vim.fn.fnameescape(parrot_buffers[#parrot_buffers])
-        )
-    else
-        -- If there are no parrot buffers, create one.
-        vim.cmd([[ PrtChatNew ]])
+    local current = vim.fn.expand('%:p')
+    if latest_path ~= nil then
+        if
+            vim.fn.fnamemodify(current, ':p')
+            == vim.fn.fnamemodify(latest_path, ':p')
+        then
+            vim.cmd([[ Note ]])
+            return
+        end
+        vim.cmd('edit ' .. vim.fn.fnameescape(latest_path))
+        return
     end
+
+    -- No existing notes; create one
+    vim.cmd([[ Note ]])
+end)
+
+vim.keymap.set('n', '<leader>gp', function()
+    require('dennich.note').pick_note_files()
 end)
 
 vim.keymap.set('n', '<leader>gt', function()

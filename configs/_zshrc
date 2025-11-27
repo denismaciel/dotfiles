@@ -1,5 +1,10 @@
 # zmodload zsh/zprof  # Enable profiling
-zsh-defer -c 'autoload -Uz compinit && compinit'
+zsh-defer -c 'autoload -Uz compinit && compinit -i -d ~/.cache/zcompdump-$ZSH_VERSION'
+[[ -d ~/.cache/zsh ]] || mkdir -p ~/.cache/zsh
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.cache/zsh
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' menu select
 export PATH=$GOROOT/bin:$PATH
 export PATH="$HOME/node/bin:$PATH"
 export PATH=$HOME/dotfiles/scripts:$PATH
@@ -104,7 +109,9 @@ zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
 
-HISTFILE="$HOME/.zsh_history"
+HISTDIR="${XDG_STATE_HOME:-$HOME/.local/state}/zsh"
+mkdir -p "$HISTDIR"
+HISTFILE="$HISTDIR/history"
 HISTSIZE=10000000
 SAVEHIST=10000000
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
@@ -116,6 +123,9 @@ setopt HIST_SAVE_NO_DUPS         # Dont write duplicate entries in the history f
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Dont execute immediately upon history expansion.
 setopt INTERACTIVE_COMMENTS       # Allow for comments
+setopt HIST_IGNORE_SPACE          # Do not record commands starting with a space
+setopt HIST_EXPIRE_DUPS_FIRST     # Expire duplicate entries first when trimming history
+setopt HIST_FIND_NO_DUPS          # Skip duplicate entries when searching history
 
 if [ -e /home/denis/credentials/recap.sh ]; then . /home/denis/credentials/recap.sh; fi
 if [ -e /home/denis/credentials/secrets.sh ]; then . /home/denis/credentials/secrets.sh; fi
@@ -190,17 +200,27 @@ function gh-create-pr() {
    gh pr create --title "$(git branch --show-current)" --body "" --base main --assignee "@me"
 }
 
+function __gh-browser() {
+    if [[ "$PWD" == *"recap-technologies"* ]]; then
+        echo "google-chrome-stable"
+    else
+        echo "firefox"
+    fi
+}
+
 function gh-view-pr() {
     url=$(gh pr view --json url -q .url)
     if [ -n "$url" ]; then
-        firefox "$url"
+        browser=$(__gh-browser)
+        "$browser" "$url"
     else
         echo "Failed to retrieve PR URL."
     fi
 }
 
 function gh-open-prs() {
-    if ! gh pr list --web >/dev/null 2>&1; then
+    browser=$(__gh-browser)
+    if ! BROWSER="$browser" gh pr list --web >/dev/null 2>&1; then
         echo "Failed to open PR list."
         return 1
     fi

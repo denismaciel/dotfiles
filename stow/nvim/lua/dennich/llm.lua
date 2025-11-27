@@ -63,6 +63,7 @@ local system_prompt_replace =
     'Follow the instructions in the code comments. Generate code only. Think step by step. If you must speak, do so in comments. Generate valid code only.'
 
 local print_prompt = false
+local HOME = os.getenv('HOME') or ''
 
 function M.setup(opts)
     timeout_ms = opts.timeout_ms or timeout_ms
@@ -81,7 +82,6 @@ function M.setup(opts)
     if opts.print_prompt then
         print_prompt = opts.print_prompt
     end
-    vim.api.nvim_create_user_command('LLM', M.create_timestamped_md, {})
 end
 
 local function get_buffer_path()
@@ -487,29 +487,8 @@ function M.inspect_prompt(opts)
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
     vim.api.nvim_buf_set_option(buf, 'modifiable', false)
 
-    -- Open in new window
     vim.api.nvim_command('split')
     vim.api.nvim_win_set_buf(0, buf)
-end
-
-function M.create_timestamped_md()
-    local cwd = vim.fn.getcwd()
-    local llm_dir = cwd .. '/.llm'
-
-    -- Create .llm directory if it doesn't exist
-    local dir_exists = vim.fn.isdirectory(llm_dir)
-    if dir_exists == 0 then
-        vim.fn.mkdir(llm_dir, 'p')
-    end
-
-    -- Generate timestamp for filename (format: YYYY-MM-DD_HH-MM-SS)
-    local timestamp = os.date('%Y-%m-%d_%H-%M-%S')
-    local file_path = llm_dir .. '/' .. timestamp .. '.md'
-
-    -- Open the file for editing
-    vim.api.nvim_command('edit ' .. file_path)
-    local buf = vim.api.nvim_get_current_buf()
-    vim.api.nvim_buf_set_option(buf, 'filetype', 'markdown')
 end
 
 function M.prompt_operatorfunc(opts)
