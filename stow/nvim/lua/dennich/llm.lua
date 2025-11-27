@@ -4,6 +4,13 @@ local vim = vim or {}
 
 local timeout_ms = 10000
 local active_job = nil
+local decode_error_reported = false
+
+local function notify_error(message)
+    vim.schedule(function()
+        vim.notify(message, vim.log.levels.ERROR, { title = 'llm.nvim' })
+    end)
+end
 
 local read_env = function(name)
     local file = io.open(name, 'r')
@@ -19,11 +26,7 @@ local read_env = function(name)
     if content then
         return content
     end
-    vim.notify(
-        'Environment variable not found: ' .. name,
-        vim.log.levels.ERROR,
-        { title = 'llm.nvim' }
-    )
+    notify_error('Environment variable not found: ' .. name)
 end
 
 local service_lookup = {
@@ -46,24 +49,12 @@ local service_lookup = {
     },
 }
 
-local system_prompt = [[
-You are an AI programming assistant integrated into a code editor. Your purpose is to help the user with programming tasks as they write code.
-Key capabilities:
-- Thoroughly analyze the user's code and provide insightful suggestions for improvements related to best practices, performance, readability, and maintainability. Explain your reasoning.
-- Answer coding questions in detail, using examples from the user's own code when relevant. Break down complex topics step- Spot potential bugs and logical errors. Alert the user and suggest fixes.
-- Upon request, add helpful comments explaining complex or unclear code.
-- Suggest relevant documentation, StackOverflow answers, and other resources related to the user's code and questions.
-- Engage in back-and-forth conversations to understand the user's intent and provide the most helpful information.
-- Keep concise and use markdown.
-- When asked to create code, only generate the code. No bugs.
-- Think step by step
-]]
+local system_prompt = [[ - Keep concise and use markdown. ]]
 
 local system_prompt_replace =
     'Follow the instructions in the code comments. Generate code only. Think step by step. If you must speak, do so in comments. Generate valid code only.'
 
 local print_prompt = false
-local HOME = os.getenv('HOME') or ''
 
 function M.setup(opts)
     timeout_ms = opts.timeout_ms or timeout_ms
@@ -111,7 +102,8 @@ local function get_file_contents(file_path)
             local content = file:read('*all')
             file:close()
 
-            relative_path = vim.fn.fnamemodify(full_path, ':.' .. cwd .. ':')
+            local relative_path =
+                vim.fn.fnamemodify(full_path, ':.' .. cwd .. ':')
             contents = contents
                 .. string.rep('=', 15)
                 .. ' '
@@ -121,7 +113,7 @@ local function get_file_contents(file_path)
                 .. '\n'
             contents = contents .. content .. '\n\n'
         else
-            print('Cannot open file: ' .. full_path)
+            notify_error('Cannot open file: ' .. full_path)
         end
     end
 
@@ -182,44 +174,77 @@ local function write_string_at_cursor(str)
 end
 
 local function process_data_lines(line, service, process_data)
-    local json = line:match('^data: (.+)$')
-    if json then
-        local stop = false
-        if json == '[DONE]' then
-            return true
-        end
-        local data = vim.json.decode(json)
-        if service == 'anthropic' then
-            stop = data.type == 'message_stop'
-        end
-        if stop then
-            return true
-        else
-            vim.schedule(function()
-                vim.cmd('undojoin')
-                process_data(data)
-            end)
-        end
+    local json = line:match('^data:%s*(.+)$')
+    if not json then
+        return false
     end
+    if json == '[DONE]' then
+        return true
+    end
+    local ok, data = pcall(vim.json.decode, json)
+    if not ok then
+        if not decode_error_reported then
+            decode_error_reported = true
+            local snippet = #json > 200 and (json:sub(1, 200) .. '...') or json
+            notify_error('Failed to parse LLM stream: ' .. snippet)
+        end
+        return false
+    end
+    local stop = service == 'anthropic' and data.type == 'message_stop'
+    if stop then
+        return true
+    end
+    vim.schedule(function()
+        vim.cmd('undojoin')
+        process_data(data)
+    end)
     return false
 end
 
 local function process_sse_response(buffer, service)
-    process_data_lines(buffer, service, function(data)
-        local content
-        if service == 'anthropic' then
-            if data.delta and data.delta.text then
-                content = data.delta.text
+    for line in buffer:gmatch('[^\r\n]+') do
+        local stop = process_data_lines(line, service, function(data)
+            local content
+            if service == 'anthropic' then
+                if data.delta and data.delta.text then
+                    content = data.delta.text
+                end
+            else
+                if
+                    data.choices
+                    and data.choices[1]
+                    and data.choices[1].delta
+                then
+                    local delta_content = data.choices[1].delta.content
+                    if type(delta_content) == 'string' then
+                        content = delta_content
+                    elseif type(delta_content) == 'table' then
+                        local pieces = {}
+                        for _, block in ipairs(delta_content) do
+                            if type(block) == 'string' then
+                                table.insert(pieces, block)
+                            elseif
+                                type(block) == 'table'
+                                and block.type == 'text'
+                                and block.text
+                            then
+                                table.insert(pieces, block.text)
+                            end
+                        end
+                        if #pieces > 0 then
+                            content = table.concat(pieces, '')
+                        end
+                    end
+                end
             end
-        else
-            if data.choices and data.choices[1] and data.choices[1].delta then
-                content = data.choices[1].delta.content
+            if content and content ~= vim.NIL then
+                write_string_at_cursor(content)
             end
+        end)
+        if stop then
+            break
         end
-        if content and content ~= vim.NIL then
-            write_string_at_cursor(content)
-        end
-    end)
+    end
 end
 
 local function build_prompt(opts)
@@ -284,11 +309,22 @@ function M.prompt(opts)
         api_key_name = found_service.api_key_name
         model = found_service.model
     else
-        print('Invalid service: ' .. service)
+        notify_error('Invalid service: ' .. tostring(service))
         return
     end
 
+    decode_error_reported = false
     local api_key = read_env(api_key_name)
+    if not api_key or api_key == '' then
+        notify_error(
+            'API key not found for service '
+                .. service
+                .. ' (expected at '
+                .. api_key_name
+                .. ')'
+        )
+        return
+    end
 
     local data
     if print_prompt then
@@ -329,6 +365,7 @@ function M.prompt(opts)
 
     local args = {
         '-N',
+        '--fail-with-body',
         '-X',
         'POST',
         '-H',
@@ -355,15 +392,27 @@ function M.prompt(opts)
         active_job = nil
     end
 
+    local stderr_lines = {}
     active_job = Job:new({
         command = 'curl',
         args = args,
         on_stdout = function(_, out)
             process_sse_response(out, service)
         end,
-        on_stderr = function(_, _) end,
-        on_exit = function()
+        on_stderr = function(_, err)
+            if err and err ~= '' then
+                table.insert(stderr_lines, err)
+            end
+        end,
+        on_exit = function(_, code)
             active_job = nil
+            if code ~= 0 then
+                local stderr_msg = table.concat(stderr_lines, '\n')
+                local suffix = stderr_msg ~= '' and (': ' .. stderr_msg) or ''
+                notify_error(
+                    ('llm request failed (curl exit %d)%s'):format(code, suffix)
+                )
+            end
         end,
     })
 
