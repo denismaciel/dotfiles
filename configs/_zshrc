@@ -414,6 +414,7 @@ codex_base_mini () {
         "$@"
 }
 alias codexh='codex_base high'
+alias codexxh='codex_base xhigh'
 alias codexm='codex_base medium'
 alias codexl='codex_base low'
 alias codex-minil='codex_base_mini low'
