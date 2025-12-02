@@ -98,7 +98,7 @@ in
     sioyek
     slack
     sops
-    spotify
+    # spotify
     sqlite
     statix
     stow
